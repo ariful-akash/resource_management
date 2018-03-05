@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.uiu.thesis.models;
+package com.uiu.thesis.models.user;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,17 +14,16 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
 
 /**
  *
  * @author ashif
  */
 @Entity
-@Table(name = "comment_reply")
-public class CommentReply implements Serializable {
+@Table(name = "human_resource_types")
+public class HumanResourceType implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -32,22 +31,16 @@ public class CommentReply implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "reply", nullable = false)
-    private String reply;
+    @Column(name = "resource_type", nullable = false, unique = true)
+    private String resourceType;
 
-    @Column(name = "reply_time", nullable = false)
-    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Date dateTime;
-
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private HumanResource replier;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Comment comment;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "resourceType")
+    private List<HumanResource> humanResources;
 
     /**
      * Constructor
      */
-    public CommentReply() {
+    public HumanResourceType() {
     }
+
 }

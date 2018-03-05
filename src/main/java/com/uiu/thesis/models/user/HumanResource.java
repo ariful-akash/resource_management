@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.uiu.thesis.models;
+package com.uiu.thesis.models.user;
 
+import com.uiu.thesis.models.forum.Comment;
+import com.uiu.thesis.models.forum.Post;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;

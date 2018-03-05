@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.uiu.thesis.models;
+package com.uiu.thesis.models.object_resource;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,7 +13,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -22,8 +21,8 @@ import javax.persistence.Table;
  * @author ashif
  */
 @Entity
-@Table(name = "office_resource_types")
-public class OfficeResourceType implements Serializable {
+@Table(name = "office_resources")
+public class OfficeResource implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -31,16 +30,22 @@ public class OfficeResourceType implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "resource_type", nullable = false, unique = true)
-    private String resourceType;
+    @Column(name = "room", nullable = false)
+    private String room;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "resourceType")
-    private List<OfficeResource> officeResources;
+    @Column(name = "floor", nullable = false)
+    private String floor;
+
+    @Column(name = "quantity")
+    private int quantity;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private OfficeResourceType resourceType;
 
     /**
      * Constructor
      */
-    public OfficeResourceType() {
+    public OfficeResource() {
     }
 
 }
