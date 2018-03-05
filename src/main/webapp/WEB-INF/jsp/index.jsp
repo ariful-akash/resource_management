@@ -11,7 +11,7 @@
     <body>
         <p>Hello! This is the default welcome page for a Spring Web MVC project.</p>
         <p>This is the index page</p>
-        
-        <a href="/SpringHibernateExample/add">Add Person</a>
+
+        <a href="/office_resource_management/add">Add Person</a>
     </body>
 </html>
