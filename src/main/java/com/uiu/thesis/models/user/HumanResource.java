@@ -1,12 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.uiu.thesis.models.user;
 
+import com.uiu.thesis.models.complain.Complaint;
 import com.uiu.thesis.models.forum.Comment;
 import com.uiu.thesis.models.forum.Post;
+import com.uiu.thesis.models.requisition.Requisition;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -78,6 +75,12 @@ public class HumanResource implements Serializable {
         @JoinColumn(name = "user_id")}, inverseJoinColumns = {
         @JoinColumn(name = "access_id")})
     private List<AccessType> accessTypes;
+
+    @OneToMany(mappedBy = "requisitionCreator", cascade = CascadeType.ALL)
+    private List<Requisition> requisitions;
+
+    @OneToMany(mappedBy = "complainant", cascade = CascadeType.ALL)
+    private List<Complaint> complaints;
 
     /**
      * Constructor

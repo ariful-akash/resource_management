@@ -3,26 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.uiu.thesis.models.forum;
+package com.uiu.thesis.models.logs;
 
 import java.io.Serializable;
-import java.util.List;
-import javax.persistence.CascadeType;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 
 /**
  *
  * @author ashif
  */
 @Entity
-@Table(name = "tag_types")
-public class TagType implements Serializable {
+@Table(name = "db_access_logs")
+public class DBAccessLog implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -30,16 +29,19 @@ public class TagType implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "tag", nullable = false, unique = true)
-    private String tag;
+    @Column(name = "user_id")
+    private Long userId;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    private List<Post> posts;
+    @Column(name = "db_table_name")
+    private String dbTableName;
 
-    /**
-     * Constructor
-     */
-    public TagType() {
-    }
+    @Column(name = "change_type")
+    private String changeType;
 
+    @Column(name = "changed_row_data")
+    private String changedRowData;
+
+    @Column(name = "change_date")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date changeDate;
 }

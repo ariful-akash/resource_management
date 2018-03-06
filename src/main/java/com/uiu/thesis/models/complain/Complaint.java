@@ -1,5 +1,6 @@
-package com.uiu.thesis.models.forum;
+package com.uiu.thesis.models.complain;
 
+import com.uiu.thesis.models.forum.TagType;
 import com.uiu.thesis.models.user.HumanResource;
 import java.io.Serializable;
 import java.util.Date;
@@ -23,8 +24,8 @@ import javax.persistence.Temporal;
  * @author ashif
  */
 @Entity
-@Table(name = "posts")
-public class Post implements Serializable {
+@Table(name = "complaint_master")
+public class Complaint implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -32,26 +33,25 @@ public class Post implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "content", nullable = false)
-    private String contet;
-
-    @Column(name = "post_time", nullable = false)
+    @Column(name = "complaint_date")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Date postTime;
+    private Date complainDate;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private HumanResource poster;
+    @Column(name = "description", length = 1000)
+    private String description;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "posts_tags", joinColumns = {
-        @JoinColumn(name = "post_id")}, inverseJoinColumns = {
+    @Column(name = "solved")
+    private boolean isSolved;
+
+    @Column(name = "remarks", length = 1500)
+    private String remarks;
+
+    @ManyToOne
+    private HumanResource complainant;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "complaints_tag_types", joinColumns = {
+        @JoinColumn(name = "complaint_id")}, inverseJoinColumns = {
         @JoinColumn(name = "tag_id")})
     private List<TagType> tags;
-
-    /**
-     * Constructor
-     */
-    public Post() {
-    }
-
 }
