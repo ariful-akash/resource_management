@@ -4,6 +4,7 @@ import com.uiu.thesis.models.user.HumanResource;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -54,4 +55,110 @@ public class Post implements Serializable {
     public Post() {
     }
 
+    /**
+     * Getter and setter
+     *
+     * @return
+     */
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getContet() {
+        return contet;
+    }
+
+    public void setContet(String contet) {
+        this.contet = contet;
+    }
+
+    public Date getPostTime() {
+        return postTime;
+    }
+
+    public void setPostTime(Date postTime) {
+        this.postTime = postTime;
+    }
+
+    public HumanResource getPoster() {
+        return poster;
+    }
+
+    public void setPoster(HumanResource poster) {
+        this.poster = poster;
+    }
+
+    public List<TagType> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<TagType> tags) {
+        this.tags = tags;
+    }
+
+    /**
+     * Hash method
+     *
+     * @return
+     */
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 97 * hash + Objects.hashCode(this.id);
+        hash = 97 * hash + Objects.hashCode(this.contet);
+        hash = 97 * hash + Objects.hashCode(this.postTime);
+        hash = 97 * hash + Objects.hashCode(this.poster);
+        hash = 97 * hash + Objects.hashCode(this.tags);
+        return hash;
+    }
+
+    /**
+     * Equals method
+     *
+     * @param obj
+     * @return
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Post other = (Post) obj;
+        if (!Objects.equals(this.contet, other.contet)) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.postTime, other.postTime)) {
+            return false;
+        }
+        if (!Objects.equals(this.poster, other.poster)) {
+            return false;
+        }
+        if (!Objects.equals(this.tags, other.tags)) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * To string method
+     *
+     * @return
+     */
+    @Override
+    public String toString() {
+        return "Post{" + "id=" + id + ", contet=" + contet + ", postTime=" + postTime + ", poster=" + poster + ", tags=" + tags + '}';
+    }
 }
