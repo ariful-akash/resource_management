@@ -1,12 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.uiu.thesis.models.user;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -41,6 +37,89 @@ public class HumanResourceType implements Serializable {
      * Constructor
      */
     public HumanResourceType() {
+    }
+
+    /**
+     * Getter and Setter
+     *
+     * @return
+     */
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getResourceType() {
+        return resourceType;
+    }
+
+    public void setResourceType(String resourceType) {
+        this.resourceType = resourceType;
+    }
+
+    public List<HumanResource> getHumanResources() {
+        return humanResources;
+    }
+
+    public void setHumanResources(List<HumanResource> humanResources) {
+        this.humanResources = humanResources;
+    }
+
+    /**
+     * Hash method
+     *
+     * @return
+     */
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 37 * hash + Objects.hashCode(this.id);
+        hash = 37 * hash + Objects.hashCode(this.resourceType);
+        hash = 37 * hash + Objects.hashCode(this.humanResources);
+        return hash;
+    }
+
+    /**
+     * Equals method
+     *
+     * @param obj
+     * @return
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final HumanResourceType other = (HumanResourceType) obj;
+        if (!Objects.equals(this.resourceType, other.resourceType)) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.humanResources, other.humanResources)) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * To string Method
+     *
+     * @return
+     */
+    @Override
+    public String toString() {
+        return "HumanResourceType{" + "id=" + id + ", resourceType=" + resourceType + ", humanResources=" + humanResources + '}';
     }
 
 }

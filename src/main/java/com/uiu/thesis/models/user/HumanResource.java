@@ -5,7 +5,9 @@ import com.uiu.thesis.models.forum.Comment;
 import com.uiu.thesis.models.forum.Post;
 import com.uiu.thesis.models.requisition.Requisition;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -87,4 +89,232 @@ public class HumanResource implements Serializable {
      */
     public HumanResource() {
     }
+
+    /**
+     * Getter and setter
+     *
+     * @return
+     */
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public byte[] getPassword() {
+        return password;
+    }
+
+    public void setPassword(byte[] password) {
+        this.password = password;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getDesignation() {
+        return designation;
+    }
+
+    public void setDesignation(String designation) {
+        this.designation = designation;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public HumanResourceType getResourceType() {
+        return resourceType;
+    }
+
+    public void setResourceType(HumanResourceType resourceType) {
+        this.resourceType = resourceType;
+    }
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public List<AccessType> getAccessTypes() {
+        return accessTypes;
+    }
+
+    public void setAccessTypes(List<AccessType> accessTypes) {
+        this.accessTypes = accessTypes;
+    }
+
+    public List<Requisition> getRequisitions() {
+        return requisitions;
+    }
+
+    public void setRequisitions(List<Requisition> requisitions) {
+        this.requisitions = requisitions;
+    }
+
+    public List<Complaint> getComplaints() {
+        return complaints;
+    }
+
+    public void setComplaints(List<Complaint> complaints) {
+        this.complaints = complaints;
+    }
+
+    /**
+     * Hash method
+     *
+     * @return
+     */
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 19 * hash + Objects.hashCode(this.id);
+        hash = 19 * hash + Objects.hashCode(this.firstName);
+        hash = 19 * hash + Objects.hashCode(this.lastName);
+        hash = 19 * hash + Objects.hashCode(this.email);
+        hash = 19 * hash + Arrays.hashCode(this.password);
+        hash = 19 * hash + Objects.hashCode(this.phone);
+        hash = 19 * hash + Objects.hashCode(this.designation);
+        hash = 19 * hash + Arrays.hashCode(this.image);
+        hash = 19 * hash + Objects.hashCode(this.resourceType);
+        hash = 19 * hash + Objects.hashCode(this.posts);
+        hash = 19 * hash + Objects.hashCode(this.comments);
+        hash = 19 * hash + Objects.hashCode(this.role);
+        hash = 19 * hash + Objects.hashCode(this.accessTypes);
+        hash = 19 * hash + Objects.hashCode(this.requisitions);
+        hash = 19 * hash + Objects.hashCode(this.complaints);
+        return hash;
+    }
+
+    /**
+     * Equals Method
+     *
+     * @param obj
+     * @return
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final HumanResource other = (HumanResource) obj;
+        if (!Objects.equals(this.firstName, other.firstName)) {
+            return false;
+        }
+        if (!Objects.equals(this.lastName, other.lastName)) {
+            return false;
+        }
+        if (!Objects.equals(this.email, other.email)) {
+            return false;
+        }
+        if (!Objects.equals(this.phone, other.phone)) {
+            return false;
+        }
+        if (!Objects.equals(this.designation, other.designation)) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Arrays.equals(this.password, other.password)) {
+            return false;
+        }
+        if (!Arrays.equals(this.image, other.image)) {
+            return false;
+        }
+        if (!Objects.equals(this.resourceType, other.resourceType)) {
+            return false;
+        }
+        if (!Objects.equals(this.posts, other.posts)) {
+            return false;
+        }
+        if (!Objects.equals(this.comments, other.comments)) {
+            return false;
+        }
+        if (!Objects.equals(this.role, other.role)) {
+            return false;
+        }
+        if (!Objects.equals(this.accessTypes, other.accessTypes)) {
+            return false;
+        }
+        if (!Objects.equals(this.requisitions, other.requisitions)) {
+            return false;
+        }
+        if (!Objects.equals(this.complaints, other.complaints)) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * To String method
+     *
+     * @return
+     */
+    @Override
+    public String toString() {
+        return "HumanResource{" + "id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", password=" + password + ", phone=" + phone + ", designation=" + designation + ", image=" + image + ", resourceType=" + resourceType + ", posts=" + posts + ", comments=" + comments + ", role=" + role + ", accessTypes=" + accessTypes + ", requisitions=" + requisitions + ", complaints=" + complaints + '}';
+    }
+
 }
