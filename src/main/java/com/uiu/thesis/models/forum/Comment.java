@@ -9,6 +9,7 @@ import com.uiu.thesis.models.user.HumanResource;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -52,5 +53,101 @@ public class Comment implements Serializable {
      * Constructor
      */
     public Comment() {
+    }
+
+    /**
+     * Getter and Setter
+     *
+     * @return
+     */
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Date getCommentTime() {
+        return commentTime;
+    }
+
+    public void setCommentTime(Date commentTime) {
+        this.commentTime = commentTime;
+    }
+
+    public HumanResource getCommenter() {
+        return commenter;
+    }
+
+    public void setCommenter(HumanResource commenter) {
+        this.commenter = commenter;
+    }
+
+    public List<CommentReply> getCommentReplies() {
+        return commentReplies;
+    }
+
+    public void setCommentReplies(List<CommentReply> commentReplies) {
+        this.commentReplies = commentReplies;
+    }
+
+    /**
+     * Equals and hash method
+     *
+     * @return
+     */
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 59 * hash + Objects.hashCode(this.id);
+        hash = 59 * hash + Objects.hashCode(this.content);
+        hash = 59 * hash + Objects.hashCode(this.commentTime);
+        hash = 59 * hash + Objects.hashCode(this.commenter);
+        hash = 59 * hash + Objects.hashCode(this.commentReplies);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Comment other = (Comment) obj;
+        if (!Objects.equals(this.content, other.content)) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.commentTime, other.commentTime)) {
+            return false;
+        }
+        if (!Objects.equals(this.commenter, other.commenter)) {
+            return false;
+        }
+        if (!Objects.equals(this.commentReplies, other.commentReplies)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Comment{" + "id=" + id + ", content=" + content + ", commentTime=" + commentTime + ", commenter=" + commenter + ", commentReplies=" + commentReplies + '}';
     }
 }
