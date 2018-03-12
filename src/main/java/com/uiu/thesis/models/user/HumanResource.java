@@ -1,6 +1,6 @@
 package com.uiu.thesis.models.user;
 
-import com.uiu.thesis.models.complain.Complaint;
+import com.uiu.thesis.models.complaint.Complaint;
 import com.uiu.thesis.models.forum.Comment;
 import com.uiu.thesis.models.forum.Post;
 import com.uiu.thesis.models.requisition.Requisition;
@@ -81,7 +81,7 @@ public class HumanResource implements Serializable {
     @OneToMany(mappedBy = "requisitionCreator", cascade = CascadeType.ALL)
     private List<Requisition> requisitions;
 
-    @OneToMany(mappedBy = "complainant", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "complaintCreator")
     private List<Complaint> complaints;
 
     /**
@@ -316,5 +316,4 @@ public class HumanResource implements Serializable {
     public String toString() {
         return "HumanResource{" + "id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", password=" + password + ", phone=" + phone + ", designation=" + designation + ", image=" + image + ", resourceType=" + resourceType + ", posts=" + posts + ", comments=" + comments + ", role=" + role + ", accessTypes=" + accessTypes + ", requisitions=" + requisitions + ", complaints=" + complaints + '}';
     }
-
 }
