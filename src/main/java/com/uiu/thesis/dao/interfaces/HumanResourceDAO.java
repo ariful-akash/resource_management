@@ -1,5 +1,6 @@
 package com.uiu.thesis.dao.interfaces;
 
+import com.uiu.thesis.models.user.AccessType;
 import com.uiu.thesis.models.user.HumanResource;
 import com.uiu.thesis.models.user.HumanResourceType;
 import com.uiu.thesis.models.user.Role;
@@ -24,4 +25,6 @@ public interface HumanResourceDAO {
     public List<HumanResource> getHumanResources(HumanResourceType hrType);
 
     public List<HumanResource> getHumanResources(Role role);
+
+    public List<HumanResource> getHumanResources(AccessType accessType);
 }
