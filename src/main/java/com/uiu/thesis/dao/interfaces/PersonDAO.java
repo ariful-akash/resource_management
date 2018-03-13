@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.uiu.thesis.dao;
+package com.uiu.thesis.dao.interfaces;
 
 import com.uiu.thesis.models.Person;
 
