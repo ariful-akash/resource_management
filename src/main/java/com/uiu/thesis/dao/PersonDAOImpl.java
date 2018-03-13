@@ -3,28 +3,32 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.uiu.thesis.services;
+package com.uiu.thesis.dao;
 
-import com.uiu.thesis.dao.PersonDAO;
 import com.uiu.thesis.models.Person;
 import javax.transaction.Transactional;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author Ishara Dikkumbura
  */
-@Service
+@Repository
 @Transactional
-public class PersonServiceImpl implements PersonService {
 
-    @Autowired
-    private PersonDAO persondao;
+public class PersonDAOImpl implements PersonDAO {
+
+    @Autowired(required = true)
+    private SessionFactory sessionFactory;
 
     @Override
     public int addPerson(Person person) {
-        return persondao.addPerson(person);
+        Session session = sessionFactory.getCurrentSession();
+        Long id = (Long) session.save(person);
+        return Integer.valueOf(id.toString());
     }
 
 }
