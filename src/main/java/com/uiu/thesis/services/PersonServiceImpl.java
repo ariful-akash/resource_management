@@ -5,7 +5,7 @@
  */
 package com.uiu.thesis.services;
 
-import com.uiu.thesis.dao.PersonDAO;
+import com.uiu.thesis.dao.interfaces.PersonDAO;
 import com.uiu.thesis.models.Person;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;

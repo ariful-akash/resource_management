@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.uiu.thesis.dao;
+package com.uiu.thesis.dao.implement;
 
+import com.uiu.thesis.dao.interfaces.PersonDAO;
 import com.uiu.thesis.models.Person;
 import javax.transaction.Transactional;
 import org.hibernate.Session;
