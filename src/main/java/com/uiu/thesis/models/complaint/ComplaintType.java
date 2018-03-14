@@ -20,7 +20,7 @@ import javax.persistence.Table;
  * @author ashif
  */
 @Entity
-@Table(name = "complait_types")
+@Table(name = "complaint_types")
 public class ComplaintType implements Serializable {
 
     private static final long serialVersionUID = 1L;

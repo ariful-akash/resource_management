@@ -39,8 +39,11 @@ public class DBAccessLog implements Serializable {
     @Column(name = "change_type")
     private String changeType;
 
-    @Column(name = "changed_row_data")
-    private String changedRowData;
+    @Column(name = "old_row_data", nullable = true)
+    private String oldRowData;
+
+    @Column(name = "new_row_data", nullable = false)
+    private String newRowData;
 
     @Column(name = "change_date")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
@@ -89,12 +92,20 @@ public class DBAccessLog implements Serializable {
         this.changeType = changeType;
     }
 
-    public String getChangedRowData() {
-        return changedRowData;
+    public String getOldRowData() {
+        return oldRowData;
     }
 
-    public void setChangedRowData(String changedRowData) {
-        this.changedRowData = changedRowData;
+    public void setOldRowData(String oldRowData) {
+        this.oldRowData = oldRowData;
+    }
+
+    public String getNewRowData() {
+        return newRowData;
+    }
+
+    public void setNewRowData(String newRowData) {
+        this.newRowData = newRowData;
     }
 
     public Date getChangeDate() {
@@ -117,7 +128,8 @@ public class DBAccessLog implements Serializable {
         hash = 67 * hash + Objects.hashCode(this.userId);
         hash = 67 * hash + Objects.hashCode(this.dbTableName);
         hash = 67 * hash + Objects.hashCode(this.changeType);
-        hash = 67 * hash + Objects.hashCode(this.changedRowData);
+        hash = 67 * hash + Objects.hashCode(this.oldRowData);
+        hash = 67 * hash + Objects.hashCode(this.newRowData);
         hash = 67 * hash + Objects.hashCode(this.changeDate);
         return hash;
     }
@@ -146,7 +158,10 @@ public class DBAccessLog implements Serializable {
         if (!Objects.equals(this.changeType, other.changeType)) {
             return false;
         }
-        if (!Objects.equals(this.changedRowData, other.changedRowData)) {
+        if (!Objects.equals(this.oldRowData, other.oldRowData)) {
+            return false;
+        }
+        if (!Objects.equals(this.newRowData, other.newRowData)) {
             return false;
         }
         if (!Objects.equals(this.id, other.id)) {
@@ -163,6 +178,6 @@ public class DBAccessLog implements Serializable {
 
     @Override
     public String toString() {
-        return "DBAccessLog{" + "id=" + id + ", userId=" + userId + ", dbTableName=" + dbTableName + ", changeType=" + changeType + ", changedRowData=" + changedRowData + ", changeDate=" + changeDate + '}';
+        return "DBAccessLog{" + "id=" + id + ", userId=" + userId + ", dbTableName=" + dbTableName + ", changeType=" + changeType + ", oldRowData=" + oldRowData + ", newRowData=" + newRowData + ", changeDate=" + changeDate + '}';
     }
 }
