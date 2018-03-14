@@ -1,9 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.uiu.thesis.dao.interfaces;
+
+import com.uiu.thesis.models.object_resource.OfficeResourceType;
+import java.util.List;
 
 /**
  *
@@ -11,4 +9,17 @@ package com.uiu.thesis.dao.interfaces;
  */
 public interface OfficeResourcesTypeDAO {
 
+    public boolean addOfficeResourceType(OfficeResourceType officeResourceType);
+
+    public boolean updateOfficeResourceType(OfficeResourceType oldType, OfficeResourceType newType);
+
+    public boolean updateOfficeResourceType(Long oldTypeId, OfficeResourceType newType);
+
+    public boolean deleteOfficeResourceType(OfficeResourceType officeResourceType);
+
+    public boolean deleteOfficeResourceType(Long typeId);
+
+    public OfficeResourceType getOfficeResourceType(Long typeId);
+
+    public List<OfficeResourceType> getAllOfficeResourceTypes();
 }

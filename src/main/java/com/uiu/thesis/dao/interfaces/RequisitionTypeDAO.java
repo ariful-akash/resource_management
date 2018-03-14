@@ -1,9 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.uiu.thesis.dao.interfaces;
+
+import com.uiu.thesis.models.requisition.RequisitionType;
+import com.uiu.thesis.models.user.AccessType;
 
 /**
  *
@@ -11,4 +9,11 @@ package com.uiu.thesis.dao.interfaces;
  */
 public interface RequisitionTypeDAO {
 
+    public boolean addRequisitionType(RequisitionType requisitionType);
+
+    public RequisitionType getRequisitionTypeById(Long reqTypeId);
+
+    public RequisitionType getRequisitionTypeByAccessType(AccessType accessType);
+
+    public RequisitionType getRequisitionTypeByAccessType(Long accessTypeId);
 }
