@@ -43,6 +43,9 @@ public class Comment implements Serializable {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date commentTime;
 
+    @Column(name = "edited", nullable = false)
+    private boolean edited;
+
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private HumanResource commenter;
 
@@ -84,6 +87,14 @@ public class Comment implements Serializable {
         this.commentTime = commentTime;
     }
 
+    public boolean isEdited() {
+        return edited;
+    }
+
+    public void setIsEdited(boolean isEdited) {
+        this.edited = isEdited;
+    }
+
     public HumanResource getCommenter() {
         return commenter;
     }
@@ -113,6 +124,7 @@ public class Comment implements Serializable {
         hash = 59 * hash + Objects.hashCode(this.commentTime);
         hash = 59 * hash + Objects.hashCode(this.commenter);
         hash = 59 * hash + Objects.hashCode(this.commentReplies);
+        hash = 59 * hash + Objects.hashCode(this.edited);
         return hash;
     }
 
@@ -143,11 +155,14 @@ public class Comment implements Serializable {
         if (!Objects.equals(this.commentReplies, other.commentReplies)) {
             return false;
         }
+        if (!Objects.equals(this.edited, other.edited)) {
+            return false;
+        }
         return true;
     }
 
     @Override
     public String toString() {
-        return "Comment{" + "id=" + id + ", content=" + content + ", commentTime=" + commentTime + ", commenter=" + commenter + ", commentReplies=" + commentReplies + '}';
+        return "Comment{" + "id=" + id + ", content=" + content + ", commentTime=" + commentTime + ", commenter=" + commenter + ", commentReplies=" + commentReplies + ", isEdited=" + edited + '}';
     }
 }
