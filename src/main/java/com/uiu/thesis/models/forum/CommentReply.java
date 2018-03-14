@@ -41,6 +41,9 @@ public class CommentReply implements Serializable {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dateTime;
 
+    @Column(name = "edited")
+    private boolean edited;
+
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private HumanResource replier;
 
@@ -78,6 +81,14 @@ public class CommentReply implements Serializable {
         return dateTime;
     }
 
+    public boolean isEdited() {
+        return edited;
+    }
+
+    public void setEdited(boolean edited) {
+        this.edited = edited;
+    }
+
     public void setDateTime(Date dateTime) {
         this.dateTime = dateTime;
     }
@@ -111,6 +122,7 @@ public class CommentReply implements Serializable {
         hash = 17 * hash + Objects.hashCode(this.dateTime);
         hash = 17 * hash + Objects.hashCode(this.replier);
         hash = 17 * hash + Objects.hashCode(this.comment);
+        hash = 17 * hash + Objects.hashCode(this.edited);
         return hash;
     }
 
@@ -147,11 +159,14 @@ public class CommentReply implements Serializable {
         if (!Objects.equals(this.comment, other.comment)) {
             return false;
         }
+        if (!Objects.equals(this.edited, other.edited)) {
+            return false;
+        }
         return true;
     }
 
     @Override
     public String toString() {
-        return "CommentReply{" + "id=" + id + ", reply=" + reply + ", dateTime=" + dateTime + ", replier=" + replier + ", comment=" + comment + '}';
+        return "CommentReply{" + "id=" + id + ", reply=" + reply + ", dateTime=" + dateTime + ", replier=" + replier + ", comment=" + comment + ", edited=" + edited + '}';
     }
 }
