@@ -7,7 +7,7 @@ import java.util.List;
  *
  * @author ashif
  */
-public interface OfficeResourcesTypeDAO {
+public interface OfficeResourceTypeDAO {
 
     public boolean addOfficeResourceType(OfficeResourceType officeResourceType);
 
