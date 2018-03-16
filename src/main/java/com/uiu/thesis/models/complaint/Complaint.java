@@ -41,6 +41,9 @@ public class Complaint implements Serializable {
     @Column(name = "solved", nullable = false)
     private boolean isSolved;
 
+    @Column(name = "feedback", nullable = true)
+    private String feedback;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "complaint_type_id")
     private ComplaintType complaintType;
@@ -127,6 +130,14 @@ public class Complaint implements Serializable {
         this.solver = solver;
     }
 
+    public String getFeedback() {
+        return feedback;
+    }
+
+    public void setFeedback(String feedback) {
+        this.feedback = feedback;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
@@ -138,6 +149,7 @@ public class Complaint implements Serializable {
         hash = 67 * hash + Objects.hashCode(this.complaintType);
         hash = 67 * hash + Objects.hashCode(this.complaintCreator);
         hash = 67 * hash + Objects.hashCode(this.solver);
+        hash = 67 * hash + Objects.hashCode(this.feedback);
         return hash;
     }
 
@@ -177,7 +189,15 @@ public class Complaint implements Serializable {
         if (!Objects.equals(this.solver, other.solver)) {
             return false;
         }
+        if (!Objects.equals(this.feedback, other.feedback)) {
+            return false;
+        }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Complaint{" + "id=" + id + ", complaintPlacingDate=" + complaintPlacingDate + ", description=" + description + ", remarks=" + remarks + ", isSolved=" + isSolved + ", feedback=" + feedback + ", complaintType=" + complaintType + ", complaintCreator=" + complaintCreator + ", solver=" + solver + '}';
     }
 
 }
