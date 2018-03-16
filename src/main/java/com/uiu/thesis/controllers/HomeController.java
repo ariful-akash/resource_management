@@ -6,7 +6,7 @@
 package com.uiu.thesis.controllers;
 
 import com.uiu.thesis.models.Person;
-import com.uiu.thesis.services.PersonService;
+import com.uiu.thesis.services.interfaces.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
