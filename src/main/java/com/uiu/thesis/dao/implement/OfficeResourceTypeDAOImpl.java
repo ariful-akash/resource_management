@@ -3,17 +3,30 @@ package com.uiu.thesis.dao.implement;
 import com.uiu.thesis.dao.interfaces.OfficeResourceTypeDAO;
 import com.uiu.thesis.models.object_resource.OfficeResourceType;
 import java.util.List;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author ashif
  */
+@Repository
+@Transactional
 public class OfficeResourceTypeDAOImpl implements OfficeResourceTypeDAO {
 
-    @Override
-    public boolean addOfficeResourceType(OfficeResourceType officeResourceType) {
+    @Autowired
+    private SessionFactory sessionFactory;
 
-        return false;
+    @Override
+    public int addOfficeResourceType(OfficeResourceType officeResourceType) {
+
+        Session session = sessionFactory.getCurrentSession();
+        Long ret = (Long) session.save(officeResourceType);
+
+        return Integer.valueOf(ret.toString());
     }
 
     @Override
