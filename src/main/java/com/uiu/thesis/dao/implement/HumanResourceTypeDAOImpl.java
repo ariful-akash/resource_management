@@ -3,17 +3,35 @@ package com.uiu.thesis.dao.implement;
 import com.uiu.thesis.dao.interfaces.HumanResourceTypeDAO;
 import com.uiu.thesis.models.user.HumanResourceType;
 import java.util.List;
+import javax.transaction.Transactional;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author ashif
  */
+@Repository
+@Transactional
 public class HumanResourceTypeDAOImpl implements HumanResourceTypeDAO {
 
-    @Override
-    public boolean addHRType(HumanResourceType hrType) {
+    @Autowired(required = true)
+    private SessionFactory sessionFactory;
 
-        return false;
+    /**
+     * Insert an human resource type object into database
+     *
+     * @param hrType
+     * @return
+     */
+    @Override
+    public int addHRType(HumanResourceType hrType) {
+
+        Session session = sessionFactory.getCurrentSession();
+        Long ret = (Long) session.save(hrType);
+        return Integer.valueOf(ret.toString());
     }
 
     @Override
