@@ -1,12 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.uiu.thesis.controllers;
 
-import com.uiu.thesis.dao.interfaces.HumanResourceTypeDAO;
-import com.uiu.thesis.models.user.HumanResourceType;
+import com.uiu.thesis.dao.interfaces.OfficeResourceTypeDAO;
+import com.uiu.thesis.models.object_resource.OfficeResourceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,24 +13,56 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class HomeController {
 
-    @Autowired
-    private HumanResourceTypeDAO hrTypeDAO;
-
     @RequestMapping(value = "/index")
     public String showIndex() {
         return "index";
     }
 
-    @RequestMapping(value = "/add")
-    public String dbTestingOperation() {
-//        Person p = new Person();
-//        p.setName("Obama");
-//        p.setAge(60);
+    @Autowired
+    private OfficeResourceTypeDAO orTypeDAO;
 
-        HumanResourceType hrType = new HumanResourceType();
-        hrType.setResourceType("DB admin");
+    @RequestMapping(value = "/insert/ortype")
+    public String addORType() {
 
-        int id = hrTypeDAO.addHRType(hrType);
+        String orTypes[] = {
+            "class room chair",
+            "canteen chair",
+            "faculty chair",
+            "study chair (study room, library)",
+            "special chair",
+            "waiting chair",
+            "guest chair",
+            "class room table",
+            "canteen table",
+            "faculty table",
+            "study table",
+            "special table",
+            "presentation table",
+            "projector table",
+            "computer lab table",
+            "cisco lab table",
+            "digital lab table",
+            "projector",
+            "monitor",
+            "CPU",
+            "faculty shelf",
+            "almirah",
+            "server",
+            "multiplug",
+            "book shelf",
+            "mouse",
+            "keyboard",
+            "printer",
+            "photocopier",
+            "scaner"
+        };
+        int id = 0;
+        OfficeResourceType orType = new OfficeResourceType();
+        for (String type : orTypes) {
+
+            orType.setResourceType(type);
+            id = orTypeDAO.addOfficeResourceType(orType);
+        }
 
         if (id != 0) {
             return "success";
