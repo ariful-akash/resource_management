@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface HumanResourceTypeDAO {
 
-    public boolean addHRType(HumanResourceType hrType);
+    public int addHRType(HumanResourceType hrType);
 
     public boolean updateHRType(HumanResourceType hrType);
 
