@@ -14,4 +14,6 @@ public interface HumanResourceTypeDAO {
     public boolean updateHRType(HumanResourceType hrType);
 
     public List<HumanResourceType> getAllHRType();
+
+    public HumanResourceType getHumanResourceType(Long hrTypeId);
 }
