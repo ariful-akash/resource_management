@@ -46,4 +46,17 @@ public class HumanResourceTypeDAOImpl implements HumanResourceTypeDAO {
         return null;
     }
 
+    /**
+     * Read an object of HumanResourceType from database by the id(primary key)
+     *
+     * @param hrTypeId
+     * @return
+     */
+    @Override
+    public HumanResourceType getHumanResourceType(Long hrTypeId) {
+
+        Session session = sessionFactory.getCurrentSession();
+        return (HumanResourceType) session.get(HumanResourceType.class, hrTypeId);
+    }
+
 }
