@@ -26,16 +26,30 @@ public class HomeController {
         return "index";
     }
 
-    @RequestMapping(value = "/add")
-    public String dbTestingOperation() {
-//        Person p = new Person();
-//        p.setName("Obama");
-//        p.setAge(60);
+    /**
+     * insert data into human_resource_type table
+     *
+     * @return
+     */
+    @RequestMapping(value = "/insert/hrtype")
+    public String insertHRType() {
+
+        int id = 0;
+        String[] hrTypes = {
+            "general adminstrator",
+            "academic adminstrator",
+            "faculty",
+            "faculty adminstrator",
+            "staff"
+        };
 
         HumanResourceType hrType = new HumanResourceType();
-        hrType.setResourceType("DB admin");
 
-        int id = hrTypeDAO.addHRType(hrType);
+        for (String hrt : hrTypes) {
+
+            hrType.setResourceType(hrt);
+            id = hrTypeDAO.addHRType(hrType);
+        }
 
         if (id != 0) {
             return "success";
