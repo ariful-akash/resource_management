@@ -6,11 +6,15 @@ import com.uiu.thesis.models.requisition.RequisitionType;
 import com.uiu.thesis.models.user.HumanResource;
 import java.util.Date;
 import java.util.List;
+import javax.transaction.Transactional;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author ashif
  */
+@Repository
+@Transactional
 public class RequisitionDAOImpl implements RequisitionDAO {
 
     @Override

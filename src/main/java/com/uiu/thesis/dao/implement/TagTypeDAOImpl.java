@@ -4,11 +4,15 @@ import com.uiu.thesis.dao.interfaces.TagTypeDAO;
 import com.uiu.thesis.models.forum.Post;
 import com.uiu.thesis.models.forum.TagType;
 import java.util.List;
+import javax.transaction.Transactional;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author ashif
  */
+@Repository
+@Transactional
 public class TagTypeDAOImpl implements TagTypeDAO {
 
     @Override

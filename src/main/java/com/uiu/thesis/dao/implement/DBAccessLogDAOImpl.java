@@ -5,11 +5,15 @@ import com.uiu.thesis.models.logs.DBAccessLog;
 import com.uiu.thesis.models.user.HumanResource;
 import java.util.Date;
 import java.util.List;
+import javax.transaction.Transactional;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author ashif
  */
+@Repository
+@Transactional
 public class DBAccessLogDAOImpl implements DBAccessLogDAO {
 
     @Override

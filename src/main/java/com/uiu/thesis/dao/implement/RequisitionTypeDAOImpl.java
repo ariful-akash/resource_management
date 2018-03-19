@@ -3,11 +3,15 @@ package com.uiu.thesis.dao.implement;
 import com.uiu.thesis.dao.interfaces.RequisitionTypeDAO;
 import com.uiu.thesis.models.requisition.RequisitionType;
 import com.uiu.thesis.models.user.AccessType;
+import javax.transaction.Transactional;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author ashif
  */
+@Repository
+@Transactional
 public class RequisitionTypeDAOImpl implements RequisitionTypeDAO {
 
     @Override

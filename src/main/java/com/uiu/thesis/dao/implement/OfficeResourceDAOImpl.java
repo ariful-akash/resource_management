@@ -4,11 +4,15 @@ import com.uiu.thesis.dao.interfaces.OfficeResourceDAO;
 import com.uiu.thesis.models.object_resource.OfficeResource;
 import com.uiu.thesis.models.object_resource.OfficeResourceType;
 import java.util.List;
+import javax.transaction.Transactional;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author ashif
  */
+@Repository
+@Transactional
 public class OfficeResourceDAOImpl implements OfficeResourceDAO {
 
     @Override

@@ -4,11 +4,15 @@ import com.uiu.thesis.dao.interfaces.UserSessionLogDAO;
 import com.uiu.thesis.models.logs.UserSessionLog;
 import java.util.Date;
 import java.util.List;
+import javax.transaction.Transactional;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author ashif
  */
+@Repository
+@Transactional
 public class UserSessionLogDAOImpl implements UserSessionLogDAO {
 
     @Override

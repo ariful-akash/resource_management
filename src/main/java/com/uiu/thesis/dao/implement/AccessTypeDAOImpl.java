@@ -5,11 +5,15 @@ import com.uiu.thesis.models.user.AccessType;
 import com.uiu.thesis.models.user.HumanResource;
 import com.uiu.thesis.models.user.Role;
 import java.util.List;
+import javax.transaction.Transactional;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author ashif
  */
+@Repository
+@Transactional
 public class AccessTypeDAOImpl implements AccessTypeDAO {
 
     @Override

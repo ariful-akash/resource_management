@@ -4,11 +4,15 @@ import com.uiu.thesis.dao.interfaces.CommentReplyDAO;
 import com.uiu.thesis.models.forum.Comment;
 import com.uiu.thesis.models.forum.CommentReply;
 import java.util.List;
+import javax.transaction.Transactional;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author ashif
  */
+@Repository
+@Transactional
 public class CommentReplyDAOImpl implements CommentReplyDAO {
 
     @Override

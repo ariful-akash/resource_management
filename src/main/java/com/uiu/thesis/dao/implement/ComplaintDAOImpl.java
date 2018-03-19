@@ -5,11 +5,15 @@ import com.uiu.thesis.models.complaint.Complaint;
 import com.uiu.thesis.models.complaint.ComplaintType;
 import com.uiu.thesis.models.user.HumanResource;
 import java.util.List;
+import javax.transaction.Transactional;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author ashif
  */
+@Repository
+@Transactional
 public class ComplaintDAOImpl implements ComplaintDAO {
 
     @Override

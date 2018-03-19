@@ -4,11 +4,15 @@ import com.uiu.thesis.dao.interfaces.CommentDAO;
 import com.uiu.thesis.models.forum.Comment;
 import com.uiu.thesis.models.forum.Post;
 import java.util.List;
+import javax.transaction.Transactional;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author ashif
  */
+@Repository
+@Transactional
 public class CommentDAOImpl implements CommentDAO {
 
     @Override
