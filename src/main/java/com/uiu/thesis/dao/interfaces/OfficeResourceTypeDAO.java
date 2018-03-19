@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface OfficeResourceTypeDAO {
 
-    public boolean addOfficeResourceType(OfficeResourceType officeResourceType);
+    public int addOfficeResourceType(OfficeResourceType officeResourceType);
 
     public boolean updateOfficeResourceType(OfficeResourceType oldType, OfficeResourceType newType);
 
