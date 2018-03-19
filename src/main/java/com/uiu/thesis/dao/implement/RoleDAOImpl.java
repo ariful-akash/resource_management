@@ -17,21 +17,21 @@ import org.springframework.stereotype.Repository;
 public class RoleDAOImpl implements RoleDAO {
 
     @Override
-    public boolean addRole(Role role) {
+    public int addRole(Role role) {
 
-        return false;
+        return 0;
     }
 
     @Override
-    public boolean editRoleDescription(Long roleId, String newDescription) {
+    public int editRoleDescription(Long roleId, String newDescription) {
 
-        return false;
+        return 0;
     }
 
     @Override
-    public boolean editRoleDescription(Role role, String newDescription) {
+    public int editRoleDescription(Role role, String newDescription) {
 
-        return false;
+        return 0;
     }
 
     @Override

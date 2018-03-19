@@ -11,11 +11,11 @@ import java.util.List;
  */
 public interface RoleDAO {
 
-    public boolean addRole(Role role);
+    public int addRole(Role role);
 
-    public boolean editRoleDescription(Long roleId, String newDescription);
+    public int editRoleDescription(Long roleId, String newDescription);
 
-    public boolean editRoleDescription(Role role, String newDescription);
+    public int editRoleDescription(Role role, String newDescription);
 
     public List<Role> getRolesByAccesType(AccessType accessType);
 
