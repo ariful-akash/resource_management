@@ -6,6 +6,9 @@ import com.uiu.thesis.models.user.HumanResource;
 import com.uiu.thesis.models.user.Role;
 import java.util.List;
 import javax.transaction.Transactional;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -16,10 +19,15 @@ import org.springframework.stereotype.Repository;
 @Transactional
 public class RoleDAOImpl implements RoleDAO {
 
+    @Autowired
+    private SessionFactory sessionFactory;
+
     @Override
     public int addRole(Role role) {
 
-        return 0;
+        Session session = sessionFactory.getCurrentSession();
+        Long id = (Long) session.save(role);
+        return Integer.valueOf(id.toString());
     }
 
     @Override
