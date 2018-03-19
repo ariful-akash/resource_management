@@ -1,6 +1,8 @@
 package com.uiu.thesis.controllers.akashDBop;
 
+import com.uiu.thesis.dao.interfaces.OfficeResourceDAO;
 import com.uiu.thesis.dao.interfaces.OfficeResourceTypeDAO;
+import com.uiu.thesis.models.object_resource.OfficeResource;
 import com.uiu.thesis.models.object_resource.OfficeResourceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -71,4 +73,32 @@ public class AkashDBOperationController {
             return "fail";
         }
     }
+
+    /**
+     * insert office_resource table with foreign key(office_resource_type table)
+     *
+     * @return
+     */
+    @Autowired
+    private OfficeResourceDAO orDAO;
+
+    @RequestMapping(value = "/insert/or")
+    public String addOfficeResource() {
+
+        int id = 0;
+        OfficeResource or = new OfficeResource();
+
+        or.setFloor("2nd");
+        or.setQuantity(1);
+        or.setRoom("405");
+        or.setResourceType(orTypeDAO.getOfficeResourceType((long) 2));
+        id = orDAO.addOfficeResource(or);
+
+        if (id != 0) {
+            return "success";
+        } else {
+            return "fail";
+        }
+    }
+
 }
