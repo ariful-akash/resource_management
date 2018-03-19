@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface OfficeResourceDAO {
 
-    public boolean addOfficeResource(OfficeResource officeResource);
+    public int addOfficeResource(OfficeResource officeResource);
 
     public boolean updateOfficeResource(OfficeResource oldOfficeResource, OfficeResource newOfficeResource);
 
