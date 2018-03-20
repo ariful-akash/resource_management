@@ -1,7 +1,9 @@
 package com.uiu.thesis.controllers.ashifDBop;
 
+import com.uiu.thesis.dao.interfaces.AccessTypeDAO;
 import com.uiu.thesis.dao.interfaces.HumanResourceDAO;
 import com.uiu.thesis.dao.interfaces.RoleDAO;
+import com.uiu.thesis.models.user.AccessType;
 import com.uiu.thesis.models.user.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +21,9 @@ public class AshifDBOperationController {
 
     @Autowired
     private HumanResourceDAO humanResourceDAO;
+
+    @Autowired
+    private AccessTypeDAO accessTypeDAO;
 
     /**
      *
@@ -57,11 +62,56 @@ public class AshifDBOperationController {
     }
 
     /**
+     * Insert data in db of "access_type" table
+     *
+     * @return
+     */
+    @RequestMapping(value = "/insert/accesstype")
+    public String insertAccessType() {
+
+        int id = 0;
+        AccessType accessType = new AccessType();
+        String[] accesses = {
+            "add user",
+            "change user access",
+            "change user role",
+            "add office resource",
+            "update office resource",
+            "delete office resource",
+            "add requisition",
+            "handle requisition stationary",
+            "handle requisition computer",
+            "handle requisition computer part",
+            "handle requisition office resource",
+            "handle requisition car",
+            "add complain",
+            "handle complain stationary",
+            "handle complain computer",
+            "handle complain computer part",
+            "handle complain office resource",
+            "read office resource"
+        };
+
+        for (String access : accesses) {
+
+            accessType.setDescription(access);
+            id = accessTypeDAO.addAccessType(accessType);
+
+            if (id == 0) {
+
+                return "fail";
+            }
+        }
+
+        return "success";
+    }
+
+    /**
      *
      * @return
      */
     @RequestMapping(value = "/insert/hr")
-    private String insertHumanResource() {
+    public String insertHumanResource() {
 
         return "";
     }
