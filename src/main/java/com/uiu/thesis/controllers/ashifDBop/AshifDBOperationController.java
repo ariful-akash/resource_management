@@ -50,15 +50,14 @@ public class AshifDBOperationController {
 
             role.setRole(roleString);
             id = roleDAO.addRole(role);
+
+            if (id == 0) {
+
+                return "fail";
+            }
         }
 
-        if (id != 0) {
-
-            return "success";
-        } else {
-
-            return "fail";
-        }
+        return "success";
     }
 
     /**
