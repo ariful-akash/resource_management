@@ -47,7 +47,7 @@ public class HomeController {
 
         for (String hrt : hrTypes) {
 
-            hrType.setResourceType(hrt);
+            hrType.setResourceName(hrt);
             id = hrTypeDAO.addHRType(hrType);
         }
 

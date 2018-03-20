@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.uiu.thesis.controllers.ashifDBop;
 
 import com.uiu.thesis.dao.interfaces.HumanResourceDAO;
@@ -25,13 +20,32 @@ public class AshifDBOperationController {
     @Autowired
     private HumanResourceDAO humanResourceDAO;
 
+    /**
+     *
+     * @return
+     */
     @RequestMapping(value = "/insert/role")
     public String insertRole() {
 
+        int id = 0;
         Role role = new Role();
-        role.setRole("data entry operator");
+        String[] roles = {
+            "super admin-rw",
+            "super admin-r",
+            "database admin",
+            "it admin",
+            "department admin",
+            "school admin",
+            "service admin",
+            "data operator",
+            "user"
+        };
 
-        int id = roleDAO.addRole(role);
+        for (String roleString : roles) {
+
+            role.setRole(roleString);
+            id = roleDAO.addRole(role);
+        }
 
         if (id != 0) {
 
