@@ -17,33 +17,33 @@ import org.springframework.stereotype.Repository;
 public class AccessTypeDAOImpl implements AccessTypeDAO {
 
     @Override
-    public boolean addAccessType(AccessType accessType) {
+    public int addAccessType(AccessType accessType) {
 
-        return false;
+        return 0;
     }
 
     @Override
-    public boolean updateAccessType(AccessType accessType) {
+    public int updateAccessType(AccessType accessType) {
 
-        return false;
+        return 0;
     }
 
     @Override
-    public boolean updateAccessType(Long id) {
+    public int updateAccessType(Long id) {
 
-        return false;
+        return 0;
     }
 
     @Override
-    public boolean deleteAccessType(AccessType accessType) {
+    public int deleteAccessType(AccessType accessType) {
 
-        return false;
+        return 0;
     }
 
     @Override
-    public boolean deleteAccessType(Long id) {
+    public int deleteAccessType(Long id) {
 
-        return false;
+        return 0;
     }
 
     @Override
