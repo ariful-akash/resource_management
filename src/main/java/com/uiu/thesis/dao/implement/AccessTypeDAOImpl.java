@@ -6,6 +6,7 @@ import com.uiu.thesis.models.user.HumanResource;
 import com.uiu.thesis.models.user.Role;
 import java.util.List;
 import javax.transaction.Transactional;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,11 +62,34 @@ public class AccessTypeDAOImpl implements AccessTypeDAO {
     }
 
     @Override
-    public List<AccessType> getAllAccessTypes() {
+    public AccessType getAccessType(Long id) {
 
         return null;
     }
 
+    /**
+     * Read all the access types from "access_types" table
+     *
+     * @return
+     */
+    @Override
+    public List<AccessType> getAllAccessTypes() {
+
+        Session session = sessionFactory.getCurrentSession();
+        Criteria criteria = session.createCriteria(AccessType.class);
+
+        @SuppressWarnings("unchecked")
+        List<AccessType> accessTypes = criteria.list();
+
+        return accessTypes;
+    }
+
+    /**
+     * Read list of access types from "access_type" table by an role id. It provides the default access type list for a specific Role.
+     *
+     * @param roleId
+     * @return
+     */
     @Override
     public List<AccessType> getAccessTypesByRole(Long roleId) {
 
