@@ -21,6 +21,8 @@ public interface AccessTypeDAO {
 
     public int deleteAccessType(Long id);
 
+    public AccessType getAccessType(Long id);
+
     public List<AccessType> getAllAccessTypes();
 
     public List<AccessType> getAccessTypesByRole(Long roleId);
