@@ -5,6 +5,8 @@ import com.uiu.thesis.dao.interfaces.HumanResourceDAO;
 import com.uiu.thesis.dao.interfaces.RoleDAO;
 import com.uiu.thesis.models.user.AccessType;
 import com.uiu.thesis.models.user.Role;
+import java.util.Iterator;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -103,6 +105,27 @@ public class AshifDBOperationController {
         }
 
         return "success";
+    }
+
+    /**
+     * Read access type test (url: /read/accesstype)
+     *
+     * @return
+     */
+    @RequestMapping(value = "/read/accesstype")
+    public String readAccessTypes() {
+
+        List<AccessType> accessTypes = accessTypeDAO.getAllAccessTypes();
+        Iterator accessTypesIterator = accessTypes.iterator();
+
+        while (accessTypesIterator.hasNext()) {
+
+            AccessType at = (AccessType) accessTypesIterator.next();
+
+            System.out.println("ID: " + at.getId() + ", Access Type: " + at.getDescription());
+        }
+
+        return "";
     }
 
     /**
