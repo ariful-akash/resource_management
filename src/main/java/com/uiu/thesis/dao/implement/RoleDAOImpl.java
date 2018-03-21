@@ -60,4 +60,10 @@ public class RoleDAOImpl implements RoleDAO {
         return null;
     }
 
+    @Override
+    public List<Role> getAllRoles() {
+
+        return null;
+    }
+
 }
