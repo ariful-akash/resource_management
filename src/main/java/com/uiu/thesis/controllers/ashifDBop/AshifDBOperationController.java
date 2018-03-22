@@ -125,7 +125,27 @@ public class AshifDBOperationController {
             System.out.println("ID: " + at.getId() + ", Access Type: " + at.getDescription());
         }
 
-        return "";
+        return "success";
+    }
+
+    /**
+     * Read role test (url: /read/role)
+     *
+     * @return
+     */
+    @RequestMapping(value = "/read/role")
+    public String readRoles() {
+
+        List<Role> roles = roleDAO.getAllRoles();
+        Iterator roleIterator = roles.iterator();
+
+        while (roleIterator.hasNext()) {
+
+            Role role = (Role) roleIterator.next();
+            System.out.println("ID: " + role.getId() + ", Role: " + role.getRole());
+        }
+
+        return "success";
     }
 
     /**
