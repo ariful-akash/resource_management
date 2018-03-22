@@ -63,6 +63,20 @@ public class RoleDAOImpl implements RoleDAO {
 
     /**
      *
+     * @param roleId
+     * @return
+     */
+    @Override
+    public Role getRoleById(Long roleId) {
+
+        Session session = sessionFactory.getCurrentSession();
+        Role role = (Role) session.get(Role.class, roleId);
+
+        return role;
+    }
+
+    /**
+     *
      *
      * @return
      */
