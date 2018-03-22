@@ -6,6 +6,9 @@ import com.uiu.thesis.models.user.HumanResource;
 import com.uiu.thesis.models.user.Role;
 import java.util.List;
 import javax.transaction.Transactional;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -16,34 +19,45 @@ import org.springframework.stereotype.Repository;
 @Transactional
 public class AccessTypeDAOImpl implements AccessTypeDAO {
 
-    @Override
-    public boolean addAccessType(AccessType accessType) {
+    @Autowired
+    private SessionFactory sessionFactory;
 
-        return false;
+    /**
+     * Insert a new Access Type object into "access_type" table of database
+     *
+     * @param accessType
+     * @return
+     */
+    @Override
+    public int addAccessType(AccessType accessType) {
+
+        Session session = sessionFactory.getCurrentSession();
+        Long id = (Long) session.save(accessType);
+        return Integer.valueOf(id.toString());
     }
 
     @Override
-    public boolean updateAccessType(AccessType accessType) {
+    public int updateAccessType(AccessType accessType) {
 
-        return false;
+        return 0;
     }
 
     @Override
-    public boolean updateAccessType(Long id) {
+    public int updateAccessType(Long id) {
 
-        return false;
+        return 0;
     }
 
     @Override
-    public boolean deleteAccessType(AccessType accessType) {
+    public int deleteAccessType(AccessType accessType) {
 
-        return false;
+        return 0;
     }
 
     @Override
-    public boolean deleteAccessType(Long id) {
+    public int deleteAccessType(Long id) {
 
-        return false;
+        return 0;
     }
 
     @Override

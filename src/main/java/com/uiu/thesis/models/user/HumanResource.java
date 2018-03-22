@@ -53,9 +53,6 @@ public class HumanResource implements Serializable {
     @Column(name = "phone", nullable = false)
     private String phone;
 
-    @Column(name = "designation", nullable = false)
-    private String designation;
-
     @Lob
     @Column(name = "iamge", nullable = true)
     private byte[] image;
@@ -143,14 +140,6 @@ public class HumanResource implements Serializable {
         this.phone = phone;
     }
 
-    public String getDesignation() {
-        return designation;
-    }
-
-    public void setDesignation(String designation) {
-        this.designation = designation;
-    }
-
     public byte[] getImage() {
         return image;
     }
@@ -229,7 +218,6 @@ public class HumanResource implements Serializable {
         hash = 19 * hash + Objects.hashCode(this.email);
         hash = 19 * hash + Arrays.hashCode(this.password);
         hash = 19 * hash + Objects.hashCode(this.phone);
-        hash = 19 * hash + Objects.hashCode(this.designation);
         hash = 19 * hash + Arrays.hashCode(this.image);
         hash = 19 * hash + Objects.hashCode(this.resourceType);
         hash = 19 * hash + Objects.hashCode(this.posts);
@@ -269,9 +257,6 @@ public class HumanResource implements Serializable {
             return false;
         }
         if (!Objects.equals(this.phone, other.phone)) {
-            return false;
-        }
-        if (!Objects.equals(this.designation, other.designation)) {
             return false;
         }
         if (!Objects.equals(this.id, other.id)) {
@@ -314,6 +299,6 @@ public class HumanResource implements Serializable {
      */
     @Override
     public String toString() {
-        return "HumanResource{" + "id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", password=" + password + ", phone=" + phone + ", designation=" + designation + ", image=" + image + ", resourceType=" + resourceType + ", posts=" + posts + ", comments=" + comments + ", role=" + role + ", accessTypes=" + accessTypes + ", requisitions=" + requisitions + ", complaints=" + complaints + '}';
+        return "HumanResource{" + "id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", password=" + password + ", phone=" + phone + ", image=" + image + ", resourceType=" + resourceType + ", posts=" + posts + ", comments=" + comments + ", role=" + role + ", accessTypes=" + accessTypes + ", requisitions=" + requisitions + ", complaints=" + complaints + '}';
     }
 }

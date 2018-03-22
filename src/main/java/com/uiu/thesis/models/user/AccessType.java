@@ -1,12 +1,15 @@
 package com.uiu.thesis.models.user;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 /**
@@ -25,6 +28,9 @@ public class AccessType implements Serializable {
 
     @Column(name = "description")
     private String description;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    private List<HumanResource> users;
 
     /**
      * Constructor
@@ -53,11 +59,20 @@ public class AccessType implements Serializable {
         this.description = description;
     }
 
+    public List<HumanResource> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<HumanResource> users) {
+        this.users = users;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
         hash = 23 * hash + Objects.hashCode(this.id);
         hash = 23 * hash + Objects.hashCode(this.description);
+        hash = 23 * hash + Objects.hashCode(this.users);
         return hash;
     }
 
@@ -79,12 +94,15 @@ public class AccessType implements Serializable {
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
+        if (!Objects.equals(this.users, other.users)) {
+            return false;
+        }
         return true;
     }
 
     @Override
     public String toString() {
-        return "AccessType{" + "id=" + id + ", description=" + description + '}';
+        return "AccessType{" + "id=" + id + ", description=" + description + ", users=" + users + '}';
     }
 
 }
