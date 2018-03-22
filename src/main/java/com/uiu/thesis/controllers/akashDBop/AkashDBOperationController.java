@@ -4,9 +4,11 @@ import com.uiu.thesis.dao.interfaces.AccessTypeDAO;
 import com.uiu.thesis.dao.interfaces.ComplaintTypeDAO;
 import com.uiu.thesis.dao.interfaces.OfficeResourceDAO;
 import com.uiu.thesis.dao.interfaces.OfficeResourceTypeDAO;
+import com.uiu.thesis.dao.interfaces.RequisitionTypeDAO;
 import com.uiu.thesis.models.complaint.ComplaintType;
 import com.uiu.thesis.models.object_resource.OfficeResource;
 import com.uiu.thesis.models.object_resource.OfficeResourceType;
+import com.uiu.thesis.models.requisition.RequisitionType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +23,9 @@ public class AkashDBOperationController {
 
     @Autowired
     private OfficeResourceTypeDAO orTypeDAO;
+
+    @Autowired
+    private AccessTypeDAO accTypeDAO;
 
     /**
      * insert OfficeResourceType table
@@ -104,9 +109,6 @@ public class AkashDBOperationController {
         }
     }
 
-    @Autowired
-    private AccessTypeDAO accTypeDAO;
-
     /**
      * insert complaint table with foreign key(access Type table)
      *
@@ -132,6 +134,40 @@ public class AkashDBOperationController {
             comType.setType(type);
             comType.setAccessType(accTypeDAO.getAccessType((long) 2));
             id = comTypeDAO.addComplaintType(comType);
+
+        }
+
+        if (id != 0) {
+            return "success";
+        } else {
+            return "fail";
+        }
+    }
+    /**
+     * insert Requisition table with foreign key(access Type table)
+     *
+     * @return
+     */
+    @Autowired
+    private RequisitionTypeDAO reqTypeDAO;
+
+    @RequestMapping(value = "/insert/reqtype")
+    private String addReqTypeDAO() {
+
+        String reqTypes[] = {
+            "Stationery",
+            "Computer",
+            "Computer Accessories",
+            "Office Resource"
+        };
+
+        int id = 0;
+        RequisitionType reqType = new RequisitionType();
+        for (String type : reqTypes) {
+
+            reqType.setType(type);
+            reqType.setAccessType(accTypeDAO.getAccessType((long) 3));
+            id = reqTypeDAO.addRequisitionType(reqType);
 
         }
 

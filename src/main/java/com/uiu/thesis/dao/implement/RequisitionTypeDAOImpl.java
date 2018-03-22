@@ -4,6 +4,9 @@ import com.uiu.thesis.dao.interfaces.RequisitionTypeDAO;
 import com.uiu.thesis.models.requisition.RequisitionType;
 import com.uiu.thesis.models.user.AccessType;
 import javax.transaction.Transactional;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -14,10 +17,16 @@ import org.springframework.stereotype.Repository;
 @Transactional
 public class RequisitionTypeDAOImpl implements RequisitionTypeDAO {
 
-    @Override
-    public boolean addRequisitionType(RequisitionType requisitionType) {
+    @Autowired(required = true)
+    private SessionFactory sessionFactory;
 
-        return false;
+    @Override
+    public int addRequisitionType(RequisitionType requisitionType) {
+
+        Session session = sessionFactory.getCurrentSession();
+        Long ret = (Long) session.save(requisitionType);
+
+        return Integer.valueOf(ret.toString());
     }
 
     @Override
