@@ -1,7 +1,10 @@
 package com.uiu.thesis.controllers.akashDBop;
 
+import com.uiu.thesis.dao.interfaces.AccessTypeDAO;
+import com.uiu.thesis.dao.interfaces.ComplaintTypeDAO;
 import com.uiu.thesis.dao.interfaces.OfficeResourceDAO;
 import com.uiu.thesis.dao.interfaces.OfficeResourceTypeDAO;
+import com.uiu.thesis.models.complaint.ComplaintType;
 import com.uiu.thesis.models.object_resource.OfficeResource;
 import com.uiu.thesis.models.object_resource.OfficeResourceType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,6 +96,44 @@ public class AkashDBOperationController {
         or.setRoom("405");
         or.setResourceType(orTypeDAO.getOfficeResourceType((long) 2));
         id = orDAO.addOfficeResource(or);
+
+        if (id != 0) {
+            return "success";
+        } else {
+            return "fail";
+        }
+    }
+
+    @Autowired
+    private AccessTypeDAO accTypeDAO;
+
+    /**
+     * insert complaint table with foreign key(access Type table)
+     *
+     * @return
+     */
+    @Autowired
+    private ComplaintTypeDAO comTypeDAO;
+
+    @RequestMapping(value = "/insert/comtype")
+    private String comTypeDAO() {
+
+        String comTypes[] = {
+            "Stationery",
+            "Computer",
+            "Computer Accessories",
+            "Office Resource"
+        };
+
+        int id = 0;
+        ComplaintType comType = new ComplaintType();
+        for (String type : comTypes) {
+
+            comType.setType(type);
+            comType.setAccessType(accTypeDAO.getAccessType((long) 2));
+            id = comTypeDAO.addComplaintType(comType);
+
+        }
 
         if (id != 0) {
             return "success";
