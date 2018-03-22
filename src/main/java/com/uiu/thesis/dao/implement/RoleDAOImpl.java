@@ -6,6 +6,7 @@ import com.uiu.thesis.models.user.HumanResource;
 import com.uiu.thesis.models.user.Role;
 import java.util.List;
 import javax.transaction.Transactional;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,23 @@ public class RoleDAOImpl implements RoleDAO {
     public Role getRoleByUser(Long userId) {
 
         return null;
+    }
+
+    /**
+     *
+     *
+     * @return
+     */
+    @Override
+    public List<Role> getAllRoles() {
+
+        Session session = sessionFactory.getCurrentSession();
+        Criteria criteria = session.createCriteria(Role.class);
+
+        @SuppressWarnings("unchecked")
+        List<Role> roles = criteria.list();
+
+        return roles;
     }
 
 }

@@ -22,4 +22,6 @@ public interface RoleDAO {
     public Role getRoleByUser(HumanResource user);
 
     public Role getRoleByUser(Long userId);
+
+    public List<Role> getAllRoles();
 }
