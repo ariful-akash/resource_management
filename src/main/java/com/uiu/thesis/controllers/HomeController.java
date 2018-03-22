@@ -36,11 +36,14 @@ public class HomeController {
 
         int id = 0;
         String[] hrTypes = {
-            "general adminstrator",
-            "academic adminstrator",
-            "faculty",
-            "faculty adminstrator",
-            "staff"
+            "Vice Chancelor",
+            "Pro Vice Chancelor",
+            "Office Admin",
+            "Faculty",
+            "Department Head",
+            "School Dean",
+            "Registrar",
+            "Asst. Registrar"
         };
 
         HumanResourceType hrType = new HumanResourceType();
@@ -49,13 +52,15 @@ public class HomeController {
 
             hrType.setResourceName(hrt);
             id = hrTypeDAO.addHRType(hrType);
+
+            if (id == 0) {
+
+                return "fail";
+            }
         }
 
-        if (id != 0) {
-            return "success";
-        } else {
-            return "fail";
-        }
+        return "success";
+
     }
 
 }
