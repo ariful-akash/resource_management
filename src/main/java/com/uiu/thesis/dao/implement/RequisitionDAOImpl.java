@@ -7,6 +7,10 @@ import com.uiu.thesis.models.user.HumanResource;
 import java.util.Date;
 import java.util.List;
 import javax.transaction.Transactional;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -17,6 +21,9 @@ import org.springframework.stereotype.Repository;
 @Transactional
 public class RequisitionDAOImpl implements RequisitionDAO {
 
+    @Autowired
+    private SessionFactory sessionFactory;
+
     @Override
     public boolean addRequisition(Requisition requisition) {
 
@@ -26,7 +33,13 @@ public class RequisitionDAOImpl implements RequisitionDAO {
     @Override
     public List<Requisition> getAllRequisitions() {
 
-        return null;
+        Session session = sessionFactory.getCurrentSession();
+        Criteria criteria = session.createCriteria(Requisition.class);
+
+        @SuppressWarnings("unchecked")
+        List<Requisition> req = criteria.list();
+
+        return req;
     }
 
     @Override
