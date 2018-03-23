@@ -5,7 +5,6 @@ import com.uiu.thesis.models.object_resource.OfficeResource;
 import com.uiu.thesis.models.object_resource.OfficeResourceType;
 import java.util.List;
 import javax.transaction.Transactional;
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,12 +50,13 @@ public class OfficeResourceDAOImpl implements OfficeResourceDAO {
     public List<OfficeResource> getAllOfficeResources() {
 
         Session session = sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(OfficeResource.class);
+
+        String hql = "FROM OfficeResource";
 
         @SuppressWarnings("unchecked")
-        List<OfficeResource> or = criteria.list();
+        List<OfficeResource> officeResources = session.createQuery(hql).list();
 
-        return or;
+        return officeResources;
     }
 
     @Override
