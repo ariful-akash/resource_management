@@ -6,7 +6,6 @@ import com.uiu.thesis.models.user.HumanResource;
 import com.uiu.thesis.models.user.Role;
 import java.util.List;
 import javax.transaction.Transactional;
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,10 +76,10 @@ public class AccessTypeDAOImpl implements AccessTypeDAO {
     public List<AccessType> getAllAccessTypes() {
 
         Session session = sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(AccessType.class);
+        String hql = "FROM AccessType";
 
         @SuppressWarnings("unchecked")
-        List<AccessType> accessTypes = criteria.list();
+        List<AccessType> accessTypes = session.createQuery(hql).list();
 
         return accessTypes;
     }
