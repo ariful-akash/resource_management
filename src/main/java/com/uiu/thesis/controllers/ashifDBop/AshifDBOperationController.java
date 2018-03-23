@@ -173,7 +173,7 @@ public class AshifDBOperationController {
 
                 case 1:
 
-                    System.out.println(allAccessTypes.get(0).getDescription());
+                    roleSpecificAccessTypes.clear();
 
                     roleSpecificAccessTypes.add(allAccessTypes.get(0));
                     roleSpecificAccessTypes.add(allAccessTypes.get(1));
@@ -188,13 +188,113 @@ public class AshifDBOperationController {
                     roleSpecificAccessTypes.add(allAccessTypes.get(18));
 
                     role.setAccessTypes(roleSpecificAccessTypes);
-
                     roleDAO.updateRole(role);
-
-                    roleSpecificAccessTypes.clear();
 
                     break;
                 case 2:
+
+                    roleSpecificAccessTypes.clear();
+
+                    roleSpecificAccessTypes.add(allAccessTypes.get(6));
+                    roleSpecificAccessTypes.add(allAccessTypes.get(11));
+                    roleSpecificAccessTypes.add(allAccessTypes.get(12));
+                    roleSpecificAccessTypes.add(allAccessTypes.get(17));
+                    roleSpecificAccessTypes.add(allAccessTypes.get(18));
+
+                    role.setAccessTypes(roleSpecificAccessTypes);
+                    roleDAO.updateRole(role);
+
+                    break;
+                case 3:
+
+                    roleSpecificAccessTypes.clear();
+
+                    roleSpecificAccessTypes.add(allAccessTypes.get(0));
+                    roleSpecificAccessTypes.add(allAccessTypes.get(1));
+                    roleSpecificAccessTypes.add(allAccessTypes.get(2));
+                    roleSpecificAccessTypes.add(allAccessTypes.get(3));
+                    roleSpecificAccessTypes.add(allAccessTypes.get(4));
+                    roleSpecificAccessTypes.add(allAccessTypes.get(5));
+                    roleSpecificAccessTypes.add(allAccessTypes.get(6));
+                    roleSpecificAccessTypes.add(allAccessTypes.get(13));
+
+                    role.setAccessTypes(roleSpecificAccessTypes);
+                    roleDAO.updateRole(role);
+
+                    break;
+                case 4:
+
+                    role.setAccessTypes(roleSpecificAccessTypes);
+                    roleDAO.updateRole(role);
+
+                    break;
+                case 5:
+
+                    roleSpecificAccessTypes.clear();
+
+                    roleSpecificAccessTypes.add(allAccessTypes.get(8));
+                    roleSpecificAccessTypes.add(allAccessTypes.get(11));
+                    roleSpecificAccessTypes.add(allAccessTypes.get(6));
+                    roleSpecificAccessTypes.add(allAccessTypes.get(12));
+                    roleSpecificAccessTypes.add(allAccessTypes.get(14));
+                    roleSpecificAccessTypes.add(allAccessTypes.get(17));
+
+                    role.setAccessTypes(roleSpecificAccessTypes);
+                    roleDAO.updateRole(role);
+
+                    break;
+                case 6:
+
+                    role.setAccessTypes(roleSpecificAccessTypes);
+                    roleDAO.updateRole(role);
+
+                    break;
+                case 7:
+
+                    roleSpecificAccessTypes.clear();
+
+                    roleSpecificAccessTypes.add(allAccessTypes.get(0));
+                    roleSpecificAccessTypes.add(allAccessTypes.get(1));
+                    roleSpecificAccessTypes.add(allAccessTypes.get(2));
+                    roleSpecificAccessTypes.add(allAccessTypes.get(6));
+                    roleSpecificAccessTypes.add(allAccessTypes.get(12));
+                    roleSpecificAccessTypes.add(allAccessTypes.get(7));
+                    roleSpecificAccessTypes.add(allAccessTypes.get(9));
+                    roleSpecificAccessTypes.add(allAccessTypes.get(8));
+                    roleSpecificAccessTypes.add(allAccessTypes.get(10));
+                    roleSpecificAccessTypes.add(allAccessTypes.get(13));
+                    roleSpecificAccessTypes.add(allAccessTypes.get(14));
+                    roleSpecificAccessTypes.add(allAccessTypes.get(15));
+                    roleSpecificAccessTypes.add(allAccessTypes.get(16));
+
+                    role.setAccessTypes(roleSpecificAccessTypes);
+                    roleDAO.updateRole(role);
+
+                    break;
+                case 8:
+
+                    roleSpecificAccessTypes.clear();
+
+                    roleSpecificAccessTypes.add(allAccessTypes.get(3));
+                    roleSpecificAccessTypes.add(allAccessTypes.get(4));
+                    roleSpecificAccessTypes.add(allAccessTypes.get(5));
+                    roleSpecificAccessTypes.add(allAccessTypes.get(17));
+
+                    role.setAccessTypes(roleSpecificAccessTypes);
+                    roleDAO.updateRole(role);
+
+                    break;
+                case 9:
+
+                    roleSpecificAccessTypes.clear();
+
+                    roleSpecificAccessTypes.add(allAccessTypes.get(6));
+                    roleSpecificAccessTypes.add(allAccessTypes.get(12));
+
+                    role.setAccessTypes(roleSpecificAccessTypes);
+                    roleDAO.updateRole(role);
+                    break;
+                default:
                     break;
             }
         }
