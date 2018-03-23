@@ -40,10 +40,21 @@ public class HumanResourceTypeDAOImpl implements HumanResourceTypeDAO {
         return false;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public List<HumanResourceType> getAllHRType() {
 
-        return null;
+        Session session = sessionFactory.getCurrentSession();
+
+        String hql = "FROM HumanResourceType";
+
+        @SuppressWarnings("unchecked")
+        List<HumanResourceType> hrTypes = session.createQuery(hql).list();
+
+        return hrTypes;
     }
 
     /**
