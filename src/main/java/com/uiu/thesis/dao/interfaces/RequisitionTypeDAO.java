@@ -9,7 +9,7 @@ import com.uiu.thesis.models.user.AccessType;
  */
 public interface RequisitionTypeDAO {
 
-    public boolean addRequisitionType(RequisitionType requisitionType);
+    public int addRequisitionType(RequisitionType requisitionType);
 
     public RequisitionType getRequisitionTypeById(Long reqTypeId);
 

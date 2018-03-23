@@ -64,7 +64,8 @@ public class AccessTypeDAOImpl implements AccessTypeDAO {
     @Override
     public AccessType getAccessType(Long id) {
 
-        return null;
+        Session session = sessionFactory.getCurrentSession();
+        return (AccessType) session.get(AccessType.class, id);
     }
 
     /**

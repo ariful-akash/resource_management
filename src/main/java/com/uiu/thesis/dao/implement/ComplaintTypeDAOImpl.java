@@ -4,6 +4,9 @@ import com.uiu.thesis.dao.interfaces.ComplaintTypeDAO;
 import com.uiu.thesis.models.complaint.ComplaintType;
 import java.util.List;
 import javax.transaction.Transactional;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -14,10 +17,15 @@ import org.springframework.stereotype.Repository;
 @Transactional
 public class ComplaintTypeDAOImpl implements ComplaintTypeDAO {
 
-    @Override
-    public boolean addComplaintType(ComplaintType complaintType) {
+    @Autowired(required = true)
+    private SessionFactory sessionFactory;
 
-        return false;
+    @Override
+    public int addComplaintType(ComplaintType complaintType) {
+
+        Session session = sessionFactory.getCurrentSession();
+        Long ret = (Long) session.save(complaintType);
+        return Integer.valueOf(ret.toString());
     }
 
     @Override

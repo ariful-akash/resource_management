@@ -20,6 +20,12 @@ public class OfficeResourceTypeDAOImpl implements OfficeResourceTypeDAO {
     @Autowired(required = true)
     private SessionFactory sessionFactory;
 
+    /**
+     * Insert an office resource type object into database
+     *
+     * @param
+     * @return
+     */
     @Override
     public int addOfficeResourceType(OfficeResourceType officeResourceType) {
 
@@ -53,10 +59,17 @@ public class OfficeResourceTypeDAOImpl implements OfficeResourceTypeDAO {
         return false;
     }
 
+    /**
+     * Read an object of OfficeResourceType from database by the id(primary key)
+     *
+     * @param
+     * @return
+     */
     @Override
     public OfficeResourceType getOfficeResourceType(Long typeId) {
 
-        return null;
+        Session session = sessionFactory.getCurrentSession();
+        return (OfficeResourceType) session.get(OfficeResourceType.class, typeId);
     }
 
     @Override
