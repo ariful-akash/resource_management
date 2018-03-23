@@ -23,12 +23,30 @@ public class RoleDAOImpl implements RoleDAO {
     @Autowired
     private SessionFactory sessionFactory;
 
+    /**
+     *
+     * @param role
+     * @return
+     */
     @Override
     public int addRole(Role role) {
 
         Session session = sessionFactory.getCurrentSession();
         Long id = (Long) session.save(role);
         return Integer.valueOf(id.toString());
+    }
+
+    /**
+     *
+     * @param role
+     * @return
+     */
+    @Override
+    public int updateRole(Role role) {
+
+        Session session = sessionFactory.getCurrentSession();
+        session.update(role);
+        return 0;
     }
 
     @Override
