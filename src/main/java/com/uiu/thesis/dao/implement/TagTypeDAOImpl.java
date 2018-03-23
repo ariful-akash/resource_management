@@ -5,6 +5,10 @@ import com.uiu.thesis.models.forum.Post;
 import com.uiu.thesis.models.forum.TagType;
 import java.util.List;
 import javax.transaction.Transactional;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -15,6 +19,9 @@ import org.springframework.stereotype.Repository;
 @Transactional
 public class TagTypeDAOImpl implements TagTypeDAO {
 
+    @Autowired
+    private SessionFactory sessionFactory;
+
     @Override
     public boolean addTagType(TagType tagType) {
 
@@ -24,7 +31,13 @@ public class TagTypeDAOImpl implements TagTypeDAO {
     @Override
     public List<TagType> getAllTagTypes() {
 
-        return null;
+        Session session = sessionFactory.getCurrentSession();
+        Criteria criteria = session.createCriteria(TagType.class);
+
+        @SuppressWarnings("unchecked")
+        List<TagType> tagTypes = criteria.list();
+
+        return tagTypes;
     }
 
     @Override
