@@ -7,7 +7,6 @@ import com.uiu.thesis.models.user.HumanResource;
 import java.util.Date;
 import java.util.List;
 import javax.transaction.Transactional;
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,14 +31,14 @@ public class RequisitionDAOImpl implements RequisitionDAO {
 
     @Override
     public List<Requisition> getAllRequisitions() {
-
         Session session = sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(Requisition.class);
+
+        String hql = "FROM Requisition";
 
         @SuppressWarnings("unchecked")
-        List<Requisition> req = criteria.list();
+        List<Requisition> requisitions = session.createQuery(hql).list();
 
-        return req;
+        return requisitions;
     }
 
     @Override
