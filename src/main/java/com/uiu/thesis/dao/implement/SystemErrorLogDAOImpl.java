@@ -6,6 +6,10 @@ import com.uiu.thesis.models.user.HumanResource;
 import java.util.Date;
 import java.util.List;
 import javax.transaction.Transactional;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -16,16 +20,30 @@ import org.springframework.stereotype.Repository;
 @Transactional
 public class SystemErrorLogDAOImpl implements SystemErrorLogDAO {
 
+    @Autowired
+    private SessionFactory sessionFactory;
+
     @Override
     public boolean addErrorLog(SystemErrorLog errorLog) {
 
         return false;
     }
 
+    /**
+     * Read all the System Error Logs from "system_error_logs" table
+     *
+     * @return
+     */
     @Override
     public List<SystemErrorLog> getAllErrorLogs() {
 
-        return null;
+        Session session = sessionFactory.getCurrentSession();
+        Criteria criteria = session.createCriteria(SystemErrorLog.class);
+
+        @SuppressWarnings("unchecked")
+        List<SystemErrorLog> errLogs = criteria.list();
+
+        return errLogs;
     }
 
     @Override

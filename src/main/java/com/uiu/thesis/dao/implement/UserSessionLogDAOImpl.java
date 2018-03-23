@@ -5,6 +5,10 @@ import com.uiu.thesis.models.logs.UserSessionLog;
 import java.util.Date;
 import java.util.List;
 import javax.transaction.Transactional;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -15,16 +19,30 @@ import org.springframework.stereotype.Repository;
 @Transactional
 public class UserSessionLogDAOImpl implements UserSessionLogDAO {
 
+    @Autowired
+    private SessionFactory sessionFactory;
+
     @Override
     public boolean addUserSession(UserSessionLog userSessionLog) {
 
         return false;
     }
 
+    /**
+     * Read all the user session from "user_session_logs" table
+     *
+     * @return
+     */
     @Override
     public List<UserSessionLog> getAllUserSessions() {
 
-        return null;
+        Session session = sessionFactory.getCurrentSession();
+        Criteria criteria = session.createCriteria(UserSessionLog.class);
+
+        @SuppressWarnings("unchecked")
+        List<UserSessionLog> sessionLogs = criteria.list();
+
+        return sessionLogs;
     }
 
     @Override

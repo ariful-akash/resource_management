@@ -4,6 +4,7 @@ import com.uiu.thesis.dao.interfaces.ComplaintTypeDAO;
 import com.uiu.thesis.models.complaint.ComplaintType;
 import java.util.List;
 import javax.transaction.Transactional;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,10 +41,21 @@ public class ComplaintTypeDAOImpl implements ComplaintTypeDAO {
         return false;
     }
 
+    /**
+     * Read all the complaint types from "complaint_types" table
+     *
+     * @return
+     */
     @Override
     public List<ComplaintType> getComplaintTypes() {
 
-        return null;
+        Session session = sessionFactory.getCurrentSession();
+        Criteria criteria = session.createCriteria(ComplaintType.class);
+
+        @SuppressWarnings("unchecked")
+        List<ComplaintType> complaintTypes = criteria.list();
+
+        return complaintTypes;
     }
 
 }

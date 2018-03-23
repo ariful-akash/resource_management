@@ -7,6 +7,10 @@ import com.uiu.thesis.models.user.HumanResource;
 import java.util.Date;
 import java.util.List;
 import javax.transaction.Transactional;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -16,6 +20,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Transactional
 public class PostDAOImpl implements PostDAO {
+
+    @Autowired
+    private SessionFactory sessionFactory;
 
     @Override
     public boolean addPost(Post post) {
@@ -50,13 +57,20 @@ public class PostDAOImpl implements PostDAO {
     @Override
     public Post getPostById(Long postId) {
 
-        return null;
+        Session session = sessionFactory.getCurrentSession();
+        return (Post) session.get(Package.class, postId);
     }
 
     @Override
     public List<Post> getAllPosts() {
 
-        return null;
+        Session session = sessionFactory.getCurrentSession();
+        Criteria criteria = session.createCriteria(Post.class);
+
+        @SuppressWarnings("unchecked")
+        List<Post> post = criteria.list();
+
+        return post;
     }
 
     @Override
