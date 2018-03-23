@@ -33,6 +33,9 @@ public class AccessType implements Serializable {
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<HumanResource> users;
 
+    @ManyToMany(mappedBy = "accessTypes", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Role> roles;
+
     /**
      * Constructor
      */
@@ -66,6 +69,14 @@ public class AccessType implements Serializable {
 
     public void setUsers(Set<HumanResource> users) {
         this.users = users;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     @Override
