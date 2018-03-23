@@ -6,7 +6,6 @@ import com.uiu.thesis.models.user.HumanResource;
 import java.util.Date;
 import java.util.List;
 import javax.transaction.Transactional;
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,10 +37,11 @@ public class DBAccessLogDAOImpl implements DBAccessLogDAO {
     public List<DBAccessLog> getAllDBAccessLogs() {
 
         Session session = sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(DBAccessLog.class);
+
+        String hql = "FROM DBAccessLog";
 
         @SuppressWarnings("unchecked")
-        List<DBAccessLog> dBAccessLogs = criteria.list();
+        List<DBAccessLog> dBAccessLogs = session.createQuery(hql).list();
 
         return dBAccessLogs;
     }
