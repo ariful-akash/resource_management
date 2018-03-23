@@ -72,16 +72,16 @@ public class HumanResource implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Role role;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "user_modified_access", joinColumns = {
         @JoinColumn(name = "user_id")}, inverseJoinColumns = {
         @JoinColumn(name = "access_id")})
     private Set<AccessType> accessTypes;
 
-    @OneToMany(mappedBy = "requisitionCreator", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "requisitionCreator", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Requisition> requisitions;
 
-    @OneToMany(mappedBy = "complaintCreator")
+    @OneToMany(mappedBy = "complaintCreator", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Complaint> complaints;
 
     /**
