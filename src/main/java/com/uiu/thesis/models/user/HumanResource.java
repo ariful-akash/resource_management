@@ -15,8 +15,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -72,10 +70,7 @@ public class HumanResource implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Role role;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(name = "user_modified_access", joinColumns = {
-        @JoinColumn(name = "user_id")}, inverseJoinColumns = {
-        @JoinColumn(name = "access_id")})
+    @ManyToMany(mappedBy = "users", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<AccessType> accessTypes;
 
     @OneToMany(mappedBy = "requisitionCreator", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
