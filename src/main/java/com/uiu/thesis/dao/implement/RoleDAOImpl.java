@@ -6,7 +6,6 @@ import com.uiu.thesis.models.user.HumanResource;
 import com.uiu.thesis.models.user.Role;
 import java.util.List;
 import javax.transaction.Transactional;
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,7 @@ import org.springframework.stereotype.Repository;
 @Transactional
 public class RoleDAOImpl implements RoleDAO {
 
-    @Autowired
+    @Autowired(required = true)
     private SessionFactory sessionFactory;
 
     /**
@@ -102,10 +101,11 @@ public class RoleDAOImpl implements RoleDAO {
     public List<Role> getAllRoles() {
 
         Session session = sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(Role.class);
+
+        String hql = "FROM Role";
 
         @SuppressWarnings("unchecked")
-        List<Role> roles = criteria.list();
+        List<Role> roles = session.createQuery(hql).list();
 
         return roles;
     }
