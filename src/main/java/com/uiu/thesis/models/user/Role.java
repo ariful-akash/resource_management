@@ -39,7 +39,7 @@ public class Role implements Serializable {
         @JoinColumn(name = "access_id")})
     private Set<AccessType> accessTypes;
 
-    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<HumanResource> humanResources;
 
     /**
