@@ -56,7 +56,14 @@ public class HumanResourceDAOImpl implements HumanResourceDAO {
     @Override
     public List<HumanResource> getAllHumanResources() {
 
-        return null;
+        Session session = sessionFactory.getCurrentSession();
+
+        String hql = "FROM HumanResource";
+
+        @SuppressWarnings("unchecked")
+        List<HumanResource> humanResources = session.createQuery(hql).list();
+
+        return humanResources;
     }
 
     @Override
