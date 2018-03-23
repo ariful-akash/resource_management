@@ -10,8 +10,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -33,14 +31,11 @@ public class Role implements Serializable {
     @Column(name = "description", length = 50)
     private String role;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "role_default_access_types", joinColumns = {
-        @JoinColumn(name = "role_id")}, inverseJoinColumns = {
-        @JoinColumn(name = "access_id")})
-    private Set<AccessType> accessTypes;
-
     @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<HumanResource> humanResources;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<AccessType> accessTypes;
 
     /**
      * Constructor
