@@ -30,7 +30,7 @@ public class AccessType implements Serializable {
     @Column(name = "description")
     private String description;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "access", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<HumanResource> users;
 
     @ManyToMany(mappedBy = "accessTypes", cascade = CascadeType.ALL, fetch = FetchType.EAGER)

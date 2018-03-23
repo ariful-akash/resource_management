@@ -70,8 +70,8 @@ public class HumanResource implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Role role;
 
-    @ManyToMany(mappedBy = "users", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<AccessType> accessTypes;
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<AccessType> access;
 
     @OneToMany(mappedBy = "requisitionCreator", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Requisition> requisitions;
@@ -186,12 +186,12 @@ public class HumanResource implements Serializable {
         this.role = role;
     }
 
-    public Set<AccessType> getAccessTypes() {
-        return accessTypes;
+    public Set<AccessType> getAccess() {
+        return access;
     }
 
-    public void setAccessTypes(Set<AccessType> accessTypes) {
-        this.accessTypes = accessTypes;
+    public void setAccess(Set<AccessType> access) {
+        this.access = access;
     }
 
     public Set<Requisition> getRequisitions() {
@@ -230,7 +230,7 @@ public class HumanResource implements Serializable {
         hash = 19 * hash + Objects.hashCode(this.posts);
         hash = 19 * hash + Objects.hashCode(this.comments);
         hash = 19 * hash + Objects.hashCode(this.role);
-        hash = 19 * hash + Objects.hashCode(this.accessTypes);
+        hash = 19 * hash + Objects.hashCode(this.access);
         hash = 19 * hash + Objects.hashCode(this.requisitions);
         hash = 19 * hash + Objects.hashCode(this.complaints);
         return hash;
@@ -290,7 +290,7 @@ public class HumanResource implements Serializable {
         if (!Objects.equals(this.role, other.role)) {
             return false;
         }
-        if (!Objects.equals(this.accessTypes, other.accessTypes)) {
+        if (!Objects.equals(this.access, other.access)) {
             return false;
         }
         if (!Objects.equals(this.requisitions, other.requisitions)) {
@@ -309,6 +309,6 @@ public class HumanResource implements Serializable {
      */
     @Override
     public String toString() {
-        return "HumanResource{" + "id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", password=" + password + ", phone=" + phone + ", department=" + department + ", image=" + image + ", resourceType=" + resourceType + ", posts=" + posts + ", comments=" + comments + ", role=" + role + ", accessTypes=" + accessTypes + ", requisitions=" + requisitions + ", complaints=" + complaints + '}';
+        return "HumanResource{" + "id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", password=" + password + ", phone=" + phone + ", department=" + department + ", image=" + image + ", resourceType=" + resourceType + ", posts=" + posts + ", comments=" + comments + ", role=" + role + ", accessTypes=" + access + ", requisitions=" + requisitions + ", complaints=" + complaints + '}';
     }
 }
