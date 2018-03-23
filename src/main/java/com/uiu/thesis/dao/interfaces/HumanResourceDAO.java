@@ -12,11 +12,11 @@ import java.util.List;
  */
 public interface HumanResourceDAO {
 
-    public boolean addHumanResource(HumanResource hr);
+    public int addHumanResource(HumanResource hr);
 
-    public boolean updateHumanResource(HumanResource oldHr, HumanResource newHr);
+    public int updateHumanResource(HumanResource oldHr, HumanResource newHr);
 
-    public boolean deleteHumanResource(HumanResource hr);
+    public int deleteHumanResource(HumanResource hr);
 
     public HumanResource getHumanResource(Long id);
 
