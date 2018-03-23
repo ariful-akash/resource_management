@@ -20,7 +20,7 @@ import org.springframework.stereotype.Repository;
 @Transactional
 public class SystemErrorLogDAOImpl implements SystemErrorLogDAO {
 
-    @Autowired
+    @Autowired(required = true)
     private SessionFactory sessionFactory;
 
     @Override

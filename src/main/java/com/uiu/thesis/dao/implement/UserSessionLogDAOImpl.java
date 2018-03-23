@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository;
 @Transactional
 public class UserSessionLogDAOImpl implements UserSessionLogDAO {
 
-    @Autowired
+    @Autowired(required = true)
     private SessionFactory sessionFactory;
 
     @Override

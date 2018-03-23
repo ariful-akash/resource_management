@@ -21,7 +21,7 @@ import org.springframework.stereotype.Repository;
 @Transactional
 public class PostDAOImpl implements PostDAO {
 
-    @Autowired
+    @Autowired(required = true)
     private SessionFactory sessionFactory;
 
     @Override

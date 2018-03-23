@@ -21,7 +21,7 @@ import org.springframework.stereotype.Repository;
 @Transactional
 public class RequisitionDAOImpl implements RequisitionDAO {
 
-    @Autowired
+    @Autowired(required = true)
     private SessionFactory sessionFactory;
 
     @Override

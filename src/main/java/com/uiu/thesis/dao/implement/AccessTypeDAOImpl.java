@@ -20,7 +20,7 @@ import org.springframework.stereotype.Repository;
 @Transactional
 public class AccessTypeDAOImpl implements AccessTypeDAO {
 
-    @Autowired
+    @Autowired(required = true)
     private SessionFactory sessionFactory;
 
     /**

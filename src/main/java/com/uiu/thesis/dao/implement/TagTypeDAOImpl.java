@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository;
 @Transactional
 public class TagTypeDAOImpl implements TagTypeDAO {
 
-    @Autowired
+    @Autowired(required = true)
     private SessionFactory sessionFactory;
 
     @Override
