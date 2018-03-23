@@ -6,8 +6,8 @@ import com.uiu.thesis.models.forum.Post;
 import com.uiu.thesis.models.requisition.Requisition;
 import java.io.Serializable;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -61,10 +61,10 @@ public class HumanResource implements Serializable {
     private HumanResourceType resourceType;
 
     @OneToMany(mappedBy = "poster", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Post> posts;
+    private Set<Post> posts;
 
     @OneToMany(mappedBy = "commenter", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Comment> comments;
+    private Set<Comment> comments;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Role role;
@@ -73,13 +73,13 @@ public class HumanResource implements Serializable {
     @JoinTable(name = "user_modified_access", joinColumns = {
         @JoinColumn(name = "user_id")}, inverseJoinColumns = {
         @JoinColumn(name = "access_id")})
-    private List<AccessType> accessTypes;
+    private Set<AccessType> accessTypes;
 
     @OneToMany(mappedBy = "requisitionCreator", cascade = CascadeType.ALL)
-    private List<Requisition> requisitions;
+    private Set<Requisition> requisitions;
 
     @OneToMany(mappedBy = "complaintCreator")
-    private List<Complaint> complaints;
+    private Set<Complaint> complaints;
 
     /**
      * Constructor
@@ -156,19 +156,19 @@ public class HumanResource implements Serializable {
         this.resourceType = resourceType;
     }
 
-    public List<Post> getPosts() {
+    public Set<Post> getPosts() {
         return posts;
     }
 
-    public void setPosts(List<Post> posts) {
+    public void setPosts(Set<Post> posts) {
         this.posts = posts;
     }
 
-    public List<Comment> getComments() {
+    public Set<Comment> getComments() {
         return comments;
     }
 
-    public void setComments(List<Comment> comments) {
+    public void setComments(Set<Comment> comments) {
         this.comments = comments;
     }
 
@@ -180,27 +180,27 @@ public class HumanResource implements Serializable {
         this.role = role;
     }
 
-    public List<AccessType> getAccessTypes() {
+    public Set<AccessType> getAccessTypes() {
         return accessTypes;
     }
 
-    public void setAccessTypes(List<AccessType> accessTypes) {
+    public void setAccessTypes(Set<AccessType> accessTypes) {
         this.accessTypes = accessTypes;
     }
 
-    public List<Requisition> getRequisitions() {
+    public Set<Requisition> getRequisitions() {
         return requisitions;
     }
 
-    public void setRequisitions(List<Requisition> requisitions) {
+    public void setRequisitions(Set<Requisition> requisitions) {
         this.requisitions = requisitions;
     }
 
-    public List<Complaint> getComplaints() {
+    public Set<Complaint> getComplaints() {
         return complaints;
     }
 
-    public void setComplaints(List<Complaint> complaints) {
+    public void setComplaints(Set<Complaint> complaints) {
         this.complaints = complaints;
     }
 

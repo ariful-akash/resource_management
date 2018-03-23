@@ -1,8 +1,8 @@
 package com.uiu.thesis.models.user;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -37,10 +37,10 @@ public class Role implements Serializable {
     @JoinTable(name = "role_default_access_types", joinColumns = {
         @JoinColumn(name = "role_id")}, inverseJoinColumns = {
         @JoinColumn(name = "access_id")})
-    private List<AccessType> accessTypes;
+    private Set<AccessType> accessTypes;
 
     @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<HumanResource> humanResources;
+    private Set<HumanResource> humanResources;
 
     /**
      * Constructor
@@ -69,19 +69,19 @@ public class Role implements Serializable {
         this.role = role;
     }
 
-    public List<AccessType> getAccessTypes() {
+    public Set<AccessType> getAccessTypes() {
         return accessTypes;
     }
 
-    public void setAccessTypes(List<AccessType> accessTypes) {
+    public void setAccessTypes(Set<AccessType> accessTypes) {
         this.accessTypes = accessTypes;
     }
 
-    public List<HumanResource> getHumanResources() {
+    public Set<HumanResource> getHumanResources() {
         return humanResources;
     }
 
-    public void setHumanResources(List<HumanResource> humanResources) {
+    public void setHumanResources(Set<HumanResource> humanResources) {
         this.humanResources = humanResources;
     }
 

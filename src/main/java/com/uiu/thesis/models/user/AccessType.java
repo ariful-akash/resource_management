@@ -1,8 +1,8 @@
 package com.uiu.thesis.models.user;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,7 +30,7 @@ public class AccessType implements Serializable {
     private String description;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    private List<HumanResource> users;
+    private Set<HumanResource> users;
 
     /**
      * Constructor
@@ -59,11 +59,11 @@ public class AccessType implements Serializable {
         this.description = description;
     }
 
-    public List<HumanResource> getUsers() {
+    public Set<HumanResource> getUsers() {
         return users;
     }
 
-    public void setUsers(List<HumanResource> users) {
+    public void setUsers(Set<HumanResource> users) {
         this.users = users;
     }
 
