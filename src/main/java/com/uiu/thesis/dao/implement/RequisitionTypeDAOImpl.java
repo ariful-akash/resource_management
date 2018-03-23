@@ -31,8 +31,8 @@ public class RequisitionTypeDAOImpl implements RequisitionTypeDAO {
 
     @Override
     public RequisitionType getRequisitionTypeById(Long reqTypeId) {
-
-        return null;
+        Session session = sessionFactory.getCurrentSession();
+        return (RequisitionType) session.get(RequisitionType.class, reqTypeId);
     }
 
     @Override
