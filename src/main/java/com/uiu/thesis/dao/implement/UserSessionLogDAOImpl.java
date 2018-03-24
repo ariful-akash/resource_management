@@ -5,7 +5,6 @@ import com.uiu.thesis.models.logs.UserSessionLog;
 import java.util.Date;
 import java.util.List;
 import javax.transaction.Transactional;
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,12 +36,13 @@ public class UserSessionLogDAOImpl implements UserSessionLogDAO {
     public List<UserSessionLog> getAllUserSessions() {
 
         Session session = sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(UserSessionLog.class);
+
+        String hql = "FROM UserSessionLog";
 
         @SuppressWarnings("unchecked")
-        List<UserSessionLog> sessionLogs = criteria.list();
+        List<UserSessionLog> userSessionLogs = session.createQuery(hql).list();
 
-        return sessionLogs;
+        return userSessionLogs;
     }
 
     @Override
