@@ -5,18 +5,14 @@
  */
 package com.uiu.thesis.models.forum;
 
-import com.uiu.thesis.models.user.HumanResource;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -43,12 +39,6 @@ public class CommentReply implements Serializable {
 
     @Column(name = "edited")
     private boolean edited;
-
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private HumanResource replier;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Comment comment;
 
     /**
      * Constructor
@@ -93,22 +83,21 @@ public class CommentReply implements Serializable {
         this.dateTime = dateTime;
     }
 
-    public HumanResource getReplier() {
-        return replier;
-    }
-
-    public void setReplier(HumanResource replier) {
-        this.replier = replier;
-    }
-
-    public Comment getComment() {
-        return comment;
-    }
-
-    public void setComment(Comment comment) {
-        this.comment = comment;
-    }
-
+//    public HumanResource getReplier() {
+//        return replier;
+//    }
+//
+//    public void setReplier(HumanResource replier) {
+//        this.replier = replier;
+//    }
+//
+//    public Comment getComment() {
+//        return comment;
+//    }
+//
+//    public void setComment(Comment comment) {
+//        this.comment = comment;
+//    }
     /**
      * hash method
      *
@@ -120,8 +109,8 @@ public class CommentReply implements Serializable {
         hash = 17 * hash + Objects.hashCode(this.id);
         hash = 17 * hash + Objects.hashCode(this.reply);
         hash = 17 * hash + Objects.hashCode(this.dateTime);
-        hash = 17 * hash + Objects.hashCode(this.replier);
-        hash = 17 * hash + Objects.hashCode(this.comment);
+//        hash = 17 * hash + Objects.hashCode(this.replier);
+//        hash = 17 * hash + Objects.hashCode(this.comment);
         hash = 17 * hash + Objects.hashCode(this.edited);
         return hash;
     }
@@ -153,20 +142,24 @@ public class CommentReply implements Serializable {
         if (!Objects.equals(this.dateTime, other.dateTime)) {
             return false;
         }
-        if (!Objects.equals(this.replier, other.replier)) {
-            return false;
-        }
-        if (!Objects.equals(this.comment, other.comment)) {
-            return false;
-        }
+//        if (!Objects.equals(this.replier, other.replier)) {
+//            return false;
+//        }
+//        if (!Objects.equals(this.comment, other.comment)) {
+//            return false;
+//        }
         if (!Objects.equals(this.edited, other.edited)) {
             return false;
         }
         return true;
     }
 
+//    @Override
+//    public String toString() {
+//        return "CommentReply{" + "id=" + id + ", reply=" + reply + ", dateTime=" + dateTime + ", replier=" + replier + ", comment=" + comment + ", edited=" + edited + '}';
+//    }
     @Override
     public String toString() {
-        return "CommentReply{" + "id=" + id + ", reply=" + reply + ", dateTime=" + dateTime + ", replier=" + replier + ", comment=" + comment + ", edited=" + edited + '}';
+        return "CommentReply{" + "id=" + id + ", reply=" + reply + ", dateTime=" + dateTime + ", edited=" + edited + '}';
     }
 }

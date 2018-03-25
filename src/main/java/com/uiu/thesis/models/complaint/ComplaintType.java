@@ -1,6 +1,5 @@
 package com.uiu.thesis.models.complaint;
 
-import com.uiu.thesis.models.user.AccessType;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
@@ -10,9 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -32,11 +29,7 @@ public class ComplaintType implements Serializable {
     @Column(name = "type", nullable = false)
     private String type;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "access_type_id")
-    private AccessType accessType;
-
-    @OneToMany(mappedBy = "complaintType", cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Complaint> complaints;
 
     /**
@@ -66,14 +59,14 @@ public class ComplaintType implements Serializable {
         this.type = type;
     }
 
-    public AccessType getAccessType() {
-        return accessType;
-    }
-
-    public void setAccessType(AccessType accessType) {
-        this.accessType = accessType;
-    }
-
+//    public AccessType getAccessType() {
+//        return accessType;
+//    }
+//
+//    public void setAccessType(AccessType accessType) {
+//        this.accessType = accessType;
+//    }
+//
     public List<Complaint> getComplaints() {
         return complaints;
     }
@@ -87,8 +80,8 @@ public class ComplaintType implements Serializable {
         int hash = 3;
         hash = 29 * hash + Objects.hashCode(this.id);
         hash = 29 * hash + Objects.hashCode(this.type);
-        hash = 29 * hash + Objects.hashCode(this.accessType);
-        hash = 29 * hash + Objects.hashCode(this.complaints);
+//        hash = 29 * hash + Objects.hashCode(this.accessType);
+//        hash = 29 * hash + Objects.hashCode(this.complaints);
         return hash;
     }
 
@@ -110,13 +103,18 @@ public class ComplaintType implements Serializable {
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if (!Objects.equals(this.accessType, other.accessType)) {
-            return false;
-        }
+//        if (!Objects.equals(this.accessType, other.accessType)) {
+//            return false;
+//        }
         if (!Objects.equals(this.complaints, other.complaints)) {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "ComplaintType{" + "id=" + id + ", type=" + type + ", complaints=" + complaints + '}';
     }
 
 }

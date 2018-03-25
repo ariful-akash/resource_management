@@ -84,7 +84,7 @@ public class AccessType implements Serializable {
         int hash = 7;
         hash = 23 * hash + Objects.hashCode(this.id);
         hash = 23 * hash + Objects.hashCode(this.description);
-        hash = 23 * hash + Objects.hashCode(this.users);
+//        hash = 23 * hash + Objects.hashCode(this.users);
         return hash;
     }
 

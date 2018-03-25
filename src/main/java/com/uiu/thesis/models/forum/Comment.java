@@ -1,11 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.uiu.thesis.models.forum;
 
-import com.uiu.thesis.models.user.HumanResource;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -17,7 +11,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -46,10 +39,7 @@ public class Comment implements Serializable {
     @Column(name = "edited", nullable = false)
     private boolean edited;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private HumanResource commenter;
-
-    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<CommentReply> commentReplies;
 
     /**
@@ -95,14 +85,13 @@ public class Comment implements Serializable {
         this.edited = isEdited;
     }
 
-    public HumanResource getCommenter() {
-        return commenter;
-    }
-
-    public void setCommenter(HumanResource commenter) {
-        this.commenter = commenter;
-    }
-
+//    public HumanResource getCommenter() {
+//        return commenter;
+//    }
+//
+//    public void setCommenter(HumanResource commenter) {
+//        this.commenter = commenter;
+//    }
     public List<CommentReply> getCommentReplies() {
         return commentReplies;
     }
@@ -122,7 +111,7 @@ public class Comment implements Serializable {
         hash = 59 * hash + Objects.hashCode(this.id);
         hash = 59 * hash + Objects.hashCode(this.content);
         hash = 59 * hash + Objects.hashCode(this.commentTime);
-        hash = 59 * hash + Objects.hashCode(this.commenter);
+//        hash = 59 * hash + Objects.hashCode(this.commenter);
         hash = 59 * hash + Objects.hashCode(this.commentReplies);
         hash = 59 * hash + Objects.hashCode(this.edited);
         return hash;
@@ -149,9 +138,9 @@ public class Comment implements Serializable {
         if (!Objects.equals(this.commentTime, other.commentTime)) {
             return false;
         }
-        if (!Objects.equals(this.commenter, other.commenter)) {
-            return false;
-        }
+//        if (!Objects.equals(this.commenter, other.commenter)) {
+//            return false;
+//        }
         if (!Objects.equals(this.commentReplies, other.commentReplies)) {
             return false;
         }
@@ -163,6 +152,7 @@ public class Comment implements Serializable {
 
     @Override
     public String toString() {
-        return "Comment{" + "id=" + id + ", content=" + content + ", commentTime=" + commentTime + ", commenter=" + commenter + ", commentReplies=" + commentReplies + ", isEdited=" + edited + '}';
+        return "Comment{" + "id=" + id + ", content=" + content + ", commentTime=" + commentTime + ", edited=" + edited + ", commentReplies=" + commentReplies + '}';
     }
+
 }

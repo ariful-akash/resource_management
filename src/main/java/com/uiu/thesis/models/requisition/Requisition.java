@@ -1,17 +1,12 @@
 package com.uiu.thesis.models.requisition;
 
-import com.uiu.thesis.models.user.HumanResource;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -48,17 +43,6 @@ public class Requisition implements Serializable {
 
     @Column(name = "solved")
     private boolean isSolved;
-
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private HumanResource solver;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "requisition_creator_id")
-    private HumanResource requisitionCreator;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "requisition_type_id")
-    private RequisitionType requisitionType;
 
     /**
      * Constructor
@@ -127,30 +111,29 @@ public class Requisition implements Serializable {
         this.isSolved = isSolved;
     }
 
-    public HumanResource getSolver() {
-        return solver;
-    }
-
-    public void setSolver(HumanResource solver) {
-        this.solver = solver;
-    }
-
-    public HumanResource getRequisitionCreator() {
-        return requisitionCreator;
-    }
-
-    public void setRequisitionCreator(HumanResource requisitionCreator) {
-        this.requisitionCreator = requisitionCreator;
-    }
-
-    public RequisitionType getRequisitionType() {
-        return requisitionType;
-    }
-
-    public void setRequisitionType(RequisitionType requisitionType) {
-        this.requisitionType = requisitionType;
-    }
-
+//    public HumanResource getSolver() {
+//        return solver;
+//    }
+//
+//    public void setSolver(HumanResource solver) {
+//        this.solver = solver;
+//    }
+//
+//    public HumanResource getRequisitionCreator() {
+//        return requisitionCreator;
+//    }
+//
+//    public void setRequisitionCreator(HumanResource requisitionCreator) {
+//        this.requisitionCreator = requisitionCreator;
+//    }
+//
+//    public RequisitionType getRequisitionType() {
+//        return requisitionType;
+//    }
+//
+//    public void setRequisitionType(RequisitionType requisitionType) {
+//        this.requisitionType = requisitionType;
+//    }
     @Override
     public int hashCode() {
         int hash = 7;
@@ -161,9 +144,9 @@ public class Requisition implements Serializable {
         hash = 61 * hash + Objects.hashCode(this.purpose);
         hash = 61 * hash + Objects.hashCode(this.remarks);
         hash = 61 * hash + (this.isSolved ? 1 : 0);
-        hash = 61 * hash + Objects.hashCode(this.solver);
-        hash = 61 * hash + Objects.hashCode(this.requisitionCreator);
-        hash = 61 * hash + Objects.hashCode(this.requisitionType);
+//        hash = 61 * hash + Objects.hashCode(this.solver);
+//        hash = 61 * hash + Objects.hashCode(this.requisitionCreator);
+//        hash = 61 * hash + Objects.hashCode(this.requisitionType);
         return hash;
     }
 
@@ -200,16 +183,21 @@ public class Requisition implements Serializable {
         if (!Objects.equals(this.requisitionPlacingDate, other.requisitionPlacingDate)) {
             return false;
         }
-        if (!Objects.equals(this.solver, other.solver)) {
-            return false;
-        }
-        if (!Objects.equals(this.requisitionCreator, other.requisitionCreator)) {
-            return false;
-        }
-        if (!Objects.equals(this.requisitionType, other.requisitionType)) {
-            return false;
-        }
+//        if (!Objects.equals(this.solver, other.solver)) {
+//            return false;
+//        }
+//        if (!Objects.equals(this.requisitionCreator, other.requisitionCreator)) {
+//            return false;
+//        }
+//        if (!Objects.equals(this.requisitionType, other.requisitionType)) {
+//            return false;
+//        }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Requisition{" + "id=" + id + ", quantity=" + quantity + ", requisitionNeedDate=" + requisitionNeedDate + ", requisitionPlacingDate=" + requisitionPlacingDate + ", purpose=" + purpose + ", remarks=" + remarks + ", isSolved=" + isSolved + '}';
     }
 
 }

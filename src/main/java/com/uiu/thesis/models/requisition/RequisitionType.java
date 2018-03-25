@@ -1,6 +1,5 @@
 package com.uiu.thesis.models.requisition;
 
-import com.uiu.thesis.models.user.AccessType;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
@@ -10,9 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -32,11 +29,7 @@ public class RequisitionType implements Serializable {
     @Column(name = "type", nullable = false)
     private String type;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "access_type_id")
-    private AccessType accessType;
-
-    @OneToMany(mappedBy = "requisitionType", cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Requisition> requisitions;
 
     /**
@@ -66,14 +59,13 @@ public class RequisitionType implements Serializable {
         this.type = type;
     }
 
-    public AccessType getAccessType() {
-        return accessType;
-    }
-
-    public void setAccessType(AccessType accessType) {
-        this.accessType = accessType;
-    }
-
+//    public AccessType getAccessType() {
+//        return accessType;
+//    }
+//
+//    public void setAccessType(AccessType accessType) {
+//        this.accessType = accessType;
+//    }
     public List<Requisition> getRequisitions() {
         return requisitions;
     }
@@ -87,7 +79,7 @@ public class RequisitionType implements Serializable {
         int hash = 5;
         hash = 97 * hash + Objects.hashCode(this.id);
         hash = 97 * hash + Objects.hashCode(this.type);
-        hash = 97 * hash + Objects.hashCode(this.accessType);
+//        hash = 97 * hash + Objects.hashCode(this.accessType);
         hash = 97 * hash + Objects.hashCode(this.requisitions);
         return hash;
     }
@@ -110,13 +102,18 @@ public class RequisitionType implements Serializable {
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if (!Objects.equals(this.accessType, other.accessType)) {
-            return false;
-        }
+//        if (!Objects.equals(this.accessType, other.accessType)) {
+//            return false;
+//        }
         if (!Objects.equals(this.requisitions, other.requisitions)) {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "RequisitionType{" + "id=" + id + ", type=" + type + ", requisitions=" + requisitions + '}';
     }
 
 }

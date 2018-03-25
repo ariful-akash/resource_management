@@ -1,6 +1,5 @@
 package com.uiu.thesis.models.forum;
 
-import com.uiu.thesis.models.user.HumanResource;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -8,14 +7,11 @@ import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -40,14 +36,11 @@ public class Post implements Serializable {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date postTime;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private HumanResource poster;
-
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "posts_tags", joinColumns = {
-        @JoinColumn(name = "post_id")}, inverseJoinColumns = {
-        @JoinColumn(name = "tag_id")})
     private List<TagType> tags;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Comment> comments;
 
     /**
      * Constructor
@@ -84,14 +77,21 @@ public class Post implements Serializable {
         this.postTime = postTime;
     }
 
-    public HumanResource getPoster() {
-        return poster;
+    public List<Comment> getComments() {
+        return comments;
     }
 
-    public void setPoster(HumanResource poster) {
-        this.poster = poster;
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 
+//    public HumanResource getPoster() {
+//        return poster;
+//    }
+//
+//    public void setPoster(HumanResource poster) {
+//        this.poster = poster;
+//    }
     public List<TagType> getTags() {
         return tags;
     }
@@ -111,7 +111,7 @@ public class Post implements Serializable {
         hash = 97 * hash + Objects.hashCode(this.id);
         hash = 97 * hash + Objects.hashCode(this.contet);
         hash = 97 * hash + Objects.hashCode(this.postTime);
-        hash = 97 * hash + Objects.hashCode(this.poster);
+//        hash = 97 * hash + Objects.hashCode(this.poster);
         hash = 97 * hash + Objects.hashCode(this.tags);
         return hash;
     }
@@ -143,9 +143,12 @@ public class Post implements Serializable {
         if (!Objects.equals(this.postTime, other.postTime)) {
             return false;
         }
-        if (!Objects.equals(this.poster, other.poster)) {
+        if (!Objects.equals(this.comments, other.comments)) {
             return false;
         }
+//        if (!Objects.equals(this.poster, other.poster)) {
+//            return false;
+//        }
         if (!Objects.equals(this.tags, other.tags)) {
             return false;
         }
@@ -157,8 +160,12 @@ public class Post implements Serializable {
      *
      * @return
      */
+//    @Override
+//    public String toString() {
+//        return "Post{" + "id=" + id + ", contet=" + contet + ", postTime=" + postTime + ", poster=" + poster + ", tags=" + tags + '}';
+//    }
     @Override
     public String toString() {
-        return "Post{" + "id=" + id + ", contet=" + contet + ", postTime=" + postTime + ", poster=" + poster + ", tags=" + tags + '}';
+        return "Post{" + "id=" + id + ", contet=" + contet + ", postTime=" + postTime + ", tags=" + tags + ", tags=" + comments + '}';
     }
 }

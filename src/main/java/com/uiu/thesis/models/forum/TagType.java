@@ -34,7 +34,7 @@ public class TagType implements Serializable {
     @Column(name = "tag", nullable = false, unique = true)
     private String tag;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "tags", cascade = CascadeType.ALL)
     private List<Post> posts;
 
     /**

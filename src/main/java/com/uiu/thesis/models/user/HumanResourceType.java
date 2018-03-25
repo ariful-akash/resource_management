@@ -30,7 +30,7 @@ public class HumanResourceType implements Serializable {
     @Column(name = "resource_name", nullable = false, unique = true)
     private String resourceName;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "resourceType")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<HumanResource> humanResources;
 
     /**
@@ -113,13 +113,11 @@ public class HumanResourceType implements Serializable {
     }
 
     /**
-     * To string Method
      *
      * @return
      */
     @Override
     public String toString() {
-        return "HumanResourceType{" + "id=" + id + ", resourceType=" + resourceName + ", humanResources=" + humanResources + '}';
+        return "HumanResourceType{" + "id=" + id + ", resourceName=" + resourceName + ", humanResources=" + humanResources + '}';
     }
-
 }

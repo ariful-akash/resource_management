@@ -35,7 +35,7 @@ public class OfficeResourceType implements Serializable {
     @Column(name = "resource_type", nullable = false, unique = true)
     private String resourceType;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "resourceType")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<OfficeResource> officeResources;
 
     /**

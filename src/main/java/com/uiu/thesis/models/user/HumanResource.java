@@ -2,6 +2,7 @@ package com.uiu.thesis.models.user;
 
 import com.uiu.thesis.models.complaint.Complaint;
 import com.uiu.thesis.models.forum.Comment;
+import com.uiu.thesis.models.forum.CommentReply;
 import com.uiu.thesis.models.forum.Post;
 import com.uiu.thesis.models.requisition.Requisition;
 import java.io.Serializable;
@@ -17,7 +18,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -51,33 +51,36 @@ public class HumanResource implements Serializable {
     @Column(name = "phone", nullable = false)
     private String phone;
 
-    @Column(name = "department", nullable = false)
+    @Column(name = "department", nullable = true)
     private String department;
 
     @Lob
     @Column(name = "iamge", nullable = true)
     private byte[] image;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private HumanResourceType resourceType;
-
-    @OneToMany(mappedBy = "poster", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Post> posts;
 
-    @OneToMany(mappedBy = "commenter", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Comment> comments;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Role role;
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<CommentReply> commentReplys;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<AccessType> access;
 
-    @OneToMany(mappedBy = "requisitionCreator", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Requisition> requisitions;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Requisition> solvedRequisitions;
 
-    @OneToMany(mappedBy = "complaintCreator", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Complaint> complaints;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Requisition> createdRequisitions;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Complaint> solvedComplaints;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Complaint> createdComplaints;
 
     /**
      * Constructor
@@ -154,14 +157,6 @@ public class HumanResource implements Serializable {
         this.image = image;
     }
 
-    public HumanResourceType getResourceType() {
-        return resourceType;
-    }
-
-    public void setResourceType(HumanResourceType resourceType) {
-        this.resourceType = resourceType;
-    }
-
     public Set<Post> getPosts() {
         return posts;
     }
@@ -178,14 +173,6 @@ public class HumanResource implements Serializable {
         this.comments = comments;
     }
 
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
     public Set<AccessType> getAccess() {
         return access;
     }
@@ -194,20 +181,36 @@ public class HumanResource implements Serializable {
         this.access = access;
     }
 
-    public Set<Requisition> getRequisitions() {
-        return requisitions;
+    public Set<Requisition> getSolvedRequisitions() {
+        return solvedRequisitions;
     }
 
-    public void setRequisitions(Set<Requisition> requisitions) {
-        this.requisitions = requisitions;
+    public void setSolvedRequisitions(Set<Requisition> solvedRequisitions) {
+        this.solvedRequisitions = solvedRequisitions;
     }
 
-    public Set<Complaint> getComplaints() {
-        return complaints;
+    public Set<Requisition> getCreatedRequisitions() {
+        return createdRequisitions;
     }
 
-    public void setComplaints(Set<Complaint> complaints) {
-        this.complaints = complaints;
+    public void setCreatedRequisitions(Set<Requisition> createdRequisitions) {
+        this.createdRequisitions = createdRequisitions;
+    }
+
+    public Set<Complaint> getSolvedComplaints() {
+        return solvedComplaints;
+    }
+
+    public void setSolvedComplaints(Set<Complaint> solvedComplaints) {
+        this.solvedComplaints = solvedComplaints;
+    }
+
+    public Set<Complaint> getCreatedComplaints() {
+        return createdComplaints;
+    }
+
+    public void setCreatedComplaints(Set<Complaint> createdComplaints) {
+        this.createdComplaints = createdComplaints;
     }
 
     /**
@@ -217,22 +220,18 @@ public class HumanResource implements Serializable {
      */
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 19 * hash + Objects.hashCode(this.id);
-        hash = 19 * hash + Objects.hashCode(this.firstName);
-        hash = 19 * hash + Objects.hashCode(this.lastName);
-        hash = 19 * hash + Objects.hashCode(this.email);
-        hash = 19 * hash + Arrays.hashCode(this.password);
-        hash = 19 * hash + Objects.hashCode(this.phone);
-        hash = 19 * hash + Objects.hashCode(this.department);
-        hash = 19 * hash + Arrays.hashCode(this.image);
-        hash = 19 * hash + Objects.hashCode(this.resourceType);
-        hash = 19 * hash + Objects.hashCode(this.posts);
-        hash = 19 * hash + Objects.hashCode(this.comments);
-        hash = 19 * hash + Objects.hashCode(this.role);
-        hash = 19 * hash + Objects.hashCode(this.access);
-        hash = 19 * hash + Objects.hashCode(this.requisitions);
-        hash = 19 * hash + Objects.hashCode(this.complaints);
+        int hash = 3;
+        hash = 59 * hash + Objects.hashCode(this.id);
+        hash = 59 * hash + Objects.hashCode(this.firstName);
+        hash = 59 * hash + Objects.hashCode(this.lastName);
+        hash = 59 * hash + Objects.hashCode(this.email);
+        hash = 59 * hash + Arrays.hashCode(this.password);
+        hash = 59 * hash + Objects.hashCode(this.phone);
+        hash = 59 * hash + Objects.hashCode(this.department);
+        hash = 59 * hash + Arrays.hashCode(this.image);
+        hash = 59 * hash + Objects.hashCode(this.posts);
+        hash = 59 * hash + Objects.hashCode(this.comments);
+        hash = 59 * hash + Objects.hashCode(this.access);
         return hash;
     }
 
@@ -278,25 +277,13 @@ public class HumanResource implements Serializable {
         if (!Arrays.equals(this.image, other.image)) {
             return false;
         }
-        if (!Objects.equals(this.resourceType, other.resourceType)) {
-            return false;
-        }
         if (!Objects.equals(this.posts, other.posts)) {
             return false;
         }
         if (!Objects.equals(this.comments, other.comments)) {
             return false;
         }
-        if (!Objects.equals(this.role, other.role)) {
-            return false;
-        }
         if (!Objects.equals(this.access, other.access)) {
-            return false;
-        }
-        if (!Objects.equals(this.requisitions, other.requisitions)) {
-            return false;
-        }
-        if (!Objects.equals(this.complaints, other.complaints)) {
             return false;
         }
         return true;
@@ -309,6 +296,6 @@ public class HumanResource implements Serializable {
      */
     @Override
     public String toString() {
-        return "HumanResource{" + "id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", password=" + password + ", phone=" + phone + ", department=" + department + ", image=" + image + ", resourceType=" + resourceType + ", posts=" + posts + ", comments=" + comments + ", role=" + role + ", accessTypes=" + access + ", requisitions=" + requisitions + ", complaints=" + complaints + '}';
+        return "HumanResource{" + "id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", password=" + password + ", phone=" + phone + ", department=" + department + ", image=" + image + ", posts=" + posts + ", comments=" + comments + ", commentReplys=" + commentReplys + ", access=" + access + ", solvedRequisitions=" + solvedRequisitions + ", createdRequisitions=" + createdRequisitions + ", solvedComplaints=" + solvedComplaints + ", createdComplaints=" + createdComplaints + '}';
     }
 }

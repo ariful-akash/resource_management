@@ -1,16 +1,12 @@
 package com.uiu.thesis.models.complaint;
 
-import com.uiu.thesis.models.user.HumanResource;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -35,6 +31,10 @@ public class Complaint implements Serializable {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date complaintPlacingDate;
 
+    @Column(name = "complaint_solved_date", nullable = false)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date complaintSolvedDate;
+
     @Column(name = "description", length = 1000, nullable = false)
     private String description;
 
@@ -43,17 +43,6 @@ public class Complaint implements Serializable {
 
     @Column(name = "solved", nullable = false)
     private boolean isSolved;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "complaint_type_id")
-    private ComplaintType complaintType;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "complaint_creator_id")
-    private HumanResource complaintCreator;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    private HumanResource solver;
 
     /**
      * Constructor
@@ -114,30 +103,6 @@ public class Complaint implements Serializable {
         this.isSolved = isSolved;
     }
 
-    public ComplaintType getComplaintType() {
-        return complaintType;
-    }
-
-    public void setComplaintType(ComplaintType complaintType) {
-        this.complaintType = complaintType;
-    }
-
-    public HumanResource getComplaintCreator() {
-        return complaintCreator;
-    }
-
-    public void setComplaintCreator(HumanResource complaintCreator) {
-        this.complaintCreator = complaintCreator;
-    }
-
-    public HumanResource getSolver() {
-        return solver;
-    }
-
-    public void setSolver(HumanResource solver) {
-        this.solver = solver;
-    }
-
     @Override
     public int hashCode() {
         int hash = 7;
@@ -147,9 +112,6 @@ public class Complaint implements Serializable {
         hash = 67 * hash + Objects.hashCode(this.description);
         hash = 67 * hash + Objects.hashCode(this.remarks);
         hash = 67 * hash + (this.isSolved ? 1 : 0);
-        hash = 67 * hash + Objects.hashCode(this.complaintType);
-        hash = 67 * hash + Objects.hashCode(this.complaintCreator);
-        hash = 67 * hash + Objects.hashCode(this.solver);
         return hash;
     }
 
@@ -183,16 +145,16 @@ public class Complaint implements Serializable {
         if (!Objects.equals(this.complaintPlacingDate, other.complaintPlacingDate)) {
             return false;
         }
-        if (!Objects.equals(this.complaintType, other.complaintType)) {
-            return false;
-        }
-        if (!Objects.equals(this.complaintCreator, other.complaintCreator)) {
-            return false;
-        }
-        if (!Objects.equals(this.solver, other.solver)) {
-            return false;
-        }
         return true;
+    }
+
+    /**
+     *
+     * @return
+     */
+    @Override
+    public String toString() {
+        return "Complaint{" + "id=" + id + ", quantity=" + quantity + ", complaintPlacingDate=" + complaintPlacingDate + ", description=" + description + ", remarks=" + remarks + ", isSolved=" + isSolved + '}';
     }
 
 }

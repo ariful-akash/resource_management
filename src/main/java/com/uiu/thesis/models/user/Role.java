@@ -31,7 +31,7 @@ public class Role implements Serializable {
     @Column(name = "description", length = 50)
     private String role;
 
-    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<HumanResource> humanResources;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -85,8 +85,8 @@ public class Role implements Serializable {
         int hash = 7;
         hash = 97 * hash + Objects.hashCode(this.id);
         hash = 97 * hash + Objects.hashCode(this.role);
-        hash = 97 * hash + Objects.hashCode(this.accessTypes);
-        hash = 97 * hash + Objects.hashCode(this.humanResources);
+//        hash = 97 * hash + Objects.hashCode(this.accessTypes);
+//        hash = 97 * hash + Objects.hashCode(this.humanResources);
         return hash;
     }
 
