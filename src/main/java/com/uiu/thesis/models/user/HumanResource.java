@@ -7,6 +7,7 @@ import com.uiu.thesis.models.forum.Post;
 import com.uiu.thesis.models.requisition.Requisition;
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -178,7 +179,14 @@ public class HumanResource implements Serializable {
     }
 
     public void setAccess(Set<AccessType> access) {
-        this.access = access;
+
+        Set<AccessType> accessTypes = new HashSet<>();
+        for (AccessType acces : access) {
+
+            accessTypes.add(acces);
+        }
+
+        this.access = accessTypes;
     }
 
     public Set<Requisition> getSolvedRequisitions() {
