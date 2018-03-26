@@ -1,6 +1,7 @@
 package com.uiu.thesis.models.user;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -32,7 +33,7 @@ public class Role implements Serializable {
     private String role;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<HumanResource> humanResources;
+    private List<HumanResource> humanResources;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<AccessType> accessTypes;
@@ -72,11 +73,11 @@ public class Role implements Serializable {
         this.accessTypes = accessTypes;
     }
 
-    public Set<HumanResource> getHumanResources() {
+    public List<HumanResource> getHumanResources() {
         return humanResources;
     }
 
-    public void setHumanResources(Set<HumanResource> humanResources) {
+    public void setHumanResources(List<HumanResource> humanResources) {
         this.humanResources = humanResources;
     }
 
