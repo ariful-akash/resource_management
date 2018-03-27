@@ -59,28 +59,28 @@ public class HumanResource implements Serializable {
     @Column(name = "iamge", nullable = true)
     private byte[] image;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Post> posts;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Comment> comments;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<CommentReply> commentReplys;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<AccessType> access;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Requisition> solvedRequisitions;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Requisition> createdRequisitions;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Complaint> solvedComplaints;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Complaint> createdComplaints;
 
     /**
@@ -221,6 +221,14 @@ public class HumanResource implements Serializable {
         this.createdComplaints = createdComplaints;
     }
 
+    public Set<CommentReply> getCommentReplys() {
+        return commentReplys;
+    }
+
+    public void setCommentReplys(Set<CommentReply> commentReplys) {
+        this.commentReplys = commentReplys;
+    }
+
     /**
      * Hash method
      *
@@ -228,18 +236,14 @@ public class HumanResource implements Serializable {
      */
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 59 * hash + Objects.hashCode(this.id);
-        hash = 59 * hash + Objects.hashCode(this.firstName);
-        hash = 59 * hash + Objects.hashCode(this.lastName);
-        hash = 59 * hash + Objects.hashCode(this.email);
-        hash = 59 * hash + Arrays.hashCode(this.password);
-        hash = 59 * hash + Objects.hashCode(this.phone);
-        hash = 59 * hash + Objects.hashCode(this.department);
-        hash = 59 * hash + Arrays.hashCode(this.image);
-        hash = 59 * hash + Objects.hashCode(this.posts);
-        hash = 59 * hash + Objects.hashCode(this.comments);
-        hash = 59 * hash + Objects.hashCode(this.access);
+        int hash = 5;
+        hash = 83 * hash + Objects.hashCode(this.id);
+        hash = 83 * hash + Objects.hashCode(this.firstName);
+        hash = 83 * hash + Objects.hashCode(this.lastName);
+        hash = 83 * hash + Objects.hashCode(this.email);
+        hash = 83 * hash + Arrays.hashCode(this.password);
+        hash = 83 * hash + Objects.hashCode(this.phone);
+        hash = 83 * hash + Objects.hashCode(this.department);
         return hash;
     }
 
@@ -282,18 +286,6 @@ public class HumanResource implements Serializable {
         if (!Arrays.equals(this.password, other.password)) {
             return false;
         }
-        if (!Arrays.equals(this.image, other.image)) {
-            return false;
-        }
-        if (!Objects.equals(this.posts, other.posts)) {
-            return false;
-        }
-        if (!Objects.equals(this.comments, other.comments)) {
-            return false;
-        }
-        if (!Objects.equals(this.access, other.access)) {
-            return false;
-        }
         return true;
     }
 
@@ -304,6 +296,7 @@ public class HumanResource implements Serializable {
      */
     @Override
     public String toString() {
-        return "HumanResource{" + "id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", password=" + password + ", phone=" + phone + ", department=" + department + ", image=" + image + ", posts=" + posts + ", comments=" + comments + ", commentReplys=" + commentReplys + ", access=" + access + ", solvedRequisitions=" + solvedRequisitions + ", createdRequisitions=" + createdRequisitions + ", solvedComplaints=" + solvedComplaints + ", createdComplaints=" + createdComplaints + '}';
+        return "HumanResource{" + "id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", password=" + password + ", phone=" + phone + ", department=" + department + '}';
     }
+
 }

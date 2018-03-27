@@ -2,15 +2,11 @@ package com.uiu.thesis.models.user;
 
 import java.io.Serializable;
 import java.util.Objects;
-import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 /**
@@ -30,12 +26,11 @@ public class AccessType implements Serializable {
     @Column(name = "description")
     private String description;
 
-    @ManyToMany(mappedBy = "access", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<HumanResource> users;
-
-    @ManyToMany(mappedBy = "accessTypes", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Role> roles;
-
+//    @ManyToMany(mappedBy = "access", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    private List<HumanResource> users;
+//
+//    @ManyToMany(mappedBy = "accessTypes", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    private List<Role> roles;
     /**
      * Constructor
      */
@@ -63,28 +58,25 @@ public class AccessType implements Serializable {
         this.description = description;
     }
 
-    public Set<HumanResource> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Set<HumanResource> users) {
-        this.users = users;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
-
+//    public List<HumanResource> getUsers() {
+//        return users;
+//    }
+//
+//    public void setUsers(List<HumanResource> users) {
+//        this.users = users;
+//    }
+//    public List<Role> getRoles() {
+//        return roles;
+//    }
+//
+//    public void setRoles(List<Role> roles) {
+//        this.roles = roles;
+//    }
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 23 * hash + Objects.hashCode(this.id);
-        hash = 23 * hash + Objects.hashCode(this.description);
-//        hash = 23 * hash + Objects.hashCode(this.users);
+        int hash = 5;
+        hash = 83 * hash + Objects.hashCode(this.id);
+        hash = 83 * hash + Objects.hashCode(this.description);
         return hash;
     }
 
@@ -106,15 +98,12 @@ public class AccessType implements Serializable {
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if (!Objects.equals(this.users, other.users)) {
-            return false;
-        }
         return true;
     }
 
     @Override
     public String toString() {
-        return "AccessType{" + "id=" + id + ", description=" + description + ", users=" + users + '}';
+        return "AccessType{" + "id=" + id + ", description=" + description + '}';
     }
 
 }

@@ -1,7 +1,6 @@
 package com.uiu.thesis.models.user;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -33,7 +32,7 @@ public class Role implements Serializable {
     private String role;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<HumanResource> humanResources;
+    private Set<HumanResource> humanResources;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<AccessType> accessTypes;
@@ -73,21 +72,19 @@ public class Role implements Serializable {
         this.accessTypes = accessTypes;
     }
 
-    public List<HumanResource> getHumanResources() {
+    public Set<HumanResource> getHumanResources() {
         return humanResources;
     }
 
-    public void setHumanResources(List<HumanResource> humanResources) {
+    public void setHumanResources(Set<HumanResource> humanResources) {
         this.humanResources = humanResources;
     }
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 97 * hash + Objects.hashCode(this.id);
-        hash = 97 * hash + Objects.hashCode(this.role);
-//        hash = 97 * hash + Objects.hashCode(this.accessTypes);
-//        hash = 97 * hash + Objects.hashCode(this.humanResources);
+        int hash = 5;
+        hash = 53 * hash + Objects.hashCode(this.id);
+        hash = 53 * hash + Objects.hashCode(this.role);
         return hash;
     }
 
@@ -109,18 +106,12 @@ public class Role implements Serializable {
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if (!Objects.equals(this.accessTypes, other.accessTypes)) {
-            return false;
-        }
-        if (!Objects.equals(this.humanResources, other.humanResources)) {
-            return false;
-        }
         return true;
     }
 
     @Override
     public String toString() {
-        return "Role{" + "id=" + id + ", role=" + role + ", accessTypes=" + accessTypes + ", humanResources=" + humanResources + '}';
+        return "Role{" + "id=" + id + ", role=" + role + '}';
     }
 
 }

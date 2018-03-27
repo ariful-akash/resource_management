@@ -1,8 +1,8 @@
 package com.uiu.thesis.models.user;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,7 +31,7 @@ public class HumanResourceType implements Serializable {
     private String resourceName;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<HumanResource> humanResources;
+    private Set<HumanResource> humanResources;
 
     /**
      * Constructor
@@ -60,34 +60,22 @@ public class HumanResourceType implements Serializable {
         this.resourceName = resourceName;
     }
 
-    public List<HumanResource> getHumanResources() {
+    public Set<HumanResource> getHumanResources() {
         return humanResources;
     }
 
-    public void setHumanResources(List<HumanResource> humanResources) {
+    public void setHumanResources(Set<HumanResource> humanResources) {
         this.humanResources = humanResources;
     }
 
-    /**
-     * Hash method
-     *
-     * @return
-     */
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 37 * hash + Objects.hashCode(this.id);
-        hash = 37 * hash + Objects.hashCode(this.resourceName);
-        hash = 37 * hash + Objects.hashCode(this.humanResources);
+        hash = 47 * hash + Objects.hashCode(this.id);
+        hash = 47 * hash + Objects.hashCode(this.resourceName);
         return hash;
     }
 
-    /**
-     * Equals method
-     *
-     * @param obj
-     * @return
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -106,18 +94,12 @@ public class HumanResourceType implements Serializable {
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if (!Objects.equals(this.humanResources, other.humanResources)) {
-            return false;
-        }
         return true;
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public String toString() {
-        return "HumanResourceType{" + "id=" + id + ", resourceName=" + resourceName + ", humanResources=" + humanResources + '}';
+        return "HumanResourceType{" + "id=" + id + ", resourceName=" + resourceName + '}';
     }
+
 }
