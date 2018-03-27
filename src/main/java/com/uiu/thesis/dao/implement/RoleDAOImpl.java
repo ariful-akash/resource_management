@@ -6,6 +6,7 @@ import com.uiu.thesis.models.user.HumanResource;
 import com.uiu.thesis.models.user.Role;
 import java.util.List;
 import javax.transaction.Transactional;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,19 @@ public class RoleDAOImpl implements RoleDAO {
     public int updateRole(Role role) {
 
         Session session = sessionFactory.getCurrentSession();
-        session.update(role);
+
+        if (role != null && role.getId() != 0) {
+
+            try {
+
+                session.update(role);
+                return 1;
+            } catch (Exception e) {
+
+                return 0;
+            }
+        }
+
         return 0;
     }
 
@@ -108,6 +121,23 @@ public class RoleDAOImpl implements RoleDAO {
         List<Role> roles = session.createQuery(hql).list();
 
         return roles;
+    }
+
+    /**
+     *
+     * @param roleName
+     * @return
+     */
+    @Override
+    public Role getRoleByName(String roleName) {
+
+        Session session = sessionFactory.getCurrentSession();
+
+        String hql = "FROM Role role WHERE role.role = :roleName";
+        Query query = session.createQuery(hql);
+        query.setParameter("roleName", roleName);
+
+        return (Role) query.list().get(0);
     }
 
 }
