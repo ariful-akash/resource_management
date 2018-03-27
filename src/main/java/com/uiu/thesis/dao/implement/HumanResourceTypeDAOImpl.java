@@ -4,6 +4,7 @@ import com.uiu.thesis.dao.interfaces.HumanResourceTypeDAO;
 import com.uiu.thesis.models.user.HumanResourceType;
 import java.util.List;
 import javax.transaction.Transactional;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +36,23 @@ public class HumanResourceTypeDAOImpl implements HumanResourceTypeDAO {
     }
 
     @Override
-    public boolean updateHRType(HumanResourceType hrType) {
+    public int updateHRType(HumanResourceType hrType) {
 
-        return false;
+        Session session = sessionFactory.getCurrentSession();
+
+        if (hrType != null && hrType.getId() != 0) {
+
+            try {
+
+                session.update(hrType);
+                return 1;
+            } catch (Exception e) {
+
+                return 0;
+            }
+        }
+
+        return 0;
     }
 
     /**
@@ -68,6 +83,36 @@ public class HumanResourceTypeDAOImpl implements HumanResourceTypeDAO {
 
         Session session = sessionFactory.getCurrentSession();
         return (HumanResourceType) session.get(HumanResourceType.class, hrTypeId);
+    }
+
+    /**
+     *
+     * @param resourceName
+     * @return
+     */
+    @Override
+    public HumanResourceType getHumanResourceType(String resourceName) {
+
+        if (resourceName != null) {
+
+            Session session = sessionFactory.getCurrentSession();
+            HumanResourceType hrt = null;
+
+            String hql = "FROM HumanResourceType hrt WHERE hrt.resourceName = :resourceName";
+            Query query = session.createQuery(hql);
+            query.setParameter("resourceName", resourceName);
+
+            List resultList = query.list();
+
+            if (!resultList.isEmpty()) {
+
+                hrt = (HumanResourceType) resultList.get(0);
+            }
+
+            return hrt;
+        }
+
+        return null;
     }
 
 }

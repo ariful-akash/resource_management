@@ -11,9 +11,11 @@ public interface HumanResourceTypeDAO {
 
     public int addHRType(HumanResourceType hrType);
 
-    public boolean updateHRType(HumanResourceType hrType);
+    public int updateHRType(HumanResourceType hrType);
 
     public List<HumanResourceType> getAllHRType();
 
     public HumanResourceType getHumanResourceType(Long hrTypeId);
+
+    public HumanResourceType getHumanResourceType(String resourceName);
 }
