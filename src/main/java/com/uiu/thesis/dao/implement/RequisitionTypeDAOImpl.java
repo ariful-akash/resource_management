@@ -20,6 +20,11 @@ public class RequisitionTypeDAOImpl implements RequisitionTypeDAO {
     @Autowired(required = true)
     private SessionFactory sessionFactory;
 
+    /**
+     *
+     * @param requisitionType
+     * @return
+     */
     @Override
     public int addRequisitionType(RequisitionType requisitionType) {
 
@@ -29,10 +34,21 @@ public class RequisitionTypeDAOImpl implements RequisitionTypeDAO {
         return Integer.valueOf(ret.toString());
     }
 
+    /**
+     *
+     * @param reqTypeId
+     * @return
+     */
     @Override
     public RequisitionType getRequisitionTypeById(Long reqTypeId) {
-        Session session = sessionFactory.getCurrentSession();
-        return (RequisitionType) session.get(RequisitionType.class, reqTypeId);
+
+        if (reqTypeId > 0) {
+
+            Session session = sessionFactory.getCurrentSession();
+            return (RequisitionType) session.get(RequisitionType.class, reqTypeId);
+        }
+
+        return null;
     }
 
     @Override
