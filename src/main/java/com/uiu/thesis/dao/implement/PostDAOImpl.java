@@ -7,7 +7,6 @@ import com.uiu.thesis.models.user.HumanResource;
 import java.util.Date;
 import java.util.List;
 import javax.transaction.Transactional;
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,12 +105,13 @@ public class PostDAOImpl implements PostDAO {
     public List<Post> getAllPosts() {
 
         Session session = sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(Post.class);
+
+        String hql = "FROM Post";
 
         @SuppressWarnings("unchecked")
-        List<Post> post = criteria.list();
+        List<Post> posts = session.createQuery(hql).list();
 
-        return post;
+        return posts;
     }
 
     @Override
