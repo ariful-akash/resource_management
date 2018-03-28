@@ -36,9 +36,26 @@ public class AccessTypeDAOImpl implements AccessTypeDAO {
         return Integer.valueOf(id.toString());
     }
 
+    /**
+     *
+     * @param accessType
+     * @return
+     */
     @Override
     public int updateAccessType(AccessType accessType) {
 
+        if (accessType.getId() > 0) {
+
+            Session session = sessionFactory.getCurrentSession();
+            try {
+
+                session.update(accessType);
+                return 1;
+            } catch (Exception e) {
+
+                return 0;
+            }
+        }
         return 0;
     }
 
