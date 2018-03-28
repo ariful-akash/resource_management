@@ -59,17 +59,27 @@ public class AccessTypeDAOImpl implements AccessTypeDAO {
         return 0;
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     @Override
     public int updateAccessType(Long id) {
 
         AccessType accessType = getAccessType(id);
-        try {
+        if (accessType != null) {
 
-            return updateAccessType(accessType);
-        } catch (Exception e) {
+            try {
 
-            return 0;
+                return updateAccessType(accessType);
+            } catch (Exception e) {
+
+                return 0;
+            }
         }
+
+        return 0;
     }
 
     @Override
@@ -84,11 +94,21 @@ public class AccessTypeDAOImpl implements AccessTypeDAO {
         return 0;
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     @Override
     public AccessType getAccessType(Long id) {
 
-        Session session = sessionFactory.getCurrentSession();
-        return (AccessType) session.get(AccessType.class, id);
+        if (id > 0) {
+
+            Session session = sessionFactory.getCurrentSession();
+            return (AccessType) session.get(AccessType.class, id);
+        }
+
+        return null;
     }
 
     /**
