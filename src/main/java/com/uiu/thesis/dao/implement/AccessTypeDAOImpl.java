@@ -44,7 +44,7 @@ public class AccessTypeDAOImpl implements AccessTypeDAO {
     @Override
     public int updateAccessType(AccessType accessType) {
 
-        if (accessType.getId() > 0) {
+        if (accessType != null && accessType.getId() > 0) {
 
             Session session = sessionFactory.getCurrentSession();
             try {

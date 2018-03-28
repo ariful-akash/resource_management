@@ -89,7 +89,7 @@ public class HumanResourceDAOImpl implements HumanResourceDAO {
     @Override
     public int updateHumanResource(HumanResource hr) {
 
-        if (hr.getId() > 0) {
+        if (hr != null && hr.getId() > 0) {
 
             Session session = sessionFactory.getCurrentSession();
 

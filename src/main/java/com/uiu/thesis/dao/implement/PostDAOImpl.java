@@ -65,7 +65,7 @@ public class PostDAOImpl implements PostDAO {
     @Override
     public int updatePost(Post post) {
 
-        if (post.getId() > 0) {
+        if (post != null && post.getId() > 0) {
 
             Session session = sessionFactory.getCurrentSession();
             try {

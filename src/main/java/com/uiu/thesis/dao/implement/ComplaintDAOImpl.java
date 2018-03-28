@@ -43,7 +43,7 @@ public class ComplaintDAOImpl implements ComplaintDAO {
     @Override
     public int updateComplaint(Complaint complaint) {
 
-        if (complaint.getId() > 0) {
+        if (complaint != null && complaint.getId() > 0) {
 
             Session session = sessionFactory.getCurrentSession();
             try {
