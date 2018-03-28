@@ -30,13 +30,7 @@ public class ComplaintTypeDAOImpl implements ComplaintTypeDAO {
     }
 
     @Override
-    public int updateComplaintType(ComplaintType oldComplaintType, ComplaintType newComplaintType) {
-
-        return 0;
-    }
-
-    @Override
-    public int updateComplaintType(Long oldComplaintTypeId, ComplaintType newComplaintType) {
+    public int updateComplaintType(ComplaintType complaintType) {
 
         return 0;
     }
@@ -56,6 +50,18 @@ public class ComplaintTypeDAOImpl implements ComplaintTypeDAO {
         List<ComplaintType> complaintTypes = criteria.list();
 
         return complaintTypes;
+    }
+
+    @Override
+    public int deleteComplaintType(ComplaintType complaintType) {
+
+        return 0;
+    }
+
+    @Override
+    public int deleteComplaintType(Long id) {
+
+        return 0;
     }
 
 }

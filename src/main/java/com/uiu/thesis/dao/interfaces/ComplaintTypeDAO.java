@@ -11,9 +11,11 @@ public interface ComplaintTypeDAO {
 
     public int addComplaintType(ComplaintType complaintType);
 
-    public int updateComplaintType(ComplaintType oldComplaintType, ComplaintType newComplaintType);
+    public int updateComplaintType(ComplaintType complaintType);
 
-    public int updateComplaintType(Long oldComplaintTypeId, ComplaintType newComplaintType);
+    public int deleteComplaintType(ComplaintType complaintType);
+
+    public int deleteComplaintType(Long id);
 
     public List<ComplaintType> getComplaintTypes();
 }
