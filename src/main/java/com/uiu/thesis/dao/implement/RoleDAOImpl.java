@@ -61,14 +61,48 @@ public class RoleDAOImpl implements RoleDAO {
         return 0;
     }
 
+    /**
+     *
+     * @param roleId
+     * @param newDescription
+     * @return
+     */
     @Override
     public int editRoleDescription(Long roleId, String newDescription) {
+
+        Role role = getRoleById(roleId);
+
+        if (role != null) {
+
+            role.setRole(newDescription);
+            try {
+
+                updateRole(role);
+                return 1;
+            } catch (Exception e) {
+
+                return 0;
+            }
+        }
 
         return 0;
     }
 
+    /**
+     *
+     * @param role
+     * @param newDescription
+     * @return
+     */
     @Override
     public int editRoleDescription(Role role, String newDescription) {
+
+        long id = role.getId();
+
+        if (id > 0) {
+
+            return editRoleDescription(id, newDescription);
+        }
 
         return 0;
     }
