@@ -17,57 +17,58 @@ import org.springframework.stereotype.Repository;
 public class ComplaintDAOImpl implements ComplaintDAO {
 
     @Override
-    public boolean addComplaint(Complaint complaint) {
-
-        return false;
+    public int addComplaint(Complaint complaint) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public boolean updateComplaint(Complaint oldComplaint, Complaint newComplaint) {
-
-        return false;
+    public int updateComplaint(Complaint complaint) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public boolean updateComplaint(Long complaintId, Complaint newComplaint) {
-
-        return false;
+    public int deleteComplaint(Complaint complaint) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<Complaint> getComplaintsByType(ComplaintType complaintType) {
-
-        return null;
-    }
-
-    @Override
-    public List<Complaint> getComplaintsByComplainant(HumanResource complainant) {
-
-        return null;
-    }
-
-    @Override
-    public List<Complaint> getComplaintsByComplainant(Long complainantId) {
-
-        return null;
-    }
-
-    @Override
-    public List<Complaint> getComplaintsBySolver(HumanResource solver) {
-
-        return null;
-    }
-
-    @Override
-    public List<Complaint> getComplaintsBySolver(Long soverId) {
-
-        return null;
+    public int deleteComplaint(Long id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public Complaint getComplaint(Long complaintId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
-        return null;
+    @Override
+    public List<Complaint> getAllComplaints() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Complaint> getComplaintsByType(ComplaintType complaintType) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Complaint> getComplaintsByComplainant(HumanResource complainant) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Complaint> getComplaintsByComplainant(Long complainantId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Complaint> getComplaintsBySolver(HumanResource solver) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Complaint> getComplaintsBySolver(Long soverId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

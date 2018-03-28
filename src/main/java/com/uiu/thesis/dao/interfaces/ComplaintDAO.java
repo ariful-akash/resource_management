@@ -11,11 +11,17 @@ import java.util.List;
  */
 public interface ComplaintDAO {
 
-    public boolean addComplaint(Complaint complaint);
+    public int addComplaint(Complaint complaint);
 
-    public boolean updateComplaint(Complaint oldComplaint, Complaint newComplaint);
+    public int updateComplaint(Complaint complaint);
 
-    public boolean updateComplaint(Long complaintId, Complaint newComplaint);
+    public int deleteComplaint(Complaint complaint);
+
+    public int deleteComplaint(Long id);
+
+    public Complaint getComplaint(Long complaintId);
+
+    public List<Complaint> getAllComplaints();
 
     public List<Complaint> getComplaintsByType(ComplaintType complaintType);
 
@@ -26,6 +32,4 @@ public interface ComplaintDAO {
     public List<Complaint> getComplaintsBySolver(HumanResource solver);
 
     public List<Complaint> getComplaintsBySolver(Long soverId);
-
-    public Complaint getComplaint(Long complaintId);
 }
