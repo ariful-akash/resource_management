@@ -69,9 +69,21 @@ public class ComplaintDAOImpl implements ComplaintDAO {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param complaintId
+     * @return
+     */
     @Override
     public Complaint getComplaint(Long complaintId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        if (complaintId > 0) {
+
+            Session session = sessionFactory.getCurrentSession();
+            return (Complaint) session.get(Complaint.class, complaintId);
+        }
+
+        return null;
     }
 
     @Override
