@@ -25,33 +25,34 @@ public class PostDAOImpl implements PostDAO {
     private SessionFactory sessionFactory;
 
     @Override
-    public boolean addPost(Post post) {
+    public int addPost(Post post) {
 
-        return true;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public boolean editPost(Post oldPost, Post newPost) {
-
-        return true;
+    public int editPost(Post oldPost, Post newPost) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public boolean editPost(Long oldPostId, Post newPost) {
-
-        return true;
+    public int editPost(Long oldPostId, Post newPost) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public boolean deletePost(Post post) {
-
-        return true;
+    public int deletePost(Post post) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public boolean deletePost(Long postId) {
+    public int deletePost(Long postId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
-        return true;
+    @Override
+    public int updatePost(Post post) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -75,38 +76,32 @@ public class PostDAOImpl implements PostDAO {
 
     @Override
     public List<Post> getPostsByPoster(HumanResource poster) {
-
-        return null;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public List<Post> getPostsByPoster(Long posterId) {
-
-        return null;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public List<Post> getPostsByDate(Date from, Date to) {
-
-        return null;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public List<Post> getPostsByDate(Date from) {
-
-        return null;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public List<Post> getPostsByTagType(TagType tagType) {
-
-        return null;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public List<Post> getPostsByTagTypes(List<TagType> tagTypes) {
-
-        return null;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

@@ -12,15 +12,17 @@ import java.util.List;
  */
 public interface PostDAO {
 
-    public boolean addPost(Post post);
+    public int addPost(Post post);
 
-    public boolean editPost(Post oldPost, Post newPost);
+    public int editPost(Post oldPost, Post newPost);
 
-    public boolean editPost(Long oldPostId, Post newPost);
+    public int editPost(Long oldPostId, Post newPost);
 
-    public boolean deletePost(Post post);
+    public int deletePost(Post post);
 
-    public boolean deletePost(Long postId);
+    public int deletePost(Long postId);
+
+    public int updatePost(Post post);
 
     public Post getPostById(Long postId);
 
