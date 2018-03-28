@@ -31,9 +31,9 @@ public interface HumanResourceDAO {
 
     public List<HumanResource> getAllHumanResources();
 
-    public List<HumanResource> getHumanResources(HumanResourceType hrType);
+    public List<HumanResource> getHumanResourcesByHRType(Long hrTypeId);
 
-    public List<HumanResource> getHumanResources(Role role);
+    public List<HumanResource> getHumanResourcesByRole(Long roleId);
 
-    public List<HumanResource> getHumanResources(Long accessTypeId);
+    public List<HumanResource> getHumanResourcesByAccessType(Long accessTypeId);
 }

@@ -33,6 +33,44 @@ public class HumanResourceDAOImpl implements HumanResourceDAO {
 
     /**
      *
+     * @param sqlQuery
+     * @return
+     */
+    private List<HumanResource> makeHRBySQLQuery(String sqlQuery) {
+
+        Session session = sessionFactory.getCurrentSession();
+
+        SQLQuery query = session.createSQLQuery(sqlQuery);
+        query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+        List results = query.list();
+
+        List<HumanResource> humanResources = new ArrayList<>();
+
+        for (Object result : results) {
+
+            HumanResource hr = new HumanResource();
+            Map row = (Map) result;
+
+            BigInteger idInt = (BigInteger) row.get("id");
+            long idlong = idInt.longValue();
+
+            hr.setId(idlong);
+            hr.setFirstName((String) row.get("first_name"));
+            hr.setLastName((String) row.get("name_name"));
+            hr.setEmail((String) row.get("email"));
+            hr.setPassword((byte[]) row.get("password"));
+            hr.setDepartment((String) row.get("department"));
+            hr.setPhone((String) row.get("phone"));
+            hr.setImage((byte[]) row.get("image"));
+
+            humanResources.add(hr);
+        }
+
+        return humanResources;
+    }
+
+    /**
+     *
      * @param hr
      * @return
      */
@@ -80,80 +118,6 @@ public class HumanResourceDAOImpl implements HumanResourceDAO {
         Query query = session.createQuery(hql);
 
         return query.list();
-    }
-
-    /**
-     *
-     * @param hrType
-     * @return
-     */
-    @Override
-    public List<HumanResource> getHumanResources(HumanResourceType hrType) {
-
-        return null;
-    }
-
-    /**
-     *
-     * @param role
-     * @return
-     */
-    @Override
-    public List<HumanResource> getHumanResources(Role role) {
-
-        return null;
-    }
-
-    /**
-     *
-     * @param accessTypeId
-     * @return
-     */
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<HumanResource> getHumanResources(Long accessTypeId) {
-
-        long id = accessTypeId;
-
-        if (id > 0) {
-
-            Session session = sessionFactory.getCurrentSession();
-
-            String sql = "select * from human_resources "
-                    + "where id in ( "
-                    + "select human_resources_id from human_resources_access_types "
-                    + "where access_id = " + id + ")";
-
-            SQLQuery query = session.createSQLQuery(sql);
-            query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
-            List results = query.list();
-
-            List<HumanResource> humanResources = new ArrayList<>();
-
-            for (Object result : results) {
-
-                HumanResource hr = new HumanResource();
-                Map row = (Map) result;
-
-                BigInteger idInt = (BigInteger) row.get("id");
-                long idlong = idInt.longValue();
-
-                hr.setId(idlong);
-                hr.setFirstName((String) row.get("first_name"));
-                hr.setLastName((String) row.get("name_name"));
-                hr.setEmail((String) row.get("email"));
-                hr.setPassword((byte[]) row.get("password"));
-                hr.setDepartment((String) row.get("department"));
-                hr.setPhone((String) row.get("phone"));
-                hr.setImage((byte[]) row.get("image"));
-
-                humanResources.add(hr);
-            }
-
-            return humanResources;
-        }
-
-        return null;
     }
 
     /**
@@ -239,4 +203,71 @@ public class HumanResourceDAOImpl implements HumanResourceDAO {
         return humanResource;
     }
 
+    /**
+     *
+     * @param hrTypeId
+     * @return
+     */
+    @Override
+    public List<HumanResource> getHumanResourcesByHRType(Long hrTypeId) {
+
+        long id = hrTypeId;
+
+        if (id > 0) {
+
+            String sql = "select * from human_resources "
+                    + "where id in ( "
+                    + "select humanResources_id from human_resource_types_human_resources "
+                    + "where human_resource_type_id = " + id + ")";
+
+            return makeHRBySQLQuery(sql);
+        }
+        return null;
+    }
+
+    /**
+     *
+     * @param roleId
+     * @return
+     */
+    @Override
+    public List<HumanResource> getHumanResourcesByRole(Long roleId) {
+
+        long id = roleId;
+
+        if (id > 0) {
+
+            String sql = "select * from human_resources "
+                    + "where id in ( "
+                    + "select humanResources_id from roles_human_resources "
+                    + "where roles_id = " + id + ")";
+
+            return makeHRBySQLQuery(sql);
+        }
+
+        return null;
+    }
+
+    /**
+     *
+     * @param accessTypeId
+     * @return
+     */
+    @Override
+    public List<HumanResource> getHumanResourcesByAccessType(Long accessTypeId) {
+
+        long id = accessTypeId;
+
+        if (id > 0) {
+
+            String sql = "select * from human_resources "
+                    + "where id in ( "
+                    + "select human_resources_id from human_resources_access_types "
+                    + "where access_id = " + id + ")";
+
+            return makeHRBySQLQuery(sql);
+        }
+
+        return null;
+    }
 }
