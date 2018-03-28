@@ -6,7 +6,6 @@ import com.uiu.thesis.models.user.HumanResource;
 import java.util.Date;
 import java.util.List;
 import javax.transaction.Transactional;
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +22,21 @@ public class DBAccessLogDAOImpl implements DBAccessLogDAO {
     @Autowired
     private SessionFactory sessionFactory;
 
+    /**
+     *
+     * @param accessLog
+     * @return
+     */
     @Override
-    public boolean addDBAccesslog(DBAccessLog accessLog) {
+    public int addDBAccesslog(DBAccessLog accessLog) {
 
-        return false;
+        Session session = sessionFactory.getCurrentSession();
+        Long id = (Long) session.save(accessLog);
+
+        return Integer.valueOf(id.toString());
     }
 
     /**
-     * Read all the DBaccess Log from "db_access_logs" table
      *
      * @return
      */
@@ -38,42 +44,48 @@ public class DBAccessLogDAOImpl implements DBAccessLogDAO {
     public List<DBAccessLog> getAllDBAccessLogs() {
 
         Session session = sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(DBAccessLog.class);
+        String hql = "FROM DBAccessLog";
 
         @SuppressWarnings("unchecked")
-        List<DBAccessLog> dBAccessLogs = criteria.list();
+        List<DBAccessLog> dbLogs = session.createQuery(hql).list();
 
-        return dBAccessLogs;
+        return dbLogs;
+    }
+
+    /**
+     *
+     * @param dbLogId
+     * @return
+     */
+    @Override
+    public DBAccessLog getDBAccessLog(Long dbLogId) {
+
+        if (dbLogId > 0) {
+
+            Session session = sessionFactory.getCurrentSession();
+            return (DBAccessLog) session.get(DBAccessLog.class, dbLogId);
+        }
+
+        return null;
     }
 
     @Override
     public List<DBAccessLog> getDBAccessLogsByUser(HumanResource user) {
-
-        return null;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public List<DBAccessLog> getDBAccessLogsByUser(Long userId) {
-
-        return null;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public List<DBAccessLog> getDBAccessLogsByDate(Date from) {
-
-        return null;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public List<DBAccessLog> getDBAccessLogsByDate(Date from, Date to) {
-
-        return null;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-    @Override
-    public DBAccessLog getDBAccessLog(Long dbLogId) {
-
-        return null;
-    }
-
 }

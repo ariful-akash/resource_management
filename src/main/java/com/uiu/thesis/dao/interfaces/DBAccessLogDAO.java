@@ -11,9 +11,11 @@ import java.util.List;
  */
 public interface DBAccessLogDAO {
 
-    public boolean addDBAccesslog(DBAccessLog accessLog);
+    public int addDBAccesslog(DBAccessLog accessLog);
 
     public List<DBAccessLog> getAllDBAccessLogs();
+
+    public DBAccessLog getDBAccessLog(Long dbLogId);
 
     public List<DBAccessLog> getDBAccessLogsByUser(HumanResource user);
 
@@ -23,5 +25,4 @@ public interface DBAccessLogDAO {
 
     public List<DBAccessLog> getDBAccessLogsByDate(Date from, Date to);
 
-    public DBAccessLog getDBAccessLog(Long dbLogId);
 }
