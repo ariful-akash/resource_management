@@ -30,15 +30,15 @@ public class ComplaintTypeDAOImpl implements ComplaintTypeDAO {
     }
 
     @Override
-    public boolean updateComplaintType(ComplaintType oldComplaintType, ComplaintType newComplaintType) {
+    public int updateComplaintType(ComplaintType oldComplaintType, ComplaintType newComplaintType) {
 
-        return false;
+        return 0;
     }
 
     @Override
-    public boolean updateComplaintType(Long oldComplaintTypeId, ComplaintType newComplaintType) {
+    public int updateComplaintType(Long oldComplaintTypeId, ComplaintType newComplaintType) {
 
-        return false;
+        return 0;
     }
 
     /**

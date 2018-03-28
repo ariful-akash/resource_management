@@ -11,9 +11,9 @@ public interface ComplaintTypeDAO {
 
     public int addComplaintType(ComplaintType complaintType);
 
-    public boolean updateComplaintType(ComplaintType oldComplaintType, ComplaintType newComplaintType);
+    public int updateComplaintType(ComplaintType oldComplaintType, ComplaintType newComplaintType);
 
-    public boolean updateComplaintType(Long oldComplaintTypeId, ComplaintType newComplaintType);
+    public int updateComplaintType(Long oldComplaintTypeId, ComplaintType newComplaintType);
 
     public List<ComplaintType> getComplaintTypes();
 }
