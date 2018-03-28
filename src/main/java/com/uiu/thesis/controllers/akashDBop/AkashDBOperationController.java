@@ -99,7 +99,6 @@ public class AkashDBOperationController {
         or.setFloor("2nd");
         or.setQuantity(1);
         or.setRoom("405");
-        or.setResourceType(orTypeDAO.getOfficeResourceType((long) 2));
         id = orDAO.addOfficeResource(or);
 
         if (id != 0) {
@@ -132,7 +131,6 @@ public class AkashDBOperationController {
         for (String type : comTypes) {
 
             comType.setType(type);
-            comType.setAccessType(accTypeDAO.getAccessType((long) 2));
             id = comTypeDAO.addComplaintType(comType);
 
         }
@@ -166,7 +164,6 @@ public class AkashDBOperationController {
         for (String type : reqTypes) {
 
             reqType.setType(type);
-            reqType.setAccessType(accTypeDAO.getAccessType((long) 3));
             id = reqTypeDAO.addRequisitionType(reqType);
 
         }
