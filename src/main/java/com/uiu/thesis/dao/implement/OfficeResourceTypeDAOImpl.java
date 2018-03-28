@@ -4,7 +4,6 @@ import com.uiu.thesis.dao.interfaces.OfficeResourceTypeDAO;
 import com.uiu.thesis.models.object_resource.OfficeResourceType;
 import java.util.List;
 import javax.transaction.Transactional;
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,7 @@ public class OfficeResourceTypeDAOImpl implements OfficeResourceTypeDAO {
     /**
      * Insert an office resource type object into database
      *
-     * @param
+     * @param officeResourceType
      * @return
      */
     @Override
@@ -63,14 +62,19 @@ public class OfficeResourceTypeDAOImpl implements OfficeResourceTypeDAO {
     /**
      * Read an object of OfficeResourceType from database by the id(primary key)
      *
-     * @param
+     * @param typeId
      * @return
      */
     @Override
     public OfficeResourceType getOfficeResourceType(Long typeId) {
 
-        Session session = sessionFactory.getCurrentSession();
-        return (OfficeResourceType) session.get(OfficeResourceType.class, typeId);
+        if (typeId > 0) {
+
+            Session session = sessionFactory.getCurrentSession();
+            return (OfficeResourceType) session.get(OfficeResourceType.class, typeId);
+        }
+
+        return null;
     }
 
     /**
@@ -82,10 +86,10 @@ public class OfficeResourceTypeDAOImpl implements OfficeResourceTypeDAO {
     public List<OfficeResourceType> getAllOfficeResourceTypes() {
 
         Session session = sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(OfficeResourceType.class);
+        String hql = "FROM OfficeResourceType";
 
         @SuppressWarnings("unchecked")
-        List<OfficeResourceType> orType = criteria.list();
+        List<OfficeResourceType> orType = session.createQuery(hql).list();
 
         return orType;
     }
