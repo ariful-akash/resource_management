@@ -5,11 +5,16 @@ import com.uiu.thesis.models.user.AccessType;
 import com.uiu.thesis.models.user.HumanResource;
 import com.uiu.thesis.models.user.HumanResourceType;
 import com.uiu.thesis.models.user.Role;
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import javax.transaction.Transactional;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,20 +82,76 @@ public class HumanResourceDAOImpl implements HumanResourceDAO {
         return query.list();
     }
 
+    /**
+     *
+     * @param hrType
+     * @return
+     */
     @Override
     public List<HumanResource> getHumanResources(HumanResourceType hrType) {
 
         return null;
     }
 
+    /**
+     *
+     * @param role
+     * @return
+     */
     @Override
     public List<HumanResource> getHumanResources(Role role) {
 
         return null;
     }
 
+    /**
+     *
+     * @param accessTypeId
+     * @return
+     */
     @Override
-    public List<HumanResource> getHumanResources(AccessType accessType) {
+    @SuppressWarnings("unchecked")
+    public List<HumanResource> getHumanResources(Long accessTypeId) {
+
+        long id = accessTypeId;
+
+        if (id > 0) {
+
+            Session session = sessionFactory.getCurrentSession();
+
+            String sql = "select * from human_resources "
+                    + "where id in ( "
+                    + "select human_resources_id from human_resources_access_types "
+                    + "where access_id = " + id + ")";
+
+            SQLQuery query = session.createSQLQuery(sql);
+            query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+            List results = query.list();
+
+            List<HumanResource> humanResources = new ArrayList<>();
+
+            for (Object result : results) {
+
+                HumanResource hr = new HumanResource();
+                Map row = (Map) result;
+
+                BigInteger idInt = (BigInteger) row.get("id");
+                long idlong = idInt.longValue();
+
+                hr.setId(idlong);
+                hr.setFirstName((String) row.get("first_name"));
+                hr.setLastName((String) row.get("name_name"));
+                hr.setEmail((String) row.get("email"));
+                hr.setPassword((byte[]) row.get("password"));
+                hr.setDepartment((String) row.get("department"));
+                hr.setPhone((String) row.get("phone"));
+                hr.setImage((byte[]) row.get("image"));
+
+                humanResources.add(hr);
+            }
+
+            return humanResources;
+        }
 
         return null;
     }
