@@ -21,6 +21,11 @@ public class ComplaintTypeDAOImpl implements ComplaintTypeDAO {
     @Autowired(required = true)
     private SessionFactory sessionFactory;
 
+    /**
+     *
+     * @param complaintType
+     * @return
+     */
     @Override
     public int addComplaintType(ComplaintType complaintType) {
 
@@ -29,8 +34,26 @@ public class ComplaintTypeDAOImpl implements ComplaintTypeDAO {
         return Integer.valueOf(ret.toString());
     }
 
+    /**
+     *
+     * @param complaintType
+     * @return
+     */
     @Override
     public int updateComplaintType(ComplaintType complaintType) {
+
+        if (complaintType.getId() > 0) {
+
+            Session session = sessionFactory.getCurrentSession();
+            try {
+
+                session.update(complaintType);
+                return 1;
+            } catch (Exception e) {
+
+                return 0;
+            }
+        }
 
         return 0;
     }
