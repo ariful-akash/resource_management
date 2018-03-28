@@ -99,10 +99,13 @@ public class RoleDAOImpl implements RoleDAO {
     @Override
     public Role getRoleById(Long roleId) {
 
-        Session session = sessionFactory.getCurrentSession();
-        Role role = (Role) session.get(Role.class, roleId);
+        if (roleId > 0) {
 
-        return role;
+            Session session = sessionFactory.getCurrentSession();
+            return (Role) session.get(Role.class, roleId);
+        }
+
+        return null;
     }
 
     /**
