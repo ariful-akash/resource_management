@@ -62,7 +62,14 @@ public class AccessTypeDAOImpl implements AccessTypeDAO {
     @Override
     public int updateAccessType(Long id) {
 
-        return 0;
+        AccessType accessType = getAccessType(id);
+        try {
+
+            return updateAccessType(accessType);
+        } catch (Exception e) {
+
+            return 0;
+        }
     }
 
     @Override
