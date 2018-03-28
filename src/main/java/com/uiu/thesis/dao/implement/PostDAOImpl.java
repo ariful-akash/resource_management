@@ -24,6 +24,11 @@ public class PostDAOImpl implements PostDAO {
     @Autowired(required = true)
     private SessionFactory sessionFactory;
 
+    /**
+     *
+     * @param post
+     * @return
+     */
     @Override
     public int addPost(Post post) {
 
@@ -53,9 +58,27 @@ public class PostDAOImpl implements PostDAO {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param post
+     * @return
+     */
     @Override
     public int updatePost(Post post) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        if (post.getId() > 0) {
+
+            Session session = sessionFactory.getCurrentSession();
+            try {
+
+                session.update(post);
+                return 1;
+            } catch (Exception e) {
+
+                return 0;
+            }
+        }
+        return 0;
     }
 
     @Override
