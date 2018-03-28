@@ -3,6 +3,7 @@ package com.uiu.thesis.dao.implement;
 import com.uiu.thesis.dao.interfaces.RequisitionTypeDAO;
 import com.uiu.thesis.models.requisition.RequisitionType;
 import com.uiu.thesis.models.user.AccessType;
+import java.util.List;
 import javax.transaction.Transactional;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -51,6 +52,15 @@ public class RequisitionTypeDAOImpl implements RequisitionTypeDAO {
         return null;
     }
 
+    /**
+     *
+     * @return
+     */
+    @Override
+    public List<RequisitionType> getAllRequisitionTypes() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     @Override
     public RequisitionType getRequisitionTypeByAccessType(AccessType accessType) {
 
@@ -62,5 +72,4 @@ public class RequisitionTypeDAOImpl implements RequisitionTypeDAO {
 
         return null;
     }
-
 }
