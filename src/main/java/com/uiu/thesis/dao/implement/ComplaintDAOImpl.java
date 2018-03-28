@@ -35,9 +35,28 @@ public class ComplaintDAOImpl implements ComplaintDAO {
         return Integer.valueOf(id.toString());
     }
 
+    /**
+     *
+     * @param complaint
+     * @return
+     */
     @Override
     public int updateComplaint(Complaint complaint) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        if (complaint.getId() > 0) {
+
+            Session session = sessionFactory.getCurrentSession();
+            try {
+
+                session.update(complaint);
+                return 1;
+            } catch (Exception e) {
+
+                return 0;
+            }
+        }
+
+        return 0;
     }
 
     @Override
