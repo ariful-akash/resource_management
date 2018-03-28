@@ -27,7 +27,10 @@ public class PostDAOImpl implements PostDAO {
     @Override
     public int addPost(Post post) {
 
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Session session = sessionFactory.getCurrentSession();
+        Long id = (Long) session.save(post);
+
+        return Integer.valueOf(id.toString());
     }
 
     @Override
