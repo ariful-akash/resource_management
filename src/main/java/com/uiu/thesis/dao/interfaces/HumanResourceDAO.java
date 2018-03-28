@@ -15,7 +15,7 @@ public interface HumanResourceDAO {
 
     public int addHumanResource(HumanResource hr);
 
-    public int updateHumanResource(HumanResource oldHr, HumanResource newHr);
+    public int updateHumanResource(HumanResource hr);
 
     public int updateHumanResource(HumanResource hr, Role role);
 

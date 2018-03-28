@@ -81,8 +81,27 @@ public class HumanResourceDAOImpl implements HumanResourceDAO {
         return Integer.valueOf(id.toString());
     }
 
+    /**
+     *
+     * @param hr
+     * @return
+     */
     @Override
-    public int updateHumanResource(HumanResource oldHr, HumanResource newHr) {
+    public int updateHumanResource(HumanResource hr) {
+
+        if (hr.getId() > 0) {
+
+            Session session = sessionFactory.getCurrentSession();
+
+            try {
+
+                session.update(hr);
+                return 1;
+            } catch (Exception e) {
+
+                return 0;
+            }
+        }
 
         return 0;
     }
