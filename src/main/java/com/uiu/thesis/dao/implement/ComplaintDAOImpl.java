@@ -86,9 +86,20 @@ public class ComplaintDAOImpl implements ComplaintDAO {
         return null;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public List<Complaint> getAllComplaints() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        Session session = sessionFactory.getCurrentSession();
+        String hql = "FROM Complaint";
+
+        @SuppressWarnings("unchecked")
+        List<Complaint> complaints = session.createQuery(hql).list();
+
+        return complaints;
     }
 
     @Override
