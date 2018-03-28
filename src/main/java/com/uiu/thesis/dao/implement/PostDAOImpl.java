@@ -81,13 +81,27 @@ public class PostDAOImpl implements PostDAO {
         return 0;
     }
 
+    /**
+     *
+     * @param postId
+     * @return
+     */
     @Override
     public Post getPostById(Long postId) {
 
-        Session session = sessionFactory.getCurrentSession();
-        return (Post) session.get(Package.class, postId);
+        if (postId > 0) {
+
+            Session session = sessionFactory.getCurrentSession();
+            return (Post) session.get(Package.class, postId);
+        }
+
+        return null;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public List<Post> getAllPosts() {
 
