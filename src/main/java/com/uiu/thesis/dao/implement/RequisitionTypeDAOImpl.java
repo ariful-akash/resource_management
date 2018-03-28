@@ -58,7 +58,15 @@ public class RequisitionTypeDAOImpl implements RequisitionTypeDAO {
      */
     @Override
     public List<RequisitionType> getAllRequisitionTypes() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        Session session = sessionFactory.getCurrentSession();
+
+        String hql = "FROM RequisitionType";
+
+        @SuppressWarnings("unchecked")
+        List<RequisitionType> requisitionTypes = session.createQuery(hql).list();
+
+        return requisitionTypes;
     }
 
     @Override
