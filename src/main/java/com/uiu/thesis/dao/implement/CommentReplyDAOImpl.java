@@ -35,9 +35,27 @@ public class CommentReplyDAOImpl implements CommentReplyDAO {
         return Integer.valueOf(id.toString());
     }
 
+    /**
+     *
+     * @param commentReply
+     * @return
+     */
     @Override
     public int updateCommentReply(CommentReply commentReply) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        if (commentReply.getId() > 0) {
+
+            Session session = sessionFactory.getCurrentSession();
+            try {
+
+                session.update(commentReply);
+                return 1;
+            } catch (Exception e) {
+
+                return 0;
+            }
+        }
+        return 0;
     }
 
     @Override
