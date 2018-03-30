@@ -16,51 +16,43 @@ import org.springframework.stereotype.Repository;
 public class CommentDAOImpl implements CommentDAO {
 
     @Override
-    public boolean addComment(Post post, Comment comment) {
-
-        return false;
+    public int addComment(Post post, Comment comment) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public boolean addComment(Long postId, Comment comment) {
-
-        return false;
+    public int addComment(Long postId, Comment comment) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public boolean editComment(Long oldId, String newContent) {
-
-        return false;
+    public int editComment(Long oldId, String newContent) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public boolean deleteComment(Comment comment) {
-
-        return false;
+    public int deleteComment(Comment comment) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public boolean deleteComment(Long commentId) {
-
-        return false;
+    public int deleteComment(Long commentId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public List<Comment> getAllComments(Post post) {
-
-        return null;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public List<Comment> getAllComments(Long postId) {
-
-        return null;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public Comment getComment(Long commentId) {
-
-        return null;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
