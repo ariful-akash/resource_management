@@ -35,9 +35,28 @@ public class CommentDAOImpl implements CommentDAO {
         return Integer.valueOf(id.toString());
     }
 
+    /**
+     *
+     * @param comment
+     * @return
+     */
     @Override
     public int updateComment(Comment comment) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        if (comment.getId() > 0) {
+
+            Session session = sessionFactory.getCurrentSession();
+            try {
+
+                session.update(comment);
+                return 1;
+            } catch (Exception e) {
+
+                return 0;
+            }
+        }
+
+        return 0;
     }
 
     @Override
