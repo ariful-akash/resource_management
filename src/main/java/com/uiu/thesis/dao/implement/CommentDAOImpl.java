@@ -69,9 +69,21 @@ public class CommentDAOImpl implements CommentDAO {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param commentId
+     * @return
+     */
     @Override
     public Comment getComment(Long commentId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        if (commentId > 0) {
+
+            Session session = sessionFactory.getCurrentSession();
+            return (Comment) session.get(Comment.class, commentId);
+        }
+
+        return null;
     }
 
     @Override
