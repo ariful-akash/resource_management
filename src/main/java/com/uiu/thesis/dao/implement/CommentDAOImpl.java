@@ -96,9 +96,20 @@ public class CommentDAOImpl implements CommentDAO {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public List<Comment> getAllComments() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        Session session = sessionFactory.getCurrentSession();
+        String hql = "FROM Comment";
+
+        @SuppressWarnings("unchecked")
+        List<Comment> comments = session.createQuery(hql).list();
+
+        return comments;
     }
 
 }
