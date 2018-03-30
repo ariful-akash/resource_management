@@ -16,17 +16,12 @@ import org.springframework.stereotype.Repository;
 public class CommentDAOImpl implements CommentDAO {
 
     @Override
-    public int addComment(Post post, Comment comment) {
+    public int addComment(Comment comment) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public int addComment(Long postId, Comment comment) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public int editComment(Long oldId, String newContent) {
+    public int updateComment(Comment comment) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -41,6 +36,11 @@ public class CommentDAOImpl implements CommentDAO {
     }
 
     @Override
+    public Comment getComment(Long commentId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
     public List<Comment> getAllComments(Post post) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -51,7 +51,7 @@ public class CommentDAOImpl implements CommentDAO {
     }
 
     @Override
-    public Comment getComment(Long commentId) {
+    public List<Comment> getAllComments() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

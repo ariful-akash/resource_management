@@ -15,11 +15,9 @@ import java.util.List;
  */
 public interface CommentDAO {
 
-    public int addComment(Post post, Comment comment);
+    public int addComment(Comment comment);
 
-    public int addComment(Long postId, Comment comment);
-
-    public int editComment(Long oldId, String newContent);
+    public int updateComment(Comment comment);
 
     public int deleteComment(Comment comment);
 
@@ -28,6 +26,8 @@ public interface CommentDAO {
     public List<Comment> getAllComments(Post post);
 
     public List<Comment> getAllComments(Long postId);
+
+    public List<Comment> getAllComments();
 
     public Comment getComment(Long commentId);
 }
