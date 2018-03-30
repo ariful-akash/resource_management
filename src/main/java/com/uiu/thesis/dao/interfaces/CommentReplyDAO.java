@@ -10,17 +10,13 @@ import java.util.List;
  */
 public interface CommentReplyDAO {
 
-    public boolean addCommentReply(CommentReply commentReply, Comment comment);
+    public int addCommentReply(CommentReply commentReply);
 
-    public boolean addCommentReply(CommentReply commentReply, Long commentId);
+    public int updateCommentReply(CommentReply commentReply);
 
-    public boolean editCommentReply(CommentReply oldCommentReply, String newContent);
+    public int deleteCommentReply(CommentReply commentReply);
 
-    public boolean editCommentReply(Long oldReplyId, String newContent);
-
-    public boolean deleteCommentReply(CommentReply commentReply);
-
-    public boolean deleteCommentReply(Long id);
+    public int deleteCommentReply(Long id);
 
     public List<CommentReply> getAllCommentReplys(Comment comment);
 

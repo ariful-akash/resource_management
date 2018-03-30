@@ -16,57 +16,37 @@ import org.springframework.stereotype.Repository;
 public class CommentReplyDAOImpl implements CommentReplyDAO {
 
     @Override
-    public boolean addCommentReply(CommentReply commentReply, Comment comment) {
-
-        return false;
+    public int addCommentReply(CommentReply commentReply) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public boolean addCommentReply(CommentReply commentReply, Long commentId) {
-
-        return false;
+    public int updateCommentReply(CommentReply commentReply) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public boolean editCommentReply(CommentReply oldCommentReply, String newContent) {
-
-        return false;
+    public int deleteCommentReply(CommentReply commentReply) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public boolean editCommentReply(Long oldReplyId, String newContent) {
-
-        return false;
-    }
-
-    @Override
-    public boolean deleteCommentReply(CommentReply commentReply) {
-
-        return false;
-    }
-
-    @Override
-    public boolean deleteCommentReply(Long id) {
-
-        return false;
+    public int deleteCommentReply(Long id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public List<CommentReply> getAllCommentReplys(Comment comment) {
-
-        return null;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public List<CommentReply> getAllCommentReplys(Long commentId) {
-
-        return null;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public CommentReply getCommentReply(Long commentReplyId) {
-
-        return null;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
 }
