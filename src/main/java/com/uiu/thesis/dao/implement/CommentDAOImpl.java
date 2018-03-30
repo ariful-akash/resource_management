@@ -5,6 +5,9 @@ import com.uiu.thesis.models.forum.Comment;
 import com.uiu.thesis.models.forum.Post;
 import java.util.List;
 import javax.transaction.Transactional;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -15,9 +18,21 @@ import org.springframework.stereotype.Repository;
 @Transactional
 public class CommentDAOImpl implements CommentDAO {
 
+    @Autowired(required = true)
+    private SessionFactory sessionFactory;
+
+    /**
+     *
+     * @param comment
+     * @return
+     */
     @Override
     public int addComment(Comment comment) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        Session session = sessionFactory.getCurrentSession();
+        Long id = (Long) session.save(comment);
+
+        return Integer.valueOf(id.toString());
     }
 
     @Override
