@@ -78,8 +78,20 @@ public class CommentReplyDAOImpl implements CommentReplyDAO {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param commentReplyId
+     * @return
+     */
     @Override
     public CommentReply getCommentReply(Long commentReplyId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        if (commentReplyId > 0) {
+
+            Session session = sessionFactory.getCurrentSession();
+            return (CommentReply) session.get(CommentReply.class, commentReplyId);
+        }
+
+        return null;
     }
 }
