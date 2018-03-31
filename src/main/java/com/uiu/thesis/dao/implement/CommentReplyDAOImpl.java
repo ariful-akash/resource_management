@@ -69,6 +69,11 @@ public class CommentReplyDAOImpl implements CommentReplyDAO {
     }
 
     @Override
+    public List<CommentReply> getAllCommentReplys() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
     public List<CommentReply> getAllCommentReplys(Comment comment) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

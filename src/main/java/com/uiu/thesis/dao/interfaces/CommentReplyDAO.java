@@ -18,6 +18,8 @@ public interface CommentReplyDAO {
 
     public int deleteCommentReply(Long id);
 
+    public List<CommentReply> getAllCommentReplys();
+
     public List<CommentReply> getAllCommentReplys(Comment comment);
 
     public List<CommentReply> getAllCommentReplys(Long commentId);
