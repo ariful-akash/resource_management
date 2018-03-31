@@ -5,7 +5,6 @@ import com.uiu.thesis.models.forum.Post;
 import com.uiu.thesis.models.forum.TagType;
 import java.util.List;
 import javax.transaction.Transactional;
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,10 +43,10 @@ public class TagTypeDAOImpl implements TagTypeDAO {
     public List<TagType> getAllTagTypes() {
 
         Session session = sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(TagType.class);
+        String hql = "FROM TagType";
 
         @SuppressWarnings("unchecked")
-        List<TagType> tagTypes = criteria.list();
+        List<TagType> tagTypes = session.createQuery(hql).list();
 
         return tagTypes;
     }
