@@ -24,9 +24,9 @@ public class SystemErrorLogDAOImpl implements SystemErrorLogDAO {
     private SessionFactory sessionFactory;
 
     @Override
-    public boolean addErrorLog(SystemErrorLog errorLog) {
+    public int addErrorLog(SystemErrorLog errorLog) {
 
-        return false;
+        return 0;
     }
 
     /**
