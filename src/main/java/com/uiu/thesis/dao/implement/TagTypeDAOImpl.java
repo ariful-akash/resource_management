@@ -22,12 +22,24 @@ public class TagTypeDAOImpl implements TagTypeDAO {
     @Autowired(required = true)
     private SessionFactory sessionFactory;
 
+    /**
+     *
+     * @param tagType
+     * @return
+     */
     @Override
     public int addTagType(TagType tagType) {
 
-        return 0;
+        Session session = sessionFactory.getCurrentSession();
+        Long id = (Long) session.save(tagType);
+
+        return Integer.valueOf(id.toString());
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public List<TagType> getAllTagTypes() {
 
