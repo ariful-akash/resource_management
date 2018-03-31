@@ -23,10 +23,18 @@ public class SystemErrorLogDAOImpl implements SystemErrorLogDAO {
     @Autowired(required = true)
     private SessionFactory sessionFactory;
 
+    /**
+     *
+     * @param errorLog
+     * @return
+     */
     @Override
     public int addErrorLog(SystemErrorLog errorLog) {
 
-        return 0;
+        Session session = sessionFactory.getCurrentSession();
+        Long id = (Long) session.save(errorLog);
+
+        return Integer.valueOf(id.toString());
     }
 
     /**
