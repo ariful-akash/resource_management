@@ -22,10 +22,18 @@ public class UserSessionLogDAOImpl implements UserSessionLogDAO {
     @Autowired(required = true)
     private SessionFactory sessionFactory;
 
+    /**
+     *
+     * @param userSessionLog
+     * @return
+     */
     @Override
-    public boolean addUserSession(UserSessionLog userSessionLog) {
+    public int addUserSession(UserSessionLog userSessionLog) {
 
-        return false;
+        Session session = sessionFactory.getCurrentSession();
+        Long id = (Long) session.save(userSessionLog);
+
+        return Integer.valueOf(id.toString());
     }
 
     /**
