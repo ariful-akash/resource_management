@@ -6,7 +6,6 @@ import com.uiu.thesis.models.user.HumanResource;
 import java.util.Date;
 import java.util.List;
 import javax.transaction.Transactional;
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,10 +45,10 @@ public class SystemErrorLogDAOImpl implements SystemErrorLogDAO {
     public List<SystemErrorLog> getAllErrorLogs() {
 
         Session session = sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(SystemErrorLog.class);
+        String hql = "FROM SystemErrorLog";
 
         @SuppressWarnings("unchecked")
-        List<SystemErrorLog> errLogs = criteria.list();
+        List<SystemErrorLog> errLogs = session.createQuery(hql).list();
 
         return errLogs;
     }
