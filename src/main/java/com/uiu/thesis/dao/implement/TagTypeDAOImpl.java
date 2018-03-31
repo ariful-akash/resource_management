@@ -23,9 +23,9 @@ public class TagTypeDAOImpl implements TagTypeDAO {
     private SessionFactory sessionFactory;
 
     @Override
-    public boolean addTagType(TagType tagType) {
+    public int addTagType(TagType tagType) {
 
-        return false;
+        return 0;
     }
 
     @Override

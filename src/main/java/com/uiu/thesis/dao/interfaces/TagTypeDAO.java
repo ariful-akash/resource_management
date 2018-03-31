@@ -15,7 +15,7 @@ import java.util.List;
  */
 public interface TagTypeDAO {
 
-    public boolean addTagType(TagType tagType);
+    public int addTagType(TagType tagType);
 
     public List<TagType> getAllTagTypes();
 
