@@ -35,6 +35,10 @@ public class Requisition implements Serializable {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date requisitionPlacingDate;
 
+    @Column(name = "requisition_solved_date")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date requisitionSolvedDate;
+
     @Column(name = "purpose", length = 1000)
     private String purpose;
 
@@ -42,7 +46,7 @@ public class Requisition implements Serializable {
     private String remarks;
 
     @Column(name = "solved")
-    private boolean isSolved;
+    private boolean solved = false;
 
     @Column(name = "creator_id")
     private Long creatorId;
@@ -109,12 +113,12 @@ public class Requisition implements Serializable {
         this.remarks = remarks;
     }
 
-    public boolean isIsSolved() {
-        return isSolved;
+    public boolean isSolved() {
+        return solved;
     }
 
-    public void setIsSolved(boolean isSolved) {
-        this.isSolved = isSolved;
+    public void setSolved(boolean isSolved) {
+        this.solved = isSolved;
     }
 
     public Long getCreatorId() {
@@ -133,6 +137,14 @@ public class Requisition implements Serializable {
         this.solverId = solverId;
     }
 
+    public Date getRequisitionSolvedDate() {
+        return requisitionSolvedDate;
+    }
+
+    public void setRequisitionSolvedDate(Date requisitionSovedDate) {
+        this.requisitionSolvedDate = requisitionSovedDate;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
@@ -140,11 +152,12 @@ public class Requisition implements Serializable {
         hash = 61 * hash + this.quantity;
         hash = 61 * hash + Objects.hashCode(this.requisitionNeedDate);
         hash = 61 * hash + Objects.hashCode(this.requisitionPlacingDate);
+        hash = 61 * hash + Objects.hashCode(this.requisitionSolvedDate);
         hash = 61 * hash + Objects.hashCode(this.purpose);
         hash = 61 * hash + Objects.hashCode(this.remarks);
         hash = 61 * hash + Objects.hashCode(this.creatorId);
         hash = 61 * hash + Objects.hashCode(this.solverId);
-        hash = 61 * hash + (this.isSolved ? 1 : 0);
+        hash = 61 * hash + (this.solved ? 1 : 0);
 
         return hash;
     }
@@ -164,7 +177,7 @@ public class Requisition implements Serializable {
         if (this.quantity != other.quantity) {
             return false;
         }
-        if (this.isSolved != other.isSolved) {
+        if (this.solved != other.solved) {
             return false;
         }
         if (!Objects.equals(this.purpose, other.purpose)) {
@@ -182,6 +195,9 @@ public class Requisition implements Serializable {
         if (!Objects.equals(this.requisitionPlacingDate, other.requisitionPlacingDate)) {
             return false;
         }
+        if (!Objects.equals(this.requisitionSolvedDate, other.requisitionSolvedDate)) {
+            return false;
+        }
         if (!Objects.equals(this.creatorId, other.creatorId)) {
             return false;
         }
@@ -193,7 +209,7 @@ public class Requisition implements Serializable {
 
     @Override
     public String toString() {
-        return "Requisition{" + "id=" + id + ", quantity=" + quantity + ", requisitionNeedDate=" + requisitionNeedDate + ", requisitionPlacingDate=" + requisitionPlacingDate + ", purpose=" + purpose + ", remarks=" + remarks + ", isSolved=" + isSolved + '}';
+        return "Requisition{" + "id=" + id + ", quantity=" + quantity + ", requisitionNeedDate=" + requisitionNeedDate + ", requisitionPlacingDate=" + requisitionNeedDate + ", requisitionSolvedDate=" + requisitionSolvedDate + ", purpose=" + purpose + ", remarks=" + remarks + ", isSolved=" + solved + '}';
     }
 
 }
