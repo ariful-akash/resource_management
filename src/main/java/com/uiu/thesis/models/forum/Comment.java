@@ -2,16 +2,12 @@ package com.uiu.thesis.models.forum;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -38,9 +34,6 @@ public class Comment implements Serializable {
 
     @Column(name = "edited", nullable = false)
     private boolean edited;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<CommentReply> commentReplies;
 
     @Column(name = "commenter_id")
     private Long commenterId;
@@ -106,14 +99,6 @@ public class Comment implements Serializable {
 //    public void setCommenter(HumanResource commenter) {
 //        this.commenter = commenter;
 //    }
-    public List<CommentReply> getCommentReplies() {
-        return commentReplies;
-    }
-
-    public void setCommentReplies(List<CommentReply> commentReplies) {
-        this.commentReplies = commentReplies;
-    }
-
     public Long getCommenterId() {
         return commenterId;
     }
@@ -134,7 +119,6 @@ public class Comment implements Serializable {
         hash = 59 * hash + Objects.hashCode(this.content);
         hash = 59 * hash + Objects.hashCode(this.commentTime);
 //        hash = 59 * hash + Objects.hashCode(this.commenter);
-        hash = 59 * hash + Objects.hashCode(this.commentReplies);
         hash = 59 * hash + Objects.hashCode(this.edited);
         hash = 59 * hash + Objects.hashCode(this.postId);
         return hash;
@@ -161,12 +145,6 @@ public class Comment implements Serializable {
         if (!Objects.equals(this.commentTime, other.commentTime)) {
             return false;
         }
-//        if (!Objects.equals(this.commenter, other.commenter)) {
-//            return false;
-//        }
-        if (!Objects.equals(this.commentReplies, other.commentReplies)) {
-            return false;
-        }
         if (!Objects.equals(this.edited, other.edited)) {
             return false;
         }
@@ -178,7 +156,7 @@ public class Comment implements Serializable {
 
     @Override
     public String toString() {
-        return "Comment{" + "id=" + id + ", content=" + content + ", commentTime=" + commentTime + ", edited=" + edited + ", commentReplies=" + commentReplies + '}';
+        return "Comment{" + "id=" + id + ", content=" + content + ", commentTime=" + commentTime + ", edited=" + edited + '}';
     }
 
 }
