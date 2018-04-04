@@ -1,23 +1,28 @@
 package com.uiu.thesis.controllers.ashifDBop;
 
+import com.github.javafaker.Faker;
 import com.uiu.thesis.dao.interfaces.AccessTypeDAO;
 import com.uiu.thesis.dao.interfaces.HumanResourceDAO;
+import com.uiu.thesis.dao.interfaces.HumanResourceTypeDAO;
 import com.uiu.thesis.dao.interfaces.RoleDAO;
 import com.uiu.thesis.models.user.AccessType;
+import com.uiu.thesis.models.user.HumanResource;
+import com.uiu.thesis.models.user.HumanResourceType;
 import com.uiu.thesis.models.user.Role;
+import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
  * @author ashif
  */
-@Controller
+@RestController
 public class AshifDBOperationController {
 
     @Autowired
@@ -25,6 +30,9 @@ public class AshifDBOperationController {
 
     @Autowired
     private HumanResourceDAO humanResourceDAO;
+
+    @Autowired
+    private HumanResourceTypeDAO humanResourceTypeDAO;
 
     @Autowired
     private AccessTypeDAO accessTypeDAO;
@@ -92,7 +100,8 @@ public class AshifDBOperationController {
             "handle complain computer",
             "handle complain computer part",
             "handle complain office resource",
-            "read office resource"
+            "read office resource",
+            "read admin data"
         };
 
         for (String access : accesses) {
@@ -124,7 +133,7 @@ public class AshifDBOperationController {
 
             AccessType at = (AccessType) accessTypesIterator.next();
 
-            System.out.println("ID: " + at.getId() + ", Access Type: " + at.getDescription());
+//            System.out.println("ID: " + at.getId() + ", Access Type: " + at.getDescription() + ", Roles" + at.getRoles());
         }
 
         return "success";
@@ -138,13 +147,20 @@ public class AshifDBOperationController {
     @RequestMapping(value = "/read/role")
     public String readRoles() {
 
-        List<Role> roles = roleDAO.getAllRoles();
-        Iterator roleIterator = roles.iterator();
+        List<Role> allRoles = roleDAO.getAllRoles();
 
-        while (roleIterator.hasNext()) {
+        for (Role role : allRoles) {
 
-            Role role = (Role) roleIterator.next();
-            System.out.println("ID: " + role.getId() + ", Role: " + role.getRole());
+            System.out.println(role);
+            System.out.println(role.getHumanResources().size() + "\n\n");
+
+            for (HumanResource hr : role.getHumanResources()) {
+
+                System.out.println(hr);
+                System.out.println(hr.getAccess() + "\n\n");
+            }
+
+            System.out.println("\n\n\n");
         }
 
         return "success";
@@ -302,6 +318,22 @@ public class AshifDBOperationController {
         return "success";
     }
 
+    @RequestMapping(value = "/test/read/role")
+    public String testRole() {
+
+        List<Role> roles = roleDAO.getAllRoles();
+//        Role role = roleDAO.getRoleById((long) 2);
+//        List<AccessType> accessTypes = accessTypeDAO.getAllAccessTypes();
+
+//        System.out.println(role.toString());
+        for (Role role : roles) {
+
+            System.out.println(role.toString());
+        }
+
+        return "success";
+    }
+
     /**
      *
      * @return
@@ -309,6 +341,39 @@ public class AshifDBOperationController {
     @RequestMapping(value = "/insert/hr")
     public String insertHumanResource() {
 
-        return "";
+        List<HumanResourceType> allHRTypes = humanResourceTypeDAO.getAllHRType();
+        List<Role> allRoles = roleDAO.getAllRoles();
+        List<AccessType> allAccessTypes = accessTypeDAO.getAllAccessTypes();
+
+        Set<AccessType> roleAccessTypes = new HashSet<>();
+
+        HumanResource hr = new HumanResource();
+        Faker faker = new Faker();
+
+        hr.setFirstName(faker.name().firstName());
+        hr.setLastName(faker.name().lastName());
+        hr.setEmail(faker.internet().emailAddress());
+        hr.setPhone(faker.phoneNumber().cellPhone());
+        hr.setPassword("1234".getBytes(StandardCharsets.UTF_8));
+        hr.setDepartment("CSE");
+
+//        hr.setResourceType(allHRTypes.get(7));
+//        hr.setRole(allRoles.get(0));
+        for (AccessType at : allRoles.get(0).getAccessTypes()) {
+
+            roleAccessTypes.add(at);
+        }
+
+        hr.setAccess(roleAccessTypes);
+
+        int id = humanResourceDAO.addHumanResource(hr);
+
+        if (id != 0) {
+
+            return "success";
+        } else {
+
+            return "fail";
+        }
     }
 }
