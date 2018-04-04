@@ -90,7 +90,7 @@ public class RequisitionTypeDAOImpl implements RequisitionTypeDAO {
     @Override
     public int updateRequisitionType(RequisitionType requisitionType) {
 
-        if (requisitionType.getId() > 0) {
+        if (requisitionType != null && requisitionType.getId() > 0) {
 
             try {
 
