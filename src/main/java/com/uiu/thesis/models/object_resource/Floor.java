@@ -1,14 +1,12 @@
 package com.uiu.thesis.models.object_resource;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -27,9 +25,6 @@ public class Floor implements Serializable {
 
     @Column(name = "floor")
     private String floor;
-
-    @OneToMany
-    private List<Room> rooms;
 
     /**
      * Constructor
@@ -56,14 +51,6 @@ public class Floor implements Serializable {
 
     public void setFloor(String floor) {
         this.floor = floor;
-    }
-
-    public List<Room> getRooms() {
-        return rooms;
-    }
-
-    public void setRooms(List<Room> rooms) {
-        this.rooms = rooms;
     }
 
     @Override
