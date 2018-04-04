@@ -1,8 +1,8 @@
 package com.uiu.thesis.models.requisition;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,7 +30,7 @@ public class RequisitionType implements Serializable {
     private String type;
 
     @OneToMany(cascade = CascadeType.ALL)
-    private List<Requisition> requisitions;
+    private Set<Requisition> requisitions;
 
     /**
      * Constructor
@@ -66,11 +66,11 @@ public class RequisitionType implements Serializable {
 //    public void setAccessType(AccessType accessType) {
 //        this.accessType = accessType;
 //    }
-    public List<Requisition> getRequisitions() {
+    public Set<Requisition> getRequisitions() {
         return requisitions;
     }
 
-    public void setRequisitions(List<Requisition> requisitions) {
+    public void setRequisitions(Set<Requisition> requisitions) {
         this.requisitions = requisitions;
     }
 
