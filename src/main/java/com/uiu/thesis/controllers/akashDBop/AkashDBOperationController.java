@@ -28,6 +28,30 @@ public class AkashDBOperationController {
     private AccessTypeDAO accTypeDAO;
 
     /**
+     * insert office_resource table with foreign key(office_resource_type table)
+     *
+     * @return
+     */
+    @Autowired
+    private OfficeResourceDAO orDAO;
+
+    /**
+     * insert complaint table with foreign key(access Type table)
+     *
+     * @return
+     */
+    @Autowired
+    private ComplaintTypeDAO comTypeDAO;
+
+    /**
+     * insert Requisition table with foreign key(access Type table)
+     *
+     * @return
+     */
+    @Autowired
+    private RequisitionTypeDAO reqTypeDAO;
+
+    /**
      * insert OfficeResourceType table
      *
      * @return
@@ -82,18 +106,10 @@ public class AkashDBOperationController {
         }
     }
 
-    /**
-     * insert office_resource table with foreign key(office_resource_type table)
-     *
-     * @return
-     */
-    @Autowired
-    private OfficeResourceDAO orDAO;
-
     @RequestMapping(value = "/insert/or")
     public String addOfficeResource() {
 
-        int id = 0;
+        int id;
         OfficeResource or = new OfficeResource();
 
         or.setFloor("2nd");
@@ -108,15 +124,7 @@ public class AkashDBOperationController {
         }
     }
 
-    /**
-     * insert complaint table with foreign key(access Type table)
-     *
-     * @return
-     */
-    @Autowired
-    private ComplaintTypeDAO comTypeDAO;
-
-    @RequestMapping(value = "/insert/comtype")
+    @RequestMapping(value = "/insert/complaintype")
     private String comTypeDAO() {
 
         String comTypes[] = {
@@ -141,13 +149,6 @@ public class AkashDBOperationController {
             return "fail";
         }
     }
-    /**
-     * insert Requisition table with foreign key(access Type table)
-     *
-     * @return
-     */
-    @Autowired
-    private RequisitionTypeDAO reqTypeDAO;
 
     @RequestMapping(value = "/insert/reqtype")
     private String addReqTypeDAO() {
