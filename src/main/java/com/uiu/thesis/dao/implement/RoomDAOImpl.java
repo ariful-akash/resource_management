@@ -9,6 +9,10 @@ import com.uiu.thesis.dao.interfaces.RoomDAO;
 import com.uiu.thesis.models.object_resource.Floor;
 import com.uiu.thesis.models.object_resource.Room;
 import java.util.List;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -16,19 +20,62 @@ import java.util.List;
  */
 public class RoomDAOImpl implements RoomDAO {
 
+    @Autowired(required = true)
+    private SessionFactory sessionFactory;
+
+    /**
+     *
+     * @param room
+     * @return
+     */
     @Override
     public int addRoom(Room room) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        Session session = sessionFactory.getCurrentSession();
+        Long id = (Long) session.save(room);
+
+        return Integer.valueOf(id.toString());
     }
 
+    /**
+     *
+     * @param room
+     * @return
+     */
     @Override
     public int updateRoom(Room room) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        if (room != null && room.getId() > 0) {
+
+            Session session = sessionFactory.getCurrentSession();
+
+            try {
+
+                session.update(room);
+                return 1;
+            } catch (HibernateException e) {
+
+                return 0;
+            }
+        }
+
+        return 0;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public List<Room> getAllRooms() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        Session session = sessionFactory.getCurrentSession();
+        String hql = "FROM Room";
+
+        @SuppressWarnings("unchecked")
+        List<Room> rooms = session.createQuery(hql).list();
+
+        return rooms;
     }
 
     @Override
@@ -41,9 +88,21 @@ public class RoomDAOImpl implements RoomDAO {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param roomId
+     * @return
+     */
     @Override
     public Room getRoomsById(Long roomId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        if (roomId > 0) {
+
+            Session session = sessionFactory.getCurrentSession();
+            return (Room) session.get(Room.class, roomId);
+        }
+
+        return null;
     }
 
 }
