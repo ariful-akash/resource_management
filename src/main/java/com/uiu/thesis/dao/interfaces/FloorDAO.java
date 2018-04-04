@@ -18,5 +18,7 @@ public interface FloorDAO {
 
     public int updateFloor(Floor floor);
 
+    public Floor getFloorById(Long floorId);
+
     public List<Floor> getAllFloor();
 }
