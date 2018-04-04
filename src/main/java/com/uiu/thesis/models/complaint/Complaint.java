@@ -24,9 +24,6 @@ public class Complaint implements Serializable {
     @GeneratedValue
     private Long id;
 
-    @Column(name = "quantity", nullable = false)
-    private int quantity;
-
     @Column(name = "complaint_placing_date", nullable = false)
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date complaintPlacingDate;
@@ -42,7 +39,7 @@ public class Complaint implements Serializable {
     private String remarks;
 
     @Column(name = "solved", nullable = false)
-    private boolean isSolved;
+    private boolean isSolved = false;
 
     @Column(name = "creator_id")
     private Long creatorId;
@@ -67,14 +64,6 @@ public class Complaint implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
     }
 
     public Date getComplaintPlacingDate() {
@@ -137,7 +126,6 @@ public class Complaint implements Serializable {
     public int hashCode() {
         int hash = 7;
         hash = 67 * hash + Objects.hashCode(this.id);
-        hash = 67 * hash + this.quantity;
         hash = 67 * hash + Objects.hashCode(this.complaintPlacingDate);
         hash = 67 * hash + Objects.hashCode(this.complaintSolvedDate);
         hash = 67 * hash + Objects.hashCode(this.description);
@@ -160,9 +148,6 @@ public class Complaint implements Serializable {
             return false;
         }
         final Complaint other = (Complaint) obj;
-        if (this.quantity != other.quantity) {
-            return false;
-        }
         if (this.isSolved != other.isSolved) {
             return false;
         }
@@ -196,7 +181,7 @@ public class Complaint implements Serializable {
      */
     @Override
     public String toString() {
-        return "Complaint{" + "id=" + id + ", quantity=" + quantity + ", complaintPlacingDate=" + complaintPlacingDate + ", description=" + description + ", remarks=" + remarks + ", isSolved=" + isSolved + '}';
+        return "Complaint{" + "id=" + id + ", complaintPlacingDate=" + complaintPlacingDate + ", description=" + description + ", remarks=" + remarks + ", isSolved=" + isSolved + '}';
     }
 
 }
