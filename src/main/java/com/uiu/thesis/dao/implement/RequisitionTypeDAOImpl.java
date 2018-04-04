@@ -5,6 +5,7 @@ import com.uiu.thesis.models.requisition.RequisitionType;
 import com.uiu.thesis.models.user.AccessType;
 import java.util.List;
 import javax.transaction.Transactional;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,5 +80,29 @@ public class RequisitionTypeDAOImpl implements RequisitionTypeDAO {
     public RequisitionType getRequisitionTypeByAccessType(Long accessTypeId) {
 
         return null;
+    }
+
+    /**
+     *
+     * @param requisitionType
+     * @return
+     */
+    @Override
+    public int updateRequisitionType(RequisitionType requisitionType) {
+
+        if (requisitionType.getId() > 0) {
+
+            try {
+
+                Session session = sessionFactory.getCurrentSession();
+                session.update(requisitionType);
+                return 1;
+            } catch (HibernateException e) {
+
+                return 0;
+            }
+        }
+
+        return 0;
     }
 }

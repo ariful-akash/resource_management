@@ -12,6 +12,8 @@ public interface RequisitionTypeDAO {
 
     public int addRequisitionType(RequisitionType requisitionType);
 
+    public int updateRequisitionType(RequisitionType requisitionType);
+
     public RequisitionType getRequisitionTypeById(Long reqTypeId);
 
     public List<RequisitionType> getAllRequisitionTypes();
