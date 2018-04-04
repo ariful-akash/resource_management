@@ -29,7 +29,7 @@ public class Comment implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "comment", nullable = false)
+    @Column(name = "comment", nullable = false, length = 2000)
     private String content;
 
     @Column(name = "comment_time", nullable = false)
@@ -39,8 +39,14 @@ public class Comment implements Serializable {
     @Column(name = "edited", nullable = false)
     private boolean edited;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<CommentReply> commentReplies;
+
+    @Column(name = "commenter_id")
+    private Long commenterId;
+
+    @Column(name = "post_id")
+    private Long postId;
 
     /**
      * Constructor
@@ -85,6 +91,14 @@ public class Comment implements Serializable {
         this.edited = isEdited;
     }
 
+    public Long getPostId() {
+        return postId;
+    }
+
+    public void setPostId(Long postId) {
+        this.postId = postId;
+    }
+
 //    public HumanResource getCommenter() {
 //        return commenter;
 //    }
@@ -98,6 +112,14 @@ public class Comment implements Serializable {
 
     public void setCommentReplies(List<CommentReply> commentReplies) {
         this.commentReplies = commentReplies;
+    }
+
+    public Long getCommenterId() {
+        return commenterId;
+    }
+
+    public void setCommenterId(Long commenterId) {
+        this.commenterId = commenterId;
     }
 
     /**
@@ -114,6 +136,7 @@ public class Comment implements Serializable {
 //        hash = 59 * hash + Objects.hashCode(this.commenter);
         hash = 59 * hash + Objects.hashCode(this.commentReplies);
         hash = 59 * hash + Objects.hashCode(this.edited);
+        hash = 59 * hash + Objects.hashCode(this.postId);
         return hash;
     }
 
@@ -145,6 +168,9 @@ public class Comment implements Serializable {
             return false;
         }
         if (!Objects.equals(this.edited, other.edited)) {
+            return false;
+        }
+        if (!Objects.equals(this.postId, other.postId)) {
             return false;
         }
         return true;

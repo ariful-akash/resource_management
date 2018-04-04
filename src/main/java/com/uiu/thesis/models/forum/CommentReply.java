@@ -30,7 +30,7 @@ public class CommentReply implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "reply", nullable = false)
+    @Column(name = "reply", nullable = false, length = 2000)
     private String reply;
 
     @Column(name = "reply_time", nullable = false)
@@ -39,6 +39,12 @@ public class CommentReply implements Serializable {
 
     @Column(name = "edited")
     private boolean edited;
+
+    @Column(name = "replier_id")
+    private Long replierId;
+
+    @Column(name = "comment_id")
+    private Long commentId;
 
     /**
      * Constructor
@@ -83,6 +89,22 @@ public class CommentReply implements Serializable {
         this.dateTime = dateTime;
     }
 
+    public Long getReplierId() {
+        return replierId;
+    }
+
+    public void setReplierId(Long replierId) {
+        this.replierId = replierId;
+    }
+
+    public Long getCommentId() {
+        return commentId;
+    }
+
+    public void setCommentId(Long commentId) {
+        this.commentId = commentId;
+    }
+
 //    public HumanResource getReplier() {
 //        return replier;
 //    }
@@ -112,6 +134,7 @@ public class CommentReply implements Serializable {
 //        hash = 17 * hash + Objects.hashCode(this.replier);
 //        hash = 17 * hash + Objects.hashCode(this.comment);
         hash = 17 * hash + Objects.hashCode(this.edited);
+        hash = 17 * hash + Objects.hashCode(this.commentId);
         return hash;
     }
 
@@ -149,6 +172,9 @@ public class CommentReply implements Serializable {
 //            return false;
 //        }
         if (!Objects.equals(this.edited, other.edited)) {
+            return false;
+        }
+        if (!Objects.equals(this.commentId, other.commentId)) {
             return false;
         }
         return true;

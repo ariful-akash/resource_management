@@ -1,9 +1,6 @@
 package com.uiu.thesis.models.user;
 
 import com.uiu.thesis.models.complaint.Complaint;
-import com.uiu.thesis.models.forum.Comment;
-import com.uiu.thesis.models.forum.CommentReply;
-import com.uiu.thesis.models.forum.Post;
 import com.uiu.thesis.models.requisition.Requisition;
 import java.io.Serializable;
 import java.util.Arrays;
@@ -58,15 +55,6 @@ public class HumanResource implements Serializable {
     @Lob
     @Column(name = "iamge", nullable = true)
     private byte[] image;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Post> posts;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Comment> comments;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<CommentReply> commentReplys;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<AccessType> access;
@@ -158,22 +146,6 @@ public class HumanResource implements Serializable {
         this.image = image;
     }
 
-    public Set<Post> getPosts() {
-        return posts;
-    }
-
-    public void setPosts(Set<Post> posts) {
-        this.posts = posts;
-    }
-
-    public Set<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(Set<Comment> comments) {
-        this.comments = comments;
-    }
-
     public Set<AccessType> getAccess() {
         return access;
     }
@@ -219,14 +191,6 @@ public class HumanResource implements Serializable {
 
     public void setCreatedComplaints(Set<Complaint> createdComplaints) {
         this.createdComplaints = createdComplaints;
-    }
-
-    public Set<CommentReply> getCommentReplys() {
-        return commentReplys;
-    }
-
-    public void setCommentReplys(Set<CommentReply> commentReplys) {
-        this.commentReplys = commentReplys;
     }
 
     /**

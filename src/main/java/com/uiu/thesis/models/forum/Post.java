@@ -11,7 +11,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -29,7 +28,7 @@ public class Post implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "content", nullable = false)
+    @Column(name = "content", nullable = false, length = 2000)
     private String contet;
 
     @Column(name = "post_time", nullable = false)
@@ -39,8 +38,8 @@ public class Post implements Serializable {
     @ManyToMany(cascade = CascadeType.ALL)
     private List<TagType> tags;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Comment> comments;
+    @Column(name = "poster_id")
+    private Long posterId;
 
     /**
      * Constructor
@@ -77,12 +76,12 @@ public class Post implements Serializable {
         this.postTime = postTime;
     }
 
-    public List<Comment> getComments() {
-        return comments;
+    public Long getPosterId() {
+        return posterId;
     }
 
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
+    public void setPosterId(Long posterId) {
+        this.posterId = posterId;
     }
 
 //    public HumanResource getPoster() {
@@ -113,6 +112,7 @@ public class Post implements Serializable {
         hash = 97 * hash + Objects.hashCode(this.postTime);
 //        hash = 97 * hash + Objects.hashCode(this.poster);
         hash = 97 * hash + Objects.hashCode(this.tags);
+        hash = 97 * hash + Objects.hashCode(this.posterId);
         return hash;
     }
 
@@ -143,13 +143,13 @@ public class Post implements Serializable {
         if (!Objects.equals(this.postTime, other.postTime)) {
             return false;
         }
-        if (!Objects.equals(this.comments, other.comments)) {
-            return false;
-        }
 //        if (!Objects.equals(this.poster, other.poster)) {
 //            return false;
 //        }
         if (!Objects.equals(this.tags, other.tags)) {
+            return false;
+        }
+        if (!Objects.equals(this.posterId, other.posterId)) {
             return false;
         }
         return true;
@@ -166,6 +166,6 @@ public class Post implements Serializable {
 //    }
     @Override
     public String toString() {
-        return "Post{" + "id=" + id + ", contet=" + contet + ", postTime=" + postTime + ", tags=" + tags + ", tags=" + comments + '}';
+        return "Post{" + "id=" + id + ", contet=" + contet + ", postTime=" + postTime + ", tags=" + tags + '}';
     }
 }
