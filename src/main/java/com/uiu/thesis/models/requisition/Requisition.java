@@ -38,11 +38,17 @@ public class Requisition implements Serializable {
     @Column(name = "purpose", length = 1000)
     private String purpose;
 
-    @Column(name = "remarks", length = 1000)
+    @Column(name = "remarks", length = 3000, nullable = true)
     private String remarks;
 
     @Column(name = "solved")
     private boolean isSolved;
+
+    @Column(name = "creator_id")
+    private Long creatorId;
+
+    @Column(name = "solver_id")
+    private Long solverId;
 
     /**
      * Constructor
@@ -111,29 +117,22 @@ public class Requisition implements Serializable {
         this.isSolved = isSolved;
     }
 
-//    public HumanResource getSolver() {
-//        return solver;
-//    }
-//
-//    public void setSolver(HumanResource solver) {
-//        this.solver = solver;
-//    }
-//
-//    public HumanResource getRequisitionCreator() {
-//        return requisitionCreator;
-//    }
-//
-//    public void setRequisitionCreator(HumanResource requisitionCreator) {
-//        this.requisitionCreator = requisitionCreator;
-//    }
-//
-//    public RequisitionType getRequisitionType() {
-//        return requisitionType;
-//    }
-//
-//    public void setRequisitionType(RequisitionType requisitionType) {
-//        this.requisitionType = requisitionType;
-//    }
+    public Long getCreatorId() {
+        return creatorId;
+    }
+
+    public void setCreatorId(Long creatorId) {
+        this.creatorId = creatorId;
+    }
+
+    public Long getSolverId() {
+        return solverId;
+    }
+
+    public void setSolverId(Long solverId) {
+        this.solverId = solverId;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
@@ -143,10 +142,10 @@ public class Requisition implements Serializable {
         hash = 61 * hash + Objects.hashCode(this.requisitionPlacingDate);
         hash = 61 * hash + Objects.hashCode(this.purpose);
         hash = 61 * hash + Objects.hashCode(this.remarks);
+        hash = 61 * hash + Objects.hashCode(this.creatorId);
+        hash = 61 * hash + Objects.hashCode(this.solverId);
         hash = 61 * hash + (this.isSolved ? 1 : 0);
-//        hash = 61 * hash + Objects.hashCode(this.solver);
-//        hash = 61 * hash + Objects.hashCode(this.requisitionCreator);
-//        hash = 61 * hash + Objects.hashCode(this.requisitionType);
+
         return hash;
     }
 
@@ -183,15 +182,12 @@ public class Requisition implements Serializable {
         if (!Objects.equals(this.requisitionPlacingDate, other.requisitionPlacingDate)) {
             return false;
         }
-//        if (!Objects.equals(this.solver, other.solver)) {
-//            return false;
-//        }
-//        if (!Objects.equals(this.requisitionCreator, other.requisitionCreator)) {
-//            return false;
-//        }
-//        if (!Objects.equals(this.requisitionType, other.requisitionType)) {
-//            return false;
-//        }
+        if (!Objects.equals(this.creatorId, other.creatorId)) {
+            return false;
+        }
+        if (!Objects.equals(this.solverId, other.solverId)) {
+            return false;
+        }
         return true;
     }
 

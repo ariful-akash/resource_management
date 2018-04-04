@@ -1,7 +1,5 @@
 package com.uiu.thesis.models.user;
 
-import com.uiu.thesis.models.complaint.Complaint;
-import com.uiu.thesis.models.requisition.Requisition;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -16,7 +14,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -58,18 +55,6 @@ public class HumanResource implements Serializable {
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<AccessType> access;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Requisition> solvedRequisitions;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Requisition> createdRequisitions;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Complaint> solvedComplaints;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Complaint> createdComplaints;
 
     /**
      * Constructor
@@ -159,38 +144,6 @@ public class HumanResource implements Serializable {
         }
 
         this.access = accessTypes;
-    }
-
-    public Set<Requisition> getSolvedRequisitions() {
-        return solvedRequisitions;
-    }
-
-    public void setSolvedRequisitions(Set<Requisition> solvedRequisitions) {
-        this.solvedRequisitions = solvedRequisitions;
-    }
-
-    public Set<Requisition> getCreatedRequisitions() {
-        return createdRequisitions;
-    }
-
-    public void setCreatedRequisitions(Set<Requisition> createdRequisitions) {
-        this.createdRequisitions = createdRequisitions;
-    }
-
-    public Set<Complaint> getSolvedComplaints() {
-        return solvedComplaints;
-    }
-
-    public void setSolvedComplaints(Set<Complaint> solvedComplaints) {
-        this.solvedComplaints = solvedComplaints;
-    }
-
-    public Set<Complaint> getCreatedComplaints() {
-        return createdComplaints;
-    }
-
-    public void setCreatedComplaints(Set<Complaint> createdComplaints) {
-        this.createdComplaints = createdComplaints;
     }
 
     /**

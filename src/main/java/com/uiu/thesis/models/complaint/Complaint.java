@@ -38,11 +38,17 @@ public class Complaint implements Serializable {
     @Column(name = "description", length = 1000, nullable = false)
     private String description;
 
-    @Column(name = "remarks", length = 1000, nullable = true)
+    @Column(name = "remarks", length = 3000, nullable = true)
     private String remarks;
 
     @Column(name = "solved", nullable = false)
     private boolean isSolved;
+
+    @Column(name = "creator_id")
+    private Long creatorId;
+
+    @Column(name = "solver_id")
+    private Long solverId;
 
     /**
      * Constructor
@@ -103,14 +109,41 @@ public class Complaint implements Serializable {
         this.isSolved = isSolved;
     }
 
+    public Date getComplaintSolvedDate() {
+        return complaintSolvedDate;
+    }
+
+    public void setComplaintSolvedDate(Date complaintSolvedDate) {
+        this.complaintSolvedDate = complaintSolvedDate;
+    }
+
+    public Long getCreatorId() {
+        return creatorId;
+    }
+
+    public void setCreatorId(Long creatorId) {
+        this.creatorId = creatorId;
+    }
+
+    public Long getSolverId() {
+        return solverId;
+    }
+
+    public void setSolverId(Long solverId) {
+        this.solverId = solverId;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
         hash = 67 * hash + Objects.hashCode(this.id);
         hash = 67 * hash + this.quantity;
         hash = 67 * hash + Objects.hashCode(this.complaintPlacingDate);
+        hash = 67 * hash + Objects.hashCode(this.complaintSolvedDate);
         hash = 67 * hash + Objects.hashCode(this.description);
         hash = 67 * hash + Objects.hashCode(this.remarks);
+        hash = 67 * hash + Objects.hashCode(this.solverId);
+        hash = 67 * hash + Objects.hashCode(this.creatorId);
         hash = 67 * hash + (this.isSolved ? 1 : 0);
         return hash;
     }
@@ -143,6 +176,15 @@ public class Complaint implements Serializable {
             return false;
         }
         if (!Objects.equals(this.complaintPlacingDate, other.complaintPlacingDate)) {
+            return false;
+        }
+        if (!Objects.equals(this.complaintSolvedDate, other.complaintSolvedDate)) {
+            return false;
+        }
+        if (!Objects.equals(this.creatorId, other.creatorId)) {
+            return false;
+        }
+        if (!Objects.equals(this.solverId, other.solverId)) {
             return false;
         }
         return true;
