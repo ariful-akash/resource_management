@@ -82,7 +82,7 @@ public class FloorDAOImpl implements FloorDAO {
      * @return
      */
     @Override
-    public List<Floor> getAllFloor() {
+    public List<Floor> getAllFloors() {
 
         Session session = sessionFactory.getCurrentSession();
         String hql = "FROM Floor";

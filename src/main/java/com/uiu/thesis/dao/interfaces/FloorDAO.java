@@ -20,5 +20,5 @@ public interface FloorDAO {
 
     public Floor getFloorById(Long floorId);
 
-    public List<Floor> getAllFloor();
+    public List<Floor> getAllFloors();
 }
