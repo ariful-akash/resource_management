@@ -8,10 +8,12 @@ package com.uiu.thesis.controllers.ashifDBop;
 import com.github.javafaker.Faker;
 import com.uiu.thesis.dao.interfaces.CommentDAO;
 import com.uiu.thesis.dao.interfaces.CommentReplyDAO;
+import com.uiu.thesis.dao.interfaces.ComplaintTypeDAO;
 import com.uiu.thesis.dao.interfaces.HumanResourceDAO;
 import com.uiu.thesis.dao.interfaces.PostDAO;
-import com.uiu.thesis.dao.interfaces.RequisitionDAO;
 import com.uiu.thesis.dao.interfaces.RequisitionTypeDAO;
+import com.uiu.thesis.models.complaint.Complaint;
+import com.uiu.thesis.models.complaint.ComplaintType;
 import com.uiu.thesis.models.forum.Comment;
 import com.uiu.thesis.models.forum.CommentReply;
 import com.uiu.thesis.models.forum.Post;
@@ -51,7 +53,7 @@ public class AshifOtherDBOperationController {
     private RequisitionTypeDAO requisitionTypeDAO;
 
     @Autowired
-    private RequisitionDAO requisitionDAO;
+    private ComplaintTypeDAO complaintTypeDAO;
 
     /**
      * This method returns a new object of post with content and posting time
@@ -291,6 +293,11 @@ public class AshifOtherDBOperationController {
         return "success";
     }
 
+    /**
+     *
+     * @param creatorId
+     * @return
+     */
     private Requisition getFakeRequisition(Long creatorId) {
 
         Requisition requisition = new Requisition();
@@ -320,7 +327,7 @@ public class AshifOtherDBOperationController {
      * @return
      */
     @RequestMapping(value = "/map/insert/requisition")
-    public String insertComplaintsByType() {
+    public String insertRequisitionsByType() {
 
         List<RequisitionType> requisitionTypes = requisitionTypeDAO.getAllRequisitionTypes();
         List<HumanResource> hrs = humanResourceDAO.getAllHumanResources();
@@ -341,6 +348,60 @@ public class AshifOtherDBOperationController {
             }
 
             requisitionTypeDAO.updateRequisitionType(requisitionType);
+        }
+
+        return "success";
+    }
+
+    /**
+     *
+     * @param creatorId
+     * @return
+     */
+    private Complaint getFakeComplaint(Long creatorId) {
+
+        Complaint complaint = new Complaint();
+        Faker faker = new Faker();
+        Random random = new Random();
+        Date date = faker.date().birthday(0, 1);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+
+        complaint.setCreatorId(creatorId);
+        complaint.setDescription(faker.lorem().paragraph(5));
+        complaint.setComplaintPlacingDate(calendar.getTime());
+
+        calendar.add(Calendar.DATE, 2);
+        complaint.setComplaintSolvedDate(calendar.getTime());
+
+        return complaint;
+    }
+
+    /**
+     *
+     * @return
+     */
+    @RequestMapping(value = "/map/insert/complaint")
+    public String insertComplaintsByType() {
+
+        List<ComplaintType> complaintTypes = complaintTypeDAO.getComplaintTypes();
+        List<HumanResource> hrs = humanResourceDAO.getAllHumanResources();
+
+        for (ComplaintType complaintType : complaintTypes) {
+
+            for (HumanResource hr : hrs) {
+
+                Complaint complaint = getFakeComplaint(hr.getId());
+                complaintType.getComplaints().add(complaint);
+
+                complaint = getFakeComplaint(hr.getId());
+                complaintType.getComplaints().add(complaint);
+
+                complaint = getFakeComplaint(hr.getId());
+                complaintType.getComplaints().add(complaint);
+            }
+
+            complaintTypeDAO.updateComplaintType(complaintType);
         }
 
         return "success";
