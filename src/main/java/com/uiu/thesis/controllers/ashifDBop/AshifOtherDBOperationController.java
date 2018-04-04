@@ -10,13 +10,20 @@ import com.uiu.thesis.dao.interfaces.CommentDAO;
 import com.uiu.thesis.dao.interfaces.CommentReplyDAO;
 import com.uiu.thesis.dao.interfaces.HumanResourceDAO;
 import com.uiu.thesis.dao.interfaces.PostDAO;
+import com.uiu.thesis.dao.interfaces.RequisitionDAO;
+import com.uiu.thesis.dao.interfaces.RequisitionTypeDAO;
 import com.uiu.thesis.models.forum.Comment;
 import com.uiu.thesis.models.forum.CommentReply;
 import com.uiu.thesis.models.forum.Post;
+import com.uiu.thesis.models.requisition.Requisition;
+import com.uiu.thesis.models.requisition.RequisitionType;
 import com.uiu.thesis.models.user.HumanResource;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +46,12 @@ public class AshifOtherDBOperationController {
 
     @Autowired
     private CommentReplyDAO commentReplyDAO;
+
+    @Autowired
+    private RequisitionTypeDAO requisitionTypeDAO;
+
+    @Autowired
+    private RequisitionDAO requisitionDAO;
 
     /**
      * This method returns a new object of post with content and posting time
@@ -228,4 +241,108 @@ public class AshifOtherDBOperationController {
         return "success";
     }
 
+    /**
+     *
+     * @return
+     */
+    @RequestMapping(value = "/map/post/comment")
+    public String mapPostComment() {
+
+        List<Post> posts = postDAO.getAllPosts();
+        List<Comment> comments = commentDAO.getAllComments();
+
+        int j = 0;
+        for (Post post : posts) {
+
+            for (int i = 0; i < 12; i++) {
+
+                Comment comment = comments.get(j);
+                comment.setPostId(post.getId());
+                commentDAO.updateComment(comment);
+                j++;
+            }
+        }
+
+        return "success";
+    }
+
+    /**
+     *
+     * @return
+     */
+    @RequestMapping(value = "/map/comment/reply")
+    public String mapCommentReply() {
+
+        List<Comment> comments = commentDAO.getAllComments();
+        List<CommentReply> commentReplys = commentReplyDAO.getAllCommentReplys();
+
+        int j = 0;
+        for (Comment comment : comments) {
+
+            for (int i = 0; i < 3; i++) {
+
+                CommentReply reply = commentReplys.get(j);
+                reply.setCommentId(comment.getId());
+                commentReplyDAO.updateCommentReply(reply);
+                j++;
+            }
+        }
+
+        return "success";
+    }
+
+    private Requisition getFakeRequisition(Long creatorId) {
+
+        Requisition requisition = new Requisition();
+        Faker faker = new Faker();
+        Random random = new Random();
+        Date date = faker.date().birthday(0, 1);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+
+        requisition.setCreatorId(creatorId);
+        requisition.setPurpose(faker.lorem().paragraph(5));
+        requisition.setQuantity(random.nextInt(4) + 1);
+
+        requisition.setRequisitionPlacingDate(calendar.getTime());
+
+        calendar.add(Calendar.DATE, 2);
+        requisition.setRequisitionSolvedDate(calendar.getTime());
+
+        calendar.add(Calendar.DATE, 2);
+        requisition.setRequisitionNeedDate(calendar.getTime());
+
+        return requisition;
+    }
+
+    /**
+     *
+     * @return
+     */
+    @RequestMapping(value = "/map/insert/requisition")
+    public String insertComplaintsByType() {
+
+        List<RequisitionType> requisitionTypes = requisitionTypeDAO.getAllRequisitionTypes();
+        List<HumanResource> hrs = humanResourceDAO.getAllHumanResources();
+        Set<Requisition> requisitions = new HashSet<>();
+
+        for (RequisitionType requisitionType : requisitionTypes) {
+
+            for (HumanResource hr : hrs) {
+
+                Requisition requisition = getFakeRequisition(hr.getId());
+                requisitionType.getRequisitions().add(requisition);
+
+                requisition = getFakeRequisition(hr.getId());
+                requisitionType.getRequisitions().add(requisition);
+
+                requisition = getFakeRequisition(hr.getId());
+                requisitionType.getRequisitions().add(requisition);
+            }
+
+            requisitionTypeDAO.updateRequisitionType(requisitionType);
+        }
+
+        return "success";
+    }
 }
