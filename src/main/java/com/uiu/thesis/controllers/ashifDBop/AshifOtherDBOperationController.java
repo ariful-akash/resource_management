@@ -127,16 +127,15 @@ public class AshifOtherDBOperationController {
 
         List<Comment> comments = commentDAO.getAllComments();
 
-        for (Comment comment : comments) {
-
-            for (int i = 1; i <= 3; i++) {
-
-                comment.getCommentReplies().add(getFakeCommentReply(comment.getCommentTime()));
-            }
-
-            commentDAO.updateComment(comment);
-        }
-
+//        for (Comment comment : comments) {
+//
+//            for (int i = 1; i <= 3; i++) {
+//
+//                comment.getCommentReplies().add(getFakeCommentReply(comment.getCommentTime()));
+//            }
+//
+//            commentDAO.updateComment(comment);
+//        }
         return "success";
     }
 
@@ -150,18 +149,18 @@ public class AshifOtherDBOperationController {
         List<HumanResource> hrs = humanResourceDAO.getAllHumanResources();
         List<Post> posts = postDAO.getAllPosts();
 
-//        int j = 0;
-//        for (HumanResource hr : hrs) {
-//
-//            for (int i = 0; i < 25; i++) {
-//
-//                hr.getPosts().add(posts.get(j));
-//                j++;
-//            }
-//
-//            humanResourceDAO.updateHumanResource(hr);
-//        }
-//
+        int j = 0;
+        for (HumanResource hr : hrs) {
+
+            for (int i = 0; i < 25; i++) {
+
+                Post post = posts.get(j);
+                post.setPosterId(hr.getId());
+                postDAO.updatePost(post);
+                j++;
+            }
+        }
+
         return "success";
     }
 
