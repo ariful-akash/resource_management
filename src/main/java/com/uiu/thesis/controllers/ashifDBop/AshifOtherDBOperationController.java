@@ -12,6 +12,7 @@ import com.uiu.thesis.dao.interfaces.ComplaintTypeDAO;
 import com.uiu.thesis.dao.interfaces.HumanResourceDAO;
 import com.uiu.thesis.dao.interfaces.PostDAO;
 import com.uiu.thesis.dao.interfaces.RequisitionTypeDAO;
+import com.uiu.thesis.dao.interfaces.TagTypeDAO;
 import com.uiu.thesis.models.complaint.Complaint;
 import com.uiu.thesis.models.complaint.ComplaintType;
 import com.uiu.thesis.models.forum.Comment;
@@ -54,6 +55,9 @@ public class AshifOtherDBOperationController {
 
     @Autowired
     private ComplaintTypeDAO complaintTypeDAO;
+
+    @Autowired
+    private TagTypeDAO tagTypeDAO;
 
     /**
      * This method returns a new object of post with content and posting time
@@ -402,6 +406,26 @@ public class AshifOtherDBOperationController {
             }
 
             complaintTypeDAO.updateComplaintType(complaintType);
+        }
+
+        return "success";
+    }
+
+    /**
+     *
+     * @return
+     */
+    @RequestMapping(value = "/map/post/tag")
+    public String mapPostTag() {
+
+        Random random = new Random();
+
+        for (int i = 1000; i <= 1999; i++) {
+
+            tagTypeDAO.mapPostTag((long) i, (long) random.nextInt(16) + 1);
+            tagTypeDAO.mapPostTag((long) i, (long) random.nextInt(16) + 1);
+            tagTypeDAO.mapPostTag((long) i, (long) random.nextInt(16) + 1);
+            tagTypeDAO.mapPostTag((long) i, (long) random.nextInt(16) + 1);
         }
 
         return "success";
