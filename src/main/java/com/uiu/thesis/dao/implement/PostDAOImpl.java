@@ -7,6 +7,7 @@ import com.uiu.thesis.models.user.HumanResource;
 import java.util.Date;
 import java.util.List;
 import javax.transaction.Transactional;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -119,9 +120,28 @@ public class PostDAOImpl implements PostDAO {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param posterId
+     * @return
+     */
     @Override
     public List<Post> getPostsByPoster(Long posterId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        if (posterId > 0) {
+
+            Session session = sessionFactory.getCurrentSession();
+            String hql = "FROM Post post WHERE post.posterId = :posterId";
+            Query query = session.createQuery(hql);
+            query.setParameter("posterId", posterId);
+
+            @SuppressWarnings("unchecked")
+            List<Post> posts = query.list();
+
+            return posts;
+        }
+
+        return null;
     }
 
     @Override
