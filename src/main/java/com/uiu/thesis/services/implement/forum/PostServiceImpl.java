@@ -33,15 +33,33 @@ public class PostServiceImpl implements PostService {
      *
      * @param post
      * @param posterId
+     * @param tags
      * @return
      */
     @Override
-    public int addNewPost(Post post, Long posterId) {
+    public int addNewPost(Post post, Long posterId, String[] tags) {
 
-        if (post != null && post.getId() == 0 && post.getContet().length() > 0 && posterId > 0) {
+        if (post != null && post.getId() == null && post.getContet().length() > 0 && posterId > 0) {
 
             post.setPosterId(posterId);
             postDAO.addPost(post);
+
+            for (String tag : tags) {
+
+                long tagId = tagTypeDAO.isExist(tag);
+
+                if (tagId == 0) {
+
+                    TagType tagType = new TagType();
+                    tagType.setTag(tag);
+
+                    tagTypeDAO.addTagType(tagType);
+
+                    tagId = tagType.getId();
+                }
+
+                tagTypeDAO.mapPostTag(post.getId(), tagId);
+            }
 
             return 1;
         }
