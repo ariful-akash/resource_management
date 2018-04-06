@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface PostService {
 
-    public int addNewPost(Post post);
+    public int addNewPost(Post post, Long posterId);
 
     public int editPost(Post post);
 
