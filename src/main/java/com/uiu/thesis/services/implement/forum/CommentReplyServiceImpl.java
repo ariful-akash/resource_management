@@ -3,11 +3,15 @@ package com.uiu.thesis.services.implement.forum;
 import com.uiu.thesis.models.forum.CommentReply;
 import com.uiu.thesis.services.interfaces.forum.CommentReplyService;
 import java.util.List;
+import javax.transaction.Transactional;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author ashif
  */
+@Service
+@Transactional
 public class CommentReplyServiceImpl implements CommentReplyService {
 
     @Override
