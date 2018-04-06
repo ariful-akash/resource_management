@@ -1,5 +1,6 @@
 package com.uiu.thesis.models.complaint;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -16,6 +17,7 @@ import javax.persistence.Temporal;
  */
 @Entity
 @Table(name = "complaints")
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Complaint implements Serializable {
 
     private static final long serialVersionUID = 1L;

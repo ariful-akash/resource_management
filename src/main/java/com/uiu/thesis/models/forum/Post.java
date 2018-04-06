@@ -1,5 +1,6 @@
 package com.uiu.thesis.models.forum;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -21,6 +22,7 @@ import javax.persistence.Temporal;
  */
 @Entity
 @Table(name = "posts")
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Post implements Serializable {
 
     private static final long serialVersionUID = 1L;

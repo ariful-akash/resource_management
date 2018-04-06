@@ -1,5 +1,6 @@
 package com.uiu.thesis.models.user;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -22,6 +23,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "human_resources")
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class HumanResource implements Serializable {
 
     private static final long serialVersionUID = 1L;

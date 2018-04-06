@@ -1,5 +1,6 @@
 package com.uiu.thesis.models.user;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -15,6 +16,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "access_types")
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class AccessType implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -26,11 +28,6 @@ public class AccessType implements Serializable {
     @Column(name = "description")
     private String description;
 
-//    @ManyToMany(mappedBy = "access", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//    private List<HumanResource> users;
-//
-//    @ManyToMany(mappedBy = "accessTypes", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//    private List<Role> roles;
     /**
      * Constructor
      */
@@ -58,20 +55,6 @@ public class AccessType implements Serializable {
         this.description = description;
     }
 
-//    public List<HumanResource> getUsers() {
-//        return users;
-//    }
-//
-//    public void setUsers(List<HumanResource> users) {
-//        this.users = users;
-//    }
-//    public List<Role> getRoles() {
-//        return roles;
-//    }
-//
-//    public void setRoles(List<Role> roles) {
-//        this.roles = roles;
-//    }
     @Override
     public int hashCode() {
         int hash = 5;

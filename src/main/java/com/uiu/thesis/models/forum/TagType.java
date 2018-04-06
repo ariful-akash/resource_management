@@ -5,6 +5,7 @@
  */
 package com.uiu.thesis.models.forum;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
@@ -24,6 +25,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "tag_types")
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class TagType implements Serializable {
 
     private static final long serialVersionUID = 1L;

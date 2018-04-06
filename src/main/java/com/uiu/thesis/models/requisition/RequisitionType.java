@@ -1,5 +1,6 @@
 package com.uiu.thesis.models.requisition;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
@@ -19,6 +20,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "requisition_types")
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class RequisitionType implements Serializable {
 
     private static final long serialVersionUID = 1L;
