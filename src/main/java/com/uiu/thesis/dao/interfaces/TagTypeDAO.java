@@ -21,6 +21,8 @@ public interface TagTypeDAO {
 
     public TagType getTagTypeById(Long tagId);
 
+    public boolean isExist(String tag);
+
     public List<TagType> getTags();
 
     public List<TagType> getAllTagTypes();

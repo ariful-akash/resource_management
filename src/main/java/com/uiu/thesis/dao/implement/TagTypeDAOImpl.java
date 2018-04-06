@@ -120,6 +120,19 @@ public class TagTypeDAOImpl implements TagTypeDAO {
 
     /**
      *
+     * @param tag
+     * @return
+     */
+    @Override
+    public boolean isExist(String tag) {
+
+        String sql = "SELECT * FROM tag_types WHERE tag = '" + tag + "'";
+
+        return getTagBySQL(sql) != null;
+    }
+
+    /**
+     *
      * @return
      */
     @Override
@@ -166,4 +179,5 @@ public class TagTypeDAOImpl implements TagTypeDAO {
 
         return null;
     }
+
 }
