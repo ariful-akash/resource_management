@@ -124,11 +124,18 @@ public class TagTypeDAOImpl implements TagTypeDAO {
      * @return
      */
     @Override
-    public boolean isExist(String tag) {
+    public Long isExist(String tag) {
 
         String sql = "SELECT * FROM tag_types WHERE tag = '" + tag + "'";
 
-        return getTagBySQL(sql) != null;
+        List<TagType> tagTypes = getTagBySQL(sql);
+
+        if (tagTypes != null) {
+
+            return tagTypes.get(0).getId();
+        }
+
+        return Long.valueOf(0);
     }
 
     /**
