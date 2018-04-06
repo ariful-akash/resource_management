@@ -97,4 +97,21 @@ public class TagTypeDAOImpl implements TagTypeDAO {
         return null;
     }
 
+    /**
+     *
+     * @param tagId
+     * @return
+     */
+    @Override
+    public TagType getTagTypeById(Long tagId) {
+
+        if (tagId > 0) {
+
+            Session session = sessionFactory.getCurrentSession();
+            return (TagType) session.get(TagType.class, tagId);
+        }
+
+        return null;
+    }
+
 }

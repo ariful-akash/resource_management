@@ -19,6 +19,8 @@ public interface TagTypeDAO {
 
     public int mapPostTag(Long postId, Long tagId);
 
+    public TagType getTagTypeById(Long tagId);
+
     public List<TagType> getAllTagTypes();
 
     public List<TagType> getTagTypesByPost(Post post);
