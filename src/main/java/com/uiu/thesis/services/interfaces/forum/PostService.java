@@ -17,6 +17,8 @@ public interface PostService {
 
     public Post getPostById(Long postId);
 
+    public Post getPostByComment(Long commentId);
+
     public List<Post> getPostsByUser(Long posterId);
 
     public List<Post> getPostsByTag(Long tagId);
