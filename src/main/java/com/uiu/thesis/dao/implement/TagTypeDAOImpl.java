@@ -3,8 +3,12 @@ package com.uiu.thesis.dao.implement;
 import com.uiu.thesis.dao.interfaces.TagTypeDAO;
 import com.uiu.thesis.models.forum.Post;
 import com.uiu.thesis.models.forum.TagType;
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.transaction.Transactional;
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -114,4 +118,52 @@ public class TagTypeDAOImpl implements TagTypeDAO {
         return null;
     }
 
+    /**
+     *
+     * @return
+     */
+    @Override
+    public List<TagType> getTags() {
+
+        String sql = "SELECT * FROM tag_types";
+
+        return getTagBySQL(sql);
+    }
+
+    /**
+     *
+     * @param sql
+     * @return
+     */
+    private List<TagType> getTagBySQL(String sql) {
+
+        Session session = sessionFactory.getCurrentSession();
+
+        Query query = session.createSQLQuery(sql);
+        query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+
+        List results = query.list();
+
+        if (results.size() > 0) {
+
+            List<TagType> tagTypes = new ArrayList<>();
+
+            for (Object res : results) {
+
+                TagType tag = new TagType();
+                Map row = (Map) res;
+
+                BigInteger idInt = (BigInteger) row.get("id");
+
+                tag.setId(idInt.longValue());
+                tag.setTag((String) row.get("tag"));
+
+                tagTypes.add(tag);
+            }
+
+            return tagTypes;
+        }
+
+        return null;
+    }
 }
