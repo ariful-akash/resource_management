@@ -63,12 +63,12 @@ public class Post implements Serializable {
         this.id = id;
     }
 
-    public String getContet() {
+    public String getContent() {
         return content;
     }
 
-    public void setContet(String contet) {
-        this.content = contet;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public Date getPostTime() {
@@ -169,6 +169,6 @@ public class Post implements Serializable {
 //    }
     @Override
     public String toString() {
-        return "Post{" + "id=" + id + ", contet=" + content + ", postTime=" + postTime + ", tags=" + tags + '}';
+        return "Post{" + "id=" + id + ", content=" + content + ", postTime=" + postTime + ", tags=" + tags + '}';
     }
 }
