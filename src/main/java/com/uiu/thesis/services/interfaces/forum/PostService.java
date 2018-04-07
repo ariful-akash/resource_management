@@ -11,7 +11,7 @@ public interface PostService {
 
     public int addNewPost(Post post, Long posterId, String[] tags);
 
-    public int editPost(Post post);
+    public int editPost(Long postId, String content);
 
     public List<Post> getAllPosts();
 

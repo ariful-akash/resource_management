@@ -39,7 +39,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public int addNewPost(Post post, Long posterId, String[] tags) {
 
-        if (post != null && post.getId() == null && post.getContet().length() > 0 && posterId > 0) {
+        if (post != null && post.getId() == null && post.getContent().length() > 0 && posterId > 0) {
 
             post.setPosterId(posterId);
             postDAO.addPost(post);
@@ -69,15 +69,22 @@ public class PostServiceImpl implements PostService {
 
     /**
      *
-     * @param post
+     * @param postId
+     * @param content
      * @return
      */
     @Override
-    public int editPost(Post post) {
+    public int editPost(Long postId, String content) {
 
-        if (post != null && post.getId() > 0) {
+        if (postId > 0 && content.length() > 0) {
 
-            postDAO.updatePost(post);
+            Post post = postDAO.getPostById(postId);
+
+            if (post != null) {
+
+                post.setContent(content);
+                return postDAO.updatePost(post);
+            }
         }
 
         return 0;
@@ -146,17 +153,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<Post> getPostsByTag(Long tagId) {
 
-        if (tagId > 0) {
-
-            TagType tag = tagTypeDAO.getTagTypeById(tagId);
-
-            if (tag != null) {
-
-                return tag.getPosts();
-            }
-        }
-
-        return null;
+        throw new UnsupportedOperationException("This method is not implemented yet");
     }
 
 }
