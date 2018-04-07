@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author ashif
  */
-@RestController(value = "/forum/post")
+@RestController(value = "/service/forum/post")
 public class PostRestController {
 
     @Autowired
@@ -34,7 +34,7 @@ public class PostRestController {
      * @return
      */
     @RequestMapping(
-            value = "/forum/post/add",
+            value = "/service/forum/post/add",
             params = {"post", "poster", "tags"},
             method = RequestMethod.POST,
             produces = {"application/json;charset=UTF-8"})
@@ -68,7 +68,7 @@ public class PostRestController {
      * @return
      */
     @RequestMapping(
-            value = "/forum/post/get",
+            value = "/service/forum/post/get",
             params = {"user"},
             method = RequestMethod.GET,
             produces = {"application/json;charset=UTF-8"})
