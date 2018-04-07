@@ -32,7 +32,7 @@ public class Post implements Serializable {
     private Long id;
 
     @Column(name = "content", nullable = false, length = 2000)
-    private String contet;
+    private String content;
 
     @Column(name = "post_time", nullable = false)
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
@@ -64,11 +64,11 @@ public class Post implements Serializable {
     }
 
     public String getContet() {
-        return contet;
+        return content;
     }
 
     public void setContet(String contet) {
-        this.contet = contet;
+        this.content = contet;
     }
 
     public Date getPostTime() {
@@ -111,7 +111,7 @@ public class Post implements Serializable {
     public int hashCode() {
         int hash = 3;
         hash = 97 * hash + Objects.hashCode(this.id);
-        hash = 97 * hash + Objects.hashCode(this.contet);
+        hash = 97 * hash + Objects.hashCode(this.content);
         hash = 97 * hash + Objects.hashCode(this.postTime);
 //        hash = 97 * hash + Objects.hashCode(this.poster);
         hash = 97 * hash + Objects.hashCode(this.tags);
@@ -137,7 +137,7 @@ public class Post implements Serializable {
             return false;
         }
         final Post other = (Post) obj;
-        if (!Objects.equals(this.contet, other.contet)) {
+        if (!Objects.equals(this.content, other.content)) {
             return false;
         }
         if (!Objects.equals(this.id, other.id)) {
@@ -169,6 +169,6 @@ public class Post implements Serializable {
 //    }
     @Override
     public String toString() {
-        return "Post{" + "id=" + id + ", contet=" + contet + ", postTime=" + postTime + ", tags=" + tags + '}';
+        return "Post{" + "id=" + id + ", contet=" + content + ", postTime=" + postTime + ", tags=" + tags + '}';
     }
 }
