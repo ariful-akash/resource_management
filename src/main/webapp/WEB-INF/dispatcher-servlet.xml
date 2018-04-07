@@ -60,4 +60,6 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 
     <tx:annotation-driven transaction-manager="transactionManager" />
 
+    <mvc:resources mapping="/web-resources/**" location="/web-resources/" />
+
 </beans>
