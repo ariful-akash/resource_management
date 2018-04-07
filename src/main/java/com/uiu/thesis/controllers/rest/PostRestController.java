@@ -1,34 +1,50 @@
 package com.uiu.thesis.controllers.rest;
 
-import com.github.javafaker.Faker;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.uiu.thesis.models.forum.Post;
 import com.uiu.thesis.services.interfaces.forum.PostService;
-import java.util.Date;
+import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
  * @author ashif
  */
-@RestController
+@RestController(value = "/forum/post")
 public class PostRestController {
 
     @Autowired
     private PostService postService;
 
-    @RequestMapping(value = "/rest/test/post")
-    public String testPostService() {
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
-        Post post = new Post();
-        String[] hh = {"food", "canteen"};
+    @RequestMapping(
+            value = "/forum/post/add",
+            params = {"post", "poster", "tags"},
+            method = RequestMethod.POST)
+    public String testPostService(
+            @RequestParam("post") String postJson,
+            @RequestParam("poster") long posterId,
+            @RequestParam("tags") String tagJson) {
 
-        post.setContet(new Faker().lorem().paragraph());
-        post.setPostTime(new Date());
+        try {
 
-        postService.addNewPost(post, (long) 104, hh);
+            Post post = objectMapper.readValue(postJson, Post.class);
+            String[] tags = objectMapper.readValue(
+                    tagJson,
+                    TypeFactory.defaultInstance().constructArrayType(String.class));
 
-        return "done";
+            postService.addNewPost(post, posterId, tags);
+        } catch (IOException e) {
+
+            return "{\"insert\":\"false\"}";
+        }
+
+        return "{\"insert\":\"true\"}";
     }
 }
