@@ -221,7 +221,9 @@ public class PostDAOImpl implements PostDAO {
 
             Map row = (Map) result;
 
-            postsId.add((long) row.get("posts_id"));
+            BigInteger idInt = (BigInteger) row.get("posts_id");
+
+            postsId.add(idInt.longValue());
         }
 
         return postsId;
@@ -242,7 +244,7 @@ public class PostDAOImpl implements PostDAO {
             if (id != 0) {
 
                 String sql = "select posts_id from posts_tag_types "
-                        + "where tags_id = " + id + ")";
+                        + "where tags_id = " + id;
 
                 return getPostsIdByTagSQL(sql);
             }
