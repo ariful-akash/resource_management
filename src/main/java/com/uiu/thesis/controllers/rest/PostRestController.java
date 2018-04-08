@@ -96,4 +96,40 @@ public class PostRestController {
 
         return "[]";
     }
+
+    /**
+     *
+     * @param newContent
+     * @param postId
+     * @return
+     */
+    @RequestMapping(
+            value = "/service/forum/post/edit",
+            params = {"content", "postid"},
+            method = RequestMethod.POST,
+            produces = {"application/json;charset=UTF-8"})
+
+    public String editPost(
+            @RequestParam("content") String newContent,
+            @RequestParam("postid") long postId) {
+
+        int returnVal;
+
+        try {
+
+            returnVal = postService.editPost(postId, newContent);
+
+        } catch (Exception e) {
+
+            returnVal = 0;
+            System.err.println(e.toString());
+        }
+
+        if (returnVal == 0) {
+
+            return "{\"edit\":\"false\"}";
+        }
+
+        return "{\"edit\":\"true\"}";
+    }
 }
