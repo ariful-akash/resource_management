@@ -7,6 +7,8 @@ import com.uiu.thesis.models.forum.Comment;
 import com.uiu.thesis.models.forum.Post;
 import com.uiu.thesis.models.forum.TagType;
 import com.uiu.thesis.services.interfaces.forum.PostService;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -147,13 +149,45 @@ public class PostServiceImpl implements PostService {
 
     /**
      *
-     * @param tagId
+     * @param tags
      * @return
      */
     @Override
-    public List<Post> getPostsByTag(Long tagId) {
+    public List<Post> getPostsByTag(String[] tags) {
 
-        throw new UnsupportedOperationException("This method is not implemented yet");
+        if (tags.length > 0) {
+
+            List<String> tagsList1 = new ArrayList<>(Arrays.asList(tags));
+            List<String> tagsList = new ArrayList<>(Arrays.asList(tags));
+
+            for (String tagString : tagsList1) {
+
+                Long id = tagTypeDAO.isExist(tagString);
+                if (id == 0) {
+
+                    tagsList.remove(tagString);
+                }
+            }
+
+            if (tagsList.size() > 0) {
+
+                List<Long> postsId = postDAO.getPostsIdByTagTypes(tagsList);
+
+                if (postsId != null && postsId.size() > 0) {
+
+                    List<Post> resultPosts = new ArrayList<>();
+
+                    for (Long id : postsId) {
+
+                        Post post = postDAO.getPostById(id);
+                        resultPosts.add(post);
+                    }
+
+                    return resultPosts;
+                }
+            }
+        }
+        return null;
     }
 
 }
