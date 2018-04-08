@@ -3,8 +3,8 @@ package com.uiu.thesis.models.forum;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -39,7 +39,7 @@ public class Post implements Serializable {
     private Date postTime;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<TagType> tags;
+    private Set<TagType> tags;
 
     @Column(name = "poster_id")
     private Long posterId;
@@ -94,11 +94,11 @@ public class Post implements Serializable {
 //    public void setPoster(HumanResource poster) {
 //        this.poster = poster;
 //    }
-    public List<TagType> getTags() {
+    public Set<TagType> getTags() {
         return tags;
     }
 
-    public void setTags(List<TagType> tags) {
+    public void setTags(Set<TagType> tags) {
         this.tags = tags;
     }
 
