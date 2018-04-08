@@ -1,13 +1,19 @@
 package com.uiu.thesis.dao.implement;
 
 import com.uiu.thesis.dao.interfaces.PostDAO;
+import com.uiu.thesis.dao.interfaces.TagTypeDAO;
 import com.uiu.thesis.models.forum.Post;
 import com.uiu.thesis.models.forum.TagType;
 import com.uiu.thesis.models.user.HumanResource;
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import javax.transaction.Transactional;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +29,43 @@ public class PostDAOImpl implements PostDAO {
 
     @Autowired(required = true)
     private SessionFactory sessionFactory;
+
+    @Autowired
+    private TagTypeDAO tagTypeDAO;
+
+    /**
+     *
+     * @param sql
+     * @return
+     */
+    private List<Post> getPostsBySQL(String sql) {
+
+        Session session = sessionFactory.getCurrentSession();
+        SQLQuery query = session.createSQLQuery(sql);
+
+        query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+        List results = query.list();
+
+        List<Post> posts = new ArrayList<>();
+
+        for (Object result : results) {
+
+            Post post = new Post();
+
+            Map row = (Map) result;
+
+            BigInteger idInt = (BigInteger) row.get("id");
+
+            post.setId(idInt.longValue());
+            post.setContent((String) row.get("content"));
+            post.setPostTime((Date) row.get("post_time"));
+            post.setPosterId((long) row.get("poster_id"));
+
+            posts.add(post);
+        }
+
+        return posts;
+    }
 
     /**
      *
@@ -159,9 +202,73 @@ public class PostDAOImpl implements PostDAO {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param sql
+     * @return
+     */
+    private List<Long> getPostsIdByTagSQL(String sql) {
+
+        Session session = sessionFactory.getCurrentSession();
+        SQLQuery query = session.createSQLQuery(sql);
+
+        query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+        List results = query.list();
+
+        List<Long> postsId = new ArrayList<>();
+
+        for (Object result : results) {
+
+            Map row = (Map) result;
+
+            postsId.add((long) row.get("posts_id"));
+        }
+
+        return postsId;
+    }
+
+    /**
+     *
+     * @param tag
+     * @return
+     */
     @Override
-    public List<Post> getPostsByTagTypes(List<TagType> tagTypes) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Long> getPostsIdByTagType(String tag) {
+
+        if (tag != null) {
+
+            Long id = tagTypeDAO.isExist(tag);
+
+            if (id != 0) {
+
+                String sql = "select posts_id from posts_tag_types "
+                        + "where tags_id = " + id + ")";
+
+                return getPostsIdByTagSQL(sql);
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     *
+     * @param tags
+     * @return
+     */
+    @Override
+    public List<Long> getPostsIdByTagTypes(List<String> tags) {
+
+        List<Long> resultIds = getPostsIdByTagType(tags.get(0));
+
+        for (int i = 1; i < tags.size(); i++) {
+
+            List<Long> ids = getPostsIdByTagType(tags.get(i));
+
+            resultIds.retainAll(ids);
+        }
+
+        return resultIds;
     }
 
 }

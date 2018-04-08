@@ -38,5 +38,7 @@ public interface PostDAO {
 
     public List<Post> getPostsByTagType(TagType tagType);
 
-    public List<Post> getPostsByTagTypes(List<TagType> tagTypes);
+    public List<Long> getPostsIdByTagType(String tag);
+
+    public List<Long> getPostsIdByTagTypes(List<String> tags);
 }
