@@ -4,7 +4,7 @@
 Common url: /forum/post
 
 ###Inset a new post###
-* url (/forum/post/add)
+* url (/service/forum/post/add)
 * POST method
 * param(Post, Tags Array, posterId)
 * in return there will be a json string confirming the insertion. 
