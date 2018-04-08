@@ -127,9 +127,46 @@ public class PostRestController {
 
         if (returnVal == 0) {
 
-            return "{\"edit\":\"false\"}";
+            return "{\"edited\":\"false\"}";
         }
 
-        return "{\"edit\":\"true\"}";
+        return "{\"edited\":\"true\"}";
+    }
+
+    /**
+     *
+     * @param tags
+     * @return
+     */
+    @RequestMapping(
+            value = "/service/forum/post/search/tag",
+            params = {"tags"},
+            method = RequestMethod.GET,
+            produces = {"application/json;charset=UTF-8"})
+
+    public String searchPostByTag(@RequestParam("tags") String[] tags) {
+
+        List<Post> posts = postService.getPostsByTag(tags);
+
+        if (posts != null) {
+
+            String postsJson;
+            ObjectMapper objectMapper = new ObjectMapper();
+            try {
+
+                objectMapper.setDateFormat(df);
+                postsJson = objectMapper.writeValueAsString(posts);
+            } catch (JsonProcessingException ex) {
+
+                return "[]";
+            }
+
+            if (postsJson != null) {
+
+                return postsJson;
+            }
+        }
+
+        return "[]";
     }
 }

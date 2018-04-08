@@ -21,5 +21,5 @@ public interface PostService {
 
     public List<Post> getPostsByUser(Long posterId);
 
-    public List<Post> getPostsByTag(Long tagId);
+    public List<Post> getPostsByTag(String[] tags);
 }
