@@ -92,7 +92,7 @@ public class PostDAOImpl implements PostDAO {
         if (postId > 0) {
 
             Session session = sessionFactory.getCurrentSession();
-            return (Post) session.get(Package.class, postId);
+            return (Post) session.get(Post.class, postId);
         }
 
         return null;
