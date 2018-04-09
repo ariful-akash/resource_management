@@ -153,12 +153,15 @@ public class Comment implements Serializable {
         if (!Objects.equals(this.postId, other.postId)) {
             return false;
         }
+        if (!Objects.equals(this.commenterId, other.commenterId)) {
+            return false;
+        }
         return true;
     }
 
     @Override
     public String toString() {
-        return "Comment{" + "id=" + id + ", content=" + content + ", commentTime=" + commentTime + ", edited=" + edited + '}';
+        return "Comment{" + "id=" + id + ", content=" + content + ", commentTime=" + commentTime + ", edited=" + edited + ", commenterId=" + commenterId + ", postId=" + postId + '}';
     }
 
 }
