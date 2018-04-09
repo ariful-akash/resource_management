@@ -44,7 +44,7 @@ public class CommentDAOImpl implements CommentDAO {
     @Override
     public int updateComment(Comment comment) {
 
-        if (comment.getId() > 0) {
+        if (comment != null && comment.getId() > 0) {
 
             Session session = sessionFactory.getCurrentSession();
             try {
