@@ -5,6 +5,7 @@ import com.uiu.thesis.models.forum.Comment;
 import com.uiu.thesis.models.forum.CommentReply;
 import java.util.List;
 import javax.transaction.Transactional;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,9 +90,29 @@ public class CommentReplyDAOImpl implements CommentReplyDAO {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param commentId
+     * @return
+     */
     @Override
     public List<CommentReply> getAllCommentReplys(Long commentId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        if (commentId > 0) {
+
+            Session session = sessionFactory.getCurrentSession();
+            String hql = "FROM CommentReply cr WHERE cr.commentId = :id";
+
+            Query query = session.createQuery(hql);
+            query.setParameter("id", commentId);
+
+            @SuppressWarnings("unchecked")
+            List<CommentReply> replys = query.list();
+
+            return replys;
+        }
+
+        return null;
     }
 
     /**
