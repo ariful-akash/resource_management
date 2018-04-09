@@ -188,6 +188,6 @@ public class CommentReply implements Serializable {
 //    }
     @Override
     public String toString() {
-        return "CommentReply{" + "id=" + id + ", reply=" + reply + ", dateTime=" + dateTime + ", edited=" + edited + '}';
+        return "CommentReply{" + "id=" + id + ", reply=" + reply + ", dateTime=" + dateTime + ", edited=" + edited + ", replierId=" + replierId + ", commentId=" + commentId + '}';
     }
 }
