@@ -29,5 +29,6 @@
         <a onclick="insertPost()" href="#">Insert Post</a> <br>
         <a onclick="editPost()" href="#">Edit Post</a> <br>
         <a onclick="insertComment()" href="#">Insert Comment</a> <br>
+        <a onclick="editComment()" href="#">Edit Comment</a> <br>
     </body>
 </html>
