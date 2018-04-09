@@ -35,9 +35,20 @@ public class CommentServiceImpl implements CommentService {
         return 0;
     }
 
+    /**
+     *
+     * @param comment
+     * @return
+     */
     @Override
     public int editComment(Comment comment) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        if (comment != null && comment.getId() > 0) {
+
+            return commentDAO.updateComment(comment);
+        }
+
+        return 0;
     }
 
     /**
@@ -56,9 +67,20 @@ public class CommentServiceImpl implements CommentService {
         return null;
     }
 
+    /**
+     *
+     * @param commentId
+     * @return
+     */
     @Override
     public Comment getCommentById(Long commentId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        if (commentId > 0) {
+
+            return commentDAO.getComment(commentId);
+        }
+
+        return null;
     }
 
 }
