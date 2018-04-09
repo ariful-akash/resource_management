@@ -19,9 +19,20 @@ public class CommentServiceImpl implements CommentService {
     @Autowired
     private CommentDAO commentDAO;
 
+    /**
+     *
+     * @param comment
+     * @return
+     */
     @Override
-    public int addNewComment(Comment comment, Long postId, Long commenterId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int addNewComment(Comment comment) {
+
+        if (comment != null && comment.getId() == null) {
+
+            return commentDAO.addComment(comment);
+        }
+
+        return 0;
     }
 
     @Override
