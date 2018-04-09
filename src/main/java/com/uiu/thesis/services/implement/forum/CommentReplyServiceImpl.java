@@ -1,9 +1,11 @@
 package com.uiu.thesis.services.implement.forum;
 
+import com.uiu.thesis.dao.interfaces.CommentReplyDAO;
 import com.uiu.thesis.models.forum.CommentReply;
 import com.uiu.thesis.services.interfaces.forum.CommentReplyService;
 import java.util.List;
 import javax.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,6 +15,9 @@ import org.springframework.stereotype.Service;
 @Service
 @Transactional
 public class CommentReplyServiceImpl implements CommentReplyService {
+
+    @Autowired
+    private CommentReplyDAO commentReplyDAO;
 
     @Override
     public int addNewCommentReply(CommentReply commentReply, Long replierId, Long commentId) {
@@ -24,9 +29,20 @@ public class CommentReplyServiceImpl implements CommentReplyService {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param commentId
+     * @return
+     */
     @Override
     public List<CommentReply> getCommentReplysByComment(Long commentId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        if (commentId > 0) {
+
+            return commentReplyDAO.getAllCommentReplys(commentId);
+        }
+
+        return null;
     }
 
 }
