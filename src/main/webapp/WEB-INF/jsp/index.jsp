@@ -25,7 +25,9 @@
 
         <input id="time" type="time"/>
 
+        <br>
         <a onclick="insertPost()" href="#">Insert Post</a> <br>
-        <a onclick="editPost()" href="#">Edit Post</a>
+        <a onclick="editPost()" href="#">Edit Post</a> <br>
+        <a onclick="insertComment()" href="#">Insert Comment</a> <br>
     </body>
 </html>
