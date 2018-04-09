@@ -65,4 +65,39 @@ public class CommentRestController {
 
         return "{\"insert\":\"false\"}";
     }
+
+    /**
+     *
+     * @param id
+     * @param content
+     * @return
+     */
+    @RequestMapping(
+            value = "/service/forum/comment/edit",
+            params = {"commentid", "content"},
+            produces = {"application/json;charset:UTF-8"},
+            method = RequestMethod.POST)
+    public String editCommentService(
+            @RequestParam("commentid") long id,
+            @RequestParam("content") String content) {
+
+        if (id > 0 && !content.isEmpty()) {
+
+            Comment comment = commentService.getCommentById(id);
+
+            if (comment != null && !content.equals(comment.getContent())) {
+
+                comment.setIsEdited(true);
+                comment.setContent(content);
+                int value = commentService.editComment(comment);
+
+                if (value != 0) {
+
+                    return "{\"edit\":\"true\"}";
+                }
+            }
+        }
+
+        return "{\"edit\":\"false\"}";
+    }
 }
