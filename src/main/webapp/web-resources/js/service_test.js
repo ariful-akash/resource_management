@@ -100,3 +100,32 @@ var insertComment = function () {
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("comment=" + commentJson);
 };
+
+
+/**
+ *
+ * @returns {undefined}
+ */
+var editComment = function () {
+
+    var commentid = 12004;
+    var content = "This is changed content";
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+
+        console.log("Ready state : " + this.readyState + "\nStatus : " + this.status);
+
+        if (this.readyState == 4 && this.status == 200) {
+
+            var result = JSON.parse(this.responseText);
+
+            console.log(result);
+
+        }
+    };
+
+    xhttp.open("POST", "/office_resource_management/service/forum/comment/edit", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("commentid=" + commentid + "&content=" + content);
+};
