@@ -37,6 +37,10 @@ var insertPost = function () {
     xhttp.send("post=" + postJson + "&poster=" + posterId + "&tags=" + tagsJson);
 };
 
+/**
+ * Post updating method
+ * @returns {undefined}
+ */
 var editPost = function () {
 
     var content = "Changed Content";
@@ -59,4 +63,40 @@ var editPost = function () {
     xhttp.open("POST", "/office_resource_management/service/forum/post/edit", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("content=" + content + "&postid=" + postid);
+};
+
+
+/**
+ *
+ * @returns {undefined}
+ */
+var insertComment = function () {
+
+    var comment = {};
+
+    comment.content = "This is a test comment insert!!!";
+    comment.commentTime = new Date();
+    comment.edited = false;
+    comment.commenterId = 140;
+    comment.postId = 1200;
+
+    var commentJson = JSON.stringify(comment);
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+
+        console.log("Ready state : " + this.readyState + "\nStatus : " + this.status);
+
+        if (this.readyState == 4 && this.status == 200) {
+
+            var result = JSON.parse(this.responseText);
+
+            console.log(result);
+
+        }
+    };
+
+    xhttp.open("POST", "/office_resource_management/service/forum/comment/add", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("comment=" + commentJson);
 };
