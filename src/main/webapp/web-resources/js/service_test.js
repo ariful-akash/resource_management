@@ -165,3 +165,31 @@ var addCommentReply = function () {
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("reply=" + replyJson);
 };
+
+/**
+ *
+ * @returns {undefined}
+ */
+var editCommentReply = function () {
+
+    var replyid = 36004;
+    var reply = "This is modified comment reply!! ping!!!";
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+
+        console.log("Ready state : " + this.readyState + "\nStatus : " + this.status);
+
+        if (this.readyState == 4 && this.status == 200) {
+
+            var result = JSON.parse(this.responseText);
+
+            console.log(result);
+
+        }
+    };
+
+    xhttp.open("POST", "/office_resource_management/service/forum/reply/edit", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("replyid=" + replyid + "&reply=" + reply);
+};
