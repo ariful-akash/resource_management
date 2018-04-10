@@ -1,11 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.uiu.thesis.services.interfaces;
 
 import com.uiu.thesis.models.complaint.Complaint;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,4 +15,10 @@ public interface ComplaintService {
     public List<Complaint> getComplaintsByType(Long id);
 
     public List<Complaint> getComplaintsByCreator(Long id);
+
+    public List<Complaint> getComplaintsBySolver(Long id);
+
+    public List<Complaint> getComplaintsSU(boolean solved);
+
+    public List<Complaint> getComplaintsByDate(Date from, Date to);
 }
