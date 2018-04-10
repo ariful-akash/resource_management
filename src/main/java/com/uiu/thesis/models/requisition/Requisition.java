@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -55,6 +56,9 @@ public class Requisition implements Serializable {
 
     @Column(name = "solver_id")
     private Long solverId;
+
+    @ManyToOne
+    private RequisitionType type;
 
     /**
      * Constructor
@@ -147,6 +151,14 @@ public class Requisition implements Serializable {
         this.requisitionSolvedDate = requisitionSovedDate;
     }
 
+    public RequisitionType getType() {
+        return type;
+    }
+
+    public void setType(RequisitionType type) {
+        this.type = type;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
@@ -211,7 +223,7 @@ public class Requisition implements Serializable {
 
     @Override
     public String toString() {
-        return "Requisition{" + "id=" + id + ", quantity=" + quantity + ", requisitionNeedDate=" + requisitionNeedDate + ", requisitionPlacingDate=" + requisitionNeedDate + ", requisitionSolvedDate=" + requisitionSolvedDate + ", purpose=" + purpose + ", remarks=" + remarks + ", isSolved=" + solved + '}';
+        return "Requisition{" + "id=" + id + ", quantity=" + quantity + ", requisitionNeedDate=" + requisitionNeedDate + ", requisitionPlacingDate=" + requisitionNeedDate + ", requisitionSolvedDate=" + requisitionSolvedDate + ", purpose=" + purpose + ", remarks=" + remarks + ", isSolved=" + solved + ", type=" + type + '}';
     }
 
 }

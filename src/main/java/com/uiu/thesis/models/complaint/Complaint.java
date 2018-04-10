@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -48,6 +49,9 @@ public class Complaint implements Serializable {
 
     @Column(name = "solver_id")
     private Long solverId;
+
+    @ManyToOne
+    private ComplaintType type;
 
     /**
      * Constructor
@@ -124,6 +128,14 @@ public class Complaint implements Serializable {
         this.solverId = solverId;
     }
 
+    public ComplaintType getType() {
+        return type;
+    }
+
+    public void setType(ComplaintType type) {
+        this.type = type;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
@@ -183,7 +195,7 @@ public class Complaint implements Serializable {
      */
     @Override
     public String toString() {
-        return "Complaint{" + "id=" + id + ", complaintPlacingDate=" + complaintPlacingDate + ", description=" + description + ", remarks=" + remarks + ", isSolved=" + isSolved + '}';
+        return "Complaint{" + "id=" + id + ", complaintPlacingDate=" + complaintPlacingDate + ", description=" + description + ", remarks=" + remarks + ", isSolved=" + isSolved + ", type=" + type + '}';
     }
 
 }

@@ -1,22 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.uiu.thesis.models.object_resource;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import java.io.Serializable;
-import java.util.List;
 import java.util.Objects;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -37,9 +28,8 @@ public class OfficeResourceType implements Serializable {
     @Column(name = "resource_type", nullable = false, unique = true)
     private String resourceType;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<OfficeResource> officeResources;
-
+//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    private List<OfficeResource> officeResources;
     /**
      * Constructor
      */
@@ -67,20 +57,19 @@ public class OfficeResourceType implements Serializable {
         this.resourceType = resourceType;
     }
 
-    public List<OfficeResource> getOfficeResources() {
-        return officeResources;
-    }
-
-    public void setOfficeResources(List<OfficeResource> officeResources) {
-        this.officeResources = officeResources;
-    }
-
+//    public List<OfficeResource> getOfficeResources() {
+//        return officeResources;
+//    }
+//
+//    public void setOfficeResources(List<OfficeResource> officeResources) {
+//        this.officeResources = officeResources;
+//    }
     @Override
     public int hashCode() {
         int hash = 7;
         hash = 37 * hash + Objects.hashCode(this.id);
         hash = 37 * hash + Objects.hashCode(this.resourceType);
-        hash = 37 * hash + Objects.hashCode(this.officeResources);
+//        hash = 37 * hash + Objects.hashCode(this.officeResources);
         return hash;
     }
 
@@ -102,15 +91,15 @@ public class OfficeResourceType implements Serializable {
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if (!Objects.equals(this.officeResources, other.officeResources)) {
-            return false;
-        }
+//        if (!Objects.equals(this.officeResources, other.officeResources)) {
+//            return false;
+//        }
         return true;
     }
 
     @Override
     public String toString() {
-        return "OfficeResourceType{" + "id=" + id + ", resourceType=" + resourceType + ", officeResources=" + officeResources + '}';
+        return "OfficeResourceType{" + "id=" + id + ", resourceType=" + resourceType + '}';
     }
 
 }

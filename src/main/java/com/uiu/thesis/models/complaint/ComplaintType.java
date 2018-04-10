@@ -2,16 +2,12 @@ package com.uiu.thesis.models.complaint;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import java.io.Serializable;
-import java.util.List;
 import java.util.Objects;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -32,9 +28,8 @@ public class ComplaintType implements Serializable {
     @Column(name = "type", nullable = false)
     private String type;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Complaint> complaints;
-
+//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    private List<Complaint> complaints;
     /**
      * Constructor
      */
@@ -70,14 +65,13 @@ public class ComplaintType implements Serializable {
 //        this.accessType = accessType;
 //    }
 //
-    public List<Complaint> getComplaints() {
-        return complaints;
-    }
-
-    public void setComplaints(List<Complaint> complaints) {
-        this.complaints = complaints;
-    }
-
+//    public List<Complaint> getComplaints() {
+//        return complaints;
+//    }
+//
+//    public void setComplaints(List<Complaint> complaints) {
+//        this.complaints = complaints;
+//    }
     @Override
     public int hashCode() {
         int hash = 3;
@@ -109,15 +103,15 @@ public class ComplaintType implements Serializable {
 //        if (!Objects.equals(this.accessType, other.accessType)) {
 //            return false;
 //        }
-        if (!Objects.equals(this.complaints, other.complaints)) {
-            return false;
-        }
+//        if (!Objects.equals(this.complaints, other.complaints)) {
+//            return false;
+//        }
         return true;
     }
 
     @Override
     public String toString() {
-        return "ComplaintType{" + "id=" + id + ", type=" + type + ", complaints=" + complaints + '}';
+        return "ComplaintType{" + "id=" + id + ", type=" + type + ", complaints=" + '}';
     }
 
 }

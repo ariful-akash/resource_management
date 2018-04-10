@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -28,8 +29,8 @@ public class Room implements Serializable {
     @Column(name = "room")
     private String room;
 
-    @Column(name = "floor_id")
-    private Long floorId;
+    @ManyToOne
+    private Floor floor;
 
     /**
      * Constructor
@@ -58,12 +59,12 @@ public class Room implements Serializable {
         this.room = room;
     }
 
-    public Long getFloorId() {
-        return floorId;
+    public Floor getFloor() {
+        return floor;
     }
 
-    public void setFloorId(Long floorId) {
-        this.floorId = floorId;
+    public void setFloor(Floor floor) {
+        this.floor = floor;
     }
 
     @Override
@@ -71,7 +72,7 @@ public class Room implements Serializable {
         int hash = 7;
         hash = 41 * hash + Objects.hashCode(this.id);
         hash = 41 * hash + Objects.hashCode(this.room);
-        hash = 41 * hash + Objects.hashCode(this.floorId);
+        hash = 41 * hash + Objects.hashCode(this.floor);
         return hash;
     }
 
@@ -93,15 +94,12 @@ public class Room implements Serializable {
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if (!Objects.equals(this.floorId, other.floorId)) {
-            return false;
-        }
         return true;
     }
 
     @Override
     public String toString() {
-        return "Room{" + "id=" + id + ", room=" + room + ", floorId=" + floorId + '}';
+        return "Room{" + "id=" + id + ", room=" + room + ", floor=" + floor + '}';
     }
 
 }
