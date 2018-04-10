@@ -63,7 +63,13 @@ public class CommentReplyServiceImpl implements CommentReplyService {
      */
     @Override
     public CommentReply getCommentReplyById(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        if (id > 0) {
+
+            return commentReplyDAO.getCommentReply(id);
+        }
+
+        return null;
     }
 
 }
