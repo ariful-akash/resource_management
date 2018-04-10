@@ -35,9 +35,20 @@ public class CommentReplyServiceImpl implements CommentReplyService {
         return 0;
     }
 
+    /**
+     *
+     * @param commentReply
+     * @return
+     */
     @Override
     public int editCommentReply(CommentReply commentReply) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        if (commentReply != null && commentReply.getId() > 0) {
+
+            return commentReplyDAO.updateCommentReply(commentReply);
+        }
+
+        return 0;
     }
 
     /**
