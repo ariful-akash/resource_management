@@ -7,7 +7,7 @@ package com.uiu.thesis.controllers.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.uiu.thesis.models.forum.Comment;
-import com.uiu.thesis.services.interfaces.forum.CommentService;
+import com.uiu.thesis.services.interfaces.CommentService;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import org.springframework.beans.factory.annotation.Autowired;

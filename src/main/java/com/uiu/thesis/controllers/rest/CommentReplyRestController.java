@@ -2,7 +2,7 @@ package com.uiu.thesis.controllers.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.uiu.thesis.models.forum.CommentReply;
-import com.uiu.thesis.services.interfaces.forum.CommentReplyService;
+import com.uiu.thesis.services.interfaces.CommentReplyService;
 import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
