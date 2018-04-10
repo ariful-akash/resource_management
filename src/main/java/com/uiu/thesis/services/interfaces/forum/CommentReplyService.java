@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface CommentReplyService {
 
-    public int addNewCommentReply(CommentReply commentReply, Long replierId, Long commentId);
+    public int addNewCommentReply(CommentReply commentReply);
 
     public int editCommentReply(CommentReply commentReply);
 

@@ -19,9 +19,20 @@ public class CommentReplyServiceImpl implements CommentReplyService {
     @Autowired
     private CommentReplyDAO commentReplyDAO;
 
+    /**
+     *
+     * @param commentReply
+     * @return
+     */
     @Override
-    public int addNewCommentReply(CommentReply commentReply, Long replierId, Long commentId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int addNewCommentReply(CommentReply commentReply) {
+
+        if (commentReply != null && commentReply.getId() == null) {
+
+            return commentReplyDAO.addCommentReply(commentReply);
+        }
+
+        return 0;
     }
 
     @Override
