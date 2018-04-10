@@ -56,4 +56,14 @@ public class CommentReplyServiceImpl implements CommentReplyService {
         return null;
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public CommentReply getCommentReplyById(Long id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

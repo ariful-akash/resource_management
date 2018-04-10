@@ -13,5 +13,7 @@ public interface CommentReplyService {
 
     public int editCommentReply(CommentReply commentReply);
 
+    public CommentReply getCommentReplyById(Long id);
+
     public List<CommentReply> getCommentReplysByComment(Long commentId);
 }
