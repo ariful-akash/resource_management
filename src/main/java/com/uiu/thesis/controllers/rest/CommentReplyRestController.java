@@ -60,4 +60,40 @@ public class CommentReplyRestController {
 
         return "{\"add\":\"true\"}";
     }
+
+    /**
+     *
+     * @param id
+     * @param reply
+     * @return
+     */
+    @RequestMapping(
+            value = "/service/forum/reply/edit",
+            params = {"replyid", "reply"},
+            produces = {"application/json;charset:UtF-8"},
+            method = RequestMethod.POST)
+    public String editCommentReplyService(
+            @RequestParam("replyid") long id,
+            @RequestParam("reply") String reply) {
+
+        if (id > 0 && !reply.isEmpty()) {
+
+            CommentReply commentReply = commentReplyService.getCommentReplyById(id);
+
+            if (commentReply != null && !reply.equals(commentReply.getReply())) {
+
+                commentReply.setReply(reply);
+                commentReply.setEdited(true);
+
+                int value = commentReplyService.editCommentReply(commentReply);
+
+                if (value != 0) {
+
+                    return "{\"edit\":\"true\"}";
+                }
+            }
+        }
+
+        return "{\"edit\":\"false\"}";
+    }
 }
