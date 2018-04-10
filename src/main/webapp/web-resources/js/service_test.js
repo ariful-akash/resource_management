@@ -129,3 +129,39 @@ var editComment = function () {
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("commentid=" + commentid + "&content=" + content);
 };
+
+
+/**
+ *
+ * @returns {undefined}
+ */
+var addCommentReply = function () {
+
+    var reply = {};
+
+    reply.reply = "This is a test comment reply insertion";
+    reply.dateTime = new Date();
+    reply.edited = false;
+    reply.replierId = 130;
+    reply.commentId = 166;
+
+    var replyJson = JSON.stringify(reply);
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+
+        console.log("Ready state : " + this.readyState + "\nStatus : " + this.status);
+
+        if (this.readyState == 4 && this.status == 200) {
+
+            var result = JSON.parse(this.responseText);
+
+            console.log(result);
+
+        }
+    };
+
+    xhttp.open("POST", "/office_resource_management/service/forum/reply/add", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("reply=" + replyJson);
+};
