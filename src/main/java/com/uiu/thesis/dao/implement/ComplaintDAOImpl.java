@@ -1,11 +1,17 @@
 package com.uiu.thesis.dao.implement;
 
 import com.uiu.thesis.dao.interfaces.ComplaintDAO;
+import com.uiu.thesis.dao.interfaces.ComplaintTypeDAO;
 import com.uiu.thesis.models.complaint.Complaint;
-import com.uiu.thesis.models.complaint.ComplaintType;
 import com.uiu.thesis.models.user.HumanResource;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import javax.transaction.Transactional;
+import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +27,9 @@ public class ComplaintDAOImpl implements ComplaintDAO {
 
     @Autowired(required = true)
     private SessionFactory sessionFactory;
+
+    @Autowired
+    private ComplaintTypeDAO complaintTypeDAO;
 
     /**
      *
@@ -102,9 +111,22 @@ public class ComplaintDAOImpl implements ComplaintDAO {
         return complaints;
     }
 
+    /**
+     *
+     * @param typeId
+     * @return
+     */
     @Override
-    public List<Complaint> getComplaintsByType(ComplaintType complaintType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Complaint> getComplaintsByType(Long typeId) {
+
+        if (typeId > 0) {
+
+            String sql = "select * from complaints "
+                    + "where type_id = " + typeId;
+
+            return getComplaintsBySQL(sql);
+        }
+        return null;
     }
 
     @Override
@@ -127,4 +149,52 @@ public class ComplaintDAOImpl implements ComplaintDAO {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param sql
+     * @return
+     */
+    private List<Complaint> getComplaintsBySQL(String sql) {
+
+        Session session = sessionFactory.getCurrentSession();
+
+        Query query = session.createSQLQuery(sql);
+        query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+        List resultList = query.list();
+
+        List<Complaint> complaints = new ArrayList<>();
+
+        for (Object object : resultList) {
+
+            Complaint complaint = new Complaint();
+
+            Map row = (Map) object;
+
+            BigInteger idInt = (BigInteger) row.get("id");
+
+            complaint.setId(idInt.longValue());
+            complaint.setComplaintPlacingDate((Date) row.get("complaint_placing_date"));
+            complaint.setComplaintSolvedDate((Date) row.get("complaint_solved_date"));
+
+            idInt = (BigInteger) row.get("creator_id");
+            complaint.setCreatorId(idInt.longValue());
+
+            complaint.setDescription((String) row.get("description"));
+            complaint.setIsSolved((boolean) row.get("solved"));
+            complaint.setRemarks((String) row.get("remarks"));
+
+            idInt = (BigInteger) row.get("solver_id");
+            if (idInt != null) {
+
+                complaint.setSolverId(idInt.longValue());
+            }
+
+            idInt = (BigInteger) row.get("type_id");
+            complaint.setType(complaintTypeDAO.getComplaintTypeById(idInt.longValue()));
+
+            complaints.add(complaint);
+        }
+
+        return complaints;
+    }
 }

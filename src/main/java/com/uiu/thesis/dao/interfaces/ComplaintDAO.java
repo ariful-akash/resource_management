@@ -1,7 +1,6 @@
 package com.uiu.thesis.dao.interfaces;
 
 import com.uiu.thesis.models.complaint.Complaint;
-import com.uiu.thesis.models.complaint.ComplaintType;
 import com.uiu.thesis.models.user.HumanResource;
 import java.util.List;
 
@@ -23,7 +22,7 @@ public interface ComplaintDAO {
 
     public List<Complaint> getAllComplaints();
 
-    public List<Complaint> getComplaintsByType(ComplaintType complaintType);
+    public List<Complaint> getComplaintsByType(Long typeId);
 
     public List<Complaint> getComplaintsByComplainant(HumanResource complainant);
 
