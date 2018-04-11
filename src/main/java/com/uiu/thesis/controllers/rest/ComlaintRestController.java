@@ -12,6 +12,7 @@ import com.uiu.thesis.services.interfaces.ComplaintService;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,7 +36,7 @@ public class ComlaintRestController {
      * @return
      */
     @RequestMapping(
-            value = "/service/office/complaint/type",
+            value = "/service/office/complaint/type/get",
             params = {"typeid"},
             produces = {"application/json;charset:UTF-8"},
             method = RequestMethod.GET)
@@ -53,6 +54,38 @@ public class ComlaintRestController {
                 try {
 
                     return objectMapper.writeValueAsString(complaints);
+                } catch (JsonProcessingException ex) {
+
+                    System.err.println(ex.toString());
+                }
+            }
+        }
+
+        return "[]";
+    }
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+    @RequestMapping(
+            value = "/service/office/complaint/{id}",
+            produces = {"application/json;charset:UTF-8"},
+            method = RequestMethod.GET)
+    public String getComplaint(@PathVariable("id") Long id) {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.setDateFormat(df);
+
+        if (id != null && id > 0) {
+
+            Complaint complaint = complaintService.getComplaintById(id);
+            if (complaint != null) {
+
+                try {
+
+                    return objectMapper.writeValueAsString(complaint);
                 } catch (JsonProcessingException ex) {
 
                     System.err.println(ex.toString());
