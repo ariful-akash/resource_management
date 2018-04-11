@@ -35,7 +35,7 @@ public class CommentRestController {
      */
     @RequestMapping(
             value = "/service/forum/comment/add",
-            params = "comment",
+            params = {"comment"},
             produces = {"application/json;charset:UTF-8"},
             method = RequestMethod.POST)
     public String addCommentService(@RequestParam("comment") String commentJson) {
@@ -46,6 +46,7 @@ public class CommentRestController {
 
             Comment comment = objectMapper.readValue(commentJson, Comment.class);
             if (comment != null
+                    && comment.getId() == null
                     && comment.getPostId() != null
                     && comment.getCommenterId() != null
                     && comment.getContent() != null
