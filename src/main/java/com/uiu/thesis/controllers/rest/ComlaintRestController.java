@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author ashif
  */
-@RestController(value = "/service/office/complaint")
+@RestController(value = "/api/service/office/complaint")
 public class ComlaintRestController {
 
     @Autowired
@@ -30,13 +30,43 @@ public class ComlaintRestController {
     private SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss a");
 
     /**
+     * Returns all the complaints
+     *
+     * @return
+     */
+    @RequestMapping(
+            value = "/api/service/office/complaint",
+            produces = {"application/json;charset:UTF-8"},
+            method = RequestMethod.GET)
+    public String getAllComplaints() {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.setDateFormat(df);
+
+        List<Complaint> complaints = complaintService.getAllComplaints();
+        if (complaints != null && complaints.size() > 0) {
+
+            try {
+
+                return objectMapper.writeValueAsString(complaints);
+            } catch (JsonProcessingException ex) {
+
+                System.err.println(ex.toString());
+            }
+        }
+
+        return "[]";
+    }
+
+    /**
+     * Returns complaints(by solver_id / creator-id / type_id)
      *
      * @param id
      * @param key
      * @return
      */
     @RequestMapping(
-            value = "/service/office/complaint/{key}/{id}",
+            value = "/api/service/office/complaint/{key}/{id}",
             produces = {"application/json;charset:UTF-8"},
             method = RequestMethod.GET)
     public String getComplaintsByType(
@@ -104,12 +134,13 @@ public class ComlaintRestController {
     }
 
     /**
+     * Returns complaint of specified id
      *
      * @param id
      * @return
      */
     @RequestMapping(
-            value = "/service/office/complaint/{id}",
+            value = "/api/service/office/complaint/{id}",
             produces = {"application/json;charset:UTF-8"},
             method = RequestMethod.GET)
     public String getComplaint(@PathVariable("id") Long id) {
@@ -132,6 +163,36 @@ public class ComlaintRestController {
             }
         }
 
+        return "[]";
+    }
+
+    /**
+     * Returns solved/unsolved complaints as specified in {value}
+     *
+     * @param solved
+     * @return
+     */
+    @RequestMapping(
+            value = "/api/service/office/complaint/solved/{value}",
+            produces = {"application/json;charset:UTF-8"},
+            method = RequestMethod.GET)
+    public String getComplaintsBySolved(@PathVariable("value") boolean solved) {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.setDateFormat(df);
+
+        List<Complaint> complaints = complaintService.getComplaintsSU(solved);
+
+        if (complaints != null && complaints.size() > 0) {
+
+            try {
+
+                return objectMapper.writeValueAsString(complaints);
+            } catch (JsonProcessingException e) {
+
+                System.err.println(e.toString());
+            }
+        }
         return "[]";
     }
 }
