@@ -134,9 +134,23 @@ public class ComplaintDAOImpl implements ComplaintDAO {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param complainantId
+     * @return
+     */
     @Override
     public List<Complaint> getComplaintsByComplainant(Long complainantId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        if (complainantId != null && complainantId > 0) {
+
+            String sql = "select * from complaints "
+                    + "where creator_id = " + complainantId;
+
+            return getComplaintsBySQL(sql);
+        }
+
+        return null;
     }
 
     @Override
@@ -144,9 +158,23 @@ public class ComplaintDAOImpl implements ComplaintDAO {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param solverId
+     * @return
+     */
     @Override
-    public List<Complaint> getComplaintsBySolver(Long soverId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Complaint> getComplaintsBySolver(Long solverId) {
+
+        if (solverId != null && solverId > 0) {
+
+            String sql = "select * from complaints "
+                    + "where solver_id = " + solverId;
+
+            return getComplaintsBySQL(sql);
+        }
+
+        return null;
     }
 
     /**
