@@ -26,7 +26,7 @@ public class TagTypeRestController {
     private TagTypeDAO tagTypeDAO;
 
     @RequestMapping(
-            value = "/service/forum/tag/alltags",
+            value = "/service/forum/tag/tags",
             method = RequestMethod.GET,
             produces = {"application/json;charset:UTF-8"})
     public String getAllTagService() {
