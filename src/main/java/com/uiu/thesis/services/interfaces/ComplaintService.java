@@ -14,6 +14,8 @@ public interface ComplaintService {
 
     public List<Complaint> getComplaintsByType(Long id);
 
+    public Complaint getComplaintById(Long id);
+
     public List<Complaint> getComplaintsByCreator(Long id);
 
     public List<Complaint> getComplaintsBySolver(Long id);

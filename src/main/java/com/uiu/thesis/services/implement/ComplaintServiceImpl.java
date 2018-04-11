@@ -76,4 +76,20 @@ public class ComplaintServiceImpl implements ComplaintService {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public Complaint getComplaintById(Long id) {
+
+        if (id > 0) {
+
+            return complaintDAO.getComplaint(id);
+        }
+
+        return null;
+    }
+
 }
