@@ -87,4 +87,21 @@ public class ComplaintTypeDAOImpl implements ComplaintTypeDAO {
         return 0;
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public ComplaintType getComplaintTypeById(Long id) {
+
+        if (id > 0) {
+
+            Session session = sessionFactory.getCurrentSession();
+            return (ComplaintType) session.get(ComplaintType.class, id);
+        }
+
+        return null;
+    }
+
 }

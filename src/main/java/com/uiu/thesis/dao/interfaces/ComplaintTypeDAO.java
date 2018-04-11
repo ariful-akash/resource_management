@@ -17,5 +17,7 @@ public interface ComplaintTypeDAO {
 
     public int deleteComplaintType(Long id);
 
+    public ComplaintType getComplaintTypeById(Long id);
+
     public List<ComplaintType> getComplaintTypes();
 }
