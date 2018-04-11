@@ -56,14 +56,36 @@ public class ComplaintServiceImpl implements ComplaintService {
         return null;
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     @Override
     public List<Complaint> getComplaintsByCreator(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        if (id != null && id > 0) {
+
+            return complaintDAO.getComplaintsByComplainant(id);
+        }
+
+        return null;
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     @Override
     public List<Complaint> getComplaintsBySolver(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        if (id != null && id > 0) {
+
+            return complaintDAO.getComplaintsBySolver(id);
+        }
+
+        return null;
     }
 
     @Override
