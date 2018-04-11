@@ -30,5 +30,7 @@ public interface ComplaintDAO {
 
     public List<Complaint> getComplaintsBySolver(HumanResource solver);
 
-    public List<Complaint> getComplaintsBySolver(Long soverId);
+    public List<Complaint> getComplaintsBySolver(Long solverId);
+
+    public List<Complaint> getComplaintsBySU(boolean solved);
 }

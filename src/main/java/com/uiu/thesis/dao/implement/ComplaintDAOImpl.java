@@ -179,6 +179,26 @@ public class ComplaintDAOImpl implements ComplaintDAO {
 
     /**
      *
+     * @param solved
+     * @return
+     */
+    @Override
+    public List<Complaint> getComplaintsBySU(boolean solved) {
+
+        Session session = sessionFactory.getCurrentSession();
+        String hql = "FROM Complaint cmp WHERE cmp.isSolved = :solved";
+
+        Query query = session.createQuery(hql);
+        query.setParameter("solved", solved);
+
+        @SuppressWarnings("unchecked")
+        List<Complaint> complaints = query.list();
+
+        return complaints;
+    }
+
+    /**
+     *
      * @param sql
      * @return
      */
