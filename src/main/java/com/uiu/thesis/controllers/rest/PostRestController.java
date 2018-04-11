@@ -16,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -81,13 +82,11 @@ public class PostRestController {
      * @return
      */
     @RequestMapping(
-            value = "/service/forum/post/get",
-            params = {"user"},
+            value = "/service/forum/post/user/{id}",
             method = RequestMethod.GET,
             produces = {"application/json;charset=UTF-8"})
 
-    public String getPosts(
-            @RequestParam("user") long id) {
+    public String getPosts(@PathVariable("id") long id) {
 
         List<Post> posts = postService.getPostsByUser(id);
 
@@ -189,12 +188,11 @@ public class PostRestController {
      * @return
      */
     @RequestMapping(
-            value = "/service/forum/post/comment/get",
-            params = "postid",
+            value = "/service/forum/post/comment/reply/{post_id}",
             produces = {"application/json;charset=UTF-8"},
             method = RequestMethod.GET)
 
-    public String getPostComments(@RequestParam("postid") long postId) {
+    public String getPostComments(@PathVariable("post_id") long postId) {
 
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setDateFormat(df);
