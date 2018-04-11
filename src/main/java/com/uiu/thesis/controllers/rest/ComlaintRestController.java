@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -32,32 +31,72 @@ public class ComlaintRestController {
 
     /**
      *
-     * @param typeId
+     * @param id
+     * @param key
      * @return
      */
     @RequestMapping(
-            value = "/service/office/complaint/type/get",
-            params = {"typeid"},
+            value = "/service/office/complaint/{key}/{id}",
             produces = {"application/json;charset:UTF-8"},
             method = RequestMethod.GET)
-    public String getComplaintsByType(@RequestParam("typeid") long typeId) {
+    public String getComplaintsByType(
+            @PathVariable("id") long id,
+            @PathVariable("key") String key) {
 
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setDateFormat(df);
 
-        if (typeId > 0) {
+        if (key != null && !key.isEmpty() && id > 0) {
 
-            List<Complaint> complaints = complaintService.getComplaintsByType(typeId);
+            List<Complaint> complaints;
+            switch (key) {
+                case "type":
 
-            if (complaints != null && complaints.size() > 0) {
+                    complaints = complaintService.getComplaintsByType(id);
+                    if (complaints != null && complaints.size() > 0) {
 
-                try {
+                        try {
 
-                    return objectMapper.writeValueAsString(complaints);
-                } catch (JsonProcessingException ex) {
+                            return objectMapper.writeValueAsString(complaints);
+                        } catch (JsonProcessingException ex) {
 
-                    System.err.println(ex.toString());
-                }
+                            System.err.println(ex.toString());
+                        }
+                    }
+                    break;
+
+                case "solver":
+
+                    complaints = complaintService.getComplaintsBySolver(id);
+                    if (complaints != null && complaints.size() > 0) {
+
+                        try {
+
+                            return objectMapper.writeValueAsString(complaints);
+                        } catch (JsonProcessingException e) {
+
+                            System.err.println(e.toString());
+                        }
+                    }
+                    break;
+
+                case "creator":
+
+                    complaints = complaintService.getComplaintsByCreator(id);
+                    if (complaints != null && complaints.size() > 0) {
+
+                        try {
+
+                            return objectMapper.writeValueAsString(complaints);
+                        } catch (JsonProcessingException e) {
+
+                            System.err.println(e.toString());
+                        }
+                    }
+                    break;
+
+                default:
+                    break;
             }
         }
 
