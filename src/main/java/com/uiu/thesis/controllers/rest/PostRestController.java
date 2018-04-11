@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author ashif
  */
-@RestController(value = "/service/forum/post")
+@RestController(value = "/api/service/forum/post")
 public class PostRestController {
 
     @Autowired
@@ -48,7 +48,7 @@ public class PostRestController {
      * @return
      */
     @RequestMapping(
-            value = "/service/forum/post/add",
+            value = "/api/service/forum/post/add",
             params = {"post", "poster", "tags"},
             method = RequestMethod.POST,
             produces = {"application/json;charset=UTF-8"})
@@ -82,7 +82,7 @@ public class PostRestController {
      * @return
      */
     @RequestMapping(
-            value = "/service/forum/post/user/{id}",
+            value = "/api/service/forum/post/user/{id}",
             method = RequestMethod.GET,
             produces = {"application/json;charset=UTF-8"})
 
@@ -116,7 +116,7 @@ public class PostRestController {
      * @return
      */
     @RequestMapping(
-            value = "/service/forum/post/edit",
+            value = "/api/service/forum/post/edit",
             params = {"content", "postid"},
             method = RequestMethod.POST,
             produces = {"application/json;charset=UTF-8"})
@@ -151,7 +151,7 @@ public class PostRestController {
      * @return
      */
     @RequestMapping(
-            value = "/service/forum/post/search/tag",
+            value = "/api/service/forum/post/search/tag",
             params = {"tags"},
             method = RequestMethod.GET,
             produces = {"application/json;charset=UTF-8"})
@@ -188,7 +188,7 @@ public class PostRestController {
      * @return
      */
     @RequestMapping(
-            value = "/service/forum/post/comment/reply/{post_id}",
+            value = "/api/service/forum/post/comment/reply/{post_id}",
             produces = {"application/json;charset=UTF-8"},
             method = RequestMethod.GET)
 

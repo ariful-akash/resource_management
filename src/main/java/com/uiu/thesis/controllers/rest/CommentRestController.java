@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author ashif
  */
-@RestController(value = "/service/forum/comment")
+@RestController(value = "/api/service/forum/comment")
 public class CommentRestController {
 
     @Autowired
@@ -34,7 +34,7 @@ public class CommentRestController {
      * @return
      */
     @RequestMapping(
-            value = "/service/forum/comment/add",
+            value = "/api/service/forum/comment/add",
             params = {"comment"},
             produces = {"application/json;charset:UTF-8"},
             method = RequestMethod.POST)
@@ -74,7 +74,7 @@ public class CommentRestController {
      * @return
      */
     @RequestMapping(
-            value = "/service/forum/comment/edit",
+            value = "/api/service/forum/comment/edit",
             params = {"commentid", "content"},
             produces = {"application/json;charset:UTF-8"},
             method = RequestMethod.POST)

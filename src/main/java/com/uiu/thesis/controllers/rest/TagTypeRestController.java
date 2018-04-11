@@ -19,14 +19,14 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author ashif
  */
-@RestController(value = "/service/forum/tag")
+@RestController(value = "/api/service/forum/tag")
 public class TagTypeRestController {
 
     @Autowired
     private TagTypeDAO tagTypeDAO;
 
     @RequestMapping(
-            value = "/service/forum/tag/tags",
+            value = "/api/service/forum/tag/tags",
             method = RequestMethod.GET,
             produces = {"application/json;charset:UTF-8"})
     public String getAllTagService() {
