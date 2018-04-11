@@ -88,9 +88,15 @@ public class ComplaintServiceImpl implements ComplaintService {
         return null;
     }
 
+    /**
+     *
+     * @param solved
+     * @return
+     */
     @Override
     public List<Complaint> getComplaintsSU(boolean solved) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        return complaintDAO.getComplaintsBySU(solved);
     }
 
     @Override
@@ -112,6 +118,16 @@ public class ComplaintServiceImpl implements ComplaintService {
         }
 
         return null;
+    }
+
+    /**
+     *
+     * @return
+     */
+    @Override
+    public List<Complaint> getAllComplaints() {
+
+        return complaintDAO.getAllComplaints();
     }
 
 }
