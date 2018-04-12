@@ -32,7 +32,7 @@ var insertPost = function () {
         }
     };
 
-    xhttp.open("POST", "/office_resource_management/service/forum/post/add", true);
+    xhttp.open("POST", "/office_resource_management/api/service/forum/post/add", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("post=" + postJson + "&poster=" + posterId + "&tags=" + tagsJson);
 };
@@ -60,7 +60,7 @@ var editPost = function () {
         }
     };
 
-    xhttp.open("POST", "/office_resource_management/service/forum/post/edit", true);
+    xhttp.open("POST", "/office_resource_management/api/service/forum/post/edit", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("content=" + content + "&postid=" + postid);
 };
@@ -96,7 +96,7 @@ var insertComment = function () {
         }
     };
 
-    xhttp.open("POST", "/office_resource_management/service/forum/comment/add", true);
+    xhttp.open("POST", "/office_resource_management/api/service/forum/comment/add", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("comment=" + commentJson);
 };
@@ -125,7 +125,7 @@ var editComment = function () {
         }
     };
 
-    xhttp.open("POST", "/office_resource_management/service/forum/comment/edit", true);
+    xhttp.open("POST", "/office_resource_management/api/service/forum/comment/edit", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("commentid=" + commentid + "&content=" + content);
 };
@@ -161,7 +161,7 @@ var addCommentReply = function () {
         }
     };
 
-    xhttp.open("POST", "/office_resource_management/service/forum/reply/add", true);
+    xhttp.open("POST", "/office_resource_management/api/service/forum/reply/add", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("reply=" + replyJson);
 };
@@ -189,7 +189,53 @@ var editCommentReply = function () {
         }
     };
 
-    xhttp.open("POST", "/office_resource_management/service/forum/reply/edit", true);
+    xhttp.open("POST", "/office_resource_management/api/service/forum/reply/edit", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("replyid=" + replyid + "&reply=" + reply);
+};
+
+var insertComplaint = function () {
+
+    var complaint = {};
+    var type = {};
+    var remarks = {};
+
+    remarks.urgent = true;
+    remarks.quantity = 6;
+    remarks.funny = "haha, LOL";
+
+    var remarksJson = JSON.stringify(remarks);
+
+    type.id = 12;
+    type.type = "computer lab table";
+
+    complaint.isSolved = false;
+    complaint.complaintPlacingDate = new Date();
+    complaint.complaintSolvedDate = new Date();
+    complaint.description = "This is a dummy complaint";
+    complaint.creatorId = 135;
+
+    complaint.remarks = remarksJson;
+
+    complaint.type = type;
+
+    var complaintJson = JSON.stringify(complaint);
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+
+        console.log("Ready state : " + this.readyState + "\nStatus : " + this.status);
+
+        if (this.readyState == 4 && this.status == 200) {
+
+            var result = JSON.parse(this.responseText);
+
+            console.log(result);
+
+        }
+    };
+
+    xhttp.open("POST", "/office_resource_management/api/service/office/complaint", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("complaint=" + complaintJson);
 };
