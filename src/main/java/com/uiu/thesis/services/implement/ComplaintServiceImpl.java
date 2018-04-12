@@ -30,8 +30,10 @@ public class ComplaintServiceImpl implements ComplaintService {
 
         if (complaint != null
                 && complaint.getId() == null
+                && complaint.isIsSolved() == false
+                && complaint.getSolverId() == null
                 && complaint.getComplaintPlacingDate() != null
-                && complaint.getCreatorId() != null
+                && complaint.getComplaintSolvedDate() != null
                 && complaint.getDescription() != null
                 && complaint.getType() != null) {
 
