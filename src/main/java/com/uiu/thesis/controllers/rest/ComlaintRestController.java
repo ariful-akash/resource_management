@@ -9,12 +9,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.uiu.thesis.models.complaint.Complaint;
 import com.uiu.thesis.services.interfaces.ComplaintService;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -56,6 +58,41 @@ public class ComlaintRestController {
         }
 
         return "[]";
+    }
+
+    /**
+     * Add a new complaint
+     *
+     * @param complaintJson
+     * @return
+     */
+    @RequestMapping(
+            value = "/api/service/office/complaint",
+            produces = {"application/json;charset:UTF-8"},
+            params = {"complaint"},
+            method = RequestMethod.POST)
+    public String addComplaint(@RequestParam("complaint") String complaintJson) {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+
+            Complaint complaint = objectMapper.readValue(complaintJson, Complaint.class);
+            if (complaint != null) {
+
+                int value = complaintService.addNewComplaint(complaint);
+
+                if (value != 0) {
+
+                    return "{\"add\":\"true\"}";
+                }
+            }
+        } catch (IOException e) {
+
+            System.err.println(e.toString());
+        }
+
+        return "{\"add\":\"false\"}";
     }
 
     /**
