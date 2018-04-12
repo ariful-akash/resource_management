@@ -49,7 +49,7 @@ public class Requisition implements Serializable {
     private String remarks;
 
     @Column(name = "solved")
-    private boolean solved = false;
+    private boolean solved;
 
     @Column(name = "creator_id")
     private Long creatorId;
