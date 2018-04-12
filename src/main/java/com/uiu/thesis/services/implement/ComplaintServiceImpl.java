@@ -44,6 +44,22 @@ public class ComplaintServiceImpl implements ComplaintService {
 
     /**
      *
+     * @param complaint
+     * @return
+     */
+    @Override
+    public int updateComplaint(Complaint complaint) {
+
+        if (complaint != null && complaint.getId() > 0) {
+
+            return complaintDAO.updateComplaint(complaint);
+        }
+
+        return 0;
+    }
+
+    /**
+     *
      * @param id
      * @return
      */
