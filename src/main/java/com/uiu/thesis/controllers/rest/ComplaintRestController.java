@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author ashif
  */
 @RestController(value = "/api/service/office/complaint")
-public class ComlaintRestController {
+public class ComplaintRestController {
 
     @Autowired
     private ComplaintService complaintService;
