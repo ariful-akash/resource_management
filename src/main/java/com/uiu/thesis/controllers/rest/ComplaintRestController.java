@@ -11,6 +11,7 @@ import com.uiu.thesis.models.complaint.Complaint;
 import com.uiu.thesis.services.interfaces.ComplaintService;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -93,6 +94,47 @@ public class ComplaintRestController {
         }
 
         return "{\"add\":\"false\"}";
+    }
+
+    /**
+     * Updates a requisition if it is solved
+     *
+     * @param date
+     * @param solverId
+     * @param id
+     * @return
+     */
+    @RequestMapping(
+            value = "/api/service/office/complaint/update",
+            params = {"id", "solver_id", "solved_date"},
+            produces = {"application/json;charset:UTF-8"},
+            method = RequestMethod.POST)
+    public String updateComplaint(
+            @RequestParam("id") long id,
+            @RequestParam("solver_id") long solverId,
+            @RequestParam("solved_date") String date) {
+
+        if (id > 0) {
+
+            Complaint complaint = complaintService.getComplaintById(id);
+
+            if (complaint != null
+                    && complaint.getComplaintSolvedDate() == null
+                    && complaint.isIsSolved() == false) {
+
+                complaint.setIsSolved(true);
+                complaint.setSolverId(null);
+                complaint.setComplaintSolvedDate(new Date(date));
+
+                int value = complaintService.updateComplaint(complaint);
+                if (value != 0) {
+
+                    return "{\"update\":\"true\"}";
+                }
+            }
+        }
+
+        return "{\"update\":\"false\"}";
     }
 
     /**
