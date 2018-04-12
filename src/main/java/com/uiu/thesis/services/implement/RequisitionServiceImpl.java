@@ -5,12 +5,16 @@ import com.uiu.thesis.models.requisition.Requisition;
 import com.uiu.thesis.services.interfaces.RequisitionService;
 import java.util.Date;
 import java.util.List;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author ashif
  */
+@Service
+@Transactional
 public class RequisitionServiceImpl implements RequisitionService {
 
     @Autowired
