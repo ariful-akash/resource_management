@@ -121,9 +121,13 @@ public class ComplaintTypeDAOImpl implements ComplaintTypeDAO {
             Query query = session.createQuery(hql);
             query.setParameter("type", name);
 
-            ComplaintType complaintType = (ComplaintType) query.list().get(0);
+            @SuppressWarnings("unchecked")
+            List<ComplaintType> list = query.list();
 
-            return complaintType;
+            if (list != null && list.size() > 0) {
+
+                return list.get(0);
+            }
         }
 
         return null;
