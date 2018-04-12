@@ -34,5 +34,6 @@
         <a onclick="editCommentReply()" href="#">Edit Comment Reply</a> <br>
         <a onclick="insertComplaint()" href="#">Add Complaint</a> <br>
         <a onclick="insertComplaintType()" href="#">Add Complaint Type</a> <br>
+        <a onclick="insertRequisitionType()" href="#">Add Requisition Type</a> <br>
     </body>
 </html>

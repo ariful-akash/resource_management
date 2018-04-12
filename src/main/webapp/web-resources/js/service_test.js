@@ -194,6 +194,10 @@ var editCommentReply = function () {
     xhttp.send("replyid=" + replyid + "&reply=" + reply);
 };
 
+/**
+ *
+ * @returns {undefined}
+ */
 var insertComplaint = function () {
 
     var complaint = {};
@@ -240,7 +244,10 @@ var insertComplaint = function () {
     xhttp.send("complaint=" + complaintJson);
 };
 
-
+/**
+ *
+ * @returns {undefined}
+ */
 var insertComplaintType = function () {
 
     var complaint_type = {};
@@ -265,4 +272,34 @@ var insertComplaintType = function () {
     xhttp.open("POST", "/office_resource_management/api/service/office/complainttype", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("complaint_type=" + complaint_typeJson);
+};
+
+/**
+ *
+ * @returns {undefined}
+ */
+var insertRequisitionType = function () {
+
+    var requisition_type = {};
+    requisition_type.type = "Car";
+
+    var requisition_typeJson = JSON.stringify(requisition_type);
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+
+        console.log("Ready state : " + this.readyState + "\nStatus : " + this.status);
+
+        if (this.readyState == 4 && this.status == 200) {
+
+            var result = JSON.parse(this.responseText);
+
+            console.log(result);
+
+        }
+    };
+
+    xhttp.open("POST", "/office_resource_management/api/service/office/requisitiontype", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("requisition_type=" + requisition_typeJson);
 };
