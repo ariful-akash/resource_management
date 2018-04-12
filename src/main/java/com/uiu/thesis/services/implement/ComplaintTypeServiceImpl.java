@@ -46,6 +46,7 @@ public class ComplaintTypeServiceImpl implements ComplaintTypeService {
                     = complaintTypeDAO.getComplaintTypeByName(complaintType.getType());
             if (dbComplaintType == null) {
 
+                complaintType.setType(complaintType.getType().toLowerCase());
                 return complaintTypeDAO.addComplaintType(complaintType);
             }
         }
