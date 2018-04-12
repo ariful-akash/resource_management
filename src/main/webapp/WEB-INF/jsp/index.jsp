@@ -32,5 +32,6 @@
         <a onclick="editComment()" href="#">Edit Comment</a> <br>
         <a onclick="addCommentReply()" href="#">Add Comment Reply</a> <br>
         <a onclick="editCommentReply()" href="#">Edit Comment Reply</a> <br>
+        <a onclick="insertComplaint()" href="#">Add Complaint</a> <br>
     </body>
 </html>
