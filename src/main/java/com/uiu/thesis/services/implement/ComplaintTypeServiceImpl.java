@@ -42,7 +42,12 @@ public class ComplaintTypeServiceImpl implements ComplaintTypeService {
                 && complaintType.getType() != null
                 && !complaintType.getType().isEmpty()) {
 
-            return complaintTypeDAO.addComplaintType(complaintType);
+            ComplaintType dbComplaintType
+                    = complaintTypeDAO.getComplaintTypeByName(complaintType.getType());
+            if (dbComplaintType == null) {
+
+                return complaintTypeDAO.addComplaintType(complaintType);
+            }
         }
 
         return 0;
