@@ -33,7 +33,15 @@ public class RequisitionTypeServiceImpl implements RequisitionTypeService {
                 && requisitionType.getType() != null
                 && !requisitionType.getType().isEmpty()) {
 
-            return requisitionTypeDAO.addRequisitionType(requisitionType);
+            requisitionType.setType(requisitionType.getType().toLowerCase());
+
+            RequisitionType dbRequisitionType
+                    = requisitionTypeDAO.getRequisitionTypeByName(requisitionType.getType());
+
+            if (dbRequisitionType == null) {
+
+                return requisitionTypeDAO.addRequisitionType(requisitionType);
+            }
         }
 
         return 0;
