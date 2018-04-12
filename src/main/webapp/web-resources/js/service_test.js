@@ -239,3 +239,30 @@ var insertComplaint = function () {
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("complaint=" + complaintJson);
 };
+
+
+var insertComplaintType = function () {
+
+    var complaint_type = {};
+    complaint_type.type = "Washing Powder";
+
+    var complaint_typeJson = JSON.stringify(complaint_type);
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+
+        console.log("Ready state : " + this.readyState + "\nStatus : " + this.status);
+
+        if (this.readyState == 4 && this.status == 200) {
+
+            var result = JSON.parse(this.responseText);
+
+            console.log(result);
+
+        }
+    };
+
+    xhttp.open("POST", "/office_resource_management/api/service/office/complainttype", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("complaint_type=" + complaint_typeJson);
+};
