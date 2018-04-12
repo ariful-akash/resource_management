@@ -11,5 +11,7 @@ public interface ComplaintTypeService {
 
     public List<ComplaintType> getAllComplaintTypes();
 
+    public int addComplaint(ComplaintType complaintType);
+
     public ComplaintType getComplaintType(Long id);
 }
