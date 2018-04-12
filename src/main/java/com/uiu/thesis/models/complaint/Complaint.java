@@ -31,7 +31,7 @@ public class Complaint implements Serializable {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date complaintPlacingDate;
 
-    @Column(name = "complaint_solved_date", nullable = false)
+    @Column(name = "complaint_solved_date")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date complaintSolvedDate;
 
