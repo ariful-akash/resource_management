@@ -111,7 +111,7 @@ public class ComplaintType implements Serializable {
 
     @Override
     public String toString() {
-        return "ComplaintType{" + "id=" + id + ", type=" + type + ", complaints=" + '}';
+        return "ComplaintType{" + "id=" + id + ", type=" + type + '}';
     }
 
 }
