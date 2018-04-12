@@ -16,6 +16,8 @@ public interface RequisitionTypeDAO {
 
     public RequisitionType getRequisitionTypeById(Long reqTypeId);
 
+    public RequisitionType getRequisitionTypeByName(String typeName);
+
     public List<RequisitionType> getAllRequisitionTypes();
 
     public RequisitionType getRequisitionTypeByAccessType(AccessType accessType);

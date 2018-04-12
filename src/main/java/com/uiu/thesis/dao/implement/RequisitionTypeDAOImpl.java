@@ -6,6 +6,7 @@ import com.uiu.thesis.models.user.AccessType;
 import java.util.List;
 import javax.transaction.Transactional;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,33 @@ public class RequisitionTypeDAOImpl implements RequisitionTypeDAO {
             return (RequisitionType) session.get(RequisitionType.class, reqTypeId);
         }
 
+        return null;
+    }
+
+    /**
+     *
+     * @param typeName
+     * @return
+     */
+    @Override
+    public RequisitionType getRequisitionTypeByName(String typeName) {
+
+        if (typeName != null && !typeName.isEmpty()) {
+
+            Session session = sessionFactory.getCurrentSession();
+            String hql = "FROM RequisitionType rt WHERE rt.type = :type";
+
+            Query query = session.createQuery(hql);
+            query.setParameter("type", typeName);
+
+            @SuppressWarnings("unchecked")
+            List<RequisitionType> requisitionTypes = query.list();
+
+            if (requisitionTypes != null && requisitionTypes.size() > 0) {
+
+                return requisitionTypes.get(0);
+            }
+        }
         return null;
     }
 
@@ -105,4 +133,5 @@ public class RequisitionTypeDAOImpl implements RequisitionTypeDAO {
 
         return 0;
     }
+
 }
