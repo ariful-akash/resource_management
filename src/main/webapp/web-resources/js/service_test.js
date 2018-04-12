@@ -248,6 +248,58 @@ var insertComplaint = function () {
  *
  * @returns {undefined}
  */
+var updateComplaint = function () {
+
+//    for (var id = 3; id <= 484; id++) {
+//
+//        var xhttp = new XMLHttpRequest();
+//        xhttp.onreadystatechange = function () {
+//
+//            console.log("Ready state : " + this.readyState + "\nStatus : " + this.status);
+//
+//            if (this.readyState == 4 && this.status == 200) {
+//
+//                var result = JSON.parse(this.responseText);
+//
+//                console.log(result);
+//
+//            }
+//        };
+//
+//        xhttp.open("POST", "/office_resource_management/api/service/office/complaint/update", true);
+//        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+//        xhttp.send("id=" + id);
+//    }
+
+    var id = 2;
+    var solver_id = 105;
+    var solved_date = new Date().toString();
+
+    console.log(solved_date);
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+
+        console.log("Ready state : " + this.readyState + "\nStatus : " + this.status);
+
+        if (this.readyState == 4 && this.status == 200) {
+
+            var result = JSON.parse(this.responseText);
+
+            console.log(result);
+
+        }
+    };
+
+    xhttp.open("POST", "/office_resource_management/api/service/office/complaint/update", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("id=" + id + "&solved_date=" + solved_date + "&solver_id=" + solver_id);
+};
+
+/**
+ *
+ * @returns {undefined}
+ */
 var insertComplaintType = function () {
 
     var complaint_type = {};
@@ -302,4 +354,49 @@ var insertRequisitionType = function () {
     xhttp.open("POST", "/office_resource_management/api/service/office/requisitiontype", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("requisition_type=" + requisition_typeJson);
+};
+
+
+var insertRequistion = function () {
+
+    var requisition = {};
+    var type = {};
+    var remarks = {};
+
+    remarks.urgent = true;
+    remarks.funny = "haha, LOL";
+
+    var remarksJson = JSON.stringify(remarks);
+
+    type.id = 13;
+    type.type = "computer lab table";
+
+    requisition.solved = false;
+    requisition.complaintPlacingDate = new Date();
+    complaint.description = "This is a dummy complaint";
+    complaint.creatorId = 135;
+
+    complaint.remarks = remarksJson;
+
+    complaint.type = type;
+
+    var complaintJson = JSON.stringify(complaint);
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+
+        console.log("Ready state : " + this.readyState + "\nStatus : " + this.status);
+
+        if (this.readyState == 4 && this.status == 200) {
+
+            var result = JSON.parse(this.responseText);
+
+            console.log(result);
+
+        }
+    };
+
+    xhttp.open("POST", "/office_resource_management/api/service/office/complaint", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("complaint=" + complaintJson);
 };
