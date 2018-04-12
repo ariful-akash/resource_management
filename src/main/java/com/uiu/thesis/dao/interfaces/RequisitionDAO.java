@@ -12,9 +12,11 @@ import java.util.List;
  */
 public interface RequisitionDAO {
 
-    public boolean addRequisition(Requisition requisition);
+    public int addRequisition(Requisition requisition);
 
     public List<Requisition> getAllRequisitions();
+
+    public Requisition getRequisitionById(Long requisitionId);
 
     public List<Requisition> getRequisitionsBySolved(boolean solved);
 
