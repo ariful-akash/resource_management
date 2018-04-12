@@ -19,5 +19,7 @@ public interface ComplaintTypeDAO {
 
     public ComplaintType getComplaintTypeById(Long id);
 
+    public ComplaintType getComplaintTypeByName(String name);
+
     public List<ComplaintType> getComplaintTypes();
 }

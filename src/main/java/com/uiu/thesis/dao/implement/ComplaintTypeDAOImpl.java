@@ -5,6 +5,7 @@ import com.uiu.thesis.models.complaint.ComplaintType;
 import java.util.List;
 import javax.transaction.Transactional;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,6 +100,30 @@ public class ComplaintTypeDAOImpl implements ComplaintTypeDAO {
 
             Session session = sessionFactory.getCurrentSession();
             return (ComplaintType) session.get(ComplaintType.class, id);
+        }
+
+        return null;
+    }
+
+    /**
+     *
+     * @param name
+     * @return
+     */
+    @Override
+    public ComplaintType getComplaintTypeByName(String name) {
+
+        if (name != null && !name.isEmpty()) {
+
+            Session session = sessionFactory.getCurrentSession();
+            String hql = "FROM ComplaintType ct WHERE ct.type = :type";
+
+            Query query = session.createQuery(hql);
+            query.setParameter("type", name);
+
+            ComplaintType complaintType = (ComplaintType) query.list().get(0);
+
+            return complaintType;
         }
 
         return null;
