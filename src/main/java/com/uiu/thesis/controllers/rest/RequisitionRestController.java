@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -89,5 +90,33 @@ public class RequisitionRestController {
         }
 
         return "{\"add\":\"false\"}";
+    }
+
+    @RequestMapping(
+            value = "/api/service/office/requisition/{id}",
+            produces = {"application/json;charset:UTF-8"},
+            method = RequestMethod.GET)
+    public String getRequisition(@PathVariable("id") long id) {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.setDateFormat(df);
+
+        if (id > 0) {
+
+            Requisition requisition = requisitionService.getRequisitionById(id);
+
+            if (requisition != null) {
+
+                try {
+
+                    return objectMapper.writeValueAsString(requisition);
+                } catch (JsonProcessingException ex) {
+
+                    System.err.println(ex.toString());
+                }
+            }
+        }
+
+        return "[]";
     }
 }
