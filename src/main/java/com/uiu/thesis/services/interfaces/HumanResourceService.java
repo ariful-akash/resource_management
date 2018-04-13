@@ -9,9 +9,13 @@ import java.util.List;
  */
 public interface HumanResourceService {
 
+    public List<HumanResource> getHumanResources();
+
     public List<HumanResource> getHumanResourcesByType(Long typeId);
 
     public List<HumanResource> getHumanResourcesByRole(Long roleId);
+
+    public List<HumanResource> getHumanResourcesByAccess(Long accessId);
 
     public HumanResource getHumanResourceById(Long id);
 

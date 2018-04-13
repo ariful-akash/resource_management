@@ -63,6 +63,22 @@ public class HumanResourceServiceImpl implements HumanResourceService {
 
     /**
      *
+     * @param accessId
+     * @return
+     */
+    @Override
+    public List<HumanResource> getHumanResourcesByAccess(Long accessId) {
+
+        if (accessId > 0) {
+
+            return humanResourceDAO.getHumanResourcesByAccessType(accessId);
+        }
+
+        return null;
+    }
+
+    /**
+     *
      * @param id
      * @return
      */
