@@ -81,6 +81,30 @@ public class RequisitionDAOImpl implements RequisitionDAO {
     }
 
     /**
+     *
+     * @param requisition
+     * @return
+     */
+    @Override
+    public int updateRequisition(Requisition requisition) {
+
+        if (requisition != null && requisition.getId() > 0) {
+
+            Session session = sessionFactory.getCurrentSession();
+            try {
+
+                session.update(requisition);
+                return 1;
+            } catch (Exception e) {
+
+                return 0;
+            }
+        }
+
+        return 0;
+    }
+
+    /**
      * Returns the requisitions on the basis of solved or not
      *
      * @param solved
