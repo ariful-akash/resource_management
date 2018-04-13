@@ -92,6 +92,11 @@ public class RequisitionRestController {
         return "{\"add\":\"false\"}";
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     @RequestMapping(
             value = "/api/service/office/requisition/{id}",
             produces = {"application/json;charset:UTF-8"},
@@ -114,6 +119,80 @@ public class RequisitionRestController {
 
                     System.err.println(ex.toString());
                 }
+            }
+        }
+
+        return "[]";
+    }
+
+    /**
+     *
+     * @param key
+     * @param id
+     * @return
+     */
+    @RequestMapping(
+            value = "/api/service/office/requisition/{key}/{id}",
+            produces = {"application/json;charset:UTF-8"},
+            method = RequestMethod.GET)
+    public String getRequisitionByKey(
+            @PathVariable("key") String key,
+            @PathVariable("id") long id) {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.setDateFormat(df);
+
+        if (key != null && !key.isEmpty() && id > 0) {
+
+            List<Requisition> requisitions;
+            switch (key) {
+                case "type":
+
+                    requisitions = requisitionService.getRequisitionsByType(id);
+                    if (requisitions != null && requisitions.size() > 0) {
+
+                        try {
+
+                            return objectMapper.writeValueAsString(requisitions);
+                        } catch (JsonProcessingException ex) {
+
+                            System.err.println(ex.toString());
+                        }
+                    }
+                    break;
+
+                case "solver":
+
+                    requisitions = requisitionService.getRequisitionsBySolver(id);
+                    if (requisitions != null && requisitions.size() > 0) {
+
+                        try {
+
+                            return objectMapper.writeValueAsString(requisitions);
+                        } catch (JsonProcessingException e) {
+
+                            System.err.println(e.toString());
+                        }
+                    }
+                    break;
+
+                case "creator":
+
+                    requisitions = requisitionService.getRequisitionsByCreator(id);
+                    if (requisitions != null && requisitions.size() > 0) {
+
+                        try {
+
+                            return objectMapper.writeValueAsString(requisitions);
+                        } catch (JsonProcessingException e) {
+
+                            System.err.println(e.toString());
+                        }
+                    }
+                    break;
+
+                default:
+                    break;
             }
         }
 
