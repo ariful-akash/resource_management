@@ -4,16 +4,30 @@ import com.uiu.thesis.dao.interfaces.HumanResourceDAO;
 import com.uiu.thesis.models.user.HumanResource;
 import com.uiu.thesis.services.interfaces.HumanResourceService;
 import java.util.List;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author ashif
  */
+@Service
+@Transactional
 public class HumanResourceServiceImpl implements HumanResourceService {
 
     @Autowired
     private HumanResourceDAO humanResourceDAO;
+
+    /**
+     *
+     * @return
+     */
+    @Override
+    public List<HumanResource> getHumanResources() {
+
+        return humanResourceDAO.getAllHumanResources();
+    }
 
     /**
      *
