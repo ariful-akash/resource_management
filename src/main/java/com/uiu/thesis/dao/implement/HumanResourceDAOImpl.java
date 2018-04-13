@@ -375,12 +375,20 @@ public class HumanResourceDAOImpl implements HumanResourceDAO {
 
         if (id > 0) {
 
-            String sql = "select * from human_resources "
-                    + "where id in ( "
-                    + "select humanResources_id from roles_human_resources "
-                    + "where roles_id = " + id + ")";
+            Role role = roleDAO.getRoleById(roleId);
 
-            return makeHRBySQLQuery(sql);
+            if (role != null) {
+
+                Set<HumanResource> humanResourcesSet = role.getHumanResources();
+                List<HumanResource> humanResourcesList = new ArrayList<>();
+
+                for (HumanResource humanResource : humanResourcesSet) {
+
+                    humanResourcesList.add(humanResource);
+                }
+
+                return humanResourcesList;
+            }
         }
 
         return null;
