@@ -139,4 +139,20 @@ public class RequisitionServiceImpl implements RequisitionService {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param requisition
+     * @return
+     */
+    @Override
+    public int updateRequisition(Requisition requisition) {
+
+        if (requisition != null && requisition.getId() > 0) {
+
+            return requisitionDAO.updateRequisition(requisition);
+        }
+
+        return 0;
+    }
+
 }

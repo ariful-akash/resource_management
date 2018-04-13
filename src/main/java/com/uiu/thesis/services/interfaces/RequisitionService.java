@@ -12,6 +12,8 @@ public interface RequisitionService {
 
     public int addRequisition(Requisition requisition);
 
+    public int updateRequisition(Requisition requisition);
+
     public List<Requisition> getAllRequisitions();
 
     public List<Requisition> getRequisitionsBySolver(Long solverId);
