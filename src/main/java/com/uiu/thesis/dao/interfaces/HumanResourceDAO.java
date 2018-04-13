@@ -2,8 +2,6 @@ package com.uiu.thesis.dao.interfaces;
 
 import com.uiu.thesis.models.user.AccessType;
 import com.uiu.thesis.models.user.HumanResource;
-import com.uiu.thesis.models.user.HumanResourceType;
-import com.uiu.thesis.models.user.Role;
 import java.util.List;
 import java.util.Set;
 
@@ -17,11 +15,15 @@ public interface HumanResourceDAO {
 
     public int updateHumanResource(HumanResource hr);
 
-    public int updateHumanResource(HumanResource hr, Role role);
+    public int updateHumanResourceRole(Long hrId, Long roleId);
+
+    public int addHumanResourceAccess(Long hrId, Long accessId);
+
+    public int removeHumanResourceAccess(Long hrId, Long accessId);
 
     public int updateHumanResource(HumanResource hr, Set<AccessType> accessTypes);
 
-    public int updateHumanResource(HumanResource hr, HumanResourceType hrType);
+    public int updateHumanResourceType(Long hrId, Long typeId);
 
     public int deleteHumanResource(HumanResource hr);
 

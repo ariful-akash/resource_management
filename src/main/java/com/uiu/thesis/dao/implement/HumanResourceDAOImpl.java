@@ -3,8 +3,6 @@ package com.uiu.thesis.dao.implement;
 import com.uiu.thesis.dao.interfaces.HumanResourceDAO;
 import com.uiu.thesis.models.user.AccessType;
 import com.uiu.thesis.models.user.HumanResource;
-import com.uiu.thesis.models.user.HumanResourceType;
-import com.uiu.thesis.models.user.Role;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -146,24 +144,47 @@ public class HumanResourceDAOImpl implements HumanResourceDAO {
 
     /**
      *
-     * @param hr
-     * @param role
+     * @param hrId
+     * @param roleId
      * @return
      */
     @Override
-    public int updateHumanResource(HumanResource hr, Role role) {
+    public int updateHumanResourceRole(Long hrId, Long roleId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    /**
+     *
+     * @param hrId
+     * @param accessId
+     * @return
+     */
+    @Override
+    public int addHumanResourceAccess(Long hrId, Long accessId) {
 
         return 0;
     }
 
     /**
      *
-     * @param hr
-     * @param hrType
+     * @param hrId
+     * @param accessId
      * @return
      */
     @Override
-    public int updateHumanResource(HumanResource hr, HumanResourceType hrType) {
+    public int removeHumanResourceAccess(Long hrId, Long accessId) {
+
+        return 0;
+    }
+
+    /**
+     *
+     * @param hrId
+     * @param typeId
+     * @return
+     */
+    @Override
+    public int updateHumanResourceType(Long hrId, Long typeId) {
 
         return 0;
     }
