@@ -198,4 +198,34 @@ public class RequisitionRestController {
 
         return "[]";
     }
+
+    /**
+     *
+     * @param value
+     * @return
+     */
+    @RequestMapping(
+            value = "/api/service/office/requisition/solved/{value}",
+            produces = {"application/json;charset:UTF-8"},
+            method = RequestMethod.GET)
+    public String getRequisitionsBySolved(
+            @PathVariable("value") boolean value) {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.setDateFormat(df);
+
+        List<Requisition> requisitions = requisitionService.getRequisitionsBySU(value);
+        if (requisitions != null && requisitions.size() > 0) {
+
+            try {
+
+                return objectMapper.writeValueAsString(requisitions);
+            } catch (JsonProcessingException e) {
+
+                System.err.println(e.toString());
+            }
+        }
+
+        return "[]";
+    }
 }
