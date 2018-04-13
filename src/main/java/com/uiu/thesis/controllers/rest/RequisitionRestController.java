@@ -6,6 +6,7 @@ import com.uiu.thesis.models.requisition.Requisition;
 import com.uiu.thesis.services.interfaces.RequisitionService;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -227,5 +228,45 @@ public class RequisitionRestController {
         }
 
         return "[]";
+    }
+
+    /**
+     *
+     * @param id
+     * @param solverId
+     * @param solvedDate
+     * @return
+     */
+    @RequestMapping(
+            value = "/api/service/office/requisition/update",
+            params = {"id", "solver_id", "solved_date"},
+            produces = {"application/json;charset:UTF-8"},
+            method = RequestMethod.POST)
+    public String updateRequisition(
+            @RequestParam("id") long id,
+            @RequestParam("solver_id") long solverId,
+            @RequestParam("solved_date") long solvedDate) {
+
+        if (id > 0) {
+
+            Requisition requisition = requisitionService.getRequisitionById(id);
+
+            if (requisition != null
+                    && requisition.getRequisitionSolvedDate() == null
+                    && requisition.isSolved() == false) {
+
+                requisition.setSolved(true);
+                requisition.setSolverId(solverId);
+                requisition.setRequisitionSolvedDate(new Date(solvedDate));
+
+                int value = requisitionService.updateRequisition(requisition);
+                if (value != 0) {
+
+                    return "{\"update\":\"true\"}";
+                }
+            }
+        }
+
+        return "{\"update\":\"false\"}";
     }
 }
