@@ -26,6 +26,11 @@ public class HomeController {
         return "index";
     }
 
+    @RequestMapping(value = "/forum")
+    public String showForum() {
+        return "forum";
+    }
+
     /**
      * insert data into human_resource_type table
      *
