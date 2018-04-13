@@ -4,11 +4,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.uiu.thesis.models.requisition.Requisition;
 import com.uiu.thesis.services.interfaces.RequisitionService;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -50,5 +52,42 @@ public class RequisitionRestController {
         }
 
         return "[]";
+    }
+
+    /**
+     *
+     * @param requisitionJson
+     * @return
+     */
+    @RequestMapping(
+            value = "/api/service/office/requisition",
+            params = {"requisition"},
+            produces = {"application/json;charset:UTF-8"},
+            method = RequestMethod.POST)
+    public String addRequisition(
+            @RequestParam("requisition") String requisitionJson) {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        if (requisitionJson != null && !requisitionJson.isEmpty()) {
+
+            try {
+
+                Requisition requisition
+                        = objectMapper.readValue(requisitionJson, Requisition.class);
+
+                int value = requisitionService.addRequisition(requisition);
+                if (value != 0) {
+
+                    return "{\"add\":\"true\"}";
+                }
+
+            } catch (IOException ex) {
+
+                System.err.println(ex.toString());
+            }
+        }
+
+        return "{\"add\":\"false\"}";
     }
 }
