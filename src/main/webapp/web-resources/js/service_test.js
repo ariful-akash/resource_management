@@ -273,7 +273,7 @@ var updateComplaint = function () {
 
     var id = 2;
     var solver_id = 105;
-    var solved_date = new Date().toString();
+    var solved_date = new Date().getTime();
 
     console.log(solved_date);
 
