@@ -14,6 +14,8 @@ public interface RequisitionDAO {
 
     public int addRequisition(Requisition requisition);
 
+    public int updateRequisition(Requisition requisition);
+
     public List<Requisition> getAllRequisitions();
 
     public Requisition getRequisitionById(Long requisitionId);

@@ -112,7 +112,7 @@ public class ComplaintRestController {
     public String updateComplaint(
             @RequestParam("id") long id,
             @RequestParam("solver_id") long solverId,
-            @RequestParam("solved_date") String date) {
+            @RequestParam("solved_date") long date) {
 
         if (id > 0) {
 
