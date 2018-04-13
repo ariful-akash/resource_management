@@ -35,7 +35,7 @@ public class HumanResource implements Serializable {
     @Column(name = "first_name", nullable = false)
     private String firstName;
 
-    @Column(name = "last_name", nullable = false)
+    @Column(name = "last_name", nullable = true)
     private String lastName;
 
     @Column(name = "email", nullable = false, unique = true)
@@ -45,7 +45,7 @@ public class HumanResource implements Serializable {
     @Column(name = "password", nullable = false)
     private byte[] password;
 
-    @Column(name = "phone", nullable = false)
+    @Column(name = "phone", nullable = true)
     private String phone;
 
     @Column(name = "department", nullable = true)

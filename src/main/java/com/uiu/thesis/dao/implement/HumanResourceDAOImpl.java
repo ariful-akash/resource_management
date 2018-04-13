@@ -1,6 +1,9 @@
 package com.uiu.thesis.dao.implement;
 
+import com.uiu.thesis.dao.interfaces.AccessTypeDAO;
 import com.uiu.thesis.dao.interfaces.HumanResourceDAO;
+import com.uiu.thesis.dao.interfaces.HumanResourceTypeDAO;
+import com.uiu.thesis.dao.interfaces.RoleDAO;
 import com.uiu.thesis.models.user.AccessType;
 import com.uiu.thesis.models.user.HumanResource;
 import com.uiu.thesis.models.user.HumanResourceType;
@@ -30,6 +33,15 @@ public class HumanResourceDAOImpl implements HumanResourceDAO {
 
     @Autowired(required = true)
     private SessionFactory sessionFactory;
+
+    @Autowired
+    private RoleDAO roleDAO;
+
+    @Autowired
+    private AccessTypeDAO accessTypeDAO;
+
+    @Autowired
+    private HumanResourceTypeDAO hrTypeDao;
 
     /**
      *
@@ -76,6 +88,7 @@ public class HumanResourceDAOImpl implements HumanResourceDAO {
      */
     @Override
     public int addHumanResource(HumanResource hr) {
+
         Session session = sessionFactory.getCurrentSession();
         Long id = (Long) session.save(hr);
         return Integer.valueOf(id.toString());
@@ -146,24 +159,116 @@ public class HumanResourceDAOImpl implements HumanResourceDAO {
 
     /**
      *
-     * @param hr
-     * @param role
+     * @param hrId
+     * @param roleId
      * @return
      */
     @Override
-    public int updateHumanResource(HumanResource hr, Role role) {
+    public int updateHumanResourceRole(Long hrId, Long roleId) {
+
+        if (hrId > 0 && roleId > 0) {
+
+            HumanResource humanResource = getHumanResource(hrId);
+            Role role = roleDAO.getRoleById(roleId);
+
+            if (humanResource != null && role != null) {
+
+                Session session = sessionFactory.getCurrentSession();
+                String sql = "UPDATE roles_human_resources "
+                        + "SET roles_id=" + roleId + " "
+                        + "WHERE humanResources_id=" + hrId;
+
+                Query query = session.createSQLQuery(sql);
+                return query.executeUpdate();
+            }
+        }
 
         return 0;
     }
 
     /**
      *
-     * @param hr
-     * @param hrType
+     * @param hrId
+     * @param accessId
      * @return
      */
     @Override
-    public int updateHumanResource(HumanResource hr, HumanResourceType hrType) {
+    public int addHumanResourceAccess(Long hrId, Long accessId) {
+
+        if (hrId > 0 && accessId > 0) {
+
+            HumanResource humanResource = getHumanResource(hrId);
+            AccessType accessType = accessTypeDAO.getAccessType(accessId);
+
+            if (humanResource != null && accessType != null) {
+
+                Session session = sessionFactory.getCurrentSession();
+                String sql = "INSERT INTO human_resources_access_types "
+                        + "(human_resources_id, access_id) "
+                        + "VALUES (" + hrId + ", " + accessId + ")";
+
+                Query query = session.createSQLQuery(sql);
+                return query.executeUpdate();
+            }
+        }
+
+        return 0;
+    }
+
+    /**
+     *
+     * @param hrId
+     * @param accessId
+     * @return
+     */
+    @Override
+    public int removeHumanResourceAccess(Long hrId, Long accessId) {
+
+        if (hrId > 0 && accessId > 0) {
+
+            HumanResource humanResource = getHumanResource(hrId);
+            AccessType accessType = accessTypeDAO.getAccessType(accessId);
+
+            if (humanResource != null && accessType != null) {
+
+                Session session = sessionFactory.getCurrentSession();
+                String sql = "DELETE FROM human_resources_access_types "
+                        + "WHERE access_id=" + accessId + " "
+                        + "AND human_resources_id=" + hrId;
+
+                Query query = session.createSQLQuery(sql);
+                return query.executeUpdate();
+            }
+        }
+
+        return 0;
+    }
+
+    /**
+     *
+     * @param hrId
+     * @param typeId
+     * @return
+     */
+    @Override
+    public int updateHumanResourceType(Long hrId, Long typeId) {
+
+        if (hrId > 0 && typeId > 0) {
+
+            HumanResource humanResource = getHumanResource(hrId);
+            HumanResourceType hrType = hrTypeDao.getHumanResourceType(typeId);
+
+            if (humanResource != null && hrType != null) {
+
+                Session session = sessionFactory.getCurrentSession();
+                String sql = "UPDATE human_resource_types_human_resources "
+                        + "SET human_resource_types_id=" + typeId + " "
+                        + "WHERE humanResources_id=" + hrId;
+
+                Query query = session.createSQLQuery(sql);
+                return query.executeUpdate();
+            }
+        }
 
         return 0;
     }
