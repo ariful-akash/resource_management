@@ -1,6 +1,7 @@
 package com.uiu.thesis.models.user;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -43,6 +44,7 @@ public class HumanResource implements Serializable {
 
     @Lob
     @Column(name = "password", nullable = false)
+    @JsonIgnore
     private byte[] password;
 
     @Column(name = "phone", nullable = true)
