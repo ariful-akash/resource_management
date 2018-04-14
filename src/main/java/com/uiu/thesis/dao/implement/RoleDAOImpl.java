@@ -4,8 +4,11 @@ import com.uiu.thesis.dao.interfaces.RoleDAO;
 import com.uiu.thesis.models.user.AccessType;
 import com.uiu.thesis.models.user.HumanResource;
 import com.uiu.thesis.models.user.Role;
+import java.math.BigInteger;
 import java.util.List;
+import java.util.Map;
 import javax.transaction.Transactional;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -119,8 +122,32 @@ public class RoleDAOImpl implements RoleDAO {
         return null;
     }
 
+    /**
+     *
+     * @param userId
+     * @return
+     */
     @Override
     public Role getRoleByUser(Long userId) {
+
+        Session session = sessionFactory.getCurrentSession();
+        String sql = "SELECT * FROM roles_human_resources "
+                + "WHERE humanResources_id = " + userId;
+
+        Query query = session.createSQLQuery(sql);
+        query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+        List result = query.list();
+
+        if (result.size() > 0) {
+
+            Map row = (Map) result.get(0);
+
+            BigInteger intId = (BigInteger) row.get("role_id");
+
+            Role role = getRoleById(intId.longValue());
+
+            return role;
+        }
 
         return null;
     }
