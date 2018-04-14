@@ -189,6 +189,35 @@ public class HumanResourceDAOImpl implements HumanResourceDAO {
     /**
      *
      * @param hrId
+     * @param roleId
+     * @return
+     */
+    @Override
+    public int addHumanResourceRole(Long hrId, Long roleId) {
+
+        if (hrId > 0 && roleId > 0) {
+
+            HumanResource humanResource = getHumanResource(hrId);
+            Role role = roleDAO.getRoleById(roleId);
+
+            if (humanResource != null && role != null) {
+
+                Session session = sessionFactory.getCurrentSession();
+                String sql = "INSERT INTO roles_human_resources "
+                        + "(roles_id, humanResources_id) "
+                        + "VALUES (" + roleId + ", " + hrId + ")";
+
+                Query query = session.createSQLQuery(sql);
+                return query.executeUpdate();
+            }
+        }
+
+        return 0;
+    }
+
+    /**
+     *
+     * @param hrId
      * @param accessId
      * @return
      */
@@ -415,5 +444,30 @@ public class HumanResourceDAOImpl implements HumanResourceDAO {
         }
 
         return null;
+    }
+
+    /**
+     *
+     * @param hrId
+     * @param roleId
+     * @return
+     */
+    public boolean isRoleRelatesHR(Long hrId, Long roleId) {
+
+        if (hrId > 0 && roleId > 0) {
+
+            Session session = sessionFactory.getCurrentSession();
+            String sql = "SELECT * FROM roles_human_resources "
+                    + "WHERE humanResources_id = " + hrId;
+            Query query = session.createSQLQuery(sql);
+            List result = query.list();
+
+            if (result.size() > 0) {
+
+                return true;
+            }
+        }
+
+        return false;
     }
 }
