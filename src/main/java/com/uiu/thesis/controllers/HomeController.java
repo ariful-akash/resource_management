@@ -31,6 +31,11 @@ public class HomeController {
         return "forum";
     }
 
+    @RequestMapping(value = "/mycomplaints")
+    public String showMyComplaintes() {
+        return "myComplaints";
+    }
+
     /**
      * insert data into human_resource_type table
      *
