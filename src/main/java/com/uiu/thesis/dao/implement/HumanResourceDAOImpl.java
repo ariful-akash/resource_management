@@ -68,7 +68,7 @@ public class HumanResourceDAOImpl implements HumanResourceDAO {
 
             hr.setId(idlong);
             hr.setFirstName((String) row.get("first_name"));
-            hr.setLastName((String) row.get("name_name"));
+            hr.setLastName((String) row.get("last_name"));
             hr.setEmail((String) row.get("email"));
             hr.setPassword((byte[]) row.get("password"));
             hr.setDepartment((String) row.get("department"));
@@ -344,12 +344,21 @@ public class HumanResourceDAOImpl implements HumanResourceDAO {
 
         if (id > 0) {
 
-            String sql = "select * from human_resources "
-                    + "where id in ( "
-                    + "select humanResources_id from human_resource_types_human_resources "
-                    + "where human_resource_type_id = " + id + ")";
+            HumanResourceType hrType = hrTypeDao.getHumanResourceType(hrTypeId);
 
-            return makeHRBySQLQuery(sql);
+            if (hrType != null) {
+
+                Set<HumanResource> hrSet = hrType.getHumanResources();
+
+                List<HumanResource> humanResourcesList = new ArrayList<>();
+
+                for (HumanResource humanResource : hrSet) {
+
+                    humanResourcesList.add(humanResource);
+                }
+
+                return humanResourcesList;
+            }
         }
         return null;
     }
@@ -366,12 +375,20 @@ public class HumanResourceDAOImpl implements HumanResourceDAO {
 
         if (id > 0) {
 
-            String sql = "select * from human_resources "
-                    + "where id in ( "
-                    + "select humanResources_id from roles_human_resources "
-                    + "where roles_id = " + id + ")";
+            Role role = roleDAO.getRoleById(roleId);
 
-            return makeHRBySQLQuery(sql);
+            if (role != null) {
+
+                Set<HumanResource> humanResourcesSet = role.getHumanResources();
+                List<HumanResource> humanResourcesList = new ArrayList<>();
+
+                for (HumanResource humanResource : humanResourcesSet) {
+
+                    humanResourcesList.add(humanResource);
+                }
+
+                return humanResourcesList;
+            }
         }
 
         return null;

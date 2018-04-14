@@ -21,6 +21,8 @@ public interface AccessTypeDAO {
 
     public int deleteAccessType(Long id);
 
+    public boolean isHrRelatesAccess(Long hrId, Long accessId);
+
     public AccessType getAccessType(Long id);
 
     public List<AccessType> getAllAccessTypes();

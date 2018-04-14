@@ -6,6 +6,8 @@ import com.uiu.thesis.models.user.HumanResource;
 import com.uiu.thesis.models.user.Role;
 import java.util.List;
 import javax.transaction.Transactional;
+import org.hibernate.Criteria;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -158,4 +160,33 @@ public class AccessTypeDAOImpl implements AccessTypeDAO {
         return null;
     }
 
+    /**
+     *
+     * @param hrId
+     * @param accessId
+     * @return
+     */
+    @Override
+    public boolean isHrRelatesAccess(Long hrId, Long accessId) {
+
+        if (hrId > 0 && accessId > 0) {
+
+            String sql = "SELECT * FROM human_resources_access_types "
+                    + "WHERE access_id = " + accessId + " "
+                    + "AND human_resources_id = " + hrId;
+
+            Session session = sessionFactory.getCurrentSession();
+
+            SQLQuery query = session.createSQLQuery(sql);
+            query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+            List results = query.list();
+
+            if (results.size() > 0) {
+
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
