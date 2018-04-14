@@ -1,5 +1,6 @@
 package com.uiu.thesis.services.implement;
 
+import com.uiu.thesis.dao.interfaces.AccessTypeDAO;
 import com.uiu.thesis.dao.interfaces.HumanResourceDAO;
 import com.uiu.thesis.models.user.HumanResource;
 import com.uiu.thesis.services.interfaces.HumanResourceService;
@@ -18,6 +19,9 @@ public class HumanResourceServiceImpl implements HumanResourceService {
 
     @Autowired
     private HumanResourceDAO humanResourceDAO;
+
+    @Autowired
+    private AccessTypeDAO accessTypeDAO;
 
     /**
      *
@@ -139,7 +143,8 @@ public class HumanResourceServiceImpl implements HumanResourceService {
     @Override
     public int addAccess(Long hrId, Long accessId) {
 
-        if (hrId > 0 && accessId > 0) {
+        if (hrId > 0 && accessId > 0
+                && !accessTypeDAO.isHrRelatesAccess(hrId, accessId)) {
 
             return humanResourceDAO.addHumanResourceAccess(hrId, accessId);
         }
