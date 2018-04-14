@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -106,5 +107,32 @@ public class HumanResourceRestController {
         }
 
         return "[]";
+    }
+
+    /**
+     *
+     * @param hrId
+     * @param typeId
+     * @return
+     */
+    @RequestMapping(
+            value = "/api/service/office/hr/change/type",
+            params = {"hr_id", "type_id"},
+            produces = {"application/json;charset:UTF-8"},
+            method = RequestMethod.POST)
+    public String changeHRType(
+            @RequestParam("hr_id") long hrId,
+            @RequestParam("type_id") long typeId) {
+
+        if (hrId > 0 && typeId > 0) {
+
+            int value = humanResourceService.changeHumanResourceType(hrId, typeId);
+            if (value != 0) {
+
+                return "{\"change\":\"true\"}";
+            }
+        }
+
+        return "{\"change\":\"false\"}";
     }
 }
