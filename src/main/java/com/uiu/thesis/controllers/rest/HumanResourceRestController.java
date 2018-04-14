@@ -177,4 +177,31 @@ public class HumanResourceRestController {
 
         return "{\"change\":\"false\"}";
     }
+
+    /**
+     *
+     * @param hr_id
+     * @param role_id
+     * @return
+     */
+    @RequestMapping(
+            value = "/api/service/office/hr/role/change",
+            params = {"hr_id", "role_id"},
+            produces = {"application/json;charset:UTF-8"},
+            method = RequestMethod.POST)
+    public String changeRole(
+            @RequestParam("hr_id") long hr_id,
+            @RequestParam("role_id") long role_id) {
+
+        if (hr_id > 0 && role_id > 0) {
+
+            int value = humanResourceService.changeHumanResourceRole(hr_id, role_id);
+            if (value != 0) {
+
+                return "{\"change\":\"true\"}";
+            }
+        }
+
+        return "{\"change\":\"false\"}";
+    }
 }

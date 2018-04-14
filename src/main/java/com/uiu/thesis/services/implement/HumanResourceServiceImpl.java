@@ -108,7 +108,12 @@ public class HumanResourceServiceImpl implements HumanResourceService {
 
         if (hrId > 0 && roleId > 0) {
 
-            return humanResourceDAO.updateHumanResourceRole(hrId, roleId);
+            if (humanResourceDAO.isRoleRelatesHR(hrId, roleId)) {
+
+                return humanResourceDAO.updateHumanResourceRole(hrId, roleId);
+            }
+
+            return humanResourceDAO.mapHumanResourceRole(hrId, roleId);
         }
 
         return 0;

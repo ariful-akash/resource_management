@@ -193,7 +193,7 @@ public class HumanResourceDAOImpl implements HumanResourceDAO {
      * @return
      */
     @Override
-    public int addHumanResourceRole(Long hrId, Long roleId) {
+    public int mapHumanResourceRole(Long hrId, Long roleId) {
 
         if (hrId > 0 && roleId > 0) {
 
@@ -452,6 +452,7 @@ public class HumanResourceDAOImpl implements HumanResourceDAO {
      * @param roleId
      * @return
      */
+    @Override
     public boolean isRoleRelatesHR(Long hrId, Long roleId) {
 
         if (hrId > 0 && roleId > 0) {
