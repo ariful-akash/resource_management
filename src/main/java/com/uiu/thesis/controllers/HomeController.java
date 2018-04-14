@@ -36,6 +36,11 @@ public class HomeController {
         return "myComplaints";
     }
 
+    @RequestMapping(value = "/adminviews")
+    public String showAdminView() {
+        return "adminView";
+    }
+
     /**
      * insert data into human_resource_type table
      *
