@@ -142,7 +142,7 @@ public class RoleDAOImpl implements RoleDAO {
 
             Map row = (Map) result.get(0);
 
-            BigInteger intId = (BigInteger) row.get("role_id");
+            BigInteger intId = (BigInteger) row.get("roles_id");
 
             Role role = getRoleById(intId.longValue());
 
