@@ -53,20 +53,21 @@
                     <div>
                         <a class="w3-button" style="text-decoration: none;width: 100% " href="#">My Complaints</a><br>
                         <a class="w3-button" style="text-decoration: none;width: 100%" href="#">ADD Items</a>
+                        <a class="w3-button" style="width: 100%"><span onclick="document.getElementById('id01').style.display = 'block'">New Complaints</span></a>
+
                     </div>
 
                     <!--<##Pop up window-->
                     <div class="w3-container">
-                        <a class="w3-button" style="width: 100%"><span onclick="document.getElementById('id01').style.display = 'block'">New Complaints</span></a>
 
                         <div id="id01" class="w3-modal">
                             <div class="w3-modal-content" style="margin-left: 25%;width: 50%">
                                 <div class="w3-container w3-theme-l3">
-                                    <span onclick="document.getElementById('id01').style.display = 'none'" class="w3-button w3-red w3-display-topright">&times;</span>
+                                    <span onclick="document.getElementById('id01').style.display = 'none'" class="w3-button w3-large w3-red w3-display-topright">&times;</span>
                                     <div class=" w3-margin w3-half w3-large">
                                         <form action="" method="post">
                                             <label class="">Description: </label>
-                                            <input name="descr"  class="w3-large w3-input w3-round-large w3-light-gray" type="text" ><br>
+                                            <input name="descr"  class="w3-small w3-input w3-round-large w3-light-gray" type="text" ><br>
 
                                             <div class="w3-row">
                                                 <input type="submit" value="Submit" class="w3-btn w3-theme-l1 w3-round" style="padding-left: 7%; padding-right: 7%;">
