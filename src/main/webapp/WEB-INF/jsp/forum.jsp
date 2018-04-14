@@ -23,7 +23,7 @@
     <body class="w3-theme-l4" style="font-family: 'Lato', 'sans-serif';">
 
         <div>
-            <div class="w3-theme-d3 w3-row" style="height: 50px">
+            <div class="w3-theme-d3 w3-topbar w3-row" style="height: 50px">
 
                 <!--navigation ber-->
 
@@ -47,22 +47,22 @@
             <div class="w3-row">
 
                 <!--Left div-->
-                <div class="w3-theme-l1 w3-col" style="width: 24%">
+                <div class="w3-theme-d1 w3-col" style="width: 20%; height: 450px">
                     <a class="w3-btn" style="text-decoration: none;" href="#">My Posts</a><br>
                     <a class="w3-btn" style="text-decoration: none;" href="#">Add New Posts</a>
                 </div>
 
                 <!--Middle div-->
-                <div class="w3-theme-l1 w3-red w3-col" style="margin: 0% 1% 0% 1%;width: 57%">
+                <div class="w3-theme-l2 w3-red w3-col" style="margin: 0% 1% 0% 1%;width: 61%">
                     <div class="w3-card w3-padding" style="margin-top: 10px">
                         <input style="margin-left: 2%;width: 50%; margin-bottom: 1%" class="w3-large w3-input w3-theme-l3" type="text" placeholder="Search Post By Tag" name="searchPost">
 
                         <% for (int i = 0; i < 5; i++) {%>
-                        <label class="w3-white w3-margin-top w3-margin-left w3-text-black">Table <a href="" style="text-decoration: none;">&#x2715;</a></label>
+                        <label class="w3-theme-l3 w3-margin-top w3-margin-left w3-text-black">Tags <a href="" class="w3-small" style="text-decoration: none;">&#x2715;</a></label>
                         <%}%>
                     </div>
 
-                    <div style="overflow: auto; height: 500px; margin-top: 10px">
+                    <div style="overflow: auto; height: 470px; margin-top: 10px">
                         <% for (int i = 0; i < 10; i++) {%>
                         <div class="w3-row w3-card w3-margin">
                             <div class="w3-col" style="width: 5%; margin-right: 3%; padding: 1% 0% 0% 1%">
@@ -74,13 +74,22 @@
                             </div>
 
                             <div style="margin: 8% 5% 1% 5%">
-                                <p>akshsjkashfxjsdk dsjkxfhdjksf dsjkxfhdjksf dsjkxfhdjksf
-                                    dsjkxfhdjksf dsjkxfhdjksf dsjkxfhdjksf  esdkjfxhcdsjkfc 
-                                    sdfjkxhjkds ksdfj kurj sksh ksfh ksdfh... <a class="w3-text-dark-gray" href="">See more</a></p>
+                                <span>As a describer of life and manners, he must be allowed to 
+                                    stand perhaps the first of the first rank. His humour, which, 
+                                    as Steele observes, is peculiar to himself, is so happily 
+                                    diffused as to give the grace of novelty to domestic scenes 
+                                    and daily occurrences. He never "o'ersteps the modesty of 
+                                    nature," nor raises merriment or wonder by the violation 
+                                    of truth. His figures neither divert by distortion nor amaze 
+                                    by aggravation. He copies life with so much fidelity that he 
+                                    can be hardly said to invent; yet his exhibitions have an air 
+                                    so much original, that it is difficult to suppose them not 
+                                    merely the product of imagination. 
+                                    <a class="w3-text-white" href="">See more</a></span>
                             </div>
                             <div>
                                 <% for (int j = 0; j < 5; j++) {%>
-                                <label class=" w3-small w3-text-dark-gray" style="margin-left: 5%">Table</label>
+                                <label class=" w3-small w3-text-dark-gray" style="margin-left: 5%">Tags</label>
                                 <%}%>
                             </div>
                         </div>
@@ -90,7 +99,7 @@
                 </div>
 
                 <!--Right div-->
-                <div class="w3-theme-l1 w3-col" style="width: 17%">
+                <div class="w3-theme-l5 w3-col" style="width: 17%">
                     <div  style="overflow: auto; height: 530px; padding-left:1%">
                         <% for (int i = 0; i < 20; i++) { %>
                         <div class="w3-row w3-margin">
