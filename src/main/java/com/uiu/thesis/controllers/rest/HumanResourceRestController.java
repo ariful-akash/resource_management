@@ -2,6 +2,7 @@ package com.uiu.thesis.controllers.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.uiu.thesis.dao.interfaces.AccessTypeDAO;
 import com.uiu.thesis.models.user.HumanResource;
 import com.uiu.thesis.services.interfaces.HumanResourceService;
 import java.text.SimpleDateFormat;
@@ -22,6 +23,9 @@ public class HumanResourceRestController {
 
     @Autowired
     private HumanResourceService humanResourceService;
+
+    @Autowired
+    private AccessTypeDAO accessTypeDAO;
 
     private SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss a");
 
@@ -127,6 +131,44 @@ public class HumanResourceRestController {
         if (hrId > 0 && typeId > 0) {
 
             int value = humanResourceService.changeHumanResourceType(hrId, typeId);
+            if (value != 0) {
+
+                return "{\"change\":\"true\"}";
+            }
+        }
+
+        return "{\"change\":\"false\"}";
+    }
+
+    /**
+     *
+     * @param change
+     * @param hrId
+     * @param accessId
+     * @return
+     */
+    @RequestMapping(
+            value = "/api/service/office/hr/access/{change}",
+            params = {"hr_id", "access_id"},
+            produces = {"application/json;charset:UTF-8"},
+            method = RequestMethod.GET)
+    public String changeHRAccess(
+            @PathVariable("change") String change,
+            @RequestParam("hr_id") long hrId,
+            @RequestParam("access_id") long accessId) {
+
+        if (hrId > 0 && accessId > 0) {
+
+            int value = 0;
+
+            if (change.equals("add")) {
+
+                value = humanResourceService.addAccess(hrId, accessId);
+            } else if (change.equals("remove")) {
+
+                value = humanResourceService.removeAccess(hrId, accessId);
+            }
+
             if (value != 0) {
 
                 return "{\"change\":\"true\"}";
