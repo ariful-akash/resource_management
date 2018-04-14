@@ -179,7 +179,10 @@ public class HumanResourceDAOImpl implements HumanResourceDAO {
                         + "WHERE humanResources_id=" + hrId;
 
                 Query query = session.createSQLQuery(sql);
-                return query.executeUpdate();
+                int value = query.executeUpdate();
+                humanResource.setAccess(role.getAccessTypes());
+
+                return value;
             }
         }
 
@@ -200,6 +203,8 @@ public class HumanResourceDAOImpl implements HumanResourceDAO {
             HumanResource humanResource = getHumanResource(hrId);
             Role role = roleDAO.getRoleById(roleId);
 
+            roleDAO.getRoleByUser(hrId);
+
             if (humanResource != null && role != null) {
 
                 Session session = sessionFactory.getCurrentSession();
@@ -208,7 +213,10 @@ public class HumanResourceDAOImpl implements HumanResourceDAO {
                         + "VALUES (" + roleId + ", " + hrId + ")";
 
                 Query query = session.createSQLQuery(sql);
-                return query.executeUpdate();
+                int value = query.executeUpdate();
+                humanResource.setAccess(role.getAccessTypes());
+
+                return value;
             }
         }
 
