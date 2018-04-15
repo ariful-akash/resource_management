@@ -3,7 +3,9 @@ package com.uiu.thesis.controllers.rest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.uiu.thesis.dao.interfaces.AccessTypeDAO;
+import com.uiu.thesis.dao.interfaces.HumanResourceTypeDAO;
 import com.uiu.thesis.models.user.HumanResource;
+import com.uiu.thesis.models.user.HumanResourceType;
 import com.uiu.thesis.services.interfaces.HumanResourceService;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -23,6 +25,9 @@ public class HumanResourceRestController {
 
     @Autowired
     private HumanResourceService humanResourceService;
+
+    @Autowired
+    private HumanResourceTypeDAO hrTypeDAO;
 
     @Autowired
     private AccessTypeDAO accessTypeDAO;
@@ -203,5 +208,33 @@ public class HumanResourceRestController {
         }
 
         return "{\"change\":\"false\"}";
+    }
+
+    /**
+     *
+     * @return
+     */
+    @RequestMapping(
+            value = "/api/service/office/hr/hrtype",
+            produces = {"application/json;charset:UTF-8"},
+            method = RequestMethod.GET)
+    public String getHRTypes() {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        List<HumanResourceType> hrTypes = hrTypeDAO.getAllHRType();
+
+        if (hrTypes != null && hrTypes.size() > 0) {
+
+            try {
+
+                return objectMapper.writeValueAsString(hrTypes);
+            } catch (JsonProcessingException ex) {
+
+                System.err.println(ex.toString());
+            }
+        }
+
+        return "[]";
     }
 }
