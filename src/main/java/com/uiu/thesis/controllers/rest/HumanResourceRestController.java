@@ -3,8 +3,11 @@ package com.uiu.thesis.controllers.rest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.uiu.thesis.dao.interfaces.AccessTypeDAO;
+import com.uiu.thesis.dao.interfaces.HumanResourceTypeDAO;
 import com.uiu.thesis.models.user.HumanResource;
+import com.uiu.thesis.models.user.HumanResourceType;
 import com.uiu.thesis.services.interfaces.HumanResourceService;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +26,9 @@ public class HumanResourceRestController {
 
     @Autowired
     private HumanResourceService humanResourceService;
+
+    @Autowired
+    private HumanResourceTypeDAO hrTypeDAO;
 
     @Autowired
     private AccessTypeDAO accessTypeDAO;
@@ -54,6 +60,76 @@ public class HumanResourceRestController {
                 System.err.println(ex.toString());
             }
         }
+        return "[]";
+    }
+
+    /**
+     *
+     * @param user
+     * @return
+     */
+    @RequestMapping(
+            value = "/api/service/office/hr",
+            params = {"user"},
+            produces = {"application/json;charset:UTF-8"},
+            method = RequestMethod.POST)
+    public String addUser(@RequestParam("user") String user) {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+
+            HumanResource hr = objectMapper.readValue(user, HumanResource.class);
+            if (hr != null
+                    && hr.getId() == null
+                    && hr.getFirstName() != null
+                    && hr.getEmail() != null
+                    && hr.getPhone() != null
+                    && hr.getDepartment() != null) {
+
+                int value = humanResourceService.addHumanResource(hr);
+                if (value != 0) {
+
+                    return "{\"add\":\"true\"}";
+                }
+            }
+        } catch (IOException e) {
+
+            System.err.println(e.toString());
+        }
+
+        return "{\"add\":\"false\"}";
+    }
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+    @RequestMapping(
+            value = "/api/service/office/hr/{id}",
+            produces = {"application/json;charset:UTF-8"},
+            method = RequestMethod.GET)
+    public String getUserById(@PathVariable("id") long id) {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        if (id > 0) {
+
+            HumanResource hr = humanResourceService.getHumanResourceById(id);
+
+            if (hr != null) {
+
+                try {
+
+                    return objectMapper.writeValueAsString(hr);
+                } catch (JsonProcessingException e) {
+
+                    System.err.println(e.toString());
+                }
+            }
+        }
+
         return "[]";
     }
 
@@ -120,7 +196,7 @@ public class HumanResourceRestController {
      * @return
      */
     @RequestMapping(
-            value = "/api/service/office/hr/change/type",
+            value = "/api/service/office/hr/type/change",
             params = {"hr_id", "type_id"},
             produces = {"application/json;charset:UTF-8"},
             method = RequestMethod.POST)
@@ -176,5 +252,95 @@ public class HumanResourceRestController {
         }
 
         return "{\"change\":\"false\"}";
+    }
+
+    /**
+     *
+     * @param hr_id
+     * @param role_id
+     * @return
+     */
+    @RequestMapping(
+            value = "/api/service/office/hr/role/change",
+            params = {"hr_id", "role_id"},
+            produces = {"application/json;charset:UTF-8"},
+            method = RequestMethod.POST)
+    public String changeRole(
+            @RequestParam("hr_id") long hr_id,
+            @RequestParam("role_id") long role_id) {
+
+        if (hr_id > 0 && role_id > 0) {
+
+            int value = humanResourceService.changeHumanResourceRole(hr_id, role_id);
+            if (value != 0) {
+
+                return "{\"change\":\"true\"}";
+            }
+        }
+
+        return "{\"change\":\"false\"}";
+    }
+
+    /**
+     *
+     * @return
+     */
+    @RequestMapping(
+            value = "/api/service/office/hr/hrtype",
+            produces = {"application/json;charset:UTF-8"},
+            method = RequestMethod.GET)
+    public String getHRTypes() {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        List<HumanResourceType> hrTypes = hrTypeDAO.getAllHRType();
+
+        if (hrTypes != null && hrTypes.size() > 0) {
+
+            try {
+
+                return objectMapper.writeValueAsString(hrTypes);
+            } catch (JsonProcessingException ex) {
+
+                System.err.println(ex.toString());
+            }
+        }
+
+        return "[]";
+    }
+
+    /**
+     *
+     * @param name
+     * @return
+     */
+    @RequestMapping(
+            value = "/api/service/office/hr/hrtype",
+            params = {"resource_name"},
+            produces = {"application/json;charset:UTF-8"},
+            method = RequestMethod.POST)
+    public String addHRType(@RequestParam("resource_name") String name) {
+
+        if (name != null && !name.isEmpty()) {
+
+            String resourceName = name.toLowerCase();
+
+            HumanResourceType dbHRType = hrTypeDAO.getHumanResourceType(resourceName);
+
+            if (dbHRType == null) {
+
+                HumanResourceType hrType = new HumanResourceType();
+                hrType.setResourceName(resourceName);
+
+                int value = hrTypeDAO.addHRType(hrType);
+
+                if (value != 0) {
+
+                    return "{\"add\":\"true\"}";
+                }
+            }
+        }
+
+        return "{\"add\":\"false\"}";
     }
 }

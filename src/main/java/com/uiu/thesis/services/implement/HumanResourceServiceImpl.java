@@ -2,9 +2,12 @@ package com.uiu.thesis.services.implement;
 
 import com.uiu.thesis.dao.interfaces.AccessTypeDAO;
 import com.uiu.thesis.dao.interfaces.HumanResourceDAO;
+import com.uiu.thesis.dao.interfaces.RoleDAO;
 import com.uiu.thesis.models.user.HumanResource;
+import com.uiu.thesis.models.user.Role;
 import com.uiu.thesis.services.interfaces.HumanResourceService;
 import java.util.List;
+import java.util.Objects;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +25,9 @@ public class HumanResourceServiceImpl implements HumanResourceService {
 
     @Autowired
     private AccessTypeDAO accessTypeDAO;
+
+    @Autowired
+    private RoleDAO roleDAO;
 
     /**
      *
@@ -108,7 +114,15 @@ public class HumanResourceServiceImpl implements HumanResourceService {
 
         if (hrId > 0 && roleId > 0) {
 
-            return humanResourceDAO.updateHumanResourceRole(hrId, roleId);
+            Role role = roleDAO.getRoleByUser(hrId);
+
+            if (role == null) {
+
+                return humanResourceDAO.mapHumanResourceRole(hrId, roleId);
+            } else if (!Objects.equals(roleId, role.getId())) {
+
+                return humanResourceDAO.updateHumanResourceRole(hrId, roleId);
+            }
         }
 
         return 0;
