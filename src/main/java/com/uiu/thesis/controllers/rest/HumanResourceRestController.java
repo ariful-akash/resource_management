@@ -237,4 +237,34 @@ public class HumanResourceRestController {
 
         return "[]";
     }
+
+    @RequestMapping(
+            value = "/api/service/office/hr/hrtype",
+            params = {"resource_name"},
+            produces = {"application/json;charset:UTF-8"},
+            method = RequestMethod.GET)
+    public String addHRType(@RequestParam("resource_name") String name) {
+
+        if (name != null && !name.isEmpty()) {
+
+            String resourceName = name.toLowerCase();
+
+            HumanResourceType dbHRType = hrTypeDAO.getHumanResourceType(resourceName);
+
+            if (dbHRType == null) {
+
+                HumanResourceType hrType = new HumanResourceType();
+                hrType.setResourceName(resourceName);
+
+                int value = hrTypeDAO.addHRType(hrType);
+
+                if (value != 0) {
+
+                    return "{\"add\":\"true\"}";
+                }
+            }
+        }
+
+        return "{\"add\":\"false\"}";
+    }
 }
