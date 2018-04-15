@@ -1,7 +1,6 @@
 package com.uiu.thesis.dao.interfaces;
 
 import com.uiu.thesis.models.object_resource.OfficeResource;
-import com.uiu.thesis.models.object_resource.OfficeResourceType;
 import java.util.List;
 
 /**
@@ -18,9 +17,9 @@ public interface OfficeResourceDAO {
 
     public List<OfficeResource> getAllOfficeResources();
 
-    public List<OfficeResource> getOfficeResourcesByType(OfficeResourceType officeResourceType);
+    public List<OfficeResource> getOfficeResourcesByType(Long typeId);
 
     public List<OfficeResource> getOfficeResourcesByFloor(String floor);
 
-    public List<OfficeResource> getOfficeResourcesByRoom(String room);
+    public List<OfficeResource> getOfficeResourcesByRoom(String roomId);
 }
