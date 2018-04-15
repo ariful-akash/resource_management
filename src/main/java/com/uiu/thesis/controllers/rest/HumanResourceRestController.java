@@ -62,6 +62,33 @@ public class HumanResourceRestController {
         return "[]";
     }
 
+    @RequestMapping(
+            value = "/api/service/office/hr/{id}",
+            produces = {"application/json;charset:UTF-8"},
+            method = RequestMethod.GET)
+    public String getUserById(@PathVariable("id") long id) {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        if (id > 0) {
+
+            HumanResource hr = humanResourceService.getHumanResourceById(id);
+
+            if (hr != null) {
+
+                try {
+
+                    return objectMapper.writeValueAsString(hr);
+                } catch (JsonProcessingException e) {
+
+                    System.err.println(e.toString());
+                }
+            }
+        }
+
+        return "[]";
+    }
+
     /**
      *
      * @param key
@@ -125,7 +152,7 @@ public class HumanResourceRestController {
      * @return
      */
     @RequestMapping(
-            value = "/api/service/office/hr/change/type",
+            value = "/api/service/office/hr/type/change",
             params = {"hr_id", "type_id"},
             produces = {"application/json;charset:UTF-8"},
             method = RequestMethod.POST)
@@ -242,7 +269,7 @@ public class HumanResourceRestController {
             value = "/api/service/office/hr/hrtype",
             params = {"resource_name"},
             produces = {"application/json;charset:UTF-8"},
-            method = RequestMethod.GET)
+            method = RequestMethod.POST)
     public String addHRType(@RequestParam("resource_name") String name) {
 
         if (name != null && !name.isEmpty()) {
