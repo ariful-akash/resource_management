@@ -23,7 +23,7 @@
 
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>My Complaints</title>
+        <title>Admin Views</title>
     </head>
     <body class="w3-theme-l3" style="font-family: 'Lato', 'sans-serif';">
 
@@ -68,24 +68,79 @@
                         <button class="w3-bar-item w3-button tablink" style="width: 25%" onclick="changeTab(event, 'com')">Complaints</button>
                         <button class="w3-bar-item w3-button tablink" style="width: 25%" onclick="changeTab(event, 'req')">Requsitions</button>
                     </div>
-                    <!--Toggel and Print Button-->
-                    <div class="w3-bar w3-col" >
-                        <div class="w3-bar-item" style="margin-left: 1%;margin-top: 1%">
-                            <div>
-                                <label class="switch"s>
-                                    <input class="switch-input" type="checkbox" />
-                                    <span class="switch-label" data-on="Graph" data-off="List"></span> 
-                                    <span class="switch-handle"></span> 
-                                </label>
 
-                            </div>
-                        </div>
-                        <div class="w3-bar-item w3-right"style="margin-right: 3%">
-                            <button class="w3-button w3-theme-d3">Print</button>
-                        </div>
-                    </div>
                     <!--HR Tab-->
                     <div id="hr" class="w3-container w3-border tab">
+                        <!--Toggel and Print Button-->
+                        <div class="w3-bar w3-col" >
+                            <div class="w3-bar-item" style="margin-left: 1%;margin-top: 1%">
+                                <div>
+                                    <label class="switch"s>
+                                        <input class="switch-input" type="checkbox" />
+                                        <span class="switch-label" data-on="Graph" data-off="List"></span> 
+                                        <span class="switch-handle"></span> 
+                                    </label>
+
+                                </div>
+                            </div>
+                            <div class="w3-bar-item w3-right"style="margin-right: 3%">
+                                <button class="w3-button w3-theme-d3">Print</button>
+                            </div>
+                        </div>
+
+                        <table class="w3-table w3-margin-bottom w3-striped " style="height: 400px;" border="1">
+                            <tr>
+                                <th class="w3-center">Type</th>
+                                <th class="w3-center">Name</th>
+                                <th class="w3-center">Total</th>
+                            </tr>
+                            <%for (int i = 0; i < 50; i++) {%>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <%}%>
+
+                        </table>
+                    </div>
+
+                    <!--OR tab-->
+                    <div id="or" class="w3-container w3-border tab" style="display:none">
+                        <!--Toggel and Print Button-->
+                        <div class="w3-bar w3-col" >
+                            <div class="w3-bar-item" style="margin-left: 1%;margin-top: 1%">
+                                <div>
+                                    <label class="switch"s>
+                                        <input class="switch-input" type="checkbox" />
+                                        <span class="switch-label" data-on="Graph" data-off="List"></span> 
+                                        <span class="switch-handle"></span> 
+                                    </label>
+
+                                </div>
+                            </div>
+
+                            <div class="w3-padding" style="display: inline">
+                                <select class="w3-theme-d3" style="margin-top: 2%;height: 30px">
+                                    <option value="floor">Floor</option>
+                                    <option value="room">Room</option>
+                                    <option value="total">Total</option>
+                                </select>
+                            </div>
+
+                            <div style="display: inline;">
+                                <select class="w3-theme-d3" style="margin-top: 2%;height: 30px"">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>
+                            </div>
+
+                            <div class="w3-bar-item w3-right"style="margin-right: 3%">
+                                <button class="w3-button w3-theme-d3">Print</button>
+                            </div>
+                        </div>
+
                         <table class="w3-table w3-margin-bottom" border="1">
                             <tr>
                                 <th class="w3-center">Type</th>
@@ -101,47 +156,6 @@
                             <%}%>
 
                         </table>
-                    </div>
-
-                    <!--OR tab-->
-                    <div id="or" class="w3-container w3-border tab" style="display:none">
-                        <% for (int i = 0; i < 10; i++) {%>
-                        <div class="w3-row w3-card  w3-margin-top w3-margin-bottom">
-
-                            <div class="w3-col" style="width: 5%; padding: 1% 0% 0% 1%">
-                                <img src="${img}" class="w3-circle" style="width: 30px;height: 30px" alt="#">
-                            </div>
-
-                            <div class="w3-col" style="width: 92%;margin-top: 1.5%">
-                                <label class="w3-small w3-text-dark-gray"><b>Ariful Islam Akash</b></label>
-                            </div>
-
-                            <div>
-                                <span class=" w3-btn w3-theme-l3 w3-round w3-text-white w3-medium w3-right" style="margin-right: 5%;">Solve</span>
-                            </div>
-
-                            <div style="margin: 4% 5% 1% 5%">
-                                <table class="w3-table w3-striped" border="1">
-                                    <tr>
-                                        <td>Complaints Type</td>
-                                        <td>Table</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Description</td>
-                                        <td>Table was Broken</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Placeing Date</td>
-                                        <td>14/04/2018</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Placeing Date</td>
-                                        <td>14/04/2018</td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                        <%}%> 
                     </div>
 
                     <!--solved tab-->
