@@ -7,6 +7,7 @@ import com.uiu.thesis.dao.interfaces.HumanResourceTypeDAO;
 import com.uiu.thesis.models.user.HumanResource;
 import com.uiu.thesis.models.user.HumanResourceType;
 import com.uiu.thesis.services.interfaces.HumanResourceService;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,49 @@ public class HumanResourceRestController {
         return "[]";
     }
 
+    /**
+     *
+     * @param user
+     * @return
+     */
+    @RequestMapping(
+            value = "/api/service/office/hr",
+            params = {"user"},
+            produces = {"application/json;charset:UTF-8"},
+            method = RequestMethod.POST)
+    public String addUser(@RequestParam("user") String user) {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+
+            HumanResource hr = objectMapper.readValue(user, HumanResource.class);
+            if (hr != null
+                    && hr.getId() == null
+                    && hr.getFirstName() != null
+                    && hr.getEmail() != null
+                    && hr.getPhone() != null
+                    && hr.getDepartment() != null) {
+
+                int value = humanResourceService.addHumanResource(hr);
+                if (value != 0) {
+
+                    return "{\"add\":\"true\"}";
+                }
+            }
+        } catch (IOException e) {
+
+            System.err.println(e.toString());
+        }
+
+        return "{\"add\":\"false\"}";
+    }
+
+    /**
+     *
+     * @param id
+     * @return
+     */
     @RequestMapping(
             value = "/api/service/office/hr/{id}",
             produces = {"application/json;charset:UTF-8"},
@@ -265,6 +309,11 @@ public class HumanResourceRestController {
         return "[]";
     }
 
+    /**
+     *
+     * @param name
+     * @return
+     */
     @RequestMapping(
             value = "/api/service/office/hr/hrtype",
             params = {"resource_name"},
