@@ -47,7 +47,7 @@ public class HumanResourceServiceImpl implements HumanResourceService {
     @Override
     public List<HumanResource> getHumanResourcesByType(Long typeId) {
 
-        if (typeId > 0) {
+        if (typeId != null && typeId > 0) {
 
             return humanResourceDAO.getHumanResourcesByHRType(typeId);
         }
@@ -63,7 +63,7 @@ public class HumanResourceServiceImpl implements HumanResourceService {
     @Override
     public List<HumanResource> getHumanResourcesByRole(Long roleId) {
 
-        if (roleId > 0) {
+        if (roleId != null && roleId > 0) {
 
             return humanResourceDAO.getHumanResourcesByRole(roleId);
         }
@@ -79,7 +79,7 @@ public class HumanResourceServiceImpl implements HumanResourceService {
     @Override
     public List<HumanResource> getHumanResourcesByAccess(Long accessId) {
 
-        if (accessId > 0) {
+        if (accessId != null && accessId > 0) {
 
             return humanResourceDAO.getHumanResourcesByAccessType(accessId);
         }
@@ -95,7 +95,7 @@ public class HumanResourceServiceImpl implements HumanResourceService {
     @Override
     public HumanResource getHumanResourceById(Long id) {
 
-        if (id > 0) {
+        if (id != null && id > 0) {
 
             return humanResourceDAO.getHumanResource(id);
         }
@@ -112,7 +112,8 @@ public class HumanResourceServiceImpl implements HumanResourceService {
     @Override
     public int changeHumanResourceRole(Long hrId, Long roleId) {
 
-        if (hrId > 0 && roleId > 0) {
+        if (hrId != null && hrId > 0
+                && roleId != null && roleId > 0) {
 
             Role role = roleDAO.getRoleByUser(hrId);
 
