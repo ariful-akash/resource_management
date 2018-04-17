@@ -1,12 +1,13 @@
 package com.uiu.thesis.dao.implement;
 
+import com.uiu.thesis.dao.interfaces.HumanResourceDAO;
 import com.uiu.thesis.dao.interfaces.TokenDAO;
-import java.math.BigInteger;
+import com.uiu.thesis.models.logs.SessionToken;
+import com.uiu.thesis.models.user.HumanResource;
+import com.uiu.thesis.util.RandomString;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import javax.transaction.Transactional;
-import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -24,31 +25,46 @@ public class TokenDAOImpl implements TokenDAO {
     @Autowired
     private SessionFactory sessionFactory;
 
+    @Autowired
+    private HumanResourceDAO humanResourceDAO;
+
     /**
      *
      * @param token
+     * @return
+     */
+    @Override
+    public boolean isTokenExist(String token) {
+
+        long value = getUserId(token);
+        if (value > 0) {
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     *
      * @param userId
      * @return
      */
     @Override
-    public boolean isTokenExist(String token, long userId) {
+    public boolean isTokenExist(long userId) {
 
-        if (token != null && !token.isEmpty() && userId > 0) {
+        Session session = sessionFactory.getCurrentSession();
+        String hql = "FROM SessionToken st WHERE st.userId = :userId";
 
-            Session session = sessionFactory.getCurrentSession();
-            String sql = "SELECT * FROM session_token "
-                    + "WHERE token = " + token + " "
-                    + "AND user_id = " + userId;
+        Query query = session.createQuery(hql);
+        query.setParameter("userId", userId);
 
-            Query query = session.createSQLQuery(sql);
-            query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
-            List result = query.list();
+        @SuppressWarnings("unchecked")
+        List<SessionToken> sessionTokens = query.list();
 
-            if (result != null && result.size() > 0) {
+        if (sessionTokens != null && sessionTokens.size() > 0) {
 
-                return true;
-            }
-
+            return true;
         }
 
         return false;
@@ -67,19 +83,19 @@ public class TokenDAOImpl implements TokenDAO {
 
             /*
             Insert only if the token doesn't exist*/
-            if (!isTokenExist(token, userId)) {
+            if (!isTokenExist(userId)) {
 
                 Session session = sessionFactory.getCurrentSession();
                 Date date = new Date();
 
-                String sql = "INSERT INTO session_token "
-                        + "(token, user_id, login_time) "
-                        + "VALUES (" + token + ", " + userId + ", " + date + ")";
+                SessionToken sessionToken = new SessionToken();
+                sessionToken.setToken(token);
+                sessionToken.setUserId(userId);
+                sessionToken.setLoginTime(date);
 
-                Query query = session.createSQLQuery(sql);
-                query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+                Long id = (Long) session.save(sessionToken);
 
-                return query.executeUpdate();
+                return Integer.valueOf(id.toString());
             }
         }
 
@@ -96,17 +112,13 @@ public class TokenDAOImpl implements TokenDAO {
 
         if (token != null && !token.isEmpty()) {
 
-            long userId = getUserId(token);
-            if (userId > 0) {
+            Session session = sessionFactory.getCurrentSession();
 
-                Session session = sessionFactory.getCurrentSession();
-                String sql = "DELETE FROM session_token "
-                        + "WHERE token = " + token;
+            SessionToken sessionToken = getSessionToken(token);
+            if (sessionToken != null) {
 
-                Query query = session.createSQLQuery(sql);
-                query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
-
-                return query.executeUpdate();
+                session.delete(sessionToken);
+                return 1;
             }
         }
 
@@ -123,24 +135,69 @@ public class TokenDAOImpl implements TokenDAO {
 
         if (token != null && !token.isEmpty()) {
 
-            Session session = sessionFactory.getCurrentSession();
-            String sql = "SELECT * FROM session_token "
-                    + "WHERE token = " + token;
+            SessionToken sessionToken = getSessionToken(token);
+            if (sessionToken != null) {
 
-            Query query = session.createSQLQuery(sql);
-            query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
-            List result = query.list();
-
-            if (result != null && result.size() > 0) {
-
-                Map row = (Map) result.get(0);
-                BigInteger userId = (BigInteger) row.get("user_id");
-
-                return userId.longValue();
+                return sessionToken.getUserId();
             }
         }
 
         return 0;
     }
 
+    /**
+     *
+     * @param token
+     * @return
+     */
+    public SessionToken getSessionToken(String token) {
+
+        if (token != null && !token.isEmpty()) {
+
+            Session session = sessionFactory.getCurrentSession();
+            String hql = "FROM SessionToken st "
+                    + "WHERE st.token = :token";
+
+            Query query = session.createQuery(hql);
+            query.setParameter("token", token);
+
+            @SuppressWarnings("unchecked")
+            List<SessionToken> tokens = query.list();
+
+            if (tokens != null && !tokens.isEmpty()) {
+
+                return tokens.get(0);
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     *
+     * @param email
+     * @param password
+     * @return
+     */
+    @Override
+    public String getToken(String email, String password) {
+
+        HumanResource user = humanResourceDAO.getHumanResource(email);
+        if (user != null && password.equals(new String(user.getPassword()))) {
+
+            RandomString randomString = new RandomString();
+            String token = randomString.nextString();
+
+            int value = addToken(token, user.getId());
+            if (value != 0) {
+
+                return token;
+            } else {
+
+                return "";
+            }
+        }
+
+        return null;
+    }
 }
