@@ -103,7 +103,7 @@ public class ComplaintDAOImpl implements ComplaintDAO {
     public List<Complaint> getAllComplaints() {
 
         Session session = sessionFactory.getCurrentSession();
-        String hql = "FROM Complaint";
+        String hql = "FROM Complaint com ORDER BY com.complaintPlacingDate DESC";
 
         @SuppressWarnings("unchecked")
         List<Complaint> complaints = session.createQuery(hql).list();
