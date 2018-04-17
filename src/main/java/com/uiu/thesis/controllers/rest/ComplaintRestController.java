@@ -8,9 +8,12 @@ package com.uiu.thesis.controllers.rest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.uiu.thesis.models.complaint.Complaint;
+import com.uiu.thesis.models.forum.json.ComplaintJson;
 import com.uiu.thesis.services.interfaces.ComplaintService;
+import com.uiu.thesis.services.interfaces.HumanResourceService;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +33,9 @@ public class ComplaintRestController {
     @Autowired
     private ComplaintService complaintService;
 
+    @Autowired
+    private HumanResourceService humanResourceService;
+
     private SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss a");
 
     /**
@@ -47,11 +53,19 @@ public class ComplaintRestController {
         objectMapper.setDateFormat(df);
 
         List<Complaint> complaints = complaintService.getAllComplaints();
+        List<ComplaintJson> complaintJsons = new ArrayList<>();
+
         if (complaints != null && complaints.size() > 0) {
+
+            for (Complaint complaint : complaints) {
+
+                ComplaintJson complaintJson = getComplaintJson(complaint);
+                complaintJsons.add(complaintJson);
+            }
 
             try {
 
-                return objectMapper.writeValueAsString(complaints);
+                return objectMapper.writeValueAsString(complaintJsons);
             } catch (JsonProcessingException ex) {
 
                 System.err.println(ex.toString());
@@ -273,5 +287,32 @@ public class ComplaintRestController {
             }
         }
         return "[]";
+    }
+
+    /**
+     *
+     * @param complaint
+     * @return
+     */
+    private ComplaintJson getComplaintJson(Complaint complaint) {
+
+        ComplaintJson complaintJson = new ComplaintJson();
+
+        if (complaint != null) {
+
+            complaintJson.setComplaintPlacingDate(complaint.getComplaintPlacingDate());
+            complaintJson.setComplaintSolvedDate(complaint.getComplaintSolvedDate());
+            complaintJson.setCreator(humanResourceService.getHumanResourceById(complaint.getCreatorId()));
+            complaintJson.setDescription(complaint.getDescription());
+            complaintJson.setId(complaint.getId());
+            complaintJson.setIsSolved(complaint.isIsSolved());
+            complaintJson.setRemarks(complaint.getRemarks());
+            complaintJson.setSolver(humanResourceService.getHumanResourceById(complaint.getSolverId()));
+            complaintJson.setType(complaint.getType());
+
+            return complaintJson;
+        }
+
+        return null;
     }
 }
