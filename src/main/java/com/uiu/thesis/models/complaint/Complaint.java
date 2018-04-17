@@ -1,6 +1,7 @@
 package com.uiu.thesis.models.complaint;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -44,9 +45,11 @@ public class Complaint implements Serializable {
     @Column(name = "solved", nullable = false)
     private boolean isSolved = false;
 
+    @JsonIgnore
     @Column(name = "creator_id")
     private Long creatorId;
 
+    @JsonIgnore
     @Column(name = "solver_id")
     private Long solverId;
 
