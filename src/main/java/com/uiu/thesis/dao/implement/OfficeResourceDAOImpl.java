@@ -1,11 +1,15 @@
 package com.uiu.thesis.dao.implement;
 
+import com.uiu.thesis.dao.interfaces.HumanResourceTypeDAO;
 import com.uiu.thesis.dao.interfaces.OfficeResourceDAO;
 import com.uiu.thesis.models.object_resource.OfficeResource;
-import com.uiu.thesis.models.object_resource.OfficeResourceType;
+import com.uiu.thesis.models.user.HumanResourceType;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.transaction.Transactional;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +26,14 @@ public class OfficeResourceDAOImpl implements OfficeResourceDAO {
     @Autowired(required = true)
     private SessionFactory sessionFactory;
 
+    @Autowired
+    private HumanResourceTypeDAO humanResourceTypeDAO;
+
+    /**
+     *
+     * @param officeResource
+     * @return
+     */
     @Override
     public int addOfficeResource(OfficeResource officeResource) {
         Session session = sessionFactory.getCurrentSession();
@@ -59,22 +71,104 @@ public class OfficeResourceDAOImpl implements OfficeResourceDAO {
         return or;
     }
 
+    /**
+     *
+     * @param typeId
+     * @return
+     */
     @Override
-    public List<OfficeResource> getOfficeResourcesByType(OfficeResourceType officeResourceType) {
+    public List<OfficeResource> getOfficeResourcesByType(Long typeId) {
+
+        if (typeId > 0) {
+
+            HumanResourceType hrType = humanResourceTypeDAO.getHumanResourceType(typeId);
+            if (hrType != null) {
+
+                String sql = "SELECT * FROM office_resources "
+                        + "WHERE type_id = " + typeId;
+
+                List<OfficeResource> officeResources = makeOfficeResourcesBySQL(sql);
+
+                return officeResources;
+            }
+        }
 
         return null;
     }
 
+    /**
+     *
+     * @param floor
+     * @return
+     */
     @Override
     public List<OfficeResource> getOfficeResourcesByFloor(String floor) {
 
+        if (floor != null && !floor.isEmpty()) {
+
+            Session session = sessionFactory.getCurrentSession();
+            String hql = "FROM OfficeResource "
+                    + "WHERE floor = :floor";
+
+            Query query = session.createQuery(hql);
+            query.setParameter("floor", floor);
+
+            @SuppressWarnings("unchecked")
+            List<OfficeResource> officeResources = query.list();
+
+            return officeResources;
+        }
+
         return null;
     }
 
+    /**
+     *
+     * @param room
+     * @return
+     */
     @Override
     public List<OfficeResource> getOfficeResourcesByRoom(String room) {
 
+        if (room != null && !room.isEmpty()) {
+
+            Session session = sessionFactory.getCurrentSession();
+            String hql = "FROM OfficeResource "
+                    + "WHERE room = :room";
+
+            Query query = session.createQuery(hql);
+            query.setParameter("room", room);
+
+            @SuppressWarnings("unchecked")
+            List<OfficeResource> officeResources = query.list();
+
+            return officeResources;
+        }
+
         return null;
     }
 
+    /**
+     *
+     * @param sql
+     * @return
+     */
+    private List<OfficeResource> makeOfficeResourcesBySQL(String sql) {
+
+        Session session = sessionFactory.getCurrentSession();
+
+        Query query = session.createSQLQuery(sql);
+        query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+
+        List result = query.list();
+
+        List<OfficeResource> officeResources = new ArrayList<>();
+
+        for (Object object : result) {
+
+            Map row = (Map) object;
+        }
+
+        return null;
+    }
 }

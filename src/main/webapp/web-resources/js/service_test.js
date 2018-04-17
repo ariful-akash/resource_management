@@ -400,3 +400,34 @@ var insertRequistion = function () {
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("complaint=" + complaintJson);
 };
+
+
+var addUser = function () {
+
+    var user = {};
+    user.firstName = "Ariful";
+    user.lastName = "Akash";
+    user.email = "ariful@gmail.com";
+    user.phone = "+8801624956921";
+    user.department = "CSE";
+
+    var userJson = JSON.stringify(user);
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+
+        console.log("Ready state : " + this.readyState + "\nStatus : " + this.status);
+
+        if (this.readyState == 4 && this.status == 200) {
+
+            var result = JSON.parse(this.responseText);
+
+            console.log(result);
+
+        }
+    };
+
+    xhttp.open("POST", "/office_resource_management/api/service/office/hr", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("user=" + userJson);
+};
