@@ -3,6 +3,7 @@ package com.uiu.thesis.controllers.rest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
+import com.uiu.thesis.dao.interfaces.TokenDAO;
 import com.uiu.thesis.models.forum.Comment;
 import com.uiu.thesis.models.forum.CommentReply;
 import com.uiu.thesis.models.forum.Post;
@@ -38,39 +39,47 @@ public class PostRestController {
     @Autowired
     private CommentReplyService commentReplyService;
 
+    @Autowired
+    private TokenDAO tokenDAO;
+
     private SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss a");
 
     /**
      *
      * @param postJson
-     * @param posterId
      * @param tagJson
+     * @param token
      * @return
      */
     @RequestMapping(
             value = "/api/service/forum/post/add",
-            params = {"post", "poster", "tags"},
+            params = {"post", "tags", "token"},
             method = RequestMethod.POST,
             produces = {"application/json;charset=UTF-8"})
 
     public String addNewPost(
             @RequestParam("post") String postJson,
-            @RequestParam("poster") long posterId,
-            @RequestParam("tags") String tagJson) {
+            @RequestParam("tags") String tagJson,
+            @RequestParam("token") String token) {
 
-        ObjectMapper objectMapper = new ObjectMapper();
+        if (token != null && tokenDAO.isTokenExist(token)) {
 
-        try {
+            long posterId = tokenDAO.getUserId(token);
 
-            Post post = objectMapper.readValue(postJson, Post.class);
-            String[] tags = objectMapper.readValue(
-                    tagJson,
-                    TypeFactory.defaultInstance().constructArrayType(String.class));
+            ObjectMapper objectMapper = new ObjectMapper();
 
-            postService.addNewPost(post, posterId, tags);
-        } catch (IOException e) {
+            try {
 
-            return "{\"insert\":\"false\"}";
+                Post post = objectMapper.readValue(postJson, Post.class);
+                String[] tags = objectMapper.readValue(
+                        tagJson,
+                        TypeFactory.defaultInstance().constructArrayType(String.class));
+
+                postService.addNewPost(post, posterId, tags);
+            } catch (IOException e) {
+
+                return "{\"insert\":\"false\"}";
+            }
         }
 
         return "{\"insert\":\"true\"}";
@@ -78,89 +87,23 @@ public class PostRestController {
 
     /**
      *
+     * @param token
      * @param id
      * @return
      */
     @RequestMapping(
             value = "/api/service/forum/post/user/{id}",
+            params = {"token"},
             method = RequestMethod.GET,
             produces = {"application/json;charset=UTF-8"})
 
-    public String getPosts(@PathVariable("id") long id) {
+    public String getPosts(
+            @RequestParam("token") String token,
+            @PathVariable("id") long id) {
 
-        List<Post> posts = postService.getPostsByUser(id);
+        if (token != null && tokenDAO.isTokenExist(token)) {
 
-        String postsJson;
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.setDateFormat(df);
-        try {
-
-            postsJson = objectMapper.writeValueAsString(posts);
-        } catch (JsonProcessingException ex) {
-
-            return "[]";
-        }
-
-        if (postsJson != null) {
-
-            return postsJson;
-        }
-
-        return "[]";
-    }
-
-    /**
-     *
-     * @param newContent
-     * @param postId
-     * @return
-     */
-    @RequestMapping(
-            value = "/api/service/forum/post/edit",
-            params = {"content", "postid"},
-            method = RequestMethod.POST,
-            produces = {"application/json;charset=UTF-8"})
-
-    public String editPost(
-            @RequestParam("content") String newContent,
-            @RequestParam("postid") long postId) {
-
-        int returnVal;
-
-        try {
-
-            returnVal = postService.editPost(postId, newContent);
-
-        } catch (Exception e) {
-
-            returnVal = 0;
-            System.err.println(e.toString());
-        }
-
-        if (returnVal == 0) {
-
-            return "{\"edited\":\"false\"}";
-        }
-
-        return "{\"edited\":\"true\"}";
-    }
-
-    /**
-     *
-     * @param tags
-     * @return
-     */
-    @RequestMapping(
-            value = "/api/service/forum/post/search/tag",
-            params = {"tags"},
-            method = RequestMethod.GET,
-            produces = {"application/json;charset=UTF-8"})
-
-    public String searchPostByTag(@RequestParam("tags") String[] tags) {
-
-        List<Post> posts = postService.getPostsByTag(tags);
-
-        if (posts != null) {
+            List<Post> posts = postService.getPostsByUser(id);
 
             String postsJson;
             ObjectMapper objectMapper = new ObjectMapper();
@@ -184,73 +127,166 @@ public class PostRestController {
 
     /**
      *
+     * @param newContent
      * @param postId
+     * @param token
+     * @return
+     */
+    @RequestMapping(
+            value = "/api/service/forum/post/edit",
+            params = {"content", "postid", "token"},
+            method = RequestMethod.POST,
+            produces = {"application/json;charset=UTF-8"})
+
+    public String editPost(
+            @RequestParam("content") String newContent,
+            @RequestParam("postid") long postId,
+            @RequestParam("token") String token) {
+
+        if (token != null && tokenDAO.isTokenExist(token)) {
+
+            int returnVal;
+
+            try {
+
+                returnVal = postService.editPost(postId, newContent);
+
+            } catch (Exception e) {
+
+                returnVal = 0;
+                System.err.println(e.toString());
+            }
+
+            if (returnVal == 0) {
+
+                return "{\"edited\":\"false\"}";
+            }
+        }
+
+        return "{\"edited\":\"true\"}";
+    }
+
+    /**
+     *
+     * @param tags
+     * @param token
+     * @return
+     */
+    @RequestMapping(
+            value = "/api/service/forum/post/search/tag",
+            params = {"tags", "token"},
+            method = RequestMethod.GET,
+            produces = {"application/json;charset=UTF-8"})
+
+    public String searchPostByTag(
+            @RequestParam("tags") String[] tags,
+            @RequestParam("token") String token) {
+
+        if (token != null && tokenDAO.isTokenExist(token)) {
+
+            List<Post> posts = postService.getPostsByTag(tags);
+
+            if (posts != null) {
+
+                String postsJson;
+                ObjectMapper objectMapper = new ObjectMapper();
+                objectMapper.setDateFormat(df);
+                try {
+
+                    postsJson = objectMapper.writeValueAsString(posts);
+                } catch (JsonProcessingException ex) {
+
+                    return "[]";
+                }
+
+                if (postsJson != null) {
+
+                    return postsJson;
+                }
+            }
+        }
+
+        return "[]";
+    }
+
+    /**
+     *
+     * @param postId
+     * @param token
      * @return
      */
     @RequestMapping(
             value = "/api/service/forum/post/comment/reply/{post_id}",
             produces = {"application/json;charset=UTF-8"},
+            params = {"token"},
             method = RequestMethod.GET)
 
-    public String getPostComments(@PathVariable("post_id") long postId) {
+    public String getPostComments(
+            @PathVariable("post_id") long postId,
+            @RequestParam("token") String token) {
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.setDateFormat(df);
-        String postJsonString = "[]";
+        if (token != null && tokenDAO.isTokenExist(token)) {
 
-        //Get the post by a specific ID
-        Post post = postService.getPostById(postId);
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.setDateFormat(df);
+            String postJsonString = "[]";
 
-        if (post != null) {
+            //Get the post by a specific ID
+            Post post = postService.getPostById(postId);
 
-            //Creating Post-Comments
-            PostComments postComments = new PostComments();
-            postComments.setId(post.getId());
-            postComments.setContent(post.getContent());
-            postComments.setPostTime(post.getPostTime());
-            postComments.setPosterId(post.getPosterId());
-            postComments.setTags(post.getTags());
+            if (post != null) {
 
-            //Get comments by the post ID
-            List<Comment> commentsList = commentService.getCommentsByPost(postId);
+                //Creating Post-Comments
+                PostComments postComments = new PostComments();
+                postComments.setId(post.getId());
+                postComments.setContent(post.getContent());
+                postComments.setPostTime(post.getPostTime());
+                postComments.setPosterId(post.getPosterId());
+                postComments.setTags(post.getTags());
 
-            List<CommentsAndReplys> commentAndReplysList = new ArrayList<>();
+                //Get comments by the post ID
+                List<Comment> commentsList = commentService.getCommentsByPost(postId);
 
-            for (Comment comment : commentsList) {
+                List<CommentsAndReplys> commentAndReplysList = new ArrayList<>();
 
-                //Create comment and comment replys list
-                CommentsAndReplys commentAndReplys = new CommentsAndReplys();
-                commentAndReplys.setId(comment.getId());
-                commentAndReplys.setContent(comment.getContent());
-                commentAndReplys.setCommentTime(comment.getCommentTime());
-                commentAndReplys.setCommenterId(comment.getCommenterId());
-                commentAndReplys.setIsEdited(comment.isEdited());
-                commentAndReplys.setPostId(comment.getPostId());
+                for (Comment comment : commentsList) {
 
-                List<CommentReply> replys
-                        = commentReplyService.getCommentReplysByComment(comment.getId());
+                    //Create comment and comment replys list
+                    CommentsAndReplys commentAndReplys = new CommentsAndReplys();
+                    commentAndReplys.setId(comment.getId());
+                    commentAndReplys.setContent(comment.getContent());
+                    commentAndReplys.setCommentTime(comment.getCommentTime());
+                    commentAndReplys.setCommenterId(comment.getCommenterId());
+                    commentAndReplys.setIsEdited(comment.isEdited());
+                    commentAndReplys.setPostId(comment.getPostId());
 
-                //add reply list to a comment
-                commentAndReplys.setCommentReplys(replys);
+                    List<CommentReply> replys
+                            = commentReplyService.getCommentReplysByComment(comment.getId());
 
-                //add comment and its replys to a list
-                commentAndReplysList.add(commentAndReplys);
+                    //add reply list to a comment
+                    commentAndReplys.setCommentReplys(replys);
+
+                    //add comment and its replys to a list
+                    commentAndReplysList.add(commentAndReplys);
+                }
+
+                //adding comments list of a post
+                postComments.setComments(commentAndReplysList);
+
+                //Creating JSON String of Post, Comments, and its replys
+                try {
+
+                    postJsonString = objectMapper.writeValueAsString(postComments);
+                } catch (JsonProcessingException e) {
+
+                    postJsonString = "[]";
+                }
             }
 
-            //adding comments list of a post
-            postComments.setComments(commentAndReplysList);
-
-            //Creating JSON String of Post, Comments, and its replys
-            try {
-
-                postJsonString = objectMapper.writeValueAsString(postComments);
-            } catch (JsonProcessingException e) {
-
-                postJsonString = "[]";
-            }
+            return postJsonString;
         }
 
-        return postJsonString;
+        return "[]";
     }
 
 }
