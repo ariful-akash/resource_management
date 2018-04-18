@@ -175,6 +175,34 @@ public class TokenDAOImpl implements TokenDAO {
 
     /**
      *
+     * @param userId
+     * @return
+     */
+    public SessionToken getSessionToken(long userId) {
+
+        if (userId > 0) {
+
+            Session session = sessionFactory.getCurrentSession();
+            String hql = "FROM SessionToken st "
+                    + "WHERE st.userId = :userId";
+
+            Query query = session.createQuery(hql);
+            query.setParameter("userId", userId);
+
+            @SuppressWarnings("unchecked")
+            List<SessionToken> tokens = query.list();
+
+            if (tokens != null && !tokens.isEmpty()) {
+
+                return tokens.get(0);
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     *
      * @param email
      * @param password
      * @return
@@ -185,16 +213,21 @@ public class TokenDAOImpl implements TokenDAO {
         HumanResource user = humanResourceDAO.getHumanResource(email);
         if (user != null && password.equals(new String(user.getPassword()))) {
 
-            RandomString randomString = new RandomString();
-            String token = randomString.nextString();
+            if (!isTokenExist(user.getId())) {
 
-            int value = addToken(token, user.getId());
-            if (value != 0) {
+                RandomString randomString = new RandomString();
+                String token = randomString.nextString();
 
-                return token;
+                int value = addToken(token, user.getId());
+                if (value != 0) {
+
+                    return token;
+                }
+
             } else {
 
-                return "";
+                SessionToken sessionToken = getSessionToken(user.getId());
+                return sessionToken.getToken();
             }
         }
 
