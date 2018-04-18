@@ -26,11 +26,6 @@ public class HomeController {
         return "index";
     }
 
-    @RequestMapping(value = "/forum")
-    public String showForum() {
-        return "forum";
-    }
-
     @RequestMapping(value = "/mycomplaints")
     public String showMyComplaintes() {
         return "myComplaints";
