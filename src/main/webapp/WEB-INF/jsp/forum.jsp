@@ -48,8 +48,8 @@
 
                 <!--Left div-->
                 <div class="w3-theme-d1 w3-col" style="width: 20%; height: 450px">
-                    <a class="w3-btn" style="text-decoration: none;" href="#">My Posts</a><br>
-                    <a class="w3-btn" style="text-decoration: none;" href="#">Add New Posts</a>
+                    <a class="w3-button" style="text-decoration: none; width: 100%" href="#">My Posts</a><br>
+                    <a class="w3-button" style="text-decoration: none; width: 100%" href="#">Add New Posts</a>
                 </div>
 
                 <!--Middle div-->
