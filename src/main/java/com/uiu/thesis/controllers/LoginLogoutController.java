@@ -2,6 +2,7 @@ package com.uiu.thesis.controllers;
 
 import com.uiu.thesis.dao.interfaces.TokenDAO;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,19 +48,18 @@ public class LoginLogoutController {
 
     /**
      *
-     * @param token
-     * @param request
+     * @param session
      * @return
      */
-    @RequestMapping(value = "/logout", method = RequestMethod.GET, params = {"token"})
-    public String doLogout(
-            @RequestParam("token") String token,
-            HttpServletRequest request) {
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String doLogout(HttpSession session) {
+
+        String token = (String) session.getAttribute("token");
 
         if (token != null && !token.isEmpty()) {
 
             int value = tokenDAO.removeToken(token);
-            request.getSession().setAttribute("token", null);
+            session.setAttribute("token", null);
 
             if (value != 0) {
 
