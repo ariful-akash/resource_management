@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,22 +46,25 @@ public class PostRestController {
     private SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss a");
 
     /**
+     * Add a new post
      *
      * @param postJson
      * @param tagJson
-     * @param token
+     * @param session
      * @return
      */
     @RequestMapping(
             value = "/api/service/forum/post/add",
-            params = {"post", "tags", "token"},
+            params = {"post", "tags"},
             method = RequestMethod.POST,
             produces = {"application/json;charset=UTF-8"})
 
     public String addNewPost(
             @RequestParam("post") String postJson,
             @RequestParam("tags") String tagJson,
-            @RequestParam("token") String token) {
+            HttpSession session) {
+
+        String token = (String) session.getAttribute("token");
 
         if (token != null && tokenDAO.isTokenExist(token)) {
 
@@ -86,20 +90,22 @@ public class PostRestController {
     }
 
     /**
+     * returns the posts of a certain user
      *
-     * @param token
      * @param id
+     * @param session
      * @return
      */
     @RequestMapping(
             value = "/api/service/forum/post/user/{id}",
-            params = {"token"},
             method = RequestMethod.GET,
             produces = {"application/json;charset=UTF-8"})
 
-    public String getPosts(
-            @RequestParam("token") String token,
-            @PathVariable("id") long id) {
+    public String getUserPosts(
+            @PathVariable("id") long id,
+            HttpSession session) {
+
+        String token = (String) session.getAttribute("token");
 
         if (token != null && tokenDAO.isTokenExist(token)) {
 
@@ -126,22 +132,66 @@ public class PostRestController {
     }
 
     /**
+     * returns the posts of a logged in user
+     *
+     * @param session
+     * @return
+     */
+    @RequestMapping(
+            value = "/api/service/forum/post/own",
+            method = RequestMethod.GET,
+            produces = {"application/json;charset=UTF-8"})
+
+    public String getOwnerPosts(HttpSession session) {
+
+        String token = (String) session.getAttribute("token");
+
+        if (token != null && tokenDAO.isTokenExist(token)) {
+
+            long id = tokenDAO.getUserId(token);
+
+            List<Post> posts = postService.getPostsByUser(id);
+
+            String postsJson;
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.setDateFormat(df);
+            try {
+
+                postsJson = objectMapper.writeValueAsString(posts);
+            } catch (JsonProcessingException ex) {
+
+                return "[]";
+            }
+
+            if (postsJson != null) {
+
+                return postsJson;
+            }
+        }
+
+        return "[]";
+    }
+
+    /**
+     * update an edited post
      *
      * @param newContent
      * @param postId
-     * @param token
+     * @param session
      * @return
      */
     @RequestMapping(
             value = "/api/service/forum/post/edit",
-            params = {"content", "postid", "token"},
+            params = {"content", "postid"},
             method = RequestMethod.POST,
             produces = {"application/json;charset=UTF-8"})
 
     public String editPost(
             @RequestParam("content") String newContent,
             @RequestParam("postid") long postId,
-            @RequestParam("token") String token) {
+            HttpSession session) {
+
+        String token = (String) session.getAttribute("token");
 
         if (token != null && tokenDAO.isTokenExist(token)) {
 
@@ -167,20 +217,23 @@ public class PostRestController {
     }
 
     /**
+     * Search posts by tags
      *
      * @param tags
-     * @param token
+     * @param session
      * @return
      */
     @RequestMapping(
             value = "/api/service/forum/post/search/tag",
-            params = {"tags", "token"},
+            params = {"tags"},
             method = RequestMethod.GET,
             produces = {"application/json;charset=UTF-8"})
 
     public String searchPostByTag(
             @RequestParam("tags") String[] tags,
-            @RequestParam("token") String token) {
+            HttpSession session) {
+
+        String token = (String) session.getAttribute("token");
 
         if (token != null && tokenDAO.isTokenExist(token)) {
 
@@ -210,20 +263,22 @@ public class PostRestController {
     }
 
     /**
+     * returns comment & comment replies with a post
      *
      * @param postId
-     * @param token
+     * @param session
      * @return
      */
     @RequestMapping(
             value = "/api/service/forum/post/comment/reply/{post_id}",
             produces = {"application/json;charset=UTF-8"},
-            params = {"token"},
             method = RequestMethod.GET)
 
     public String getPostComments(
             @PathVariable("post_id") long postId,
-            @RequestParam("token") String token) {
+            HttpSession session) {
+
+        String token = (String) session.getAttribute("token");
 
         if (token != null && tokenDAO.isTokenExist(token)) {
 
