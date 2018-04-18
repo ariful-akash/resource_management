@@ -16,25 +16,31 @@
     </head>
 
     <body>
-        <p>Hello! This is the default welcome page for a Spring Web MVC project.</p>
-        <p>This is the index page</p>
+        <!--        <p>Hello! This is the default welcome page for a Spring Web MVC project.</p>
+                <p>This is the index page</p>
 
-        <a href="/office_resource_management/add">Add Person</a>
+                <a href="/office_resource_management/add">Add Person</a>
 
-        <input id="date" type="date"/>
+                <input id="date" type="date"/>
 
-        <input id="time" type="time"/>
+                <input id="time" type="time"/>
 
-        <br>
-        <a onclick="insertPost()" href="#">Insert Post</a> <br>
-        <a onclick="editPost()" href="#">Edit Post</a> <br>
-        <a onclick="insertComment()" href="#">Insert Comment</a> <br>
-        <a onclick="editComment()" href="#">Edit Comment</a> <br>
-        <a onclick="addCommentReply()" href="#">Add Comment Reply</a> <br>
-        <a onclick="editCommentReply()" href="#">Edit Comment Reply</a> <br>
-        <a onclick="insertComplaint()" href="#">Add Complaint</a> <br>
-        <a onclick="updateComplaint()" href="#">Update Complaint</a> <br>
-        <a onclick="insertComplaintType()" href="#">Add Complaint Type</a> <br>
-        <a onclick="insertRequisitionType()" href="#">Add Requisition Type</a> <br>
+                <br>
+                <a onclick="insertPost()" href="#">Insert Post</a> <br>
+                <a onclick="editPost()" href="#">Edit Post</a> <br>
+                <a onclick="insertComment()" href="#">Insert Comment</a> <br>
+                <a onclick="editComment()" href="#">Edit Comment</a> <br>
+                <a onclick="addCommentReply()" href="#">Add Comment Reply</a> <br>
+                <a onclick="editCommentReply()" href="#">Edit Comment Reply</a> <br>
+                <a onclick="insertComplaint()" href="#">Add Complaint</a> <br>
+                <a onclick="updateComplaint()" href="#">Update Complaint</a> <br>
+                <a onclick="insertComplaintType()" href="#">Add Complaint Type</a> <br>
+                <a onclick="insertRequisitionType()" href="#">Add Requisition Type</a> <br>-->
+
+        <form action="/office_resource_management/login" method="post">
+            <input type="email" name="email"/><br>
+            <input type="password" name="password"/><br>
+            <input type="submit" value="Login"/>
+        </form>
     </body>
 </html>
