@@ -1,9 +1,9 @@
 package com.uiu.thesis.controllers;
 
 import com.uiu.thesis.dao.interfaces.TokenDAO;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,24 +20,26 @@ public class LoginLogoutController {
 
     /**
      *
-     * @param model
      * @param email
      * @param password
+     * @param request
      * @return
      */
     @RequestMapping(
             value = "/login",
             params = {"email", "password"},
             method = RequestMethod.POST)
-    public String doLogin(Model model,
+    public String doLogin(
             @RequestParam("email") String email,
-            @RequestParam("password") String password) {
+            @RequestParam("password") String password,
+            HttpServletRequest request) {
 
         if (email != null && !email.isEmpty()
                 && password != null && !password.isEmpty()) {
 
             String token = tokenDAO.getToken(email, password);
-            model.addAttribute("token", token);
+
+            request.getSession().setAttribute("token", token);
         }
 
         return "/index";
@@ -46,14 +48,18 @@ public class LoginLogoutController {
     /**
      *
      * @param token
+     * @param request
      * @return
      */
     @RequestMapping(value = "/logout", method = RequestMethod.GET, params = {"token"})
-    public String doLogout(@RequestParam("token") String token) {
+    public String doLogout(
+            @RequestParam("token") String token,
+            HttpServletRequest request) {
 
         if (token != null && !token.isEmpty()) {
 
             int value = tokenDAO.removeToken(token);
+            request.getSession().setAttribute("token", null);
 
             if (value != 0) {
 
