@@ -18,6 +18,13 @@ public class LoginLogoutController {
     @Autowired
     private TokenDAO tokenDAO;
 
+    /**
+     *
+     * @param model
+     * @param email
+     * @param password
+     * @return
+     */
     @RequestMapping(
             value = "/login",
             params = {"email", "password"},
@@ -33,6 +40,27 @@ public class LoginLogoutController {
             model.addAttribute("token", token);
         }
 
-        return "index";
+        return "/index";
+    }
+
+    /**
+     *
+     * @param token
+     * @return
+     */
+    @RequestMapping(value = "/logout", method = RequestMethod.GET, params = {"token"})
+    public String doLogout(@RequestParam("token") String token) {
+
+        if (token != null && !token.isEmpty()) {
+
+            int value = tokenDAO.removeToken(token);
+
+            if (value != 0) {
+
+                return "/index";
+            }
+        }
+
+        return "/home";
     }
 }
