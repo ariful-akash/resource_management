@@ -174,7 +174,9 @@ public class PostDAOImpl implements PostDAO {
         if (posterId > 0) {
 
             Session session = sessionFactory.getCurrentSession();
-            String hql = "FROM Post post WHERE post.posterId = :posterId";
+            String hql = "FROM Post post "
+                    + "WHERE post.posterId = :posterId "
+                    + "ORDER BY post.postTime DESC";
             Query query = session.createQuery(hql);
             query.setParameter("posterId", posterId);
 
