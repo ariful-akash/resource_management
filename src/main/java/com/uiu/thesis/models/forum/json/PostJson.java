@@ -11,8 +11,7 @@ public class PostJson extends Post {
 
     private HumanResource poster;
 
-    public PostJson(HumanResource poster) {
-        this.poster = poster;
+    public PostJson() {
     }
 
     public HumanResource getPoster() {
