@@ -3,6 +3,7 @@ package com.uiu.thesis.models.forum.json;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.uiu.thesis.models.forum.Post;
+import com.uiu.thesis.models.user.HumanResource;
 import java.util.List;
 
 /**
@@ -15,12 +16,13 @@ public class PostComments extends Post {
     @JsonIgnore
     private static final long serialVersionUID = 1L;
 
+    private HumanResource poster;
+
     private List<CommentsAndReplys> comments;
 
     /**
      * Constructor
      *
-     * @param post
      */
     public PostComments() {
 
@@ -31,6 +33,14 @@ public class PostComments extends Post {
      *
      * @return
      */
+    public HumanResource getPoster() {
+        return poster;
+    }
+
+    public void setPoster(HumanResource poster) {
+        this.poster = poster;
+    }
+
     public List<CommentsAndReplys> getComments() {
         return comments;
     }
