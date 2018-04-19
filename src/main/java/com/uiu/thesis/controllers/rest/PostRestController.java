@@ -3,12 +3,14 @@ package com.uiu.thesis.controllers.rest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
+import com.uiu.thesis.dao.interfaces.HumanResourceDAO;
 import com.uiu.thesis.dao.interfaces.TokenDAO;
 import com.uiu.thesis.models.forum.Comment;
 import com.uiu.thesis.models.forum.CommentReply;
 import com.uiu.thesis.models.forum.Post;
 import com.uiu.thesis.models.forum.json.CommentsAndReplys;
 import com.uiu.thesis.models.forum.json.PostComments;
+import com.uiu.thesis.models.forum.json.PostJson;
 import com.uiu.thesis.services.interfaces.CommentReplyService;
 import com.uiu.thesis.services.interfaces.CommentService;
 import com.uiu.thesis.services.interfaces.PostService;
@@ -43,6 +45,9 @@ public class PostRestController {
     @Autowired
     private TokenDAO tokenDAO;
 
+    @Autowired
+    private HumanResourceDAO humanResourceDAO;
+
     private SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss a");
 
     /**
@@ -63,7 +68,24 @@ public class PostRestController {
 
         if (token != null && tokenDAO.isTokenExist(token)) {
 
-            List<Post> posts = postService.getAllPosts();
+            List<Post> justPosts = postService.getAllPosts();
+
+            List<PostJson> posts = new ArrayList<>();
+
+            for (Post justPost : justPosts) {
+
+                PostJson postJson = new PostJson();
+
+                postJson.setId(justPost.getId());
+                postJson.setContent(justPost.getContent());
+                postJson.setPostTime(justPost.getPostTime());
+                postJson.setPosterId(justPost.getPosterId());
+                postJson.setTags(justPost.getTags());
+                postJson.setPoster(humanResourceDAO.getHumanResource(justPost.getPosterId()));
+
+                posts.add(postJson);
+            }
+
             try {
 
                 return objectMapper.writeValueAsString(posts);
@@ -186,6 +208,7 @@ public class PostRestController {
             String postsJson;
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.setDateFormat(df);
+
             try {
 
                 postsJson = objectMapper.writeValueAsString(posts);
@@ -268,9 +291,24 @@ public class PostRestController {
 
         if (token != null && tokenDAO.isTokenExist(token)) {
 
-            List<Post> posts = postService.getPostsByTag(tags);
+            List<Post> justPosts = postService.getPostsByTag(tags);
+            List<PostJson> posts = new ArrayList<>();
 
-            if (posts != null) {
+            for (Post justPost : justPosts) {
+
+                PostJson postJson = new PostJson();
+
+                postJson.setId(justPost.getId());
+                postJson.setContent(justPost.getContent());
+                postJson.setPostTime(justPost.getPostTime());
+                postJson.setPosterId(justPost.getPosterId());
+                postJson.setTags(justPost.getTags());
+                postJson.setPoster(humanResourceDAO.getHumanResource(justPost.getPosterId()));
+
+                posts.add(postJson);
+            }
+
+            if (posts.size() > 0) {
 
                 String postsJson;
                 ObjectMapper objectMapper = new ObjectMapper();
@@ -329,6 +367,7 @@ public class PostRestController {
                 postComments.setPostTime(post.getPostTime());
                 postComments.setPosterId(post.getPosterId());
                 postComments.setTags(post.getTags());
+                postComments.setPoster(humanResourceDAO.getHumanResource(post.getPosterId()));
 
                 //Get comments by the post ID
                 List<Comment> commentsList = commentService.getCommentsByPost(postId);
@@ -345,6 +384,7 @@ public class PostRestController {
                     commentAndReplys.setCommenterId(comment.getCommenterId());
                     commentAndReplys.setIsEdited(comment.isEdited());
                     commentAndReplys.setPostId(comment.getPostId());
+                    commentAndReplys.setCommenter(humanResourceDAO.getHumanResource(comment.getCommenterId()));
 
                     List<CommentReply> replys
                             = commentReplyService.getCommentReplysByComment(comment.getId());
