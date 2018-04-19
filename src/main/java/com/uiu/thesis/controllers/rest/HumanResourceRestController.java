@@ -163,6 +163,39 @@ public class HumanResourceRestController {
         return "[]";
     }
 
+    @RequestMapping(
+            value = "/api/service/office/hr/current",
+            produces = {"application/json;charset:UTF-8"},
+            method = RequestMethod.GET)
+    public String getLogedInUser(HttpSession session) {
+
+        String token = (String) session.getAttribute("token");
+
+        if (token != null && tokenDAO.isTokenExist(token)) {
+
+            long id = tokenDAO.getUserId(token);
+            ObjectMapper objectMapper = new ObjectMapper();
+
+            if (id > 0) {
+
+                HumanResource hr = humanResourceService.getHumanResourceById(id);
+
+                if (hr != null) {
+
+                    try {
+
+                        return objectMapper.writeValueAsString(hr);
+                    } catch (JsonProcessingException e) {
+
+                        System.err.println(e.toString());
+                    }
+                }
+            }
+        }
+
+        return "[]";
+    }
+
     /**
      *
      * @param key
