@@ -13,6 +13,8 @@ public interface HumanResourceTypeDAO {
 
     public int updateHRType(HumanResourceType hrType);
 
+    public HumanResourceType getHRTypeByHRId(Long hrId);
+
     public List<HumanResourceType> getAllHRType();
 
     public HumanResourceType getHumanResourceType(Long hrTypeId);

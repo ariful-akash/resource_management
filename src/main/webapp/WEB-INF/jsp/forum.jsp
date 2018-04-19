@@ -10,6 +10,7 @@
     <head>
         <spring:url value="/web-resources/css/w3.css" var="css"/>
         <spring:url value="/web-resources/js/forum.js" var="forumJs"/>
+        <spring:url value="/web-resources/js/postadd.js" var="postAddJs"/>
         <spring:url value="/web-resources/css/w3-theme-blue-grey.css" var="w3BlueDarkTheme"/>
         <spring:url value="/web-resources/images/akash.jpg" var="img"/>
 
@@ -17,6 +18,7 @@
         <link href="${css}" rel="stylesheet" type="text/css"/>
         <link href="${w3BlueDarkTheme}" rel="stylesheet" type="text/css"/>
         <script src="${forumJs}" type="text/javascript"></script>
+        <script src="${postAddJs}" type="text/javascript"></script>
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Forum</title>
@@ -54,7 +56,7 @@
                     <span onclick="getOwnPosts()" class="w3-button" style="text-align: left; width: 100%; padding-left: 20%">My Posts</span><br>
 
                     <!--<##Pop up window-->
-                    <div class="w3-container">
+                    <div class="w3-container" onload="getAllTags()">
 
                         <div id="id01" class="w3-modal">
                             <div class="w3-modal-content" style="margin-left: 25%;width: 50%">
@@ -70,7 +72,7 @@
                                                 <label class="w3-theme-l3 w3-margin-top w3-margin-left w3-text-black">Tags <a href="" class="w3-small" style="text-decoration: none;">&#x2715;</a></label>
                                                 <%}%>
                                             </div>
-                                            <input value="Submit" class="w3-button w3-theme-l1 w3-round" style="margin-top: 2%">
+                                            <input value="Post" class="w3-button w3-theme-l1 w3-round" style="margin-top: 2%">
 
                                         </form>
                                     </div>
@@ -93,7 +95,7 @@
                     <!--posts div-->
                     <div id="allPostDiv" style="overflow: auto; height: 470px; margin-top: 10px">
 
-                        <!--posts are shown here from AJAX by forum.js--> 
+                        <!--posts are shown here from AJAX by forum.js-->
                     </div>
                 </div>
 

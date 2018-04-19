@@ -5,11 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.uiu.thesis.dao.interfaces.AccessTypeDAO;
 import com.uiu.thesis.dao.interfaces.HumanResourceTypeDAO;
 import com.uiu.thesis.dao.interfaces.TokenDAO;
+import com.uiu.thesis.models.forum.json.HumanResourceJson;
 import com.uiu.thesis.models.user.HumanResource;
 import com.uiu.thesis.models.user.HumanResourceType;
 import com.uiu.thesis.services.interfaces.HumanResourceService;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,9 +61,29 @@ public class HumanResourceRestController {
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.setDateFormat(df);
 
-            List<HumanResource> humanResources = humanResourceService.getHumanResources();
+            List<HumanResource> justHumanResources = humanResourceService.getHumanResources();
 
-            if (humanResources != null && humanResources.size() > 0) {
+            //Attaching designation
+            List<HumanResource> humanResources = new ArrayList<>();
+
+            for (HumanResource hr : justHumanResources) {
+
+                HumanResourceJson hrJson = new HumanResourceJson();
+
+                hrJson.setId(hr.getId());
+                hrJson.setAccess(hr.getAccess());
+                hrJson.setDepartment(hr.getDepartment());
+                hrJson.setEmail(hr.getEmail());
+                hrJson.setFirstName(hr.getFirstName());
+                hrJson.setLastName(hr.getLastName());
+                hrJson.setImage(hr.getImage());
+                hrJson.setPhone(hr.getPhone());
+                hrJson.setDesignation(hrTypeDAO.getHRTypeByHRId(hr.getId()).getResourceName());
+
+                humanResources.add(hrJson);
+            }
+
+            if (humanResources.size() > 0) {
 
                 try {
 

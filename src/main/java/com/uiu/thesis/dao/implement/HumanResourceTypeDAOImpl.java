@@ -2,8 +2,11 @@ package com.uiu.thesis.dao.implement;
 
 import com.uiu.thesis.dao.interfaces.HumanResourceTypeDAO;
 import com.uiu.thesis.models.user.HumanResourceType;
+import java.math.BigInteger;
 import java.util.List;
+import java.util.Map;
 import javax.transaction.Transactional;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -115,4 +118,35 @@ public class HumanResourceTypeDAOImpl implements HumanResourceTypeDAO {
         return null;
     }
 
+    /**
+     *
+     * @param hrId
+     * @return
+     */
+    @Override
+    public HumanResourceType getHRTypeByHRId(Long hrId) {
+
+        if (hrId != null && hrId > 0) {
+
+            Session session = sessionFactory.getCurrentSession();
+            String sql = "SELECT * FROM human_resource_types_human_resources "
+                    + "WHERE humanResources_id = " + hrId;
+
+            Query query = session.createSQLQuery(sql);
+            query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+
+            List result = query.list();
+            if (result.size() > 0) {
+
+                Map row = (Map) result.get(0);
+                BigInteger idInt = (BigInteger) row.get("human_resource_types_id");
+
+                HumanResourceType hrType = getHumanResourceType(idInt.longValue());
+
+                return hrType;
+            }
+        }
+
+        return null;
+    }
 }
