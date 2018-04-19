@@ -162,22 +162,38 @@ public class PostRestController {
 
         if (token != null && tokenDAO.isTokenExist(token)) {
 
-            List<Post> posts = postService.getPostsByUser(id);
+            List<Post> justPosts = postService.getPostsByUser(id);
 
-            String postsJson;
+            //adding user with post
+            List<PostJson> postJsons = new ArrayList<>();
+            for (Post post : justPosts) {
+
+                PostJson postJson = new PostJson();
+
+                postJson.setId(post.getId());
+                postJson.setContent(post.getContent());
+                postJson.setPostTime(post.getPostTime());
+                postJson.setPosterId(post.getPosterId());
+                postJson.setTags(post.getTags());
+                postJson.setPoster(humanResourceDAO.getHumanResource(post.getPosterId()));
+
+                postJsons.add(postJson);
+            }
+
+            String json;
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.setDateFormat(df);
             try {
 
-                postsJson = objectMapper.writeValueAsString(posts);
+                json = objectMapper.writeValueAsString(postJsons);
             } catch (JsonProcessingException ex) {
 
                 return "[]";
             }
 
-            if (postsJson != null) {
+            if (json != null) {
 
-                return postsJson;
+                return json;
             }
         }
 
@@ -203,23 +219,38 @@ public class PostRestController {
 
             long id = tokenDAO.getUserId(token);
 
-            List<Post> posts = postService.getPostsByUser(id);
+            List<Post> justPosts = postService.getPostsByUser(id);
 
-            String postsJson;
+            //adding user with post
+            List<PostJson> postJsons = new ArrayList<>();
+            for (Post post : justPosts) {
+
+                PostJson postJson = new PostJson();
+
+                postJson.setId(post.getId());
+                postJson.setContent(post.getContent());
+                postJson.setPostTime(post.getPostTime());
+                postJson.setPosterId(post.getPosterId());
+                postJson.setTags(post.getTags());
+                postJson.setPoster(humanResourceDAO.getHumanResource(post.getPosterId()));
+
+                postJsons.add(postJson);
+            }
+
+            String json;
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.setDateFormat(df);
-
             try {
 
-                postsJson = objectMapper.writeValueAsString(posts);
+                json = objectMapper.writeValueAsString(postJsons);
             } catch (JsonProcessingException ex) {
 
                 return "[]";
             }
 
-            if (postsJson != null) {
+            if (json != null) {
 
-                return postsJson;
+                return json;
             }
         }
 

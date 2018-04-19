@@ -1,15 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.uiu.thesis.controllers.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.uiu.thesis.dao.interfaces.TagTypeDAO;
+import com.uiu.thesis.dao.interfaces.TokenDAO;
 import com.uiu.thesis.models.forum.TagType;
 import java.util.List;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,24 +22,36 @@ public class TagTypeRestController {
     @Autowired
     private TagTypeDAO tagTypeDAO;
 
+    @Autowired
+    private TokenDAO tokenDAO;
+
+    /**
+     * Return all the tags
+     *
+     * @param session
+     * @return
+     */
     @RequestMapping(
-            value = "/api/service/forum/tag/tags",
+            value = "/api/service/forum/tag",
             method = RequestMethod.GET,
             produces = {"application/json;charset:UTF-8"})
-    public String getAllTagService() {
+    public String getAllTagService(HttpSession session) {
 
-        ObjectMapper objectMapper = new ObjectMapper();
+        String token = (String) session.getAttribute("token");
+        if (token != null && tokenDAO.isTokenExist(token)) {
+            ObjectMapper objectMapper = new ObjectMapper();
 
-        List<TagType> tagTypesList = tagTypeDAO.getAllTagTypes();
+            List<TagType> tagTypesList = tagTypeDAO.getAllTagTypes();
 
-        if (tagTypesList != null && tagTypesList.size() > 0) {
+            if (tagTypesList != null && tagTypesList.size() > 0) {
 
-            try {
+                try {
 
-                return objectMapper.writeValueAsString(tagTypesList);
-            } catch (JsonProcessingException ex) {
+                    return objectMapper.writeValueAsString(tagTypesList);
+                } catch (JsonProcessingException ex) {
 
-                System.err.println(ex.toString());
+                    System.err.println(ex.toString());
+                }
             }
         }
 
