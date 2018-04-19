@@ -46,6 +46,37 @@ public class PostRestController {
     private SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss a");
 
     /**
+     * Get first 100 recent post
+     *
+     * @param session
+     * @return
+     */
+    @RequestMapping(
+            value = "/api/service/forum/post",
+            produces = {"application/json;charset:UTF-8"},
+            method = RequestMethod.GET)
+    public String getRecentPost(HttpSession session) {
+
+        String token = (String) session.getAttribute("token");
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.setDateFormat(df);
+
+        if (token != null && tokenDAO.isTokenExist(token)) {
+
+            List<Post> posts = postService.getAllPosts();
+            try {
+
+                return objectMapper.writeValueAsString(posts);
+            } catch (JsonProcessingException ex) {
+
+                System.err.println(ex.toString());
+            }
+        }
+
+        return "[]";
+    }
+
+    /**
      * Add a new post
      *
      * @param postJson
