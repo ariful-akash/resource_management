@@ -21,7 +21,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Forum</title>
     </head>
-    <body onload="setToken()" class="w3-theme-l4" style="font-family: 'Lato', 'sans-serif';">
+    <body onload="getRecentPosts()" class="w3-theme-l4" style="font-family: 'Lato', 'sans-serif';">
 
         <div>
             <div class="w3-theme-d3 w3-topbar w3-row" style="height: 50px">
@@ -50,7 +50,7 @@
                 <!--Left div-->
                 <div class="w3-theme-d1 w3-col" style="width: 20%; height: 450px">
                     <span class="w3-button" style="text-align: left; width: 100%; padding-left: 20%"><span onclick="document.getElementById('id01').style.display = 'block'">Add New Posts </span></span><br>
-                    <span class="w3-button" style="text-align: left; width: 100%; padding-left: 20%">Recent Posts</span><br>
+                    <span onclick="getRecentPosts()" class="w3-button" style="text-align: left; width: 100%; padding-left: 20%">Recent Posts</span><br>
                     <span onclick="getOwnPosts()" class="w3-button" style="text-align: left; width: 100%; padding-left: 20%">My Posts</span><br>
 
                     <!--<##Pop up window-->

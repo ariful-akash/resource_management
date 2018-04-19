@@ -3,12 +3,10 @@ var posts;
 var post;
 
 /**
- * Set the token at initial time
  *
- * @param {type} value
  * @returns {undefined}
  */
-var setToken = function () {
+var getRecentPosts = function () {
 
     var url = "/office_resource_management/api/service/forum/post";
     var method = "GET";
@@ -23,6 +21,7 @@ var getOwnPosts = function () {
 
     postFetchAJAX(url, method, null);
 };
+
 var getUserPosts = function (id) {
 
     var url = "/office_resource_management/api/service/forum/post/user/" + id;
@@ -52,8 +51,7 @@ var postFetchAJAX = function (url, method, params) {
 
             posts = JSON.parse(this.responseText);
 
-            console.log(posts);
-            //placePost();
+            placePost();
         }
     };
 
@@ -136,8 +134,9 @@ var placePost = function () {
 
         var nameLabel = document.createElement("label");
         nameLabel.className = "w3-small w3-text-dark-gray";
+        nameLabel.style.fontWeight = "900";
         nameLabel.textContent = posts[i].poster.firstName + " " + posts[i].poster.lastName;
-        nameLabel.fontWeight = "bold";
+
 
         //break tag
         var breakTag = document.createElement("br");
