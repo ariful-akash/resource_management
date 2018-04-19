@@ -28,6 +28,8 @@ public interface PostDAO {
 
     public List<Post> getAllPosts();
 
+    public List<Post> getAllPosts(int limit);
+
     public List<Post> getPostsByPoster(HumanResource poster);
 
     public List<Post> getPostsByPoster(Long posterId);

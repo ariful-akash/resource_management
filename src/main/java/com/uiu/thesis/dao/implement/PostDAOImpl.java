@@ -148,12 +148,28 @@ public class PostDAOImpl implements PostDAO {
     @Override
     public List<Post> getAllPosts() {
 
+        List<Post> posts = getAllPosts(100);
+
+        return posts;
+    }
+
+    /**
+     *
+     * @param limit
+     * @return
+     */
+    @Override
+    public List<Post> getAllPosts(int limit) {
+
         Session session = sessionFactory.getCurrentSession();
 
-        String hql = "FROM Post";
+        String hql = "FROM Post post ORDER BY post.postTime DESC";
+
+        Query query = session.createQuery(hql);
+        query.setMaxResults(limit);
 
         @SuppressWarnings("unchecked")
-        List<Post> posts = session.createQuery(hql).list();
+        List<Post> posts = query.list();
 
         return posts;
     }

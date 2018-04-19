@@ -15,6 +15,8 @@ public interface PostService {
 
     public List<Post> getAllPosts();
 
+    public List<Post> getAllPosts(int limit);
+
     public Post getPostById(Long postId);
 
     public Post getPostByComment(Long commentId);

@@ -102,6 +102,12 @@ public class PostServiceImpl implements PostService {
         return postDAO.getAllPosts();
     }
 
+    @Override
+    public List<Post> getAllPosts(int limit) {
+
+        return postDAO.getAllPosts(limit);
+    }
+
     /**
      *
      * @param postId
