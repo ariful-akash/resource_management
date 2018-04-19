@@ -4,12 +4,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.uiu.thesis.dao.interfaces.AccessTypeDAO;
 import com.uiu.thesis.dao.interfaces.HumanResourceTypeDAO;
+import com.uiu.thesis.dao.interfaces.TokenDAO;
 import com.uiu.thesis.models.user.HumanResource;
 import com.uiu.thesis.models.user.HumanResourceType;
 import com.uiu.thesis.services.interfaces.HumanResourceService;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,31 +35,41 @@ public class HumanResourceRestController {
     @Autowired
     private AccessTypeDAO accessTypeDAO;
 
+    @Autowired
+    private TokenDAO tokenDAO;
+
     private SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss a");
 
     /**
+     * Return all the users
      *
+     * @param session
      * @return
      */
     @RequestMapping(
             value = "/api/service/office/hr",
             produces = {"application/json;charset:UTF-8"},
             method = RequestMethod.GET)
-    public String getAllHumanResources() {
+    public String getAllHumanResources(HttpSession session) {
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.setDateFormat(df);
+        String token = (String) session.getAttribute("token");
 
-        List<HumanResource> humanResources = humanResourceService.getHumanResources();
+        if (token != null && tokenDAO.isTokenExist(token)) {
 
-        if (humanResources != null && humanResources.size() > 0) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.setDateFormat(df);
 
-            try {
+            List<HumanResource> humanResources = humanResourceService.getHumanResources();
 
-                return objectMapper.writeValueAsString(humanResources);
-            } catch (JsonProcessingException ex) {
+            if (humanResources != null && humanResources.size() > 0) {
 
-                System.err.println(ex.toString());
+                try {
+
+                    return objectMapper.writeValueAsString(humanResources);
+                } catch (JsonProcessingException ex) {
+
+                    System.err.println(ex.toString());
+                }
             }
         }
         return "[]";
@@ -66,6 +78,7 @@ public class HumanResourceRestController {
     /**
      *
      * @param user
+     * @param session
      * @return
      */
     @RequestMapping(
@@ -73,59 +86,76 @@ public class HumanResourceRestController {
             params = {"user"},
             produces = {"application/json;charset:UTF-8"},
             method = RequestMethod.POST)
-    public String addUser(@RequestParam("user") String user) {
+    public String addUser(
+            @RequestParam("user") String user,
+            HttpSession session) {
 
-        ObjectMapper objectMapper = new ObjectMapper();
+        String token = (String) session.getAttribute("token");
 
-        try {
+        if (token != null && tokenDAO.isTokenExist(token)) {
 
-            HumanResource hr = objectMapper.readValue(user, HumanResource.class);
-            if (hr != null
-                    && hr.getId() == null
-                    && hr.getFirstName() != null
-                    && hr.getEmail() != null
-                    && hr.getPhone() != null
-                    && hr.getDepartment() != null) {
+            ObjectMapper objectMapper = new ObjectMapper();
 
-                int value = humanResourceService.addHumanResource(hr);
-                if (value != 0) {
+            try {
 
-                    return "{\"add\":\"true\"}";
+                HumanResource hr = objectMapper.readValue(user, HumanResource.class);
+                if (hr != null
+                        && hr.getId() == null
+                        && hr.getFirstName() != null
+                        && hr.getEmail() != null
+                        && hr.getPhone() != null
+                        && hr.getDepartment() != null) {
+
+                    int value = humanResourceService.addHumanResource(hr);
+                    if (value != 0) {
+
+                        return "{\"add\":\"true\"}";
+                    }
                 }
-            }
-        } catch (IOException e) {
+            } catch (IOException e) {
 
-            System.err.println(e.toString());
+                System.err.println(e.toString());
+            }
+
+            return "{\"add\":\"false\"}";
         }
 
-        return "{\"add\":\"false\"}";
+        return "{}";
     }
 
     /**
      *
      * @param id
+     * @param session
      * @return
      */
     @RequestMapping(
             value = "/api/service/office/hr/{id}",
             produces = {"application/json;charset:UTF-8"},
             method = RequestMethod.GET)
-    public String getUserById(@PathVariable("id") long id) {
+    public String getUserById(
+            @PathVariable("id") long id,
+            HttpSession session) {
 
-        ObjectMapper objectMapper = new ObjectMapper();
+        String token = (String) session.getAttribute("token");
 
-        if (id > 0) {
+        if (token != null && tokenDAO.isTokenExist(token)) {
 
-            HumanResource hr = humanResourceService.getHumanResourceById(id);
+            ObjectMapper objectMapper = new ObjectMapper();
 
-            if (hr != null) {
+            if (id > 0) {
 
-                try {
+                HumanResource hr = humanResourceService.getHumanResourceById(id);
 
-                    return objectMapper.writeValueAsString(hr);
-                } catch (JsonProcessingException e) {
+                if (hr != null) {
 
-                    System.err.println(e.toString());
+                    try {
+
+                        return objectMapper.writeValueAsString(hr);
+                    } catch (JsonProcessingException e) {
+
+                        System.err.println(e.toString());
+                    }
                 }
             }
         }
@@ -137,6 +167,7 @@ public class HumanResourceRestController {
      *
      * @param key
      * @param id
+     * @param session
      * @return
      */
     @RequestMapping(
@@ -145,43 +176,49 @@ public class HumanResourceRestController {
             method = RequestMethod.GET)
     public String getHumanResources(
             @PathVariable("key") String key,
-            @PathVariable("id") long id) {
+            @PathVariable("id") long id,
+            HttpSession session) {
 
-        if (key != null && !key.isEmpty() && id > 0) {
+        String token = (String) session.getAttribute("token");
 
-            ObjectMapper objectMapper = new ObjectMapper();
+        if (token != null && tokenDAO.isTokenExist(token)) {
 
-            List<HumanResource> humanResources = null;
+            if (key != null && !key.isEmpty() && id > 0) {
 
-            switch (key) {
+                ObjectMapper objectMapper = new ObjectMapper();
 
-                case "type":
+                List<HumanResource> humanResources = null;
 
-                    humanResources = humanResourceService.getHumanResourcesByType(id);
-                    break;
+                switch (key) {
 
-                case "role":
+                    case "type":
 
-                    humanResources = humanResourceService.getHumanResourcesByRole(id);
-                    break;
+                        humanResources = humanResourceService.getHumanResourcesByType(id);
+                        break;
 
-                case "access":
+                    case "role":
 
-                    humanResources = humanResourceService.getHumanResourcesByAccess(id);
-                    break;
+                        humanResources = humanResourceService.getHumanResourcesByRole(id);
+                        break;
 
-                default:
-                    break;
-            }
+                    case "access":
 
-            if (humanResources != null && humanResources.size() > 0) {
+                        humanResources = humanResourceService.getHumanResourcesByAccess(id);
+                        break;
 
-                try {
+                    default:
+                        break;
+                }
 
-                    return objectMapper.writeValueAsString(humanResources);
-                } catch (JsonProcessingException e) {
+                if (humanResources != null && humanResources.size() > 0) {
 
-                    System.err.println(e.toString());
+                    try {
+
+                        return objectMapper.writeValueAsString(humanResources);
+                    } catch (JsonProcessingException e) {
+
+                        System.err.println(e.toString());
+                    }
                 }
             }
         }
@@ -217,10 +254,12 @@ public class HumanResourceRestController {
     }
 
     /**
+     * Add/modify access of user
      *
      * @param change
      * @param hrId
      * @param accessId
+     * @param session
      * @return
      */
     @RequestMapping(
@@ -231,33 +270,44 @@ public class HumanResourceRestController {
     public String changeHRAccess(
             @PathVariable("change") String change,
             @RequestParam("hr_id") long hrId,
-            @RequestParam("access_id") long accessId) {
+            @RequestParam("access_id") long accessId,
+            HttpSession session) {
 
-        if (hrId > 0 && accessId > 0) {
+        String token = (String) session.getAttribute("token");
 
-            int value = 0;
+        if (token != null && tokenDAO.isTokenExist(token)) {
 
-            if (change.equals("add")) {
+            if (hrId > 0 && accessId > 0) {
 
-                value = humanResourceService.addAccess(hrId, accessId);
-            } else if (change.equals("remove")) {
+                int value = 0;
 
-                value = humanResourceService.removeAccess(hrId, accessId);
+                if (change.equals("add")) {
+
+                    value = humanResourceService.addAccess(hrId, accessId);
+                } else if (change.equals("remove")) {
+
+                    value = humanResourceService.removeAccess(hrId, accessId);
+                }
+
+                if (value != 0) {
+
+                    return "{\"change\":\"true\"}";
+                }
             }
 
-            if (value != 0) {
+            return "{\"change\":\"false\"}";
 
-                return "{\"change\":\"true\"}";
-            }
         }
 
-        return "{\"change\":\"false\"}";
+        return "{}";
     }
 
     /**
+     * Change role of user
      *
      * @param hr_id
      * @param role_id
+     * @param session
      * @return
      */
     @RequestMapping(
@@ -267,42 +317,57 @@ public class HumanResourceRestController {
             method = RequestMethod.POST)
     public String changeRole(
             @RequestParam("hr_id") long hr_id,
-            @RequestParam("role_id") long role_id) {
+            @RequestParam("role_id") long role_id,
+            HttpSession session) {
 
-        if (hr_id > 0 && role_id > 0) {
+        String token = (String) session.getAttribute("token");
 
-            int value = humanResourceService.changeHumanResourceRole(hr_id, role_id);
-            if (value != 0) {
+        if (token != null && tokenDAO.isTokenExist(token)) {
 
-                return "{\"change\":\"true\"}";
+            if (hr_id > 0 && role_id > 0) {
+
+                int value = humanResourceService.changeHumanResourceRole(hr_id, role_id);
+                if (value != 0) {
+
+                    return "{\"change\":\"true\"}";
+                }
             }
+
+            return "{\"change\":\"false\"}";
         }
 
-        return "{\"change\":\"false\"}";
+        return "{}";
     }
 
     /**
+     * Return all hr types
      *
+     * @param session
      * @return
      */
     @RequestMapping(
             value = "/api/service/office/hr/hrtype",
             produces = {"application/json;charset:UTF-8"},
             method = RequestMethod.GET)
-    public String getHRTypes() {
+    public String getHRTypes(HttpSession session) {
 
-        ObjectMapper objectMapper = new ObjectMapper();
+        String token = (String) session.getAttribute("token");
 
-        List<HumanResourceType> hrTypes = hrTypeDAO.getAllHRType();
+        if (token != null && tokenDAO.isTokenExist(token)) {
 
-        if (hrTypes != null && hrTypes.size() > 0) {
+            ObjectMapper objectMapper = new ObjectMapper();
 
-            try {
+            List<HumanResourceType> hrTypes = hrTypeDAO.getAllHRType();
 
-                return objectMapper.writeValueAsString(hrTypes);
-            } catch (JsonProcessingException ex) {
+            if (hrTypes != null && hrTypes.size() > 0) {
 
-                System.err.println(ex.toString());
+                try {
+
+                    return objectMapper.writeValueAsString(hrTypes);
+                } catch (JsonProcessingException ex) {
+
+                    System.err.println(ex.toString());
+                }
             }
         }
 
@@ -310,8 +375,10 @@ public class HumanResourceRestController {
     }
 
     /**
+     * Add HR type
      *
      * @param name
+     * @param session
      * @return
      */
     @RequestMapping(
@@ -319,28 +386,36 @@ public class HumanResourceRestController {
             params = {"resource_name"},
             produces = {"application/json;charset:UTF-8"},
             method = RequestMethod.POST)
-    public String addHRType(@RequestParam("resource_name") String name) {
+    public String addHRType(
+            @RequestParam("resource_name") String name,
+            HttpSession session) {
 
-        if (name != null && !name.isEmpty()) {
+        String token = (String) session.getAttribute("token");
 
-            String resourceName = name.toLowerCase();
+        if (token != null && tokenDAO.isTokenExist(token)) {
 
-            HumanResourceType dbHRType = hrTypeDAO.getHumanResourceType(resourceName);
+            if (name != null && !name.isEmpty()) {
 
-            if (dbHRType == null) {
+                String resourceName = name.toLowerCase();
 
-                HumanResourceType hrType = new HumanResourceType();
-                hrType.setResourceName(resourceName);
+                HumanResourceType dbHRType = hrTypeDAO.getHumanResourceType(resourceName);
 
-                int value = hrTypeDAO.addHRType(hrType);
+                if (dbHRType == null) {
 
-                if (value != 0) {
+                    HumanResourceType hrType = new HumanResourceType();
+                    hrType.setResourceName(resourceName);
 
-                    return "{\"add\":\"true\"}";
+                    int value = hrTypeDAO.addHRType(hrType);
+
+                    if (value != 0) {
+
+                        return "{\"add\":\"true\"}";
+                    }
                 }
             }
+            return "{\"add\":\"false\"}";
         }
 
-        return "{\"add\":\"false\"}";
+        return "{}";
     }
 }
