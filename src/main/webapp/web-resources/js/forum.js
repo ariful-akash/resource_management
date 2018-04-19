@@ -8,17 +8,30 @@ var post;
  * @param {type} value
  * @returns {undefined}
  */
-var setToken = function (value) {
-
-    console.log(value);
-
-    token = value;
+var setToken = function () {
 
     var url = "/office_resource_management/api/service/forum/post";
     var method = "GET";
 
     postFetchAJAX(url, method, null);
 };
+
+var getOwnPosts = function () {
+
+    var url = "/office_resource_management/api/service/forum/post/own";
+    var method = "GET";
+
+    postFetchAJAX(url, method, null);
+};
+var getUserPosts = function (id) {
+
+    var url = "/office_resource_management/api/service/forum/post/user/" + id;
+    var method = "GET";
+
+    postFetchAJAX(url, method, null);
+};
+
+
 
 /**
  * Communicate with server through AJAX
@@ -38,7 +51,9 @@ var postFetchAJAX = function (url, method, params) {
         if (this.readyState == 4 && this.status == 200) {
 
             posts = JSON.parse(this.responseText);
-            placePost();
+
+            console.log(posts);
+            //placePost();
         }
     };
 
@@ -48,24 +63,37 @@ var postFetchAJAX = function (url, method, params) {
 
 };
 
+var removeChild = function (myNode) {
+
+    while (myNode.firstChild) {
+        myNode.removeChild(myNode.firstChild);
+    }
+};
+
 /**
- *
+ * place the posts from json object, posts
  * @returns {undefined}
  */
+
 var placePost = function () {
 
     /*
      * all post div
      */
     var allPostDiv = document.getElementById('allPostDiv');
+// remove all contents from post div
+    removeChild(allPostDiv);
 
     for (var i = 0; i < posts.length; i++) {
+
+        console.log("enter");
 
         /*
          * Single post div
          */
         var postDiv = document.createElement("div");
-        postDiv.className = "w3-row w3-card w3-margin";
+        postDiv.className = "w3-row w3-card w3-margin w3-padding";
+
 
         /*
          * Attaching post div to all post div
@@ -111,6 +139,9 @@ var placePost = function () {
         nameLabel.textContent = posts[i].poster.firstName + " " + posts[i].poster.lastName;
         nameLabel.fontWeight = "bold";
 
+        //break tag
+        var breakTag = document.createElement("br");
+
         //date label tag
 
         var dateLabel = document.createElement("label");
@@ -121,6 +152,7 @@ var placePost = function () {
          * Attaching labels to name div
          */
         nameDiv.appendChild(nameLabel);
+        nameDiv.appendChild(breakTag);
         nameDiv.appendChild(dateLabel);
 
         /************************************
@@ -146,6 +178,16 @@ var placePost = function () {
         contentDiv.appendChild(seeMore);
 
 
+        var tagDiv = document.createElement("div");
+        for (var j = 0; j < posts[i].tags.length; j++) {
+            var tagsLabel = document.createElement("label");
+            tagsLabel.className = "w3-small w3-text-dark-gray w3-theme-l3 w3-padding-small";
+            tagsLabel.style.marginLeft = "2%";
+            tagsLabel.textContent = posts[i].tags[j].tag;
+
+            tagDiv.appendChild(tagsLabel);
+        }
+
         /*
          * Attaching all the divs to post div
          *
@@ -153,5 +195,6 @@ var placePost = function () {
         postDiv.appendChild(imgDiv);
         postDiv.appendChild(nameDiv);
         postDiv.appendChild(contentDiv);
+        postDiv.appendChild(tagDiv);
     }
 };

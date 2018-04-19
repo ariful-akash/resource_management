@@ -6,7 +6,9 @@
 package com.uiu.thesis.controllers;
 
 import com.uiu.thesis.dao.interfaces.HumanResourceTypeDAO;
+import com.uiu.thesis.dao.interfaces.TokenDAO;
 import com.uiu.thesis.models.user.HumanResourceType;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,8 +23,17 @@ public class HomeController {
     @Autowired
     private HumanResourceTypeDAO hrTypeDAO;
 
+    @Autowired
+    private TokenDAO tokenDAO;
+
     @RequestMapping(value = "/index")
-    public String showIndex() {
+    public String showIndex(HttpSession session) {
+
+        String token = (String) session.getAttribute("token");
+        if (token != null && tokenDAO.isTokenExist(token)) {
+
+            return "/forum";
+        }
         return "index";
     }
 

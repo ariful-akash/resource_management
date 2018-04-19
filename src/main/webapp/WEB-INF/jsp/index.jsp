@@ -7,43 +7,27 @@
     <head>
 
         <!--spring-url link-->
-        <spring:url value="/web-resources/js/service_test.js" var="service_test_JS"/>
 
-        <script src="${service_test_JS}" type="text/javascript"></script>
+        <spring:url value="/web-resources/css/w3.css" var="css"/>
+        <spring:url value="/web-resources/css/w3-theme-blue-grey.css" var="w3BlueDarkTheme"/>
 
+        <link href="${css}" rel="stylesheet" type="text/css"/>
+        <link href="${w3BlueDarkTheme}" rel="stylesheet" type="text/css"/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Welcome to Spring Web MVC project</title>
+        <title></title>
     </head>
 
-    <body>
-        <!--        <p>Hello! This is the default welcome page for a Spring Web MVC project.</p>
-                <p>This is the index page</p>
+    <body class="w3-theme-l4" style="font-family: 'Lato', 'sans-serif';">
 
-                <a href="/office_resource_management/add">Add Person</a>
 
-                <input id="date" type="date"/>
+        <div class="w3-row w3-round-small w3-theme-l2" style="margin:15% 33% 0% 33%;padding: 3% 1% 3% 1%">
+            <form action="/office_resource_management/login" method="post">
 
-                <input id="time" type="time"/>
+                <input class="w3-large w3-input  w3-round" name="email" type="text" placeholder="e.g., email@example.com">
+                <input class="w3-large w3-input w3-round w3-margin-top" name="password"  type="password" placeholder="e.g., ********">
 
-                <br>
-                <a onclick="insertPost()" href="#">Insert Post</a> <br>
-                <a onclick="editPost()" href="#">Edit Post</a> <br>
-                <a onclick="insertComment()" href="#">Insert Comment</a> <br>
-                <a onclick="editComment()" href="#">Edit Comment</a> <br>
-                <a onclick="addCommentReply()" href="#">Add Comment Reply</a> <br>
-                <a onclick="editCommentReply()" href="#">Edit Comment Reply</a> <br>
-                <a onclick="insertComplaint()" href="#">Add Complaint</a> <br>
-                <a onclick="updateComplaint()" href="#">Update Complaint</a> <br>
-                <a onclick="insertComplaintType()" href="#">Add Complaint Type</a> <br>
-                <a onclick="insertRequisitionType()" href="#">Add Requisition Type</a> <br>-->
-
-        <form action="/office_resource_management/login" method="post">
-
-            <div><%= session.getAttribute("token")%></div>
-
-            <input type="email" name="email"/><br>
-            <input type="password" name="password"/><br>
-            <input type="submit" value="Login"/>
-        </form>
+                <input class="w3-large w3-button w3-margin-top w3-round w3-theme-d3" type="submit" value="Login">
+            </form>
+        </div>
     </body>
 </html>

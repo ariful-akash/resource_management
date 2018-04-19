@@ -41,6 +41,7 @@ public class LoginLogoutController {
             String token = tokenDAO.getToken(email, password);
 
             request.getSession().setAttribute("token", token);
+            return "/forum";
         }
 
         return "/index";
@@ -67,6 +68,6 @@ public class LoginLogoutController {
             }
         }
 
-        return "/home";
+        return "/index";
     }
 }
