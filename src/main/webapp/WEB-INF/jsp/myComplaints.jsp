@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : myComplaints
     Created on : Apr 14, 2018, 1:32:01 PM
     Author     : ariful
@@ -22,7 +22,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>My Complaints</title>
     </head>
-    <body class="w3-theme-l3" style="font-family: 'Lato', 'sans-serif';">
+    <body onload="showAllComplaints()" class="w3-theme-l3" style="font-family: 'Lato', 'sans-serif';">
 
         <div>
             <div class="w3-theme-d3 w3-row" style="height: 50px">
@@ -85,55 +85,49 @@
 
                     <!--Tabs-->
                     <div class="w3-bar w3-col w3-theme-d1" style="width:50%">
-                        <button class="w3-bar-item w3-button tablink w3-theme-d2" style="width: 33%" onclick="changeTab(event, 'all')">All</button>
-                        <button class="w3-bar-item w3-button tablink" style="width: 33%" onclick="changeTab(event, 'pending')">Pending</button>
-                        <button class="w3-bar-item w3-button tablink" style="width: 34%" onclick="changeTab(event, 'solved')">Solved</button>
-                    </div>
-
-                    <!--all Tab-->
-                    <div id="all" class="w3-container w3-border tab">
-
+                        <button class="w3-bar-item w3-button tablink w3-theme-d2" style="width: 50%" onclick="changeTab(event, 'pending')">Pending</button>
+                        <button class="w3-bar-item w3-button tablink" style="width: 50%" onclick="changeTab(event, 'solved')">Solved</button>
                     </div>
 
                     <!--pending tab-->
-                    <div id="pending" class="w3-container w3-border tab" style="display:none">
-                        <% for (int i = 0; i < 10; i++) {%>
-                        <div class="w3-row w3-card  w3-margin-top w3-margin-bottom">
+                    <div id="pending" class="w3-container w3-border tab" style="display:block">
+                        <% //for (int i = 0; i < 10; i++) {%>
+                        <!--                        <div class="w3-row w3-card  w3-margin-top w3-margin-bottom">
 
-                            <div class="w3-col" style="width: 5%; padding: 1% 0% 0% 1%">
-                                <img src="${img}" class="w3-circle" style="width: 30px;height: 30px" alt="#">
-                            </div>
+                                                    <div class="w3-col" style="width: 5%; padding: 1% 0% 0% 1%">
+                                                        <img src="${img}" class="w3-circle" style="width: 30px;height: 30px" alt="#">
+                                                    </div>
 
-                            <div class="w3-col" style="width: 92%;margin-top: 1.5%">
-                                <label class="w3-small w3-text-dark-gray"><b>Ariful Islam Akash</b></label>
-                            </div>
+                                                    <div class="w3-col" style="width: 92%;margin-top: 1.5%">
+                                                        <label class="w3-small w3-text-dark-gray"><b>Ariful Islam Akash</b></label>
+                                                    </div>
 
-                            <div>
-                                <span class=" w3-btn w3-theme-l3 w3-round w3-text-white w3-medium w3-right" style="margin-right: 5%;">Solve</span>
-                            </div>
+                                                    <div>
+                                                        <span class=" w3-btn w3-theme-l3 w3-round w3-text-white w3-medium w3-right" style="margin-right: 5%;">Solve</span>
+                                                    </div>
 
-                            <div style="margin: 4% 5% 1% 5%">
-                                <table class="w3-table w3-striped" border="1">
-                                    <tr>
-                                        <td>Complaints Type</td>
-                                        <td>Table</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Description</td>
-                                        <td>Table was Broken</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Placeing Date</td>
-                                        <td>14/04/2018</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Placeing Date</td>
-                                        <td>14/04/2018</td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                        <%}%> 
+                                                    <div style="margin: 4% 5% 1% 5%">
+                                                        <table class="w3-table w3-striped" border="1">
+                                                            <tr>
+                                                                <td>Complaints Type</td>
+                                                                <td>Table</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Description</td>
+                                                                <td>Table was Broken</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Placeing Date</td>
+                                                                <td>14/04/2018</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Placeing Date</td>
+                                                                <td>14/04/2018</td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </div>-->
+                        <%//}%>
                     </div>
 
                     <!--solved tab-->

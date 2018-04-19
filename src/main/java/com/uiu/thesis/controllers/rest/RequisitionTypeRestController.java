@@ -2,6 +2,7 @@ package com.uiu.thesis.controllers.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.uiu.thesis.dao.interfaces.TokenDAO;
 import com.uiu.thesis.models.requisition.RequisitionType;
 import com.uiu.thesis.services.interfaces.RequisitionTypeService;
 import java.io.IOException;
@@ -23,34 +24,47 @@ public class RequisitionTypeRestController {
     @Autowired
     private RequisitionTypeService requisitionTypeService;
 
+    @Autowired
+    private TokenDAO tokenDAO;
+
     private SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss a");
 
     /**
      * Returns all the requisitions
      *
+     * @param token
      * @return
      */
     @RequestMapping(
             value = "/api/service/office/requisitiontype",
             produces = {"application/json;charset:UTF-8"},
+            params = {"token"},
             method = RequestMethod.GET)
 
-    public String getAllRequisitions() {
+    public String getAllRequisitions(
+            @RequestParam("token") String token) {
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.setDateFormat(df);
+        if (token != null && !token.isEmpty()) {
 
-        List<RequisitionType> requisitionTypes
-                = requisitionTypeService.getAllRequisitionTypes();
+            long userId = tokenDAO.getUserId(token);
+            if (userId > 0) {
 
-        if (requisitionTypes != null && requisitionTypes.size() > 0) {
+                ObjectMapper objectMapper = new ObjectMapper();
+                objectMapper.setDateFormat(df);
 
-            try {
+                List<RequisitionType> requisitionTypes
+                        = requisitionTypeService.getAllRequisitionTypes();
 
-                return objectMapper.writeValueAsString(requisitionTypes);
-            } catch (JsonProcessingException ex) {
+                if (requisitionTypes != null && requisitionTypes.size() > 0) {
 
-                System.err.println(ex.toString());
+                    try {
+
+                        return objectMapper.writeValueAsString(requisitionTypes);
+                    } catch (JsonProcessingException ex) {
+
+                        System.err.println(ex.toString());
+                    }
+                }
             }
         }
 
@@ -61,33 +75,43 @@ public class RequisitionTypeRestController {
      * Add a new requisition type
      *
      * @param requisitionTypeJson
+     * @param token
      * @return
      */
     @RequestMapping(
             value = "/api/service/office/requisitiontype",
-            params = {"requisition_type"},
+            params = {"requisition_type", "token"},
             produces = {"application/json;charset:UTF-8"},
             method = RequestMethod.POST)
     public String addRequisition(
-            @RequestParam("requisition_type") String requisitionTypeJson) {
+            @RequestParam("requisition_type") String requisitionTypeJson,
+            @RequestParam("token") String token) {
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        if (requisitionTypeJson != null) {
+        if (token != null && !token.isEmpty()) {
 
-            try {
+            long userId = tokenDAO.getUserId(token);
 
-                RequisitionType requisitionType
-                        = objectMapper.readValue(requisitionTypeJson, RequisitionType.class);
+            if (userId > 0) {
 
-                int value = requisitionTypeService.addRequisitionType(requisitionType);
-                if (value != 0) {
+                ObjectMapper objectMapper = new ObjectMapper();
+                if (requisitionTypeJson != null) {
 
-                    return "{\"add\":\"true\"}";
+                    try {
+
+                        RequisitionType requisitionType
+                                = objectMapper.readValue(requisitionTypeJson, RequisitionType.class);
+
+                        int value = requisitionTypeService.addRequisitionType(requisitionType);
+                        if (value != 0) {
+
+                            return "{\"add\":\"true\"}";
+                        }
+
+                    } catch (IOException ex) {
+
+                        System.err.println(ex.toString());
+                    }
                 }
-
-            } catch (IOException ex) {
-
-                System.err.println(ex.toString());
             }
         }
 

@@ -37,9 +37,11 @@ public class CommentReplyRestController {
 
             CommentReply commentReply = objectMapper.readValue(replyJson, CommentReply.class);
 
+            /*
+            The replier id must be implemented later
+             */
             if (commentReply != null
                     && commentReply.getId() == null
-                    && commentReply.getReplierId() != null
                     && commentReply.getCommentId() != null
                     && commentReply.getDateTime() != null
                     && commentReply.getReply() != null

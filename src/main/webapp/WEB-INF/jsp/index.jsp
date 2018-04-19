@@ -38,6 +38,9 @@
                 <a onclick="insertRequisitionType()" href="#">Add Requisition Type</a> <br>-->
 
         <form action="/office_resource_management/login" method="post">
+
+            <div><%= session.getAttribute("token")%></div>
+
             <input type="email" name="email"/><br>
             <input type="password" name="password"/><br>
             <input type="submit" value="Login"/>

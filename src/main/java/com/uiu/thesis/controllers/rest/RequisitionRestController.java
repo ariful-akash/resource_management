@@ -2,6 +2,7 @@ package com.uiu.thesis.controllers.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.uiu.thesis.dao.interfaces.TokenDAO;
 import com.uiu.thesis.models.requisition.Requisition;
 import com.uiu.thesis.services.interfaces.RequisitionService;
 import java.io.IOException;
@@ -25,97 +26,37 @@ public class RequisitionRestController {
     @Autowired
     private RequisitionService requisitionService;
 
+    @Autowired
+    private TokenDAO tokenDAO;
+
     private SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss a");
 
     /**
      *
+     * @param token
      * @return
      */
     @RequestMapping(
             value = "/api/service/office/requisition",
             produces = {"application/json;charset:UTF-8"},
+            params = {"token"},
             method = RequestMethod.GET)
-    public String getAllRequisitins() {
+    public String getAllRequisitins(@RequestParam("token") String token) {
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.setDateFormat(df);
+        long userId = tokenDAO.getUserId(token);
 
-        List<Requisition> requisitions = requisitionService.getAllRequisitions();
+        if (userId > 0) {
 
-        if (requisitions != null && requisitions.size() > 0) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.setDateFormat(df);
 
-            try {
+            List<Requisition> requisitions = requisitionService.getAllRequisitions();
 
-                return objectMapper.writeValueAsString(requisitions);
-            } catch (JsonProcessingException ex) {
-
-                System.err.println(ex.toString());
-            }
-        }
-
-        return "[]";
-    }
-
-    /**
-     *
-     * @param requisitionJson
-     * @return
-     */
-    @RequestMapping(
-            value = "/api/service/office/requisition",
-            params = {"requisition"},
-            produces = {"application/json;charset:UTF-8"},
-            method = RequestMethod.POST)
-    public String addRequisition(
-            @RequestParam("requisition") String requisitionJson) {
-
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        if (requisitionJson != null && !requisitionJson.isEmpty()) {
-
-            try {
-
-                Requisition requisition
-                        = objectMapper.readValue(requisitionJson, Requisition.class);
-
-                int value = requisitionService.addRequisition(requisition);
-                if (value != 0) {
-
-                    return "{\"add\":\"true\"}";
-                }
-
-            } catch (IOException ex) {
-
-                System.err.println(ex.toString());
-            }
-        }
-
-        return "{\"add\":\"false\"}";
-    }
-
-    /**
-     *
-     * @param id
-     * @return
-     */
-    @RequestMapping(
-            value = "/api/service/office/requisition/{id}",
-            produces = {"application/json;charset:UTF-8"},
-            method = RequestMethod.GET)
-    public String getRequisition(@PathVariable("id") long id) {
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.setDateFormat(df);
-
-        if (id > 0) {
-
-            Requisition requisition = requisitionService.getRequisitionById(id);
-
-            if (requisition != null) {
+            if (requisitions != null && requisitions.size() > 0) {
 
                 try {
 
-                    return objectMapper.writeValueAsString(requisition);
+                    return objectMapper.writeValueAsString(requisitions);
                 } catch (JsonProcessingException ex) {
 
                     System.err.println(ex.toString());
@@ -128,72 +69,165 @@ public class RequisitionRestController {
 
     /**
      *
+     * @param requisitionJson
+     * @param token
+     * @return
+     */
+    @RequestMapping(
+            value = "/api/service/office/requisition",
+            params = {"requisition", "token"},
+            produces = {"application/json;charset:UTF-8"},
+            method = RequestMethod.POST)
+    public String addRequisition(
+            @RequestParam("requisition") String requisitionJson,
+            @RequestParam("token") String token) {
+
+        long userId = tokenDAO.getUserId(token);
+
+        if (userId > 0) {
+
+            ObjectMapper objectMapper = new ObjectMapper();
+
+            if (requisitionJson != null && !requisitionJson.isEmpty()) {
+
+                try {
+
+                    Requisition requisition
+                            = objectMapper.readValue(requisitionJson, Requisition.class);
+
+                    int value = requisitionService.addRequisition(requisition);
+                    if (value != 0) {
+
+                        return "{\"add\":\"true\"}";
+                    }
+
+                } catch (IOException ex) {
+
+                    System.err.println(ex.toString());
+                }
+            }
+        }
+
+        return "{\"add\":\"false\"}";
+    }
+
+    /**
+     *
+     * @param id
+     * @param token
+     * @return
+     */
+    @RequestMapping(
+            value = "/api/service/office/requisition/{id}",
+            produces = {"application/json;charset:UTF-8"},
+            params = {"token"},
+            method = RequestMethod.GET)
+    public String getRequisition(
+            @PathVariable("id") long id,
+            @RequestParam("token") String token) {
+
+        long userId = tokenDAO.getUserId(token);
+
+        if (userId > 0) {
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.setDateFormat(df);
+
+            if (id > 0) {
+
+                Requisition requisition = requisitionService.getRequisitionById(id);
+
+                if (requisition != null) {
+
+                    try {
+
+                        return objectMapper.writeValueAsString(requisition);
+                    } catch (JsonProcessingException ex) {
+
+                        System.err.println(ex.toString());
+                    }
+                }
+            }
+        }
+
+        return "[]";
+    }
+
+    /**
+     *
      * @param key
      * @param id
+     * @param token
      * @return
      */
     @RequestMapping(
             value = "/api/service/office/requisition/{key}/{id}",
             produces = {"application/json;charset:UTF-8"},
+            params = {"token"},
             method = RequestMethod.GET)
     public String getRequisitionByKey(
             @PathVariable("key") String key,
-            @PathVariable("id") long id) {
+            @PathVariable("id") long id,
+            @RequestParam("token") String token) {
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.setDateFormat(df);
+        long userId = tokenDAO.getUserId(token);
+        if (userId > 0) {
 
-        if (key != null && !key.isEmpty() && id > 0) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.setDateFormat(df);
 
-            List<Requisition> requisitions;
-            switch (key) {
-                case "type":
+            if (key != null && !key.isEmpty() && id > 0) {
 
-                    requisitions = requisitionService.getRequisitionsByType(id);
-                    if (requisitions != null && requisitions.size() > 0) {
+                List<Requisition> requisitions;
+                switch (key) {
+                    case "type":
 
-                        try {
+                        requisitions = requisitionService.getRequisitionsByType(id);
+                        if (requisitions != null && requisitions.size() > 0) {
 
-                            return objectMapper.writeValueAsString(requisitions);
-                        } catch (JsonProcessingException ex) {
+                            try {
 
-                            System.err.println(ex.toString());
+                                return objectMapper.writeValueAsString(requisitions);
+                            } catch (JsonProcessingException ex) {
+
+                                System.err.println(ex.toString());
+                            }
                         }
-                    }
-                    break;
+                        break;
 
-                case "solver":
+                    case "solver":
 
-                    requisitions = requisitionService.getRequisitionsBySolver(id);
-                    if (requisitions != null && requisitions.size() > 0) {
+                        requisitions = requisitionService.getRequisitionsBySolver(id);
+                        if (requisitions != null && requisitions.size() > 0) {
 
-                        try {
+                            try {
 
-                            return objectMapper.writeValueAsString(requisitions);
-                        } catch (JsonProcessingException e) {
+                                return objectMapper.writeValueAsString(requisitions);
+                            } catch (JsonProcessingException e) {
 
-                            System.err.println(e.toString());
+                                System.err.println(e.toString());
+                            }
                         }
-                    }
-                    break;
+                        break;
 
-                case "creator":
+                    case "creator":
 
-                    requisitions = requisitionService.getRequisitionsByCreator(id);
-                    if (requisitions != null && requisitions.size() > 0) {
+                        requisitions = requisitionService.getRequisitionsByCreator(id);
+                        if (requisitions != null && requisitions.size() > 0) {
 
-                        try {
+                            try {
 
-                            return objectMapper.writeValueAsString(requisitions);
-                        } catch (JsonProcessingException e) {
+                                return objectMapper.writeValueAsString(requisitions);
+                            } catch (JsonProcessingException e) {
 
-                            System.err.println(e.toString());
+                                System.err.println(e.toString());
+                            }
                         }
-                    }
-                    break;
+                        break;
 
-                default:
-                    break;
+                    default:
+                        break;
+                }
             }
         }
 
@@ -203,27 +237,34 @@ public class RequisitionRestController {
     /**
      *
      * @param value
+     * @param token
      * @return
      */
     @RequestMapping(
             value = "/api/service/office/requisition/solved/{value}",
             produces = {"application/json;charset:UTF-8"},
+            params = {"token"},
             method = RequestMethod.GET)
     public String getRequisitionsBySolved(
-            @PathVariable("value") boolean value) {
+            @PathVariable("value") boolean value,
+            @RequestParam("token") String token) {
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.setDateFormat(df);
+        long userId = tokenDAO.getUserId(token);
+        if (userId > 0) {
 
-        List<Requisition> requisitions = requisitionService.getRequisitionsBySU(value);
-        if (requisitions != null && requisitions.size() > 0) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.setDateFormat(df);
 
-            try {
+            List<Requisition> requisitions = requisitionService.getRequisitionsBySU(value);
+            if (requisitions != null && requisitions.size() > 0) {
 
-                return objectMapper.writeValueAsString(requisitions);
-            } catch (JsonProcessingException e) {
+                try {
 
-                System.err.println(e.toString());
+                    return objectMapper.writeValueAsString(requisitions);
+                } catch (JsonProcessingException e) {
+
+                    System.err.println(e.toString());
+                }
             }
         }
 
@@ -235,34 +276,40 @@ public class RequisitionRestController {
      * @param id
      * @param solverId
      * @param solvedDate
+     * @param token
      * @return
      */
     @RequestMapping(
             value = "/api/service/office/requisition/update",
-            params = {"id", "solver_id", "solved_date"},
+            params = {"id", "solver_id", "solved_date", "token"},
             produces = {"application/json;charset:UTF-8"},
             method = RequestMethod.POST)
     public String updateRequisition(
             @RequestParam("id") long id,
             @RequestParam("solver_id") long solverId,
-            @RequestParam("solved_date") long solvedDate) {
+            @RequestParam("solved_date") long solvedDate,
+            @RequestParam("token") String token) {
 
-        if (id > 0) {
+        long userId = tokenDAO.getUserId(token);
+        if (userId > 0) {
 
-            Requisition requisition = requisitionService.getRequisitionById(id);
+            if (id > 0) {
 
-            if (requisition != null
-                    && requisition.getRequisitionSolvedDate() == null
-                    && requisition.isSolved() == false) {
+                Requisition requisition = requisitionService.getRequisitionById(id);
 
-                requisition.setSolved(true);
-                requisition.setSolverId(solverId);
-                requisition.setRequisitionSolvedDate(new Date(solvedDate));
+                if (requisition != null
+                        && requisition.getRequisitionSolvedDate() == null
+                        && requisition.isSolved() == false) {
 
-                int value = requisitionService.updateRequisition(requisition);
-                if (value != 0) {
+                    requisition.setSolved(true);
+                    requisition.setSolverId(solverId);
+                    requisition.setRequisitionSolvedDate(new Date(solvedDate));
 
-                    return "{\"update\":\"true\"}";
+                    int value = requisitionService.updateRequisition(requisition);
+                    if (value != 0) {
+
+                        return "{\"update\":\"true\"}";
+                    }
                 }
             }
         }

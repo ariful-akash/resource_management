@@ -6,6 +6,7 @@
 package com.uiu.thesis.models.forum;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.uiu.thesis.models.user.HumanResource;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -14,6 +15,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -42,8 +44,8 @@ public class CommentReply implements Serializable {
     @Column(name = "edited")
     private boolean edited;
 
-    @Column(name = "replier_id")
-    private Long replierId;
+    @ManyToOne
+    private HumanResource replier;
 
     @Column(name = "comment_id")
     private Long commentId;
@@ -91,12 +93,12 @@ public class CommentReply implements Serializable {
         this.dateTime = dateTime;
     }
 
-    public Long getReplierId() {
-        return replierId;
+    public HumanResource getReplier() {
+        return replier;
     }
 
-    public void setReplierId(Long replierId) {
-        this.replierId = replierId;
+    public void setReplier(HumanResource replier) {
+        this.replier = replier;
     }
 
     public Long getCommentId() {
@@ -188,6 +190,6 @@ public class CommentReply implements Serializable {
 //    }
     @Override
     public String toString() {
-        return "CommentReply{" + "id=" + id + ", reply=" + reply + ", dateTime=" + dateTime + ", edited=" + edited + ", replierId=" + replierId + ", commentId=" + commentId + '}';
+        return "CommentReply{" + "id=" + id + ", reply=" + reply + ", dateTime=" + dateTime + ", edited=" + edited + ", replier=" + replier + ", commentId=" + commentId + '}';
     }
 }

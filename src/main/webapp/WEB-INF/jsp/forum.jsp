@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : forum
     Created on : Apr 13, 2018, 3:40:04 PM
     Author     : ariful
@@ -9,18 +9,19 @@
 <html>
     <head>
         <spring:url value="/web-resources/css/w3.css" var="css"/>
+        <spring:url value="/web-resources/js/forum.js" var="forumJs"/>
         <spring:url value="/web-resources/css/w3-theme-blue-grey.css" var="w3BlueDarkTheme"/>
         <spring:url value="/web-resources/images/akash.jpg" var="img"/>
 
 
         <link href="${css}" rel="stylesheet" type="text/css"/>
         <link href="${w3BlueDarkTheme}" rel="stylesheet" type="text/css"/>
-
+        <script src="${forumJs}" type="text/javascript"></script>
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Forum</title>
     </head>
-    <body class="w3-theme-l4" style="font-family: 'Lato', 'sans-serif';">
+    <body onload="setToken('${token}')" class="w3-theme-l4" style="font-family: 'Lato', 'sans-serif';">
 
         <div>
             <div class="w3-theme-d3 w3-topbar w3-row" style="height: 50px">
@@ -62,9 +63,10 @@
                         <%}%>
                     </div>
 
-                    <div style="overflow: auto; height: 470px; margin-top: 10px">
+                    <!--posts div-->
+                    <div id="allPostDiv" style="overflow: auto; height: 470px; margin-top: 10px">
                         <% for (int i = 0; i < 10; i++) {%>
-                        <div class="w3-row w3-card w3-margin">
+                        <div class="w3-row w3-card w3-margin" style="display: none">
                             <div class="w3-col" style="width: 5%; margin-right: 3%; padding: 1% 0% 0% 1%">
                                 <img src="${img}" class="w3-circle" style="width: 30px;height: 30px" alt="#">
                             </div>
@@ -74,18 +76,19 @@
                             </div>
 
                             <div style="margin: 8% 5% 1% 5%">
-                                <span>As a describer of life and manners, he must be allowed to 
-                                    stand perhaps the first of the first rank. His humour, which, 
-                                    as Steele observes, is peculiar to himself, is so happily 
-                                    diffused as to give the grace of novelty to domestic scenes 
-                                    and daily occurrences. He never "o'ersteps the modesty of 
-                                    nature," nor raises merriment or wonder by the violation 
-                                    of truth. His figures neither divert by distortion nor amaze 
-                                    by aggravation. He copies life with so much fidelity that he 
-                                    can be hardly said to invent; yet his exhibitions have an air 
-                                    so much original, that it is difficult to suppose them not 
-                                    merely the product of imagination. 
-                                    <a class="w3-text-white" href="">See more</a></span>
+                                <span>As a describer of life and manners, he must be allowed to
+                                    stand perhaps the first of the first rank. His humour, which,
+                                    as Steele observes, is peculiar to himself, is so happily
+                                    diffused as to give the grace of novelty to domestic scenes
+                                    and daily occurrences. He never "o'ersteps the modesty of
+                                    nature," nor raises merriment or wonder by the violation
+                                    of truth. His figures neither divert by distortion nor amaze
+                                    by aggravation. He copies life with so much fidelity that he
+                                    can be hardly said to invent; yet his exhibitions have an air
+                                    so much original, that it is difficult to suppose them not
+                                    merely the product of imagination.
+                                </span>
+                                <a class="w3-text-white" href="#">See more</a>
                             </div>
                             <div>
                                 <% for (int j = 0; j < 5; j++) {%>
