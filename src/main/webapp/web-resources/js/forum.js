@@ -1,6 +1,8 @@
 var token;
 var posts;
 var post;
+var allUsers;
+var shortUsers;
 
 /**
  *
@@ -22,7 +24,9 @@ var getOwnPosts = function () {
     postFetchAJAX(url, method, null);
 };
 
-var getUserPosts = function (id) {
+var getUserPosts = function (obj) {
+
+    console.log(obj.id);
 
     var url = "/office_resource_management/api/service/forum/post/user/" + id;
     var method = "GET";
@@ -30,7 +34,12 @@ var getUserPosts = function (id) {
     postFetchAJAX(url, method, null);
 };
 
+var getAllUsers = function () {
+    var url = "/office_resource_management/api/service/office/hr";
+    var method = "GET";
 
+    userFetchAJAX(url, method, null);
+};
 
 /**
  * Communicate with server through AJAX
@@ -61,6 +70,36 @@ var postFetchAJAX = function (url, method, params) {
 
 };
 
+/**
+ * get all hr AJAX
+ * 
+ * @param {type} url
+ * @param {type} method
+ * @param {type} params
+ * @returns {undefined}
+ */
+var userFetchAJAX = function (url, method, params) {
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+
+        console.log("Ready state : " + this.readyState + "\nStatus : " + this.status);
+
+        if (this.readyState == 4 && this.status == 200) {
+
+            allUsers = JSON.parse(this.responseText);
+            shortUsers = allUsers;
+
+            placeUsers();
+        }
+    };
+
+    xhttp.open(method, url, true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(params);
+
+};
+
 var removeChild = function (myNode) {
 
     while (myNode.firstChild) {
@@ -79,12 +118,11 @@ var placePost = function () {
      * all post div
      */
     var allPostDiv = document.getElementById('allPostDiv');
+
 // remove all contents from post div
     removeChild(allPostDiv);
 
     for (var i = 0; i < posts.length; i++) {
-
-        console.log("enter");
 
         /*
          * Single post div
@@ -196,4 +234,100 @@ var placePost = function () {
         postDiv.appendChild(contentDiv);
         postDiv.appendChild(tagDiv);
     }
+};
+
+/*
+ * place all the users from database to right div
+ */
+
+var placeUsers = function () {
+    /*
+     * all users div
+     */
+    var allusersDiv = document.getElementById('allUsersDiv');
+
+    // remove all contents from post div
+    removeChild(allusersDiv);
+
+
+    for (var i = 0; i < shortUsers.length; i++) {
+
+        /*
+         * Single user div
+         */
+        var userDiv = document.createElement("div");
+        userDiv.className = "w3-row w3-padding w3-round-small w3-hover-blue-grey";
+        userDiv.onclick = getUserPosts;
+        userDiv.id = shortUsers[i].id;
+
+        /**************************
+         * Image div contains image
+         *
+         */
+        var imgDiv = document.createElement("div");
+        imgDiv.className = "w3-col";
+        imgDiv.style.width = "10%";
+        imgDiv.style.marginRight = "15%";
+
+        //image tag
+
+        var image = document.createElement("img");
+        image.src = "";
+        image.className = "w3-circle";
+        image.style.height = "30px";
+        image.style.width = "30px";
+
+        /*
+         * 
+         * attaching image to imgDiv
+         *
+         */
+
+        imgDiv.appendChild(image);
+
+        /********************
+         * Name and designation placing div
+         *
+         */
+        var nameDiv = document.createElement("div");
+        nameDiv.className = "w3-col";
+        nameDiv.style.width = "75%";
+
+        //name label tag
+
+        var nameLabel = document.createElement("label");
+        nameLabel.textContent = shortUsers[i].firstName + " " + shortUsers[i].lastName;
+
+        //break tag
+        var breakTag = document.createElement("br");
+
+        //designation label tag
+
+        var designationLabel = document.createElement("label");
+        designationLabel.className = "w3-small";
+        designationLabel.textContent = shortUsers[i].designation;
+
+
+        /*
+         * attaching name and designation to nameDiv
+         */
+        nameDiv.appendChild(nameLabel);
+        nameDiv.appendChild(breakTag);
+        nameDiv.appendChild(designationLabel);
+
+        /*
+         * Attaching all the divs
+         *
+         */
+        userDiv.appendChild(imgDiv);
+        userDiv.appendChild(nameDiv);
+
+
+        /*
+         * Attaching user div to all users div
+         */
+        allusersDiv.appendChild(userDiv);
+
+    }
+
 };

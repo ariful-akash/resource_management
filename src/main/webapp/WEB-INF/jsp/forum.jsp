@@ -23,7 +23,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Forum</title>
     </head>
-    <body onload="getRecentPosts()" class="w3-theme-l4" style="font-family: 'Lato', 'sans-serif';">
+    <body onload="getRecentPosts(); getAllUsers()" class="w3-theme-l4" style="font-family: 'Lato', 'sans-serif';">
 
         <div>
             <div class="w3-theme-d3 w3-topbar w3-row" style="height: 50px">
@@ -31,10 +31,10 @@
                 <!--navigation ber-->
 
                 <div class="navbar-menu w3-right w3-large" style="height: 100%">
-                    <a class="w3-btn" style="text-decoration: none;" href="#">Complaints</a>
-                    <a class="w3-btn" style="text-decoration: none;" href="#">Requisitions</a>
-                    <a class="w3-btn" style="text-decoration: none;" href="#">Leave</a>
-                    <a class="w3-btn" style="text-decoration: none;" href="#">Forum</a>
+                    <a class="w3-button" style="text-decoration: none;" href="mycomplaints">Complaints</a>
+                    <a class="w3-button" style="text-decoration: none;" href="#">Requisitions</a>
+                    <a class="w3-button" style="text-decoration: none;" href="#">Leave</a>
+                    <a class="w3-button" style="text-decoration: none;" href="#">Forum</a>
                     <div class="w3-dropdown-hover" style="padding-right: 20px">
                         <img src="${img}" class="w3-circle" style="width: 30px;height: 30px" alt="#">
                         <div class="w3-theme-d3 w3-dropdown-content w3-bar-block w3-card-4" style="left: -110px">
@@ -101,9 +101,9 @@
 
                 <!--Right div-->
                 <div class="w3-theme-l5 w3-col" style="width: 17%">
-                    <div  style="overflow: auto; height: 530px; padding-left:1%">
+                    <div id="allUsersDiv" style="overflow: auto; height: 530px; padding-left:1%">
                         <% for (int i = 0; i < 20; i++) { %>
-                        <div class="w3-row w3-padding w3-round-small w3-hover-blue-grey">
+                        <div class="w3-row w3-padding w3-round-small w3-hover-blue-grey" style="display: none">
                             <div class="w3-col" style="width: 10%; margin-right: 15%">
                                 <img src="${img}" class="w3-circle" style="width: 30px;height: 30px" alt="#">
                             </div>
