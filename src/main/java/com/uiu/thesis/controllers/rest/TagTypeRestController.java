@@ -32,15 +32,13 @@ public class TagTypeRestController {
      * @return
      */
     @RequestMapping(
-            value = "/api/service/forum/tag/tags",
+            value = "/api/service/forum/tag",
             method = RequestMethod.GET,
             produces = {"application/json;charset:UTF-8"})
     public String getAllTagService(HttpSession session) {
 
         String token = (String) session.getAttribute("token");
-
         if (token != null && tokenDAO.isTokenExist(token)) {
-
             ObjectMapper objectMapper = new ObjectMapper();
 
             List<TagType> tagTypesList = tagTypeDAO.getAllTagTypes();
