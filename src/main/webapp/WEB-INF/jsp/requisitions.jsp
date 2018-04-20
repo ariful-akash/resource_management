@@ -1,3 +1,9 @@
+<%-- 
+    Document   : requisitions
+    Created on : Apr 20, 2018, 12:21:51 PM
+    Author     : ariful
+--%>
+
 <%--
     Document   : myComplaints
     Created on : Apr 14, 2018, 1:32:01 PM
@@ -20,7 +26,7 @@
 
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>My Complaints</title>
+        <title>Requisitions</title>
     </head>
     <body onload="showAllComplaints()" class="w3-theme-l3" style="font-family: 'Lato', 'sans-serif';">
 
@@ -30,10 +36,10 @@
                 <!--navigation ber-->
 
                 <div class="navbar-menu w3-right w3-large" style="height: 100%">
-                    <a class="w3-button" style="text-decoration: none;" href="#">Complaints</a>
-                    <a class="w3-button" style="text-decoration: none;" href="#">Requisitions</a>
+                    <a class="w3-button" style="text-decoration: none;" href="complaints">Complaints</a>
+                    <a class="w3-button" style="text-decoration: none;" href="requisitions">Requisitions</a>
                     <a class="w3-button" style="text-decoration: none;" href="#">Leave</a>
-                    <a class="w3-button" style="text-decoration: none;" href="#">Forum</a>
+                    <a class="w3-button" style="text-decoration: none;" href="forum">Forum</a>
                     <div class="w3-dropdown-hover" style="padding-right: 20px">
                         <img src="${img}" class="w3-circle" style="width: 30px;height: 30px" alt="#">
                         <div class="w3-theme-d3 w3-dropdown-content w3-bar-block w3-card-4" style="left: -110px">
@@ -51,9 +57,8 @@
                 <div class="w3-theme-d1 w3-col" style="width: 20%; height: 500px;margin-right: 1%">
 
                     <div>
-                        <a class="w3-button" style="text-decoration: none;width: 100% " href="#">My Complaints</a><br>
-                        <a class="w3-button" style="text-decoration: none;width: 100%" href="#">ADD Items</a>
-                        <a class="w3-button" style="width: 100%"><span onclick="document.getElementById('id01').style.display = 'block'">New Complaints</span></a>
+                        <a class="w3-button"style="text-align: left; width: 100%; padding-left: 20%"><span onclick="document.getElementById('id01').style.display = 'block'">Add Requisition</span></a>
+                        <a class="w3-button" style="text-decoration: none; text-align: left; width: 100%; padding-left: 20%" href="#">My Requisitions</a><br>
 
                     </div>
 
@@ -180,3 +185,4 @@
 
     </body>
 </html>
+

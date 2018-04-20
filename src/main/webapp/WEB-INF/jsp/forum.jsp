@@ -26,24 +26,23 @@
     <body onload="getRecentPosts(); getAllUsers()" class="w3-theme-l4" style="font-family: 'Lato', 'sans-serif';">
 
         <div>
-            <div class="w3-theme-d3 w3-topbar w3-row" style="height: 50px">
+            <div class="w3-theme-d3 w3-row" style="height: 50px">
 
                 <!--navigation ber-->
 
                 <div class="navbar-menu w3-right w3-large" style="height: 100%">
-                    <a class="w3-button" style="text-decoration: none;" href="mycomplaints">Complaints</a>
-                    <a class="w3-button" style="text-decoration: none;" href="#">Requisitions</a>
+                    <a class="w3-button" style="text-decoration: none; height: 100%" href="complaints">Complaints</a>
+                    <a class="w3-button" style="text-decoration: none;" href="requisitions">Requisitions</a>
                     <a class="w3-button" style="text-decoration: none;" href="#">Leave</a>
-                    <a class="w3-button" style="text-decoration: none;" href="#">Forum</a>
+                    <a class="w3-button" style="text-decoration: none;" href="forum">Forum</a>
                     <div class="w3-dropdown-hover" style="padding-right: 20px">
                         <img src="${img}" class="w3-circle" style="width: 30px;height: 30px" alt="#">
                         <div class="w3-theme-d3 w3-dropdown-content w3-bar-block w3-card-4" style="left: -110px">
                             <a href="#" class="w3-bar-item w3-button">View Profile</a>
                             <a href="#" class="w3-bar-item w3-button">Edit Profile</a>
-                            <a href="#" class="w3-bar-item w3-button">Logout</a>
+                            <a href="logout" class="w3-bar-item w3-button">Logout</a>
                         </div>
                     </div>
-
                 </div>
             </div>
 

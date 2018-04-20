@@ -37,14 +37,19 @@ public class HomeController {
         return "index";
     }
 
-    @RequestMapping(value = "/mycomplaints")
+    @RequestMapping(value = "/complaints")
     public String showMyComplaintes() {
-        return "myComplaints";
+        return "complaints";
     }
 
     @RequestMapping(value = "/adminviews")
     public String showAdminView() {
         return "adminView";
+    }
+
+    @RequestMapping(value = "/requisitions")
+    public String showRequisitions() {
+        return "requisitions";
     }
 
     /**
