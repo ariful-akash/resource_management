@@ -7,6 +7,8 @@ import com.uiu.thesis.dao.interfaces.HumanResourceDAO;
 import com.uiu.thesis.dao.interfaces.TokenDAO;
 import com.uiu.thesis.models.complaint.Complaint;
 import com.uiu.thesis.models.forum.json.ComplaintJson;
+import com.uiu.thesis.models.user.AccessType;
+import com.uiu.thesis.models.user.HumanResource;
 import com.uiu.thesis.services.interfaces.ComplaintService;
 import com.uiu.thesis.services.interfaces.HumanResourceService;
 import java.io.IOException;
@@ -14,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -417,6 +420,95 @@ public class ComplaintRestController {
             } catch (JsonProcessingException ex) {
 
                 System.err.println(ex.toString());
+            }
+
+        }
+
+        return "[]";
+    }
+
+    /**
+     * Returns the complaints that will be handled by current user
+     *
+     * @param solved
+     * @param session
+     * @return
+     */
+    @RequestMapping(
+            value = "/api/service/office/complaint/incoming/{solved}",
+            produces = {"application/json;charset:UTF-8"},
+            method = RequestMethod.GET)
+    public String getOwnHandleComplaints(
+            @PathVariable("solved") boolean solved,
+            HttpSession session) {
+
+        String token = (String) session.getAttribute("token");
+        if (token != null && tokenDAO.isTokenExist(token)) {
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.setDateFormat(df);
+
+            long userId = tokenDAO.getUserId(token);
+            HumanResource user = humanResourceDAO.getHumanResource(userId);
+
+            if (user != null) {
+
+                Set<AccessType> userAllAccess = user.getAccess();
+                List<Complaint> complaints = new ArrayList<>();
+
+                long comPart[] = {3, 13, 19, 20, 21, 22};
+                long officeRes[] = {4, 5, 6, 7, 8, 9, 10,
+                    11, 12, 14, 15, 16, 17, 18, 23, 24, 25,
+                    26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36};
+
+                for (AccessType userAcces : userAllAccess) {
+
+                    int accessId = Integer.valueOf(userAcces.getId().toString());
+
+                    switch (accessId) {
+
+                        case 14:
+
+                            complaints.addAll(complaintDAO.getComplaintsByType((long) 1, solved));
+                            break;
+                        case 15:
+
+                            complaints.addAll(complaintDAO.getComplaintsByType((long) 2, solved));
+                            break;
+                        case 16:
+
+                            for (long value : comPart) {
+
+                                complaints.addAll(complaintDAO.getComplaintsByType(value, solved));
+                            }
+                            break;
+                        case 17:
+
+                            for (long value : officeRes) {
+
+                                complaints.addAll(complaintDAO.getComplaintsByType(value, solved));
+                            }
+                            break;
+                        default:
+                    }
+                }
+
+                List<ComplaintJson> complaintJsons = new ArrayList<>();
+
+                for (Complaint complaint : complaints) {
+
+                    ComplaintJson complaintJson = getComplaintJson(complaint);
+
+                    complaintJsons.add(complaintJson);
+                }
+
+                try {
+
+                    return objectMapper.writeValueAsString(complaintJsons);
+                } catch (JsonProcessingException e) {
+
+                    System.err.println(e.toString());
+                }
             }
 
         }
