@@ -1,6 +1,7 @@
 var newPost = {};
 
 var allTags;
+var shortTags;
 
 
 /**
@@ -34,8 +35,7 @@ var fetchTagsAJAX = function (url, method, params) {
         if (this.readyState == 4 && this.status == 200) {
 
             allTags = JSON.parse(this.responseText);
-
-            console.log(allTags);
+            shortTags = allTags;
         }
     };
 

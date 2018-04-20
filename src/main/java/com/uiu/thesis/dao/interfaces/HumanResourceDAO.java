@@ -19,6 +19,8 @@ public interface HumanResourceDAO {
 
     public boolean isRoleRelatesHR(Long hrId, Long roleId);
 
+    public boolean hasAccess(Long hrId, Long accessId);
+
     public int mapHumanResourceRole(Long hrId, Long roleId);
 
     public int addHumanResourceAccess(Long hrId, Long accessId);

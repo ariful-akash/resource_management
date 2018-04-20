@@ -11,6 +11,8 @@
         <spring:url value="/web-resources/css/w3.css" var="css"/>
         <spring:url value="/web-resources/js/forum.js" var="forumJs"/>
         <spring:url value="/web-resources/js/postadd.js" var="postAddJs"/>
+        <spring:url value="/web-resources/js/jquery-1.12.4.js" var="jquery"/>
+        <spring:url value="/web-resources/js/jquery-ui.js" var="jqueryUi"/>
         <spring:url value="/web-resources/css/w3-theme-blue-grey.css" var="w3BlueDarkTheme"/>
         <spring:url value="/web-resources/images/akash.jpg" var="img"/>
 
@@ -19,6 +21,8 @@
         <link href="${w3BlueDarkTheme}" rel="stylesheet" type="text/css"/>
         <script src="${forumJs}" type="text/javascript"></script>
         <script src="${postAddJs}" type="text/javascript"></script>
+        <script src="${jquery}" type="text/javascript"></script>
+        <script src="${jqueryUi}" type="text/javascript"></script>
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Forum</title>

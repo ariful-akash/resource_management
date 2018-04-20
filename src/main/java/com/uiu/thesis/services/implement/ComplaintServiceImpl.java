@@ -84,7 +84,7 @@ public class ComplaintServiceImpl implements ComplaintService {
 
         if (id != null && id > 0) {
 
-            return complaintDAO.getComplaintsByComplainant(id);
+            return complaintDAO.getComplaintsByCreator(id);
         }
 
         return null;
