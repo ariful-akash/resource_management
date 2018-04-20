@@ -23,7 +23,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Forum</title>
     </head>
-    <body onload="getRecentPosts(); getAllUsers()" class="w3-theme-l4" style="font-family: 'Lato', 'sans-serif';">
+    <body onload="getRecentPosts(); getAllUsers(); getAllTags()" class="w3-theme-l4" style="font-family: 'Lato', 'sans-serif';">
 
         <div>
             <div class="w3-theme-d3 w3-row" style="height: 50px">

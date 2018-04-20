@@ -24,11 +24,11 @@ var getOwnPosts = function () {
     postFetchAJAX(url, method, null);
 };
 
-var getUserPosts = function (obj) {
+var getUserPosts = function (e) {
 
-    console.log(obj.id);
+    var target = e.currentTarget || e.srcElement;
 
-    var url = "/office_resource_management/api/service/forum/post/user/" + id;
+    var url = "/office_resource_management/api/service/forum/post/user/" + target.id;
     var method = "GET";
 
     postFetchAJAX(url, method, null);
@@ -72,7 +72,7 @@ var postFetchAJAX = function (url, method, params) {
 
 /**
  * get all hr AJAX
- * 
+ *
  * @param {type} url
  * @param {type} method
  * @param {type} params
@@ -89,6 +89,9 @@ var userFetchAJAX = function (url, method, params) {
 
             allUsers = JSON.parse(this.responseText);
             shortUsers = allUsers;
+
+            console.log(typeof shortUsers[0].id.toString());
+            console.log(shortUsers[0].id.toString());
 
             placeUsers();
         }
@@ -258,7 +261,15 @@ var placeUsers = function () {
         var userDiv = document.createElement("div");
         userDiv.className = "w3-row w3-padding w3-round-small w3-hover-blue-grey";
         userDiv.onclick = getUserPosts;
-        userDiv.id = shortUsers[i].id;
+
+        /*
+         * Creating id attribute
+         */
+        var idAttr = document.createAttribute("id");
+        idAttr.value = shortUsers[i].id.toString();
+
+        //adding id attribute to single user div
+        userDiv.setAttributeNode(idAttr);
 
         /**************************
          * Image div contains image
@@ -278,7 +289,7 @@ var placeUsers = function () {
         image.style.width = "30px";
 
         /*
-         * 
+         *
          * attaching image to imgDiv
          *
          */
