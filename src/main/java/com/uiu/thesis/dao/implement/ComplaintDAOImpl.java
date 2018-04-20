@@ -129,23 +129,18 @@ public class ComplaintDAOImpl implements ComplaintDAO {
         return null;
     }
 
-    @Override
-    public List<Complaint> getComplaintsByComplainant(HumanResource complainant) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     /**
      *
-     * @param complainantId
+     * @param creatorId
      * @return
      */
     @Override
-    public List<Complaint> getComplaintsByComplainant(Long complainantId) {
+    public List<Complaint> getComplaintsByCreator(Long creatorId) {
 
-        if (complainantId != null && complainantId > 0) {
+        if (creatorId != null && creatorId > 0) {
 
             String sql = "select * from complaints "
-                    + "where creator_id = " + complainantId;
+                    + "where creator_id = " + creatorId;
 
             return getComplaintsBySQL(sql);
         }
@@ -244,5 +239,26 @@ public class ComplaintDAOImpl implements ComplaintDAO {
         }
 
         return complaints;
+    }
+
+    /**
+     *
+     * @param creatorId
+     * @param solved
+     * @return
+     */
+    @Override
+    public List<Complaint> getComplaintsByCreator(Long creatorId, boolean solved) {
+
+        if (creatorId != null && creatorId > 0) {
+
+            String sql = "SELECT * from complaints"
+                    + " WHERE creator_id = " + creatorId
+                    + " AND solved = " + solved;
+
+            return getComplaintsBySQL(sql);
+        }
+
+        return null;
     }
 }

@@ -479,4 +479,26 @@ public class HumanResourceDAOImpl implements HumanResourceDAO {
 
         return false;
     }
+
+    /**
+     *
+     * @param hrId
+     * @param accessId
+     * @return
+     */
+    @Override
+    public boolean hasAccess(Long hrId, Long accessId) {
+
+        Session session = sessionFactory.getCurrentSession();
+        String sql = "SELECT * FROM human_resources_access_types"
+                + " WHERE human_resources_id = " + hrId
+                + " AND access_id = " + accessId;
+
+        Query query = session.createSQLQuery(sql);
+        query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+
+        List result = query.list();
+
+        return (result != null && result.size() > 0);
+    }
 }
