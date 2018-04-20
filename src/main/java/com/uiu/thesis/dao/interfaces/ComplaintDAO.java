@@ -24,6 +24,8 @@ public interface ComplaintDAO {
 
     public List<Complaint> getComplaintsByType(Long typeId);
 
+    public List<Complaint> getComplaintsByType(Long typeId, boolean solved);
+
     public List<Complaint> getComplaintsByCreator(Long complainantId);
 
     public List<Complaint> getComplaintsByCreator(Long complainantId, boolean solved);

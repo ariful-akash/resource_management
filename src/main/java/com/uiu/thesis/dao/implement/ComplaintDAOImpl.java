@@ -131,6 +131,26 @@ public class ComplaintDAOImpl implements ComplaintDAO {
 
     /**
      *
+     * @param typeId
+     * @param solved
+     * @return
+     */
+    @Override
+    public List<Complaint> getComplaintsByType(Long typeId, boolean solved) {
+
+        if (typeId > 0) {
+
+            String sql = "SELECT * from complaints"
+                    + " WHERE type_id = " + typeId
+                    + " AND solved = " + solved;
+
+            return getComplaintsBySQL(sql);
+        }
+        return null;
+    }
+
+    /**
+     *
      * @param creatorId
      * @return
      */
