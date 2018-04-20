@@ -55,7 +55,7 @@
                     <span onclick="getOwnPosts()" class="w3-button" style="text-align: left; width: 100%; padding-left: 20%">My Posts</span><br>
 
                     <!--<##Pop up window-->
-                    <div class="w3-container" onload="getAllTags()">
+                    <div class="w3-container">
 
                         <div id="id01" class="w3-modal">
                             <div class="w3-modal-content" style="margin-left: 25%;width: 50%">
