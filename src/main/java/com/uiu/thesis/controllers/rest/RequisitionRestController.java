@@ -2,13 +2,16 @@ package com.uiu.thesis.controllers.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.uiu.thesis.dao.interfaces.HumanResourceDAO;
 import com.uiu.thesis.dao.interfaces.TokenDAO;
+import com.uiu.thesis.models.forum.json.RequisitionJson;
 import com.uiu.thesis.models.requisition.Requisition;
 import com.uiu.thesis.services.interfaces.RequisitionService;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,37 +32,43 @@ public class RequisitionRestController {
     @Autowired
     private TokenDAO tokenDAO;
 
+    @Autowired
+    private HumanResourceDAO humanResourceDAO;
+
     private SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss a");
 
     /**
      *
-     * @param token
+     * @param session
      * @return
      */
     @RequestMapping(
             value = "/api/service/office/requisition",
             produces = {"application/json;charset:UTF-8"},
-            params = {"token"},
             method = RequestMethod.GET)
-    public String getAllRequisitins(@RequestParam("token") String token) {
+    public String getAllRequisitins(HttpSession session) {
 
-        long userId = tokenDAO.getUserId(token);
+        String token = (String) session.getAttribute("token");
 
-        if (userId > 0) {
+        if (token != null && tokenDAO.isTokenExist(token)) {
 
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.setDateFormat(df);
+            long userId = tokenDAO.getUserId(token);
+            if (humanResourceDAO.hasAccess(userId, (long) 19)) {
 
-            List<Requisition> requisitions = requisitionService.getAllRequisitions();
+                ObjectMapper objectMapper = new ObjectMapper();
+                objectMapper.setDateFormat(df);
 
-            if (requisitions != null && requisitions.size() > 0) {
+                List<Requisition> requisitions = requisitionService.getAllRequisitions();
 
-                try {
+                if (requisitions != null && requisitions.size() > 0) {
 
-                    return objectMapper.writeValueAsString(requisitions);
-                } catch (JsonProcessingException ex) {
+                    try {
 
-                    System.err.println(ex.toString());
+                        return objectMapper.writeValueAsString(requisitions);
+                    } catch (JsonProcessingException ex) {
+
+                        System.err.println(ex.toString());
+                    }
                 }
             }
         }
@@ -80,7 +89,8 @@ public class RequisitionRestController {
             method = RequestMethod.POST)
     public String addRequisition(
             @RequestParam("requisition") String requisitionJson,
-            @RequestParam("token") String token) {
+            @RequestParam("token") String token
+    ) {
 
         long userId = tokenDAO.getUserId(token);
 
@@ -124,7 +134,8 @@ public class RequisitionRestController {
             method = RequestMethod.GET)
     public String getRequisition(
             @PathVariable("id") long id,
-            @RequestParam("token") String token) {
+            @RequestParam("token") String token
+    ) {
 
         long userId = tokenDAO.getUserId(token);
 
@@ -168,7 +179,8 @@ public class RequisitionRestController {
     public String getRequisitionByKey(
             @PathVariable("key") String key,
             @PathVariable("id") long id,
-            @RequestParam("token") String token) {
+            @RequestParam("token") String token
+    ) {
 
         long userId = tokenDAO.getUserId(token);
         if (userId > 0) {
@@ -247,7 +259,8 @@ public class RequisitionRestController {
             method = RequestMethod.GET)
     public String getRequisitionsBySolved(
             @PathVariable("value") boolean value,
-            @RequestParam("token") String token) {
+            @RequestParam("token") String token
+    ) {
 
         long userId = tokenDAO.getUserId(token);
         if (userId > 0) {
@@ -288,7 +301,8 @@ public class RequisitionRestController {
             @RequestParam("id") long id,
             @RequestParam("solver_id") long solverId,
             @RequestParam("solved_date") long solvedDate,
-            @RequestParam("token") String token) {
+            @RequestParam("token") String token
+    ) {
 
         long userId = tokenDAO.getUserId(token);
         if (userId > 0) {
@@ -315,5 +329,36 @@ public class RequisitionRestController {
         }
 
         return "{\"update\":\"false\"}";
+    }
+
+    /**
+     * Util method to create Json for Requisition
+     *
+     * @param requisition
+     * @return
+     */
+    private RequisitionJson getComplaintJson(Requisition requisition) {
+
+        RequisitionJson requisitionJson = new RequisitionJson();
+
+        if (requisition != null) {
+
+            requisitionJson.setCreator(humanResourceDAO.getHumanResource(requisition.getCreatorId()));
+            requisitionJson.setCreatorId(requisition.getCreatorId());
+            requisitionJson.setId(requisition.getId());
+            requisitionJson.setPurpose(requisition.getPurpose());
+            requisitionJson.setQuantity(requisition.getQuantity());
+            requisitionJson.setRemarks(requisition.getRemarks());
+            requisitionJson.setRequisitionNeedDate(requisition.getRequisitionNeedDate());
+            requisitionJson.setRequisitionPlacingDate(requisition.getRequisitionPlacingDate());
+            requisitionJson.setRequisitionSolvedDate(requisition.getRequisitionSolvedDate());
+            requisitionJson.setSolved(requisition.isSolved());
+            requisitionJson.setSolver(humanResourceDAO.getHumanResource(requisition.getSolverId()));
+            requisitionJson.setType(requisition.getType());
+
+            return requisitionJson;
+        }
+
+        return null;
     }
 }
