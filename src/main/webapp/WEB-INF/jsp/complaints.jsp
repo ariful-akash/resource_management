@@ -39,7 +39,7 @@
                         <div class="w3-theme-d3 w3-dropdown-content w3-bar-block w3-card-4" style="left: -110px">
                             <a href="#" class="w3-bar-item w3-button">View Profile</a>
                             <a href="#" class="w3-bar-item w3-button">Edit Profile</a>
-                            <a href="#" class="w3-bar-item w3-button">Logout</a>
+                            <a href="logout" class="w3-bar-item w3-button">Logout</a>
                         </div>
                     </div>
                 </div>
