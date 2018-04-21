@@ -85,8 +85,8 @@
                                         <textarea id="complaintContent" class="w3-large w3-round-small w3-light-gray w3-input" style="resize: vertical; height: 150px; width: 100%;" required="true" placeholder="Write your comlaint here..."></textarea> <br>
 
                                         <label class="">Remarks(If any)</label>
-                                        <input name="remarks" class="w3-large w3-input w3-round-small w3-light-gray" type="text" ><br>
-                                        <button class="w3-input w3-green w3-round-small w3-hover-light-green">Submit Complaint</button>
+                                        <input id="remarks" class="w3-large w3-input w3-round-small w3-light-gray" type="text" ><br>
+                                        <button onclick="addComplaint()" class="w3-input w3-green w3-round-small w3-hover-light-green">Submit Complaint</button>
                                     </div>
                                 </div>
                             </div>
