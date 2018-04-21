@@ -1,22 +1,94 @@
 /*Globa variables start*/
 
 var pendingComlaints, solvedCoplaints, allComplaints;
+var hPendingComplaints, hSolvedComplaints;
+var pendingRequisition, solvedRequisition;
+var hPendingRequisition, hSolvedRequisition;
 
+
+var data;
+var currentUser;
+var type;
+var comORreq;
+var own = true;
 /*Gobal variables end*/
+
+
+var changeOwn = function (value) {
+
+    own = value;
+};
+
+var getPandingComplaints = function () {
+
+    if (own) {
+
+        getOwnPendingComplaints();
+    } else {
+
+        getIncomingComplaints();
+    }
+};
+
+var getSolvedComplaints = function () {
+
+    if (own) {
+
+        getOwnSolvedComplaints();
+    } else {
+
+        getIncomingSolvedComplaints();
+    }
+};
+
+
+var getPandingRequisitions = function () {
+
+    if (own) {
+
+        getOwnPendingRequisition();
+    } else {
+
+        getIncomingRequisition();
+    }
+};
+
+var getSolvedRequisitions = function () {
+
+    if (own) {
+
+        getOwnSolvedRequisition();
+    } else {
+
+        getIncomingSolvedRequisition();
+    }
+};
+
+/**
+ * @returns {undefined}
+ */
+var getOwnPendingComplaints = function () {
+
+    var url = "/office_resource_management/api/service/office/complaint/own/false";
+    var method = "GET";
+    type = 'pending';
+    comORreq = 'complaint';
+
+    fetchData(url, method, null);
+};
 
 /**
  *
  * @returns {undefined}
  */
-var showAllComplaints = function () {
+var getOwnSolvedComplaints = function () {
 
-    if (allComplaints === undefined) {
+    var url = "/office_resource_management/api/service/office/complaint/own/true";
+    var method = "GET";
+    type = 'solved';
+    comORreq = 'complaint';
 
-        var url = "/office_resource_management/api/service/office/complaint";
-        var method = "GET";
-
-        fetchData(url, method, null);
-    }
+    fetchData(url, method, null);
 
 };
 
@@ -24,101 +96,363 @@ var showAllComplaints = function () {
  *
  * @returns {undefined}
  */
-var placeAllComplaints = function (type) {
+var getIncomingComplaints = function () {
 
-    if (allComplaints !== null && allComplaints !== undefined) {
+    var url = "/office_resource_management/api/service/office/complaint/incoming/false";
+    var method = "GET";
+    type = 'pending';
+    comORreq = 'complaint';
 
-        var pendingTab = document.getElementById(type);
+    fetchData(url, method, null);
+};
 
-        for (var i in allComplaints) {
+/**
+ *
+ * @returns {undefined}
+ */
+var getIncomingSolvedComplaints = function () {
 
-            console.log(allComplaints.length);
+    var url = "/office_resource_management/api/service/office/hr/current";
+    var method = "GET";
 
-            /*
-             * Main container div after tab
-             */
-            var div1 = document.createElement("div");
-            div1.className = "w3-row w3-card  w3-margin-top w3-margin-bottom";
-            pendingTab.appendChild(div1);
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
 
-            /*
-             * Creating image node
-             */
-            var img = document.createElement("img");
-            img.src = "${img}";
-            img.className = "w3-circle";
-            img.style.width = "30px";
-            img.style.height = "30px";
+        console.log("Ready state : " + this.readyState + "\nStatus : " + this.status);
 
-            var imgDiv = document.createElement("div");
-            imgDiv.className = "w3-col";
-            imgDiv.style.width = "5%";
-            imgDiv.style.padding = "1% 0% 0% 1%";
-            imgDiv.appendChild(img);
+        if (this.readyState == 4 && this.status == 200) {
 
-            /*
-             * Creating Name node
-             */
-            var labelNode = document.createElement("label");
-            labelNode.className = "w3-small w3-text-dark-gray";
-            labelNode.style.fontWeight = "bold";
+            currentUser = JSON.parse(this.responseText);
 
-            labelNode.textContent = allComplaints[i].creator.firstName + " " + allComplaints[i].creator.lastName;
+            url = "/office_resource_management/api/service/office/complaint/solver/" + currentUser.id;
+            method = "GET";
+            type = 'solved';
+            comORreq = 'complaint';
 
-            var nameDiv = document.createElement("div");
-            nameDiv.className = "w3-col";
-            nameDiv.style.width = "92%";
-            nameDiv.style.marginTop = "1.5%";
+            fetchData(url, method, null);
+        }
+    };
 
-            nameDiv.appendChild(labelNode);
+    xhttp.open(method, url, true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(null);
+};
 
-            /*
-             * Creating solve button div
-             */
-            var solveDiv = document.createElement("div");
+/**
+ *
+ * @returns {undefined}
+ */
+var getOwnPendingRequisition = function () {
+
+    var url = "/office_resource_management//api/service/office/requisition/own/false";
+    var method = "GET";
+    type = 'pending';
+    comORreq = 'requisition';
+
+    fetchData(url, method, null);
+};
+
+/**
+ *
+ * @returns {undefined}
+ */
+var getOwnSolvedRequisition = function () {
+
+    var url = "/office_resource_management/api/service/office/requisition/own/true";
+    var method = "GET";
+    type = 'solved';
+    comORreq = 'requisition';
+
+    fetchData(url, method, null);
+};
+
+/**
+ *
+ * @returns {undefined}
+ */
+var getIncomingRequisition = function () {
+
+    var url = "/office_resource_management/api/service/office/requisition/incoming";
+    var method = "GET";
+    type = 'pending';
+    comORreq = 'requisition';
+
+    fetchData(url, method, null);
+};
+
+/**
+ *
+ * @returns {undefined}
+ */
+var getIncomingSolvedRequisition = function () {
+
+    var url = "/office_resource_management/api/service/office/hr/current";
+    var method = "GET";
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+
+        console.log("Ready state : " + this.readyState + "\nStatus : " + this.status);
+
+        if (this.readyState == 4 && this.status == 200) {
+
+            currentUser = JSON.parse(this.responseText);
+
+            url = "/office_resource_management/api/service/office/requisition/solver/" + currentUser.id;
+            method = "GET";
+            type = 'solved';
+            comORreq = 'requisition';
+            own = false;
+
+            fetchData(url, method, null);
+        }
+    };
+
+    xhttp.open(method, url, true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(null);
+};
+
+
+var removeChild = function (myNode) {
+
+    while (myNode.firstChild) {
+        myNode.removeChild(myNode.firstChild);
+    }
+};
+
+/**
+ *
+ * @returns {undefined}
+ */
+var placeAllComplaints = function () {
+
+
+    var pendingTab = document.getElementById(type);
+
+    removeChild(pendingTab);
+
+    for (var i = 0; i < data.length; i++) {
+        /*
+         * Main container div after tab
+         */
+        var div1 = document.createElement("div");
+        div1.className = "w3-row w3-card  w3-margin-top w3-margin-bottom";
+        pendingTab.appendChild(div1);
+
+        /*
+         * Creating image node
+         */
+        var img = document.createElement("img");
+        img.src = "${img}";
+        img.className = "w3-circle";
+        img.style.width = "30px";
+        img.style.height = "30px";
+
+        var imgDiv = document.createElement("div");
+        imgDiv.className = "w3-col";
+        imgDiv.style.width = "5%";
+        imgDiv.style.padding = "1% 0% 0% 1%";
+
+        //image to image div
+        imgDiv.appendChild(img);
+
+        //image div to div1
+        div1.appendChild(imgDiv);
+
+        /*
+         * Creating Name node
+         */
+        var labelNode = document.createElement("label");
+        labelNode.className = "w3-large w3-text-dark-gray";
+        labelNode.style.fontWeight = "bold";
+
+        labelNode.textContent = data[i].creator.firstName + " " + data[i].creator.lastName;
+
+        var nameDiv = document.createElement("div");
+        nameDiv.className = "w3-col";
+        nameDiv.style.width = "92%";
+        nameDiv.style.marginTop = "1.5%";
+
+        //adding name label to name div
+        nameDiv.appendChild(labelNode);
+
+        //adding name div to div1
+        div1.appendChild(nameDiv);
+
+        /*
+         * Creating solve button div
+         */
+        var solveDiv = document.createElement("div");
+
+        if (type == 'pending' && !own) {
 
             var solveSpan = document.createElement("span");
             solveSpan.className = "w3-btn w3-theme-l3 w3-round w3-text-white w3-medium w3-right";
             solveSpan.style.marginRight = "5%";
             solveSpan.textContent = "Solve";
 
+            //adding solve span to solve div
             solveDiv.appendChild(solveSpan);
+        } else if (type == 'solved') {
 
-            /*
-             * Creating table contents
-             */
+            var solveLabel = document.createElement("label");
+            solveLabel.className = "w3-text-dark-gray w3-large w3-right";
+            solveLabel.style.marginRight = "5%";
+            solveLabel.innerHTML = "&#x2714; Solved";
 
-            var tableDiv = document.createElement("div");
-            tableDiv.style.margin = "4% 5% 1% 5%";
-
-            var table = document.createElement("table");
-
-            var tableRowNo = 0;
-
-            var placingDateRow = table.insertRow(tableRowNo++);
-            var descriptionRow = table.insertRow(tableRowNo++);
-            var creatorRow = table.insertRow(tableRowNo++);
-            var solvedRow = table.insertRow(tableRowNo++);
-
-            if (type == 'solved') {
-
-                var solverRow = table.insertRow(tableRowNo++);
-                var solvedDateRow = table.insertRow(tableRowNo++);
-            }
-
-
-
-            /*
-             * Attaching all the child to the parent child
-             */
-            div1.appendChild(imgDiv);
-            div1.appendChild(nameDiv);
-            div1.appendChild(solveDiv);
-            div1.appendChild(tableDiv);
-
-
+            //adding solved lavel to solve div
+            solveDiv.appendChild(solveLabel);
         }
+
+        //adding solveDiv to div1
+        div1.appendChild(solveDiv);
+
+        /*
+         * Creating table contents
+         */
+        var tableDiv = document.createElement("div");
+
+        if (type == 'pending') {
+
+            tableDiv.style.margin = "4% 5% 1% 5%";
+        } else if (type == 'solved') {
+
+            tableDiv.style.margin = "6% 5% 1% 5%";
+        }
+
+        //attaching tableDiv div1
+        div1.appendChild(tableDiv);
+
+        var table = document.createElement("table");
+        table.border = "1";
+        table.className = "w3-table w3-striped";
+
+        //attaching table to table div
+        tableDiv.appendChild(table);
+
+        var tableRowNo = 0;
+
+        //creating row
+        var placingDateRow = table.insertRow(tableRowNo++);
+        var placeCell1 = placingDateRow.insertCell(0);
+        placeCell1.innerHTML = "Placing Date";
+
+        var placeCell2 = placingDateRow.insertCell(1);
+        if (comORreq == 'complaint') {
+
+            placeCell2.innerHTML = data[i].complaintPlacingDate;
+        } else if (comORreq = 'requisition') {
+
+            placeCell2.innerHTML = data[i].requisitionPlacingDate;
+        }
+
+        //adding row to table
+        table.appendChild(placingDateRow);
+
+
+        /*
+         * Creating row
+         */
+
+        if (type == 'solved') {
+
+            var solvedDateRow = table.insertRow(tableRowNo++);
+            var solveCell1 = solvedDateRow.insertCell(0);
+            solveCell1.innerHTML = "Solved Date";
+
+            var solveCell2 = solvedDateRow.insertCell(1);
+
+            if (comORreq == 'complaint') {
+
+                solveCell2.innerHTML = data[i].complaintSolvedDate;
+            } else if (comORreq == 'requisition') {
+
+                solveCell2.innerHTML = data[i].requisitionSolvedDate;
+            }
+        }
+
+        if (comORreq == 'requisition') {
+
+            var needDateRow = table.insertRow(tableRowNo++);
+            var needCell1 = needDateRow.insertCell(0);
+            needCell1.innerHTML = "Need Date";
+
+            var needCell2 = needDateRow.insertCell(1);
+            needCell2.innerHTML = data[i].requisitionNeedDate;
+        }
+
+        var descriptionRow = table.insertRow(tableRowNo++);
+        var descriptionCell1 = descriptionRow.insertCell(0);
+        descriptionCell1.innerHTML = "Description";
+
+        var descriptionCell2 = descriptionRow.insertCell(1);
+
+        if (comORreq == 'complaint') {
+
+            descriptionCell2.innerHTML = data[i].description;
+        } else if (comORreq == 'requisition') {
+
+            descriptionCell2.innerHTML = data[i].purpose;
+        }
+
+        if (comORreq == 'requisition') {
+
+            var quantityRow = table.insertRow(tableRowNo++);
+            var quantityCell1 = quantityRow.insertCell(0);
+            quantityCell1.innerHTML = "Quantity";
+
+            var quantityCell2 = quantityRow.insertCell(1);
+            quantityCell2.innerHTML = data[i].quantity;
+        }
+
+        var remarksRow = table.insertRow(tableRowNo++);
+        var remarksCell1 = remarksRow.insertCell(0);
+        remarksCell1.innerHTML = "Remarks";
+
+        var remarksCell2 = remarksRow.insertCell(1);
+
+        if (data[i].remarks == null) {
+
+            remarksCell2.innerHTML = "N/A";
+        } else {
+
+            remarksCell2.innerHTML = data[i].remarks;
+        }
+
+        if (type == 'solved') {
+
+            var solvedByRow = table.insertRow(tableRowNo++);
+            var solvedByCell1 = solvedByRow.insertCell(0);
+            solvedByCell1.innerHTML = "Solved By";
+
+            var solvedByCell2 = solvedByRow.insertCell(1);
+            solvedByCell2.innerHTML = data[i].solver.firstName + " " + data[i].solver.lastName;
+        }
+
+        var typeRow = table.insertRow(tableRowNo++);
+        var typeCell1 = typeRow.insertCell(0);
+        typeCell1.innerHTML = "Type";
+
+        var typeCell2 = typeRow.insertCell(1);
+        typeCell2.innerHTML = data[i].type.type;
+
+
+
+        /*
+         var descriptionRow = table.insertRow(tableRowNo++);
+         var creatorRow = table.insertRow(tableRowNo++);
+         var solvedRow = table.insertRow(tableRowNo++);
+
+         if (type == 'solved') {
+
+         var solverRow = table.insertRow(tableRowNo++);
+         var solvedDateRow = table.insertRow(tableRowNo++);
+         }*/
+
+
     }
+
 };
 
 /**
@@ -161,8 +495,8 @@ var fetchData = function (url, method, params) {
 
         if (this.readyState == 4 && this.status == 200) {
 
-            allComplaints = JSON.parse(this.responseText);
-            placeAllComplaints('pending');
+            data = JSON.parse(this.responseText);
+            placeAllComplaints();
         }
     };
 
