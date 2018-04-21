@@ -3,14 +3,19 @@ package com.uiu.thesis.controllers.rest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.uiu.thesis.dao.interfaces.HumanResourceDAO;
+import com.uiu.thesis.dao.interfaces.RequisitionDAO;
 import com.uiu.thesis.dao.interfaces.TokenDAO;
 import com.uiu.thesis.models.forum.json.RequisitionJson;
 import com.uiu.thesis.models.requisition.Requisition;
+import com.uiu.thesis.models.user.AccessType;
+import com.uiu.thesis.models.user.HumanResource;
 import com.uiu.thesis.services.interfaces.RequisitionService;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +33,9 @@ public class RequisitionRestController {
 
     @Autowired
     private RequisitionService requisitionService;
+
+    @Autowired
+    private RequisitionDAO requisitionDAO;
 
     @Autowired
     private TokenDAO tokenDAO;
@@ -332,12 +340,139 @@ public class RequisitionRestController {
     }
 
     /**
+     * Return current user's requisitions (solved/unsolved)
+     *
+     * @param solved
+     * @param session
+     * @return
+     */
+    @RequestMapping(
+            value = "/api/service/office/requisition/own/{solved}",
+            produces = {"application/json;charset:UTF-8"},
+            method = RequestMethod.GET)
+    public String getOwnRequisition(
+            @PathVariable("solved") boolean solved,
+            HttpSession session) {
+
+        String token = (String) session.getAttribute("token");
+        if (token != null && tokenDAO.isTokenExist(token)) {
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.setDateFormat(df);
+
+            long userId = tokenDAO.getUserId(token);
+
+            List<Requisition> requisitions = requisitionDAO.getRequisitionsByCreator(userId, solved);
+            List<RequisitionJson> requisitionJsons = new ArrayList<>();
+
+            for (Requisition requisition : requisitions) {
+
+                RequisitionJson requisitionJson = getRequisitionJson(requisition);
+
+                requisitionJsons.add(requisitionJson);
+            }
+
+            try {
+
+                return objectMapper.writeValueAsString(requisitionJsons);
+            } catch (JsonProcessingException e) {
+
+                System.err.println(e.toString());
+            }
+        }
+
+        return "[]";
+    }
+
+    /**
+     * Returns the requisition that should be handled by the current user
+     *
+     * @param session
+     * @return
+     */
+    @RequestMapping(
+            value = "/api/service/office/requisition/incoming",
+            produces = {"application/json;charset:UTF-8"},
+            method = RequestMethod.GET)
+    public String getOwnHandleRequisition(HttpSession session) {
+
+        String token = (String) session.getAttribute("token");
+        if (token != null && tokenDAO.isTokenExist(token)) {
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.setDateFormat(df);
+
+            long userId = tokenDAO.getUserId(token);
+            HumanResource user = humanResourceDAO.getHumanResource(userId);
+
+            Set<AccessType> userAllAccess = user.getAccess();
+            List<Requisition> requisitions = new ArrayList<>();
+
+            long comPart[] = {3, 13, 19, 20, 21, 22};
+            long officeRes[] = {4, 6, 7, 8, 9, 10,
+                11, 12, 14, 15, 16, 17, 18, 23, 24, 25,
+                26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37};
+
+            for (AccessType userAcces : userAllAccess) {
+
+                int accessId = Integer.valueOf(userAcces.getId().toString());
+
+                switch (accessId) {
+
+                    case 14:
+
+                        requisitions.addAll(requisitionDAO.getRequisitionsByType((long) 1, false));
+                        break;
+                    case 15:
+
+                        requisitions.addAll(requisitionDAO.getRequisitionsByType((long) 2, false));
+                        break;
+                    case 16:
+
+                        for (long value : comPart) {
+
+                            requisitions.addAll(requisitionDAO.getRequisitionsByType(value, false));
+                        }
+                        break;
+                    case 17:
+
+                        for (long value : officeRes) {
+
+                            requisitions.addAll(requisitionDAO.getRequisitionsByType(value, false));
+                        }
+                        break;
+                    default:
+                }
+            }
+
+            List<RequisitionJson> requisitionJsons = new ArrayList<>();
+
+            for (Requisition requisition : requisitions) {
+
+                RequisitionJson requisitionJson = getRequisitionJson(requisition);
+
+                requisitionJsons.add(requisitionJson);
+            }
+
+            try {
+
+                return objectMapper.writeValueAsString(requisitionJsons);
+            } catch (JsonProcessingException e) {
+
+                System.err.println(e.toString());
+            }
+        }
+
+        return "[]";
+    }
+
+    /**
      * Util method to create Json for Requisition
      *
      * @param requisition
      * @return
      */
-    private RequisitionJson getComplaintJson(Requisition requisition) {
+    private RequisitionJson getRequisitionJson(Requisition requisition) {
 
         RequisitionJson requisitionJson = new RequisitionJson();
 
