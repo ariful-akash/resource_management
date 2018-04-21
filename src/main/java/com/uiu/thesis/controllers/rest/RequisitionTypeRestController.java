@@ -8,6 +8,7 @@ import com.uiu.thesis.services.interfaces.RequisitionTypeService;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,17 +33,17 @@ public class RequisitionTypeRestController {
     /**
      * Returns all the requisitions
      *
-     * @param token
+     * @param session
      * @return
      */
     @RequestMapping(
             value = "/api/service/office/requisitiontype",
             produces = {"application/json;charset:UTF-8"},
-            params = {"token"},
             method = RequestMethod.GET)
 
-    public String getAllRequisitions(
-            @RequestParam("token") String token) {
+    public String getAllRequisitions(HttpSession session) {
+
+        String token = (String) session.getAttribute("token");
 
         if (token != null && !token.isEmpty()) {
 
@@ -75,17 +76,19 @@ public class RequisitionTypeRestController {
      * Add a new requisition type
      *
      * @param requisitionTypeJson
-     * @param token
+     * @param session
      * @return
      */
     @RequestMapping(
             value = "/api/service/office/requisitiontype",
-            params = {"requisition_type", "token"},
+            params = {"requisition_type"},
             produces = {"application/json;charset:UTF-8"},
             method = RequestMethod.POST)
     public String addRequisition(
             @RequestParam("requisition_type") String requisitionTypeJson,
-            @RequestParam("token") String token) {
+            HttpSession session) {
+
+        String token = (String) session.getAttribute("token");
 
         if (token != null && !token.isEmpty()) {
 
