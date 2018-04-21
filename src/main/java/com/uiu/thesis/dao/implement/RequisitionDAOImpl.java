@@ -158,7 +158,16 @@ public class RequisitionDAOImpl implements RequisitionDAO {
     }
 
     @Override
-    public List<Requisition> getRequisitionsBySolver(HumanResource solver, boolean solved) {
+    public List<Requisition> getRequisitionsBySolver(Long solverId, boolean solved) {
+
+        if (solverId != null && solverId > 0) {
+
+            String sql = "select * from requisitions"
+                    + " where solver_id = " + solverId
+                    + " and solved = " + solved;
+
+            return getRequisitionsBySQL(sql);
+        }
 
         return null;
     }
@@ -170,7 +179,16 @@ public class RequisitionDAOImpl implements RequisitionDAO {
     }
 
     @Override
-    public List<Requisition> getRequisitionsByCreator(HumanResource creator, boolean solved) {
+    public List<Requisition> getRequisitionsByCreator(Long creatorId, boolean solved) {
+
+        if (creatorId != null && creatorId > 0) {
+
+            String sql = "select * from requisitions"
+                    + " where creator_id = " + creatorId
+                    + " and solved = " + solved;
+
+            return getRequisitionsBySQL(sql);
+        }
 
         return null;
     }
@@ -291,6 +309,21 @@ public class RequisitionDAOImpl implements RequisitionDAO {
             }
 
             return requisitions;
+        }
+
+        return null;
+    }
+
+    @Override
+    public List<Requisition> getRequisitionsByType(Long requisitionTypeId, boolean solved) {
+
+        if (requisitionTypeId != null && requisitionTypeId > 0) {
+
+            String sql = "select * from requisitions"
+                    + " where type_id = " + requisitionTypeId
+                    + " and solved = " + solved;
+
+            return getRequisitionsBySQL(sql);
         }
 
         return null;

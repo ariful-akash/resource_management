@@ -133,7 +133,7 @@ public class HumanResourceDAOImpl implements HumanResourceDAO {
     @Override
     public HumanResource getHumanResource(Long id) {
 
-        if (id > 0) {
+        if (id != null && id > 0) {
 
             Session session = sessionFactory.getCurrentSession();
             return (HumanResource) session.get(HumanResource.class, id);
