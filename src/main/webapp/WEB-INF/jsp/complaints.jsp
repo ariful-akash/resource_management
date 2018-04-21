@@ -68,15 +68,21 @@
                             <div class="w3-modal-content" style="margin-left: 25%;width: 50%">
                                 <div class="w3-container w3-theme-l3">
                                     <span onclick="document.getElementById('id01').style.display = 'none'" class="w3-button w3-large w3-red w3-display-topright">&times;</span>
-                                    <div class=" w3-margin w3-half w3-large">
-                                        <form action="" method="post">
-                                            <label class="">Description: </label>
-                                            <input name="descr"  class="w3-small w3-input w3-round-large w3-light-gray" type="text" ><br>
+                                    <div class=" w3-margin w3-large" style="padding-top: 10px">
 
-                                            <div class="w3-row">
-                                                <input type="submit" value="Submit" class="w3-btn w3-theme-l1 w3-round" style="padding-left: 7%; padding-right: 7%;">
-                                            </div>
-                                        </form>
+                                        <label>Select a complaint type</label><br>
+                                        <select id="tagList" class="w3-input w3-round-small" style="margin-bottom: 15px">
+
+                                            <!--options will be placed by js-->
+
+                                        </select>
+
+                                        <label>Describe your complaint</label>
+                                        <textarea id="complaintContent" class="w3-large w3-round-small w3-light-gray w3-input" style="resize: vertical; height: 150px; width: 100%;" required="true" placeholder="Write your comlaint here..."></textarea> <br>
+
+                                        <label class="">Remarks(If any)</label>
+                                        <input name="remarks" class="w3-large w3-input w3-round-small w3-light-gray" type="text" ><br>
+                                        <button class="w3-input w3-green w3-round-small w3-hover-light-green">Submit Complaint</button>
                                     </div>
                                 </div>
                             </div>
