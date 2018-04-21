@@ -3,6 +3,7 @@ package com.uiu.thesis.controllers.rest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.uiu.thesis.dao.interfaces.ComplaintDAO;
+import com.uiu.thesis.dao.interfaces.ComplaintTypeDAO;
 import com.uiu.thesis.dao.interfaces.HumanResourceDAO;
 import com.uiu.thesis.dao.interfaces.TokenDAO;
 import com.uiu.thesis.models.complaint.Complaint;
@@ -46,6 +47,9 @@ public class ComplaintRestController {
 
     @Autowired
     private TokenDAO tokenDAO;
+
+    @Autowired
+    private ComplaintTypeDAO complaintTypeDAO;
 
     private SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss a");
 
@@ -99,16 +103,18 @@ public class ComplaintRestController {
      * Add a new complaint
      *
      * @param complaintJson
+     * @param typeId
      * @param session
      * @return
      */
     @RequestMapping(
             value = "/api/service/office/complaint",
             produces = {"application/json;charset:UTF-8"},
-            params = {"complaint"},
+            params = {"complaint", "type_id"},
             method = RequestMethod.POST)
     public String addComplaint(
             @RequestParam("complaint") String complaintJson,
+            @RequestParam("type_id") long typeId,
             HttpSession session) {
 
         String token = (String) session.getAttribute("token");
@@ -116,29 +122,29 @@ public class ComplaintRestController {
         if (token != null && tokenDAO.isTokenExist(token)) {
 
             long userId = tokenDAO.getUserId(token);
-            if (humanResourceDAO.hasAccess(userId, (long) 19)) {
 
-                ObjectMapper objectMapper = new ObjectMapper();
+            ObjectMapper objectMapper = new ObjectMapper();
 
-                try {
+            try {
 
-                    Complaint complaint = objectMapper.readValue(complaintJson, Complaint.class);
-                    if (complaint != null) {
+                Complaint complaint = objectMapper.readValue(complaintJson, Complaint.class);
+                complaint.setCreatorId(userId);
+                complaint.setComplaintPlacingDate(new Date());
+                complaint.setType(complaintTypeDAO.getComplaintTypeById(typeId));
 
-                        int value = complaintService.addNewComplaint(complaint);
+                int value = complaintService.addNewComplaint(complaint);
 
-                        if (value != 0) {
+                if (value != 0) {
 
-                            return "{\"add\":\"true\"}";
-                        }
-                    }
-                } catch (IOException e) {
-
-                    System.err.println(e.toString());
+                    return "{\"add\":\"true\"}";
                 }
 
-                return "{\"add\":\"false\"}";
+            } catch (IOException e) {
+
+                System.err.println(e.toString());
             }
+
+            return "{\"add\":\"false\"}";
         }
 
         return "{}";
@@ -147,7 +153,6 @@ public class ComplaintRestController {
     /**
      * Updates a requisition if it is solved
      *
-     * @param date
      * @param solverId
      * @param id
      * @param session
@@ -155,13 +160,12 @@ public class ComplaintRestController {
      */
     @RequestMapping(
             value = "/api/service/office/complaint/update",
-            params = {"id", "solver_id", "solved_date"},
+            params = {"id", "solver_id"},
             produces = {"application/json;charset:UTF-8"},
             method = RequestMethod.POST)
     public String updateComplaint(
             @RequestParam("id") long id,
             @RequestParam("solver_id") long solverId,
-            @RequestParam("solved_date") long date,
             HttpSession session) {
 
         String token = (String) session.getAttribute("token");
@@ -177,7 +181,7 @@ public class ComplaintRestController {
 
                     complaint.setIsSolved(true);
                     complaint.setSolverId(null);
-                    complaint.setComplaintSolvedDate(new Date(date));
+                    complaint.setComplaintSolvedDate(new Date());
 
                     int value = complaintService.updateComplaint(complaint);
                     if (value != 0) {
