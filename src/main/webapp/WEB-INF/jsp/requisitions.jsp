@@ -78,13 +78,13 @@
                                     <span onclick="document.getElementById('id01').style.display = 'none'" class="w3-button w3-large w3-red w3-display-topright">&times;</span>
                                     <div class=" w3-margin w3-large">
                                         <label>Select a requisition type</label><br>
-                                        <select id="tagList" class="w3-input w3-round-small" style="margin-bottom: 15px">
+                                        <select id="tagList" onchange="showDateTime()" class="w3-input w3-round-small" style="margin-bottom: 15px">
 
                                             <!--options will be placed by js-->
 
                                         </select>
 
-                                        <div id="reqDateTimeDiv" class="w3-row" style="">
+                                        <div id="reqDateTimeDiv" class="w3-row" style="display: none">
                                             <label>Requisition date and time</label><br>
                                             <input id="reqDate" class="w3-half" type="date" style="margin-bottom: 10px"/>
                                             <input id="reqTime" class="w3-half" type="time" style="margin-bottom: 10px"/>

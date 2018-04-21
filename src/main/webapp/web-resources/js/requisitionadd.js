@@ -17,6 +17,27 @@ var getTags = function () {
 };
 
 /**
+ * This method show date and time input if project and car is selected
+ *
+ * @returns {undefined}
+ */
+var showDateTime = function () {
+
+    var selector = document.getElementById('tagList');
+    var dateTimeDiv = document.getElementById('reqDateTimeDiv');
+
+    var type = selector.value;
+
+    if (type == 'car' || type == 'projector') {
+
+        dateTimeDiv.style.display = 'block';
+    } else {
+
+        dateTimeDiv.style.display = 'none';
+    }
+};
+
+/**
  * Fetch complaint tags from server
  *
  * @param {type} url
