@@ -433,7 +433,9 @@ public class PostRestController {
                 //Creating JSON String of Post, Comments, and its replys
                 try {
 
-                    postJsonString = objectMapper.writeValueAsString(postComments);
+                    List<PostComments> postCommentsJson = new ArrayList<>();
+                    postCommentsJson.add(postComments);
+                    postJsonString = objectMapper.writeValueAsString(postCommentsJson);
                 } catch (JsonProcessingException e) {
 
                     postJsonString = "[]";
