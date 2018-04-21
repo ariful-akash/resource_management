@@ -55,7 +55,7 @@
                     <div>
 
                         <a class="w3-button"style="text-align: left; width: 100%; padding-left: 20%">
-                            <span onclick="getTags(); document.getElementById('id01').style.display = 'block'">Add Complaint</span>
+                            <span onclick="document.getElementById('id01').style.display = 'block'; getTags()">Add Complaint</span>
                         </a>
                         <a class="w3-button" style="text-decoration: none; text-align: left; width: 100%; padding-left: 20%" href="#" onclick="changeOwn(true); getPandingComplaints()">My Complaints</a><br>
                         <a class="w3-button" style="text-decoration: none; text-align: left; width: 100%; padding-left: 20%" href="#" onclick="changeOwn(false); getPandingComplaints()">Incoming Complaints</a><br>

@@ -34,7 +34,6 @@ var fetchComplaintTags = function (url, method, params) {
         if (this.readyState == 4 && this.status == 200) {
 
             comTagList = JSON.parse(this.responseText);
-            console.log(comTagList);
             placeComplaintTags();
         }
     };
