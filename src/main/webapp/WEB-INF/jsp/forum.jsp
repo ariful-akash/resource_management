@@ -57,6 +57,10 @@
                     <span class="w3-button" style="text-align: left; width: 100%; padding-left: 20%"><span onclick="document.getElementById('id01').style.display = 'block'">Add New Posts </span></span><br>
                     <span onclick="getRecentPosts()" class="w3-button" style="text-align: left; width: 100%; padding-left: 20%">Recent Posts</span><br>
                     <span onclick="getOwnPosts()" class="w3-button" style="text-align: left; width: 100%; padding-left: 20%">My Posts</span><br>
+                    <a class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="admin/statistics">Statistics</a>
+                    <a class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="admin/hr">Manage Human Resources</a>
+                    <a class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="admin/office">Manage Office Resources</a>
+
 
                     <!--<##Pop up window-->
                     <div class="w3-container">
