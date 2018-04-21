@@ -13,7 +13,7 @@
         <spring:url value="/web-resources/css/toggleStyle.css" var="tog"/>
         <spring:url value="/web-resources/css/w3-theme-blue-grey.css" var="w3BlueDarkTheme"/>
         <spring:url value="/web-resources/images/akash.jpg" var="img"/>
-        <spring:url value="web-resources/js/myComplaintsJS.js" var="js" />
+        <spring:url value="/web-resources/js/statistics.js" var="js" />
 
 
         <link href="${css}" rel="stylesheet" type="text/css"/>
@@ -23,7 +23,7 @@
 
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Admin Views</title>
+        <title>Statistics</title>
     </head>
     <body class="w3-theme-l3" style="font-family: 'Lato', 'sans-serif';">
 
@@ -33,10 +33,10 @@
                 <!--navigation ber-->
 
                 <div class="navbar-menu w3-right w3-large" style="height: 100%">
-                    <a class="w3-button" style="text-decoration: none;" href="#">Complaints</a>
-                    <a class="w3-button" style="text-decoration: none;" href="#">Requisitions</a>
+                    <a class="w3-button" style="text-decoration: none;" href="complaints">Complaints</a>
+                    <a class="w3-button" style="text-decoration: none;" href="requisitions">Requisitions</a>
                     <a class="w3-button" style="text-decoration: none;" href="#">Leave</a>
-                    <a class="w3-button" style="text-decoration: none;" href="#">Forum</a>
+                    <a class="w3-button" style="text-decoration: none;" href="forum">Forum</a>
                     <div class="w3-dropdown-hover" style="padding-right: 20px">
                         <img src="${img}" class="w3-circle" style="width: 30px;height: 30px" alt="#">
                         <div class="w3-theme-d3 w3-dropdown-content w3-bar-block w3-card-4" style="left: -110px">
@@ -53,8 +53,9 @@
                 <!--Left div-->
                 <div class="w3-theme-d1 w3-col" style="width: 20%; height: 500px;margin-right: 1%">
 
-                    <a class="w3-button" style="text-decoration: none;width: 100% " href="#">Admin Views</a><br>
-                    <a class="w3-button" style="text-decoration: none;width: 100%" href="#">ADD Items</a>
+                    <a class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="statistics">Statistics</a>
+                    <a class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="hr">Manage Human Resources</a>
+                    <a class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="office">Manage Office Resources</a>
 
                 </div>
 

@@ -42,9 +42,9 @@ public class HomeController {
         return "complaints";
     }
 
-    @RequestMapping(value = "/adminviews")
-    public String showAdminView() {
-        return "adminView";
+    @RequestMapping(value = "/statistics")
+    public String showStatistics() {
+        return "statistics";
     }
 
     @RequestMapping(value = "/requisitions")
