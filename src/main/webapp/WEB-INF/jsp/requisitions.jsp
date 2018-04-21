@@ -99,85 +99,13 @@
 
                     <!--pending tab-->
                     <div id="pending" class="w3-container w3-border tab" style="display:block">
-                        <% //for (int i = 0; i < 10; i++) {%>
-                        <!--                        <div class="w3-row w3-card  w3-margin-top w3-margin-bottom">
 
-                                                    <div class="w3-col" style="width: 5%; padding: 1% 0% 0% 1%">
-                                                        <img src="${img}" class="w3-circle" style="width: 30px;height: 30px" alt="#">
-                                                    </div>
-
-                                                    <div class="w3-col" style="width: 92%;margin-top: 1.5%">
-                                                        <label class="w3-small w3-text-dark-gray"><b>Ariful Islam Akash</b></label>
-                                                    </div>
-
-                                                    <div>
-                                                        <span class=" w3-btn w3-theme-l3 w3-round w3-text-white w3-medium w3-right" style="margin-right: 5%;">Solve</span>
-                                                    </div>
-
-                                                    <div style="margin: 4% 5% 1% 5%">
-                                                        <table class="w3-table w3-striped" border="1">
-                                                            <tr>
-                                                                <td>Complaints Type</td>
-                                                                <td>Table</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Description</td>
-                                                                <td>Table was Broken</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Placeing Date</td>
-                                                                <td>14/04/2018</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Placeing Date</td>
-                                                                <td>14/04/2018</td>
-                                                            </tr>
-                                                        </table>
-                                                    </div>
-                                                </div>-->
-                        <%//}%>
                     </div>
 
                     <!--solved tab-->
                     <div id="solved" class="w3-container w3-border tab" style="display:none">
 
-                        <% for (int i = 0; i < 10; i++) {%>
-                        <div class="w3-row w3-card  w3-margin-top w3-margin-bottom">
 
-                            <div class="w3-col" style="width: 5%; padding: 1% 0% 0% 1%">
-                                <img src="${img}" class="w3-circle" style="width: 30px;height: 30px" alt="#">
-                            </div>
-
-                            <div class="w3-col" style="width: 92%;margin-top: 1.5%">
-                                <label class="w3-small w3-text-dark-gray"><b>Ariful Islam Akash</b></label>
-                            </div>
-
-                            <div>
-                                <label class="w3-text-dark-gray w3-large w3-right" style="margin-right: 5%;">&#x2714; Solved</label>
-                            </div>
-
-                            <div style="margin: 6% 5% 1% 5%">
-                                <table class="w3-table w3-striped" border="1">
-                                    <tr>
-                                        <td>Complaints Type</td>
-                                        <td>Table</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Description</td>
-                                        <td>Table was Broken</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Placeing Date</td>
-                                        <td>14/04/2018</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Placeing Date</td>
-                                        <td>14/04/2018</td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                        <%}%>
 
                     </div>
                 </div>

@@ -14,12 +14,16 @@
         <spring:url value="/web-resources/css/w3-theme-blue-grey.css" var="w3BlueDarkTheme"/>
         <spring:url value="/web-resources/images/akash.jpg" var="img"/>
         <spring:url value="/web-resources/js/statistics.js" var="js" />
+        <spring:url value="/web-resources/js/jquery-1.12.4.js" var="jquery" />
+        <spring:url value="/web-resources/js/jquery.canvasjs.min.js" var="jqueryConv" />
 
 
         <link href="${css}" rel="stylesheet" type="text/css"/>
         <link href="${tog}" rel="stylesheet" type="text/css"/>
         <link href="${w3BlueDarkTheme}" rel="stylesheet" type="text/css"/>
         <script src="${js}" type="text/javascript"></script>
+        <script src="${jquery}" type="text/javascript"></script>
+        <script src="${jqueryConv}" type="text/javascript"></script>
 
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -75,13 +79,8 @@
                         <!--Toggel and Print Button-->
                         <div class="w3-bar w3-col" >
                             <div class="w3-bar-item" style="margin-left: 1%;margin-top: 1%">
-                                <div>
-                                    <label class="switch"s>
-                                        <input class="switch-input" type="checkbox" />
-                                        <span class="switch-label" data-on="Graph" data-off="List"></span> 
-                                        <span class="switch-handle"></span> 
-                                    </label>
-
+                                <div id="toggle" onclick="getToggleValue()">
+                                    <button class="w3-btn w3-theme-d3 w3-round-large">See List</button>
                                 </div>
                             </div>
                             <div class="w3-bar-item w3-right"style="margin-right: 3%">
@@ -89,21 +88,11 @@
                             </div>
                         </div>
 
-                        <table class="w3-table w3-margin-bottom w3-striped " style="height: 400px;" border="1">
-                            <tr>
-                                <th class="w3-center">Type</th>
-                                <th class="w3-center">Name</th>
-                                <th class="w3-center">Total</th>
-                            </tr>
-                            <%for (int i = 0; i < 50; i++) {%>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <%}%>
+                        <div class="w3-col" style="margin: 1% 5% 2% 1%"> 
+                            <div id="chartContainer" style="height: 430px;width: 98%">
 
-                        </table>
+                            </div>
+                        </div>
                     </div>
 
                     <!--OR tab-->
