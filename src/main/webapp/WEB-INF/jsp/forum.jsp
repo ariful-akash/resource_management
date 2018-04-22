@@ -71,15 +71,15 @@
                                     <span onclick="document.getElementById('id01').style.display = 'none'" class="w3-button w3-large w3-red w3-display-topright">&times;</span>
                                     <div class=" w3-margin w3-large" style="padding: 3%">
                                         <form action="" method="post">
-                                            <textarea id="postContent" class="w3-large w3-round-small w3-light-gray" style="resize: vertical; height: 100px; width: 100%" required="true" placeholder="Write Somethings..."></textarea> <br>
+                                            <textarea id="postContent" class="w3-large w3-input w3-round-small w3-light-gray" style="resize: vertical; height: 150px; margin-bottom: 15px" required="true" placeholder="Write Somethings..."></textarea> <br>
 
                                             <input id="postTags" class="w3-input w3-large w3-round-small w3-light-gray" type="text" placeholder="Type Tag: e.g., computer lab">
-                                            <div>
+                                            <div style="margin-top: 15px; margin-bottom: 15px">
                                                 <% for (int i = 0; i < 5; i++) {%>
                                                 <label class="w3-theme-l3 w3-margin-top w3-margin-left w3-text-black">Tags <a href="" class="w3-small" style="text-decoration: none;">&#x2715;</a></label>
                                                 <%}%>
                                             </div>
-                                            <input value="Post" class="w3-button w3-theme-l1 w3-round" style="margin-top: 2%">
+                                            <input value="Post" class="w3-button w3-green w3-hover-light-green w3-round" style="margin-top: 2%">
 
                                         </form>
                                     </div>
@@ -130,7 +130,7 @@
                             <!--comment div-->
 
                             <!--allCommentDiv-->
-                            <div> 
+                            <div>
 
                                 <!--placeCommentDiv-->
                                 <div class="w3-margin" style="padding-left: 3%">
@@ -157,7 +157,7 @@
                                     <div style="margin: 7% 5% 1% 3%">
 
                                         <!--showTextCommentDiv-->
-                                        <div  class="w3-white w3-round-large w3-padding">   
+                                        <div  class="w3-white w3-round-large w3-padding">
                                             <span>As a describer of life and manners, he must be allowed to.
                                                 As a describer of life and manners, he must be allowed to</span>
                                         </div>
