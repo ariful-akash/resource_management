@@ -1,7 +1,8 @@
 var newPost = {};
+var tags = [];
 
-var allTags;
-var shortTags;
+var allTags = [];
+var shortTags = [];
 
 
 /**
@@ -11,10 +12,13 @@ var shortTags;
  */
 var getAllTags = function () {
 
-    var url = "/office_resource_management/api/service/forum/tag";
-    var method = "GET";
+    if (allTags == null || allTags.length == 0) {
 
-    fetchTagsAJAX(url, method, null);
+        var url = "/office_resource_management/api/service/forum/tag";
+        var method = "GET";
+
+        fetchTagsAJAX(url, method, null);
+    }
 };
 
 /**
@@ -35,11 +39,37 @@ var fetchTagsAJAX = function (url, method, params) {
         if (this.readyState == 4 && this.status == 200) {
 
             allTags = JSON.parse(this.responseText);
-            shortTags = allTags;
+
+            for (var i in allTags) {
+
+                shortTags[i] = allTags[i].tag;
+            }
         }
     };
 
     xhttp.open(method, url, true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send(params);
+};
+
+
+/**
+ * tag suggesstion jQuery style
+ *
+ * @returns {undefined}
+ */
+$(function () {
+
+    $("#postTags, #tagSearch").autocomplete(
+            {
+                source: shortTags
+            }
+    );
+}
+);
+
+
+var addToTagList = function () {
+
+
 };
