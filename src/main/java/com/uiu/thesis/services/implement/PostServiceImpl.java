@@ -9,6 +9,7 @@ import com.uiu.thesis.models.forum.TagType;
 import com.uiu.thesis.services.interfaces.PostService;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,8 @@ public class PostServiceImpl implements PostService {
         if (post != null && post.getId() == null && post.getContent().length() > 0 && posterId > 0) {
 
             post.setPosterId(posterId);
+            post.setPostTime(new Date());
+
             postDAO.addPost(post);
 
             for (String tag : tags) {
