@@ -37,10 +37,10 @@
                 <!--navigation ber-->
 
                 <div class="navbar-menu w3-right w3-large" style="height: 100%">
-                    <a class="w3-button" style="text-decoration: none;" href="complaints">Complaints</a>
-                    <a class="w3-button" style="text-decoration: none;" href="requisitions">Requisitions</a>
-                    <a class="w3-button" style="text-decoration: none;" href="#">Leave</a>
-                    <a class="w3-button" style="text-decoration: none;" href="forum">Forum</a>
+                    <a class="w3-button" style="text-decoration: none;height: 100%" href="complaints">Complaints</a>
+                    <a class="w3-button" style="text-decoration: none;height: 100%" href="requisitions">Requisitions</a>
+                    <a class="w3-button" style="text-decoration: none;height: 100%" href="#">Leave</a>
+                    <a class="w3-button" style="text-decoration: none;height: 100%" href="forum">Forum</a>
                     <div class="w3-dropdown-hover" style="padding-right: 20px">
                         <img src="${img}" class="w3-circle" style="width: 30px;height: 30px" alt="#">
                         <div class="w3-theme-d3 w3-dropdown-content w3-bar-block w3-card-4" style="left: -110px">
