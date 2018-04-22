@@ -83,6 +83,8 @@
                                             <!--options will be placed by js-->
 
                                         </select>
+                                        <label>Quantity</label><br>
+                                        <input id="quantity" class="w3-input" type="number" min="1" value="1"/>
 
                                         <div id="reqDateTimeDiv" class="w3-row" style="display: none">
                                             <label>Requisition date and time</label><br>
@@ -94,8 +96,8 @@
                                         <textarea id="reqContent" class="w3-large w3-round-small w3-light-gray w3-input" style="resize: vertical; height: 150px; width: 100%;" required="true" placeholder="Write your comlaint here..."></textarea>
 
                                         <label class="">Remarks(If any)</label>
-                                        <input name="remarks" class="w3-large w3-input w3-round-small w3-light-gray" type="text" ><br>
-                                        <button class="w3-input w3-green w3-round-small w3-hover-light-green">Submit Requisition</button>
+                                        <input id="remarks" class="w3-large w3-input w3-round-small w3-light-gray" type="text" ><br>
+                                        <button onclick="addRequisition()" class="w3-input w3-green w3-round-small w3-hover-light-green">Submit Requisition</button>
                                     </div>
                                 </div>
                             </div>

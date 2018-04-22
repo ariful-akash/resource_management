@@ -81,3 +81,71 @@ var placeRequisitionTags = function () {
         select.appendChild(option);
     }
 };
+
+
+var addRequisition = function () {
+
+    var selector = document.getElementById('tagList');
+    var date = document.getElementById('reqDate');
+    var time = document.getElementById('reqTime');
+    var content = document.getElementById('reqContent');
+    var remarks = document.getElementById('remarks');
+    var quantity = document.getElementById('quantity');
+    var type_id = reqTagList[selector.selectedIndex].id;
+
+    if (selector.value == 'projector' || selector.value == 'car') {
+
+        var need_date = new Date(date.value + "T" + time.value).getTime();
+    } else {
+
+        var need_date = 0;
+    }
+
+    if (content.value != null && content.value.trim() != '') {
+
+        var requisition = {};
+
+        requisition.quantity = quantity.value;
+        requisition.purpose = content.value;
+
+        if (remarks.value != null && remarks.value != '') {
+
+            requisition.remarks = remarks.value;
+        }
+
+        var url = "/office_resource_management/api/service/office/requisition";
+        var method = "POST";
+        var params = "requisition=" + JSON.stringify(requisition) + "&type_id=" + type_id + "&need_date=" + need_date;
+
+        addRequisitionAJAX(url, method, params);
+    }
+};
+
+
+var addRequisitionAJAX = function (url, method, params) {
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+
+        console.log("Ready state : " + this.readyState + "\nStatus : " + this.status);
+
+        if (this.readyState == 4 && this.status == 200) {
+
+            result = JSON.parse(this.responseText);
+
+            if (result.add == 'true') {
+
+                alert("Your requisition is added!");
+                document.getElementById('reqContent').value = '';
+                document.getElementById('remarks').value = '';
+            } else {
+
+                alert("Your requisition can not be added!");
+            }
+        }
+    };
+
+    xhttp.open(method, url, true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(params);
+};
