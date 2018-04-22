@@ -70,7 +70,11 @@ var addComplaint = function () {
     var complaintJson = {};
 
     complaintJson.description = desc.value;
-    complaintJson.remarks = remarks.value;
+
+    if (remarks.value != null && remarks.value != '') {
+
+        complaintJson.remarks = remarks.value;
+    }
 
     if (desc.value != null && desc.value != '') {
 
