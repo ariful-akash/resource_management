@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.uiu.thesis.dao.interfaces.HumanResourceDAO;
 import com.uiu.thesis.dao.interfaces.RequisitionDAO;
+import com.uiu.thesis.dao.interfaces.RequisitionTypeDAO;
 import com.uiu.thesis.dao.interfaces.TokenDAO;
 import com.uiu.thesis.models.forum.json.RequisitionJson;
 import com.uiu.thesis.models.requisition.Requisition;
@@ -36,6 +37,9 @@ public class RequisitionRestController {
 
     @Autowired
     private RequisitionDAO requisitionDAO;
+
+    @Autowired
+    private RequisitionTypeDAO requisitionTypeDAO;
 
     @Autowired
     private TokenDAO tokenDAO;
@@ -87,22 +91,25 @@ public class RequisitionRestController {
     /**
      *
      * @param requisitionJson
-     * @param token
+     * @param typeId
+     * @param needDate
+     * @param session
      * @return
      */
     @RequestMapping(
             value = "/api/service/office/requisition",
-            params = {"requisition", "token"},
+            params = {"requisition", "type_id", "need_date"},
             produces = {"application/json;charset:UTF-8"},
             method = RequestMethod.POST)
     public String addRequisition(
             @RequestParam("requisition") String requisitionJson,
-            @RequestParam("token") String token
-    ) {
+            @RequestParam("type_id") long typeId,
+            @RequestParam("need_date") long needDate,
+            HttpSession session) {
 
-        long userId = tokenDAO.getUserId(token);
+        String token = (String) session.getAttribute("token");
 
-        if (userId > 0) {
+        if (token != null && tokenDAO.isTokenExist(token)) {
 
             ObjectMapper objectMapper = new ObjectMapper();
 
@@ -112,6 +119,14 @@ public class RequisitionRestController {
 
                     Requisition requisition
                             = objectMapper.readValue(requisitionJson, Requisition.class);
+
+                    if (needDate != 0) {
+
+                        requisition.setRequisitionNeedDate(new Date(needDate));
+                    }
+                    requisition.setRequisitionPlacingDate(new Date());
+                    requisition.setCreatorId(tokenDAO.getUserId(token));
+                    requisition.setType(requisitionTypeDAO.getRequisitionTypeById(typeId));
 
                     int value = requisitionService.addRequisition(requisition);
                     if (value != 0) {

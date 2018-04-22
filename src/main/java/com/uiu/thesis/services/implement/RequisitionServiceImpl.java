@@ -37,7 +37,6 @@ public class RequisitionServiceImpl implements RequisitionService {
                 && requisition.getPurpose() != null
                 && !requisition.getPurpose().isEmpty()
                 && requisition.getQuantity() > 0
-                && requisition.getRequisitionNeedDate() != null
                 && requisition.getRequisitionPlacingDate() != null
                 && requisition.getRequisitionSolvedDate() == null
                 && requisition.getType() != null
