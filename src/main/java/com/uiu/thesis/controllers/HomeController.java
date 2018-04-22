@@ -47,6 +47,16 @@ public class HomeController {
         return "statistics";
     }
 
+    @RequestMapping(value = "/hr")
+    public String showHr() {
+        return "ManageHumanResources";
+    }
+
+    @RequestMapping(value = "/office")
+    public String showOr() {
+        return "ManageOfficeResources";
+    }
+
     @RequestMapping(value = "/requisitions")
     public String showRequisitions() {
         return "requisitions";
