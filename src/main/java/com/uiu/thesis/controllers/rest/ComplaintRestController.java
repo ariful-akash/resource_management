@@ -153,19 +153,17 @@ public class ComplaintRestController {
     /**
      * Updates a requisition if it is solved
      *
-     * @param solverId
      * @param id
      * @param session
      * @return
      */
     @RequestMapping(
             value = "/api/service/office/complaint/update",
-            params = {"id", "solver_id"},
+            params = {"id"},
             produces = {"application/json;charset:UTF-8"},
             method = RequestMethod.POST)
     public String updateComplaint(
             @RequestParam("id") long id,
-            @RequestParam("solver_id") long solverId,
             HttpSession session) {
 
         String token = (String) session.getAttribute("token");
@@ -180,7 +178,7 @@ public class ComplaintRestController {
                         && complaint.isIsSolved() == false) {
 
                     complaint.setIsSolved(true);
-                    complaint.setSolverId(null);
+                    complaint.setSolverId(tokenDAO.getUserId(token));
                     complaint.setComplaintSolvedDate(new Date());
 
                     int value = complaintService.updateComplaint(complaint);
