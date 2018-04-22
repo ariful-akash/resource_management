@@ -191,22 +191,21 @@ public class RequisitionRestController {
      *
      * @param key
      * @param id
-     * @param token
+     * @param session
      * @return
      */
     @RequestMapping(
             value = "/api/service/office/requisition/{key}/{id}",
             produces = {"application/json;charset:UTF-8"},
-            params = {"token"},
             method = RequestMethod.GET)
     public String getRequisitionByKey(
             @PathVariable("key") String key,
             @PathVariable("id") long id,
-            @RequestParam("token") String token
-    ) {
+            HttpSession session) {
 
-        long userId = tokenDAO.getUserId(token);
-        if (userId > 0) {
+        String token = (String) session.getAttribute("token");
+
+        if (token != null && tokenDAO.isTokenExist(token)) {
 
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.setDateFormat(df);
@@ -214,15 +213,24 @@ public class RequisitionRestController {
             if (key != null && !key.isEmpty() && id > 0) {
 
                 List<Requisition> requisitions;
+                List<RequisitionJson> requisitionJsons = new ArrayList<>();
                 switch (key) {
                     case "type":
 
                         requisitions = requisitionService.getRequisitionsByType(id);
+
                         if (requisitions != null && requisitions.size() > 0) {
+
+                            for (Requisition requisition : requisitions) {
+
+                                RequisitionJson requisitionJson = getRequisitionJson(requisition);
+
+                                requisitionJsons.add(requisitionJson);
+                            }
 
                             try {
 
-                                return objectMapper.writeValueAsString(requisitions);
+                                return objectMapper.writeValueAsString(requisitionJsons);
                             } catch (JsonProcessingException ex) {
 
                                 System.err.println(ex.toString());
@@ -235,12 +243,19 @@ public class RequisitionRestController {
                         requisitions = requisitionService.getRequisitionsBySolver(id);
                         if (requisitions != null && requisitions.size() > 0) {
 
+                            for (Requisition requisition : requisitions) {
+
+                                RequisitionJson requisitionJson = getRequisitionJson(requisition);
+
+                                requisitionJsons.add(requisitionJson);
+                            }
+
                             try {
 
-                                return objectMapper.writeValueAsString(requisitions);
-                            } catch (JsonProcessingException e) {
+                                return objectMapper.writeValueAsString(requisitionJsons);
+                            } catch (JsonProcessingException ex) {
 
-                                System.err.println(e.toString());
+                                System.err.println(ex.toString());
                             }
                         }
                         break;
@@ -250,12 +265,19 @@ public class RequisitionRestController {
                         requisitions = requisitionService.getRequisitionsByCreator(id);
                         if (requisitions != null && requisitions.size() > 0) {
 
+                            for (Requisition requisition : requisitions) {
+
+                                RequisitionJson requisitionJson = getRequisitionJson(requisition);
+
+                                requisitionJsons.add(requisitionJson);
+                            }
+
                             try {
 
-                                return objectMapper.writeValueAsString(requisitions);
-                            } catch (JsonProcessingException e) {
+                                return objectMapper.writeValueAsString(requisitionJsons);
+                            } catch (JsonProcessingException ex) {
 
-                                System.err.println(e.toString());
+                                System.err.println(ex.toString());
                             }
                         }
                         break;
@@ -310,25 +332,21 @@ public class RequisitionRestController {
     /**
      *
      * @param id
-     * @param solverId
-     * @param solvedDate
-     * @param token
+     * @param session
      * @return
      */
     @RequestMapping(
             value = "/api/service/office/requisition/update",
-            params = {"id", "solver_id", "solved_date", "token"},
+            params = {"id"},
             produces = {"application/json;charset:UTF-8"},
             method = RequestMethod.POST)
     public String updateRequisition(
             @RequestParam("id") long id,
-            @RequestParam("solver_id") long solverId,
-            @RequestParam("solved_date") long solvedDate,
-            @RequestParam("token") String token
-    ) {
+            HttpSession session) {
 
-        long userId = tokenDAO.getUserId(token);
-        if (userId > 0) {
+        String token = (String) session.getAttribute("token");
+
+        if (token != null && tokenDAO.isTokenExist(token)) {
 
             if (id > 0) {
 
@@ -339,8 +357,8 @@ public class RequisitionRestController {
                         && requisition.isSolved() == false) {
 
                     requisition.setSolved(true);
-                    requisition.setSolverId(solverId);
-                    requisition.setRequisitionSolvedDate(new Date(solvedDate));
+                    requisition.setSolverId(tokenDAO.getUserId(token));
+                    requisition.setRequisitionSolvedDate(new Date());
 
                     int value = requisitionService.updateRequisition(requisition);
                     if (value != 0) {
