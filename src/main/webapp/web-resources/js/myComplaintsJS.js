@@ -21,13 +21,20 @@ var changeOwn = function (value) {
 
 var getPandingComplaints = function () {
 
-    if (own) {
+    if (type == 'pending') {
 
-        getOwnPendingComplaints();
+        if (own) {
+
+            getOwnPendingComplaints();
+        } else {
+
+            getIncomingComplaints();
+        }
     } else {
 
-        getIncomingComplaints();
+        getSolvedComplaints();
     }
+
 };
 
 var getSolvedComplaints = function () {
@@ -44,13 +51,20 @@ var getSolvedComplaints = function () {
 
 var getPandingRequisitions = function () {
 
-    if (own) {
+    if (type == 'pending') {
 
-        getOwnPendingRequisition();
+        if (own) {
+
+            getOwnPendingRequisition();
+        } else {
+
+            getIncomingRequisition();
+        }
     } else {
 
-        getIncomingRequisition();
+        getSolvedRequisitions();
     }
+
 };
 
 var getSolvedRequisitions = function () {
@@ -181,6 +195,60 @@ var getIncomingRequisition = function () {
 };
 
 /**
+ * Call this method to solve a complaint or requisition
+ *
+ * @param {type} e
+ * @returns {undefined}
+ */
+var solveComplaintRequisition = function (e) {
+
+    var target = e.currentTarget || e.srcElement;
+
+    var url;
+    var method = "POST";
+    var params = "id=" + target.id;
+
+    if (comORreq == 'complaint') {
+
+        url = "/office_resource_management/api/service/office/complaint/update";
+    } else if (comORreq == 'requisition') {
+
+        url = "/office_resource_management/api/service/office/requisition/update";
+    }
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+
+        console.log("Ready state : " + this.readyState + "\nStatus : " + this.status);
+
+        if (this.readyState == 4 && this.status == 200) {
+
+            var result = JSON.parse(this.responseText);
+
+            if (result.update == 'true') {
+
+                alert('Your pending ' + comORreq + ' is solved');
+            } else {
+
+                alert('Your pending ' + comORreq + ' is not solved');
+            }
+
+            if (comORreq == 'complaint') {
+
+                getIncomingComplaints();
+            } else {
+
+                getIncomingRequisition();
+            }
+        }
+    };
+
+    xhttp.open(method, url, true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(params);
+};
+
+/**
  *
  * @returns {undefined}
  */
@@ -197,6 +265,8 @@ var getIncomingSolvedRequisition = function () {
         if (this.readyState == 4 && this.status == 200) {
 
             currentUser = JSON.parse(this.responseText);
+
+            console.log(currentUser);
 
             url = "/office_resource_management/api/service/office/requisition/solver/" + currentUser.id;
             method = "GET";
@@ -291,6 +361,13 @@ var placeAllComplaints = function () {
             solveSpan.className = "w3-btn w3-theme-l3 w3-round w3-text-white w3-medium w3-right";
             solveSpan.style.marginRight = "5%";
             solveSpan.textContent = "Solve";
+
+            solveSpan.onclick = solveComplaintRequisition;
+
+            var idAttr = document.createAttribute("id");
+            idAttr.value = data[i].id;
+
+            solveSpan.setAttributeNode(idAttr);
 
             //adding solve span to solve div
             solveDiv.appendChild(solveSpan);
