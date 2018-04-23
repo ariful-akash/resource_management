@@ -117,6 +117,8 @@
                         <button class="w3-bar-item w3-button tablink" style="width: 50%" onclick="changeTab(event, 'solved'); getSolvedRequisitions()">Solved</button>
                     </div>
 
+                    <h2 id="noContent" style="display: none;margin-top: 15%; margin-bottom: 30%; text-align: center">No Complaints Available</h2>
+
                     <img id="loading" src="${loading}" height="300px" style="display: block; margin-left: auto; margin-right: auto; margin-top: 10%; margin-bottom: 10%">
 
                     <!--pending tab-->

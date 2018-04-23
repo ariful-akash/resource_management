@@ -99,6 +99,7 @@
 
                     <img id="loading" src="${loading}" height="300px" style="display: block; margin-left: auto; margin-right: auto">
 
+                    <h2 id="noContent" style="display: none; margin-top: 15%; margin-bottom: 30%; text-align: center">No Post Available</h2>
                     <!--posts div-->
                     <div id="allPostDiv" style="overflow: auto; height: 500px; margin-top: 10px">
 

@@ -314,6 +314,14 @@ var placeAllComplaints = function () {
     var loading = document.getElementById('loading');
     loading.style.display = "none";
 
+    if (data.length == 0) {
+
+        document.getElementById('noContent').style.display = "block";
+    } else {
+
+        document.getElementById('noContent').style.display = "none";
+    }
+
     for (var i = 0; i < data.length; i++) {
         /*
          * Main container div after tab

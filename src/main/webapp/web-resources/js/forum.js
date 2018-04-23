@@ -19,6 +19,7 @@ var getRecentPosts = function () {
 
     removeChild(mainDiv);
     loading.style.display = "block";
+    document.getElementById('noContent').style.display = "none";
 
     var url = "/office_resource_management/api/service/forum/post";
     var method = "GET";
@@ -30,6 +31,7 @@ var getOwnPosts = function () {
 
     removeChild(mainDiv);
     loading.style.display = "block";
+    document.getElementById('noContent').style.display = "none";
 
     var url = "/office_resource_management/api/service/forum/post/own";
     var method = "GET";
@@ -41,6 +43,7 @@ var getUserPosts = function (e) {
 
     removeChild(mainDiv);
     loading.style.display = "block";
+    document.getElementById('noContent').style.display = "none";
 
     var target = e.currentTarget || e.srcElement;
 
@@ -61,6 +64,7 @@ var getPostComments = function (event) {
 
     removeChild(mainDiv);
     loading.style.display = "block";
+    document.getElementById('noContent').style.display = "none";
 
     var seemore = event.currentTarget || event.srcElement;
 
@@ -181,6 +185,14 @@ var placePost = function () {
     removeChild(allPostDiv);
 
     loading.style.display = "none";
+
+    if (posts.length == 0) {
+
+        document.getElementById('noContent').style.display = "block";
+    } else {
+
+        document.getElementById('noContent').style.display = "none";
+    }
 
     for (var i = 0; i < posts.length; i++) {
 
