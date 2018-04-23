@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : HumanResources
     Created on : Apr 22, 2018, 11:32:23 PM
     Author     : ariful
@@ -11,16 +11,18 @@
     <head>
         <spring:url value="/web-resources/css/w3.css" var="css"/>
         <spring:url value="/web-resources/css/w3-theme-blue-grey.css" var="w3BlueDarkTheme"/>
+        <spring:url value="/web-resources/js/menuremover.js" var="menuJs"/>
         <spring:url value="/web-resources/images/akash.jpg" var="img"/>
 
 
         <link href="${css}" rel="stylesheet" type="text/css"/>
         <link href="${w3BlueDarkTheme}" rel="stylesheet" type="text/css"/>
+        <script src="${menuJs}" type="text/javascript"></script>
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Manage Human Resources</title>
     </head>
-    <body class="w3-theme-l4" style="font-family: 'Lato', 'sans-serif';">
+    <body onload="setMenu()" class="w3-theme-l4" style="font-family: 'Lato', 'sans-serif';">
 
         <div>
             <div class="w3-theme-d3 w3-row" style="height: 50px">
@@ -48,9 +50,9 @@
                 <!--Left div-->
                 <div class="w3-theme-d1 w3-col" style="width: 20%; height: 450px">
                     <a class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%"><span onclick="document.getElementById('id01').style.display = 'block'">Add Human Resources</span></a><br>
-                    <a class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="statistics">Statistics</a>
-                    <a class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="hr">Manage Human Resources</a>
-                    <a class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="office">Add Office Resources</a>
+                    <a id="statistics"   class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="statistics">Statistics</a>
+                    <a id="manageHr"     class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="hr">Manage Human Resources</a>
+                    <a id="manageOffice" class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="office">Add Office Resources</a>
 
                     <!--<##Pop up window adding new hr-->
                     <div class="w3-container">

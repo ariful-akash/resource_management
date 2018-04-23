@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : adminView
     Created on : Apr 14, 2018, 10:22:23 PM
     Author     : ariful
@@ -13,23 +13,26 @@
         <spring:url value="/web-resources/css/toggleStyle.css" var="tog"/>
         <spring:url value="/web-resources/css/w3-theme-blue-grey.css" var="w3BlueDarkTheme"/>
         <spring:url value="/web-resources/images/akash.jpg" var="img"/>
-        <spring:url value="/web-resources/js/statistics.js" var="js" />
         <spring:url value="/web-resources/js/jquery-1.12.4.js" var="jquery" />
         <spring:url value="/web-resources/js/jquery.canvasjs.min.js" var="jqueryConv" />
+        <spring:url value="/web-resources/js/statistics.js" var="js" />
+        <spring:url value="/web-resources/js/menuremover.js" var="menuJs"/>
+
 
 
         <link href="${css}" rel="stylesheet" type="text/css"/>
         <link href="${tog}" rel="stylesheet" type="text/css"/>
         <link href="${w3BlueDarkTheme}" rel="stylesheet" type="text/css"/>
-        <script src="${js}" type="text/javascript"></script>
         <script src="${jquery}" type="text/javascript"></script>
         <script src="${jqueryConv}" type="text/javascript"></script>
+        <script src="${js}" type="text/javascript"></script>
+        <script src="${menuJs}" type="text/javascript"></script>
 
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Statistics</title>
     </head>
-    <body class="w3-theme-l3" style="font-family: 'Lato', 'sans-serif';">
+    <body onload="setMenu()" class="w3-theme-l3" style="font-family: 'Lato', 'sans-serif';">
 
         <div>
             <div class="w3-theme-d3 w3-row" style="height: 50px">
@@ -57,9 +60,9 @@
                 <!--Left div-->
                 <div class="w3-theme-d1 w3-col" style="width: 20%; height: 500px;margin-right: 1%">
 
-                    <a class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="statistics">Statistics</a>
-                    <a class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="hr">Manage Human Resources</a>
-                    <a class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="office">Add Office Resources</a>
+                    <a id="statistics"   class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="statistics">Statistics</a>
+                    <a id="manageHr"     class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="hr">Manage Human Resources</a>
+                    <a id="manageOffice" class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="office">Add Office Resources</a>
 
                 </div>
 
@@ -88,7 +91,7 @@
                             </div>
                         </div>
 
-                        <div class="w3-col" style="margin: 1% 5% 2% 1%"> 
+                        <div class="w3-col" style="margin: 1% 5% 2% 1%">
                             <div id="chartContainer" style="height: 430px;width: 98%">
 
                             </div>
@@ -103,8 +106,8 @@
                                 <div>
                                     <label class="switch"s>
                                         <input class="switch-input" type="checkbox" />
-                                        <span class="switch-label" data-on="Graph" data-off="List"></span> 
-                                        <span class="switch-handle"></span> 
+                                        <span class="switch-label" data-on="Graph" data-off="List"></span>
+                                        <span class="switch-handle"></span>
                                     </label>
 
                                 </div>

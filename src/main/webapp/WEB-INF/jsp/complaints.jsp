@@ -13,18 +13,20 @@
         <spring:url value="/web-resources/images/akash.jpg" var="img"/>
         <spring:url value="/web-resources/js/myComplaintsJS.js" var="js" />
         <spring:url value="/web-resources/js/complaintadd.js" var="complaintAddJs" />
+        <spring:url value="/web-resources/js/menuremover.js" var="menuJs"/>
 
 
         <link href="${css}" rel="stylesheet" type="text/css"/>
         <link href="${w3BlueDarkTheme}" rel="stylesheet" type="text/css"/>
         <script src="${js}" type="text/javascript"></script>
         <script src="${complaintAddJs}" type="text/javascript"></script>
+        <script src="${menuJs}" type="text/javascript"></script>
 
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Complaints</title>
     </head>
-    <body onload="getOwnPendingComplaints()" class="w3-theme-l3" style="font-family: 'Lato', 'sans-serif';">
+    <body onload="setMenu(); getOwnPendingComplaints()" class="w3-theme-l3" style="font-family: 'Lato', 'sans-serif';">
 
         <div>
             <div class="w3-theme-d3 w3-row" style="height: 50px">
@@ -58,10 +60,10 @@
                             <span onclick="document.getElementById('id01').style.display = 'block'; getTags()">Add Complaint</span>
                         </a>
                         <a class="w3-button" style="text-decoration: none; text-align: left; width: 100%; padding-left: 20%" href="#" onclick="changeOwn(true); getPandingComplaints()">My Complaints</a><br>
-                        <a class="w3-button" style="text-decoration: none; text-align: left; width: 100%; padding-left: 20%" href="#" onclick="changeOwn(false); getPandingComplaints()">Incoming Complaints</a><br>
-                        <a class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="admin/statistics">Statistics</a>
-                        <a class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="admin/hr">Manage Human Resources</a>
-                        <a class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="admin/office">Add Office Resources</a>
+                        <a id="incomingComplaints" class="w3-button" style="text-decoration: none; text-align: left; width: 100%; padding-left: 20%" href="#" onclick="changeOwn(false); getPandingComplaints()">Incoming Complaints</a><br>
+                        <a id="statistics"   class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="statistics">Statistics</a>
+                        <a id="manageHr"     class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="hr">Manage Human Resources</a>
+                        <a id="manageOffice" class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="office">Add Office Resources</a>
 
                     </div>
 

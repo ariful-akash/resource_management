@@ -14,6 +14,7 @@
         <spring:url value="/web-resources/js/postadd.js" var="postAddJs"/>
         <spring:url value="/web-resources/js/jquery-1.12.4.js" var="jquery"/>
         <spring:url value="/web-resources/js/jquery-ui.js" var="jqueryUi"/>
+        <spring:url value="/web-resources/js/menuremover.js" var="menuJs"/>
         <spring:url value="/web-resources/css/w3-theme-blue-grey.css" var="w3BlueDarkTheme"/>
         <spring:url value="/web-resources/images/akash.jpg" var="img"/>
 
@@ -25,11 +26,12 @@
         <script src="${jqueryUi}" type="text/javascript"></script>
         <script src="${forumJs}" type="text/javascript"></script>
         <script src="${postAddJs}" type="text/javascript"></script>
+        <script src="${menuJs}" type="text/javascript"></script>
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Forum</title>
     </head>
-    <body onload="getRecentPosts(); getAllUsers(); getAllTags()" class="w3-theme-l4" style="font-family: 'Lato', 'sans-serif';">
+    <body onload="setMenu(); getRecentPosts(); getAllUsers(); getAllTags();" class="w3-theme-l4" style="font-family: 'Lato', 'sans-serif';">
 
         <div>
             <div class="w3-theme-d3 w3-row" style="height: 50px">
@@ -59,9 +61,9 @@
                     <span class="w3-button" style="text-align: left; width: 100%; padding-left: 20%"><span onclick="getAllTags(); document.getElementById('id01').style.display = 'block'">Add New Posts </span></span><br>
                     <span onclick="getRecentPosts()" class="w3-button" style="text-align: left; width: 100%; padding-left: 20%">Recent Posts</span><br>
                     <span onclick="getOwnPosts()" class="w3-button" style="text-align: left; width: 100%; padding-left: 20%">My Posts</span><br>
-                    <a class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="statistics">Statistics</a>
-                    <a class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="hr">Manage Human Resources</a>
-                    <a class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="office">Add Office Resources</a>
+                    <a id="statistics"   class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="statistics">Statistics</a>
+                    <a id="manageHr"     class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="hr">Manage Human Resources</a>
+                    <a id="manageOffice" class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="office">Add Office Resources</a>
 
 
                     <!--<##Pop up window-->
