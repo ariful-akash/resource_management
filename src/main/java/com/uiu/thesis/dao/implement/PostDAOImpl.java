@@ -262,8 +262,7 @@ public class PostDAOImpl implements PostDAO {
             if (id != 0) {
 
                 String sql = "select posts_id from posts_tag_types"
-                        + " where tags_id = " + id
-                        + " ORDER BY post.postTime DESC";
+                        + " where tags_id = " + id;
 
                 return getPostsIdByTagSQL(sql);
             }
