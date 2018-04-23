@@ -104,13 +104,24 @@
                                             <span onclick="document.getElementById('id02').style.display = 'none'" class="w3-button w3-large w3-red w3-display-topright">&times;</span>
                                             <div class=" w3-margin w3-large" style="padding: 3%">
                                                 <form action="" method="post">
-                                                    <label>Role:</label>
-                                                    <button></button>
                                                     <div>
-                                                        <% for (int i = 0; i < 5; i++) {%>
-                                                        <label class="w3-theme-l3 w3-margin-top w3-margin-left w3-text-black">Tags <a href="" class="w3-small" style="text-decoration: none;">&#x2715;</a></label>
+                                                        <label>Role:</label>
+                                                        <label class="w3-theme-d3 w3-margin" >RoleName</label>
+                                                        <br>
+                                                        <%for (int l = 0; l < 5; l++) {%>
+                                                        <input type="radio" name="role" value="role" checked="true"> Role<br>
                                                         <%}%>
                                                     </div>
+
+                                                    <div style="margin-top: 4%">
+                                                        <label style="margin-top: 5%">Access:</label>
+                                                        <label class="w3-theme-d3 w3-margin" >AccessName</label>
+                                                        <br>
+                                                        <%for (int l = 0; l < 5; l++) {%>
+                                                        <input type="radio" name="access" value="access" checked="true"> Access<br>
+                                                        <%}%>
+                                                    </div>
+
                                                     <input value="Post" class="w3-button w3-theme-l1 w3-round" style="margin-top: 2%">
 
                                                 </form>
