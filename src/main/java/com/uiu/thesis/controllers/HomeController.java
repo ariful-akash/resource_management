@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.uiu.thesis.controllers;
 
+import com.uiu.thesis.dao.interfaces.HumanResourceDAO;
 import com.uiu.thesis.dao.interfaces.HumanResourceTypeDAO;
 import com.uiu.thesis.dao.interfaces.TokenDAO;
 import com.uiu.thesis.models.user.HumanResourceType;
@@ -26,40 +22,91 @@ public class HomeController {
     @Autowired
     private TokenDAO tokenDAO;
 
+    @Autowired
+    private HumanResourceDAO humanResourceDAO;
+
     @RequestMapping(value = "/index")
     public String showIndex(HttpSession session) {
 
         String token = (String) session.getAttribute("token");
         if (token != null && tokenDAO.isTokenExist(token)) {
 
-            return "/forum";
+            return "forum";
         }
+
         return "index";
     }
 
     @RequestMapping(value = "/complaints")
-    public String showMyComplaintes() {
-        return "complaints";
+    public String showMyComplaintes(HttpSession session) {
+
+        String token = (String) session.getAttribute("token");
+        if (token != null && tokenDAO.isTokenExist(token)) {
+
+            return "complaints";
+        }
+
+        return "index";
     }
 
     @RequestMapping(value = "/statistics")
-    public String showStatistics() {
-        return "statistics";
+    public String showStatistics(HttpSession session) {
+
+        String token = (String) session.getAttribute("token");
+        if (token == null) {
+
+            return "index";
+        } else if (tokenDAO.isTokenExist(token)
+                && humanResourceDAO.hasAccess(tokenDAO.getUserId(token), (long) 19)) {
+
+            return "statistics";
+        }
+
+        return "forum";
     }
 
     @RequestMapping(value = "/hr")
-    public String showHr() {
-        return "ManageHumanResources";
+    public String showHr(HttpSession session) {
+
+        String token = (String) session.getAttribute("token");
+        if (token == null) {
+
+            return "index";
+        } else if (humanResourceDAO.hasAccess(tokenDAO.getUserId(token), (long) 19)) {
+
+            return "ManageHumanResources";
+        }
+
+        return "forum";
     }
 
     @RequestMapping(value = "/office")
-    public String showOr() {
-        return "ManageOfficeResources";
+    public String showOr(HttpSession session) {
+
+        String token = (String) session.getAttribute("token");
+        if (token == null) {
+
+            return "index";
+        } else if (humanResourceDAO.hasAccess(tokenDAO.getUserId(token), (long) 1)
+                || humanResourceDAO.hasAccess(tokenDAO.getUserId(token), (long) 2)
+                || humanResourceDAO.hasAccess(tokenDAO.getUserId(token), (long) 3)) {
+
+            return "ManageOfficeResources";
+        }
+
+        return "forum";
     }
 
     @RequestMapping(value = "/requisitions")
-    public String showRequisitions() {
-        return "requisitions";
+    public String showRequisitions(HttpSession session) {
+
+        String token = (String) session.getAttribute("token");
+        if (token != null && tokenDAO.isTokenExist(token)) {
+
+            return "requisitions";
+        }
+
+        return "index";
     }
 
     /**
