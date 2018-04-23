@@ -29,7 +29,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Forum</title>
     </head>
-    <body onload="getRecentPosts(); getAllUsers();" class="w3-theme-l4" style="font-family: 'Lato', 'sans-serif';">
+    <body onload="getRecentPosts(); getAllUsers(); getAllTags()" class="w3-theme-l4" style="font-family: 'Lato', 'sans-serif';">
 
         <div>
             <div class="w3-theme-d3 w3-row" style="height: 50px">
@@ -72,18 +72,14 @@
                                 <div class="w3-container w3-theme-l3 w3-round">
                                     <span onclick="document.getElementById('id01').style.display = 'none'" class="w3-button w3-large w3-red w3-display-topright">&times;</span>
                                     <div class=" w3-margin w3-large" style="padding: 3%">
-                                        <form action="" method="post">
-                                            <textarea id="postContent" class="w3-large w3-input w3-round-small w3-light-gray" style="resize: vertical; height: 150px; margin-bottom: 15px" required="true" placeholder="Write Somethings..."></textarea> <br>
+                                        <textarea id="postContent" class="w3-large w3-input w3-round-small w3-light-gray" style="resize: vertical; height: 150px;" required="true" placeholder="Write Somethings..."></textarea> <br>
 
-                                            <input id="postTags" class="ui-widget w3-input w3-large w3-round-small w3-light-gray" type="text" placeholder="Type Tag: e.g., computer lab">
-                                            <div style="margin-top: 15px; margin-bottom: 15px">
-                                                <% for (int i = 0; i < 5; i++) {%>
-                                                <label class="w3-theme-l3 w3-margin-top w3-margin-left w3-text-black">Tags <a href="" class="w3-small" style="text-decoration: none;">&#x2715;</a></label>
-                                                <%}%>
-                                            </div>
-                                            <input value="Post" class="w3-button w3-green w3-hover-light-green w3-round" style="margin-top: 2%">
+                                        <div style="margin-bottom: 15px">
+                                            <input id="postTags" onkeypress="addToTagList(event, 'postTags')" style="margin-bottom: 15px" class="ui-widget w3-input w3-large w3-round-small w3-light-gray" type="text" placeholder="Type Tag: e.g., computer lab">
 
-                                        </form>
+                                        </div>
+                                        <input onclick="addPost()" value="Post" class="w3-button w3-input w3-green w3-hover-light-green w3-round" style="margin-top: 2%">
+
                                     </div>
                                 </div>
                             </div>
@@ -94,11 +90,8 @@
                 <!--Middle div-->
                 <div class="w3-theme-l2 w3-col" style="margin: 0% 1% 0% 1%;width: 61%">
                     <div class="w3-card w3-padding" style="margin-top: 10px">
-                        <input id="tagSearch" style="margin-left: 2%;width: 50%; margin-bottom: 1%" class="ui-widget w3-large w3-input w3-theme-l3" type="text" placeholder="Search Post By Tag">
+                        <input id="tagSearch" onkeypress="addToTagList(event, 'tagSearch')" style="margin-left: 2%;width: 50%; margin-bottom: 1%" class="ui-widget w3-large w3-input w3-theme-l3" type="text" placeholder="Search Post By Tag">
 
-                        <% for (int i = 0; i < 5; i++) {%>
-                        <label class="w3-theme-l3 w3-margin-top w3-margin-left w3-text-black">Tags <a href="" class="w3-small" style="text-decoration: none;">&#x2715;</a></label>
-                        <%}%>
                     </div>
 
                     <!--posts div-->

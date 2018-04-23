@@ -53,6 +53,41 @@ var fetchTagsAJAX = function (url, method, params) {
     xhttp.send(params);
 };
 
+/**
+ *
+ * @param {type} url
+ * @param {type} method
+ * @param {type} params
+ * @returns {undefined}
+ */
+var addPostAJAX = function (url, method, params) {
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+
+        console.log("Ready state : " + this.readyState + "\nStatus : " + this.status);
+
+        if (this.readyState == 4 && this.status == 200) {
+
+            var result = JSON.parse(this.responseText);
+
+            if (result.insert == "true") {
+
+                document.getElementById('postContent').value = '';
+                getRecentPosts();
+                alert("Your post is added successfully");
+            } else if (result.insert == "false") {
+
+                alert("Your post is not added");
+            }
+        }
+    };
+
+    xhttp.open(method, url, true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(params);
+};
+
 
 /**
  * tag suggesstion jQuery style
@@ -86,6 +121,9 @@ var removeSearchTag = function (event) {
     if (searchTags.length > 0) {
 
         getSearchedPost();
+    } else {
+
+        getRecentPosts();
     }
 };
 
@@ -93,7 +131,7 @@ var removeSearchTag = function (event) {
  *
  * @returns {undefined}
  */
-var removePostTag = function () {
+var removePostTag = function (event) {
 
     var label = event.target.parentNode;
     var tag = label.firstChild.data.trim().length;
@@ -141,7 +179,8 @@ var addToTagList = function (event, id) {
             postTags.push(tag);
 
             var label = document.createElement("label");
-            label.className = "w3-theme-l3 w3-margin-top w3-margin-left w3-text-black";
+            label.className = "w3-theme-d1 w3-round-small w3-margin-top w3-margin-left w3-text-black";
+            label.style.padding = "2px 2px 2px 2px";
 
             var text = document.createTextNode(tag + " ");
             label.appendChild(text);
@@ -169,4 +208,19 @@ var getSearchedPost = function () {
     var method = "GET";
 
     postFetchAJAX(url, method, null);
+};
+
+
+var addPost = function () {
+
+    var content = document.getElementById('postContent').value.trim();
+
+    if (content != '' && postTags.length > 0) {
+
+        var url = "/office_resource_management/api/service/forum/post/add";
+        var method = "POST";
+        var params = "content=" + content + "&tags=" + JSON.stringify(postTags);
+
+        addPostAJAX(url, method, params);
+    }
 };
