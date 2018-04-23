@@ -304,7 +304,7 @@ public class PostRestController {
     /**
      * Search posts by tags
      *
-     * @param tags
+     * @param tagJson
      * @param session
      * @return
      */
@@ -315,47 +315,60 @@ public class PostRestController {
             produces = {"application/json;charset=UTF-8"})
 
     public String searchPostByTag(
-            @RequestParam("tags") String[] tags,
+            @RequestParam("tags") String tagJson,
             HttpSession session) {
 
         String token = (String) session.getAttribute("token");
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.setDateFormat(df);
 
         if (token != null && tokenDAO.isTokenExist(token)) {
 
-            List<Post> justPosts = postService.getPostsByTag(tags);
-            List<PostJson> posts = new ArrayList<>();
+            try {
 
-            for (Post justPost : justPosts) {
+                String[] tags = objectMapper.readValue(tagJson,
+                        TypeFactory.defaultInstance().constructArrayType(String.class));
 
-                PostJson postJson = new PostJson();
+                List<Post> justPosts = postService.getPostsByTag(tags);
+                List<PostJson> posts = new ArrayList<>();
 
-                postJson.setId(justPost.getId());
-                postJson.setContent(justPost.getContent());
-                postJson.setPostTime(justPost.getPostTime());
-                postJson.setPosterId(justPost.getPosterId());
-                postJson.setTags(justPost.getTags());
-                postJson.setPoster(humanResourceDAO.getHumanResource(justPost.getPosterId()));
+                if (justPosts != null && justPosts.size() > 0) {
 
-                posts.add(postJson);
-            }
+                    for (Post justPost : justPosts) {
 
-            if (posts.size() > 0) {
+                        PostJson postJson = new PostJson();
 
-                String postsJson;
-                ObjectMapper objectMapper = new ObjectMapper();
-                objectMapper.setDateFormat(df);
-                try {
+                        postJson.setId(justPost.getId());
+                        postJson.setContent(justPost.getContent());
+                        postJson.setPostTime(justPost.getPostTime());
+                        postJson.setPosterId(justPost.getPosterId());
+                        postJson.setTags(justPost.getTags());
+                        postJson.setPoster(humanResourceDAO.getHumanResource(justPost.getPosterId()));
 
-                    postsJson = objectMapper.writeValueAsString(posts);
-                } catch (JsonProcessingException ex) {
+                        posts.add(postJson);
+                    }
 
-                    return "[]";
+                    if (posts.size() > 0) {
+
+                        String postsJson;
+
+                        try {
+
+                            postsJson = objectMapper.writeValueAsString(posts);
+                        } catch (JsonProcessingException ex) {
+
+                            return "[]";
+                        }
+
+                        if (postsJson != null) {
+
+                            return postsJson;
+                        }
+                    }
                 }
+            } catch (IOException e) {
 
-                if (postsJson != null) {
-
-                    return postsJson;
-                }
+                System.err.println(e.toString());
             }
         }
 
