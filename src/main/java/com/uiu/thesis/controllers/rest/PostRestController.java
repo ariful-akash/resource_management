@@ -101,19 +101,19 @@ public class PostRestController {
     /**
      * Add a new post
      *
-     * @param postJson
+     * @param content
      * @param tagJson
      * @param session
      * @return
      */
     @RequestMapping(
             value = "/api/service/forum/post/add",
-            params = {"post", "tags"},
+            params = {"content", "tags"},
             method = RequestMethod.POST,
             produces = {"application/json;charset=UTF-8"})
 
     public String addNewPost(
-            @RequestParam("post") String postJson,
+            @RequestParam("content") String content,
             @RequestParam("tags") String tagJson,
             HttpSession session) {
 
@@ -127,7 +127,8 @@ public class PostRestController {
 
             try {
 
-                Post post = objectMapper.readValue(postJson, Post.class);
+                Post post = new Post();
+                post.setContent(content);
                 String[] tags = objectMapper.readValue(
                         tagJson,
                         TypeFactory.defaultInstance().constructArrayType(String.class));
