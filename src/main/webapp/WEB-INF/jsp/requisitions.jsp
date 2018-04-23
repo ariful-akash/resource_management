@@ -65,8 +65,8 @@
                         <a class="w3-button"style="text-align: left; width: 100%; padding-left: 20%">
                             <span onclick="document.getElementById('id01').style.display = 'block'; getTags()">Add Requisition</span>
                         </a>
-                        <a class="w3-button" style="text-decoration: none; text-align: left; width: 100%; padding-left: 20%" href="#" onclick="changeOwn(true); getPandingRequisitions()">My Requisitions</a><br>
-                        <a id="incomingRequisitions" class="w3-button" style="text-decoration: none; text-align: left; width: 100%; padding-left: 20%" href="#" onclick="changeOwn(false); getPandingRequisitions()">Incoming Requisitions</a><br>
+                        <a class="w3-button" style="text-decoration: none; text-align: left; width: 100%; padding-left: 20%" href="#" onclick="changeOwn(true); getRequisition()">My Requisitions</a>
+                        <a id="incomingRequisitions" class="w3-button" style="text-decoration: none; text-align: left; width: 100%; padding-left: 20%" href="#" onclick="changeOwn(false); getRequisition()">Incoming Requisitions</a>
                         <a id="statistics"   class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="statistics">Statistics</a>
                         <a id="manageHr"     class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="hr">Manage Human Resources</a>
                         <a id="manageOffice" class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="office">Add Office Resources</a>
@@ -117,7 +117,7 @@
                         <button class="w3-bar-item w3-button tablink" style="width: 50%" onclick="changeTab(event, 'solved'); getSolvedRequisitions()">Solved</button>
                     </div>
 
-                    <img id="loading" src="${loading}" height="300px" style="display: block; margin-left: auto; margin-right: auto">
+                    <img id="loading" src="${loading}" height="300px" style="display: block; margin-left: auto; margin-right: auto; margin-top: 10%; margin-bottom: 10%">
 
                     <!--pending tab-->
                     <div id="pending" class="w3-container w3-border tab" style="display:block">

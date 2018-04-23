@@ -14,27 +14,43 @@ var own = true;
 /*Gobal variables end*/
 
 
+
 var changeOwn = function (value) {
 
     own = value;
 };
 
-var getPandingComplaints = function () {
+var getComplaints = function () {
 
     if (type == 'pending') {
 
-        if (own) {
-
-            getOwnPendingComplaints();
-        } else {
-
-            getIncomingComplaints();
-        }
+        getPandingComplaints();
     } else {
 
         getSolvedComplaints();
     }
+};
 
+var getRequisition = function () {
+
+    if (type == 'pending') {
+
+        getPandingRequisitions();
+    } else {
+
+        getSolvedRequisitions();
+    }
+};
+
+var getPandingComplaints = function () {
+
+    if (own) {
+
+        getOwnPendingComplaints();
+    } else {
+
+        getIncomingComplaints();
+    }
 };
 
 var getSolvedComplaints = function () {
@@ -51,20 +67,13 @@ var getSolvedComplaints = function () {
 
 var getPandingRequisitions = function () {
 
-    if (type == 'pending') {
+    if (own) {
 
-        if (own) {
-
-            getOwnPendingRequisition();
-        } else {
-
-            getIncomingRequisition();
-        }
+        getOwnPendingRequisition();
     } else {
 
-        getSolvedRequisitions();
+        getIncomingRequisition();
     }
-
 };
 
 var getSolvedRequisitions = function () {
@@ -302,6 +311,9 @@ var placeAllComplaints = function () {
 
     removeChild(pendingTab);
 
+    var loading = document.getElementById('loading');
+    loading.style.display = "none";
+
     for (var i = 0; i < data.length; i++) {
         /*
          * Main container div after tab
@@ -513,23 +525,7 @@ var placeAllComplaints = function () {
 
         var typeCell2 = typeRow.insertCell(1);
         typeCell2.innerHTML = data[i].type.type;
-
-
-
-        /*
-         var descriptionRow = table.insertRow(tableRowNo++);
-         var creatorRow = table.insertRow(tableRowNo++);
-         var solvedRow = table.insertRow(tableRowNo++);
-
-         if (type == 'solved') {
-
-         var solverRow = table.insertRow(tableRowNo++);
-         var solvedDateRow = table.insertRow(tableRowNo++);
-         }*/
-
-
     }
-
 };
 
 /**
@@ -564,6 +560,15 @@ var changeTab = function (evt, cityName) {
  * @returns {undefined}
  */
 var fetchData = function (url, method, params) {
+
+    var mainDiv1 = document.getElementById('pending');
+    var mainDiv2 = document.getElementById('solved');
+
+    removeChild(mainDiv1);
+    removeChild(mainDiv2);
+
+    var loading = document.getElementById('loading');
+    loading.style.display = "block";
 
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
