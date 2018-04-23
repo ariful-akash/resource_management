@@ -114,7 +114,7 @@ var userFetchAJAX = function (url, method, params) {
 };
 
 /*
- * 
+ *
  * @param {type} url
  * @param {type} method
  * @param {type} params
@@ -131,7 +131,6 @@ var postCommentFetchAJAX = function (url, method, params) {
 
             postComment = JSON.parse(this.responseText);
 
-            console.log(postComment);
 
             placePostComment();
         }
@@ -545,7 +544,7 @@ var placePostComment = function () {
         commentDiv.appendChild(nameDiv);
 
         /******
-         * 
+         *
          * show all comments div and replys
          */
         var showCommentsDiv = document.createElement("div");
@@ -622,7 +621,7 @@ var placePostComment = function () {
                     postComment[0].comments[i].commentReplys[j].replier.lastName;
             replyNameLabel.style.fontWeight = "bold";
 
-            // appending name label to reply name div 
+            // appending name label to reply name div
             replyNameDiv.appendChild(replyNameLabel);
 
             //break tag
@@ -636,7 +635,7 @@ var placePostComment = function () {
             replyDateLabel.className = "w3-tiny w3-text-dark-gray";
             replyDateLabel.textContent = postComment[0].comments[i].commentReplys[j].dateTime;
 
-            // appending date label to reply name div 
+            // appending date label to reply name div
             replyNameDiv.appendChild(replyDateLabel);
 
 
