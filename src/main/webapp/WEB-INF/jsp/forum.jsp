@@ -17,6 +17,7 @@
         <spring:url value="/web-resources/js/menuremover.js" var="menuJs"/>
         <spring:url value="/web-resources/css/w3-theme-blue-grey.css" var="w3BlueDarkTheme"/>
         <spring:url value="/web-resources/images/akash.jpg" var="img"/>
+        <spring:url value="/web-resources/images/loading.gif" var="loading"/>
 
 
         <link href="${jQueryUIcss}" rel="stylesheet" type="text/css"/>
@@ -96,8 +97,10 @@
 
                     </div>
 
+                    <img id="loading" src="${loading}" height="300px" style="display: block; margin-left: auto; margin-right: auto">
+
                     <!--posts div-->
-                    <div id="allPostDiv" style="overflow: auto; height: 470px; margin-top: 10px">
+                    <div id="allPostDiv" style="overflow: auto; height: 500px; margin-top: 10px">
 
                         <!--posts are shown here from AJAX by forum.js-->
 

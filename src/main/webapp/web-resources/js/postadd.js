@@ -202,6 +202,12 @@ var addToTagList = function (event, id) {
 
 var getSearchedPost = function () {
 
+    var loading = document.getElementById('loading');
+    var mainDiv = document.getElementById('allPostDiv');
+
+    removeChild(mainDiv);
+    loading.style.display = "block";
+
     var tagsJson = JSON.stringify(searchTags);
 
     var url = "/office_resource_management/api/service/forum/post/search/tag?tags=" + tagsJson;
