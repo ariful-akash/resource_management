@@ -20,6 +20,7 @@
         <spring:url value="/web-resources/js/myComplaintsJS.js" var="js" />
         <spring:url value="/web-resources/js/requisitionadd.js" var="requisitionAddJs" />
         <spring:url value="/web-resources/js/menuremover.js" var="menuJs"/>
+        <spring:url value="/web-resources/images/loading.gif" var="loading"/>
 
 
         <link href="${css}" rel="stylesheet" type="text/css"/>
@@ -115,6 +116,8 @@
                         <button class="w3-bar-item w3-button tablink w3-theme-d2" style="width: 50%" onclick="changeTab(event, 'pending'); getPandingRequisitions()">Pending</button>
                         <button class="w3-bar-item w3-button tablink" style="width: 50%" onclick="changeTab(event, 'solved'); getSolvedRequisitions()">Solved</button>
                     </div>
+
+                    <img id="loading" src="${loading}" height="300px" style="display: block; margin-left: auto; margin-right: auto">
 
                     <!--pending tab-->
                     <div id="pending" class="w3-container w3-border tab" style="display:block">
