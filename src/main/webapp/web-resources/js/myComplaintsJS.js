@@ -92,6 +92,8 @@ var getSolvedRequisitions = function () {
  */
 var getOwnPendingComplaints = function () {
 
+    document.getElementById('noContent').style.display = "none";
+
     var url = "/office_resource_management/api/service/office/complaint/own/false";
     var method = "GET";
     type = 'pending';
@@ -105,6 +107,8 @@ var getOwnPendingComplaints = function () {
  * @returns {undefined}
  */
 var getOwnSolvedComplaints = function () {
+
+    document.getElementById('noContent').style.display = "none";
 
     var url = "/office_resource_management/api/service/office/complaint/own/true";
     var method = "GET";
@@ -121,6 +125,8 @@ var getOwnSolvedComplaints = function () {
  */
 var getIncomingComplaints = function () {
 
+    document.getElementById('noContent').style.display = "none";
+
     var url = "/office_resource_management/api/service/office/complaint/incoming/false";
     var method = "GET";
     type = 'pending';
@@ -134,6 +140,8 @@ var getIncomingComplaints = function () {
  * @returns {undefined}
  */
 var getIncomingSolvedComplaints = function () {
+
+    document.getElementById('noContent').style.display = "none";
 
     var url = "/office_resource_management/api/service/office/hr/current";
     var method = "GET";
@@ -167,6 +175,8 @@ var getIncomingSolvedComplaints = function () {
  */
 var getOwnPendingRequisition = function () {
 
+    document.getElementById('noContent').style.display = "none";
+
     var url = "/office_resource_management//api/service/office/requisition/own/false";
     var method = "GET";
     type = 'pending';
@@ -181,6 +191,8 @@ var getOwnPendingRequisition = function () {
  */
 var getOwnSolvedRequisition = function () {
 
+    document.getElementById('noContent').style.display = "none";
+
     var url = "/office_resource_management/api/service/office/requisition/own/true";
     var method = "GET";
     type = 'solved';
@@ -194,6 +206,8 @@ var getOwnSolvedRequisition = function () {
  * @returns {undefined}
  */
 var getIncomingRequisition = function () {
+
+    document.getElementById('noContent').style.display = "none";
 
     var url = "/office_resource_management/api/service/office/requisition/incoming";
     var method = "GET";
@@ -210,6 +224,8 @@ var getIncomingRequisition = function () {
  * @returns {undefined}
  */
 var solveComplaintRequisition = function (e) {
+
+    document.getElementById('noContent').style.display = "none";
 
     var target = e.currentTarget || e.srcElement;
 
@@ -262,6 +278,8 @@ var solveComplaintRequisition = function (e) {
  * @returns {undefined}
  */
 var getIncomingSolvedRequisition = function () {
+
+    document.getElementById('noContent').style.display = "none";
 
     var url = "/office_resource_management/api/service/office/hr/current";
     var method = "GET";
