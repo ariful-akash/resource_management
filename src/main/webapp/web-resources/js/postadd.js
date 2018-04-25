@@ -73,6 +73,7 @@ var addPostAJAX = function (url, method, params) {
 
             if (result.insert == "true") {
 
+                document.getElementById('id01').style.display = "none";
                 document.getElementById('postContent').value = '';
                 getRecentPosts();
                 alert("Your post is added successfully");
