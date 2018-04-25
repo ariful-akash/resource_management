@@ -94,7 +94,7 @@
                                             <input id="postTags" onkeypress="addToTagList(event, 'postTags')" style="margin-bottom: 15px" class="ui-widget w3-input w3-large w3-round-small w3-light-gray" type="text" placeholder="Type Tag: e.g., computer lab">
 
                                         </div>
-                                        <input onclick="addPost()" value="Post" class="w3-button w3-input w3-green w3-hover-light-green w3-round" style="margin-top: 2%">
+                                        <input onclick="addPost()" value="Post" type="button" class="w3-button w3-input w3-green w3-hover-light-green w3-round" style="margin-top: 2%">
 
                                     </div>
                                 </div>
