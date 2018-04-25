@@ -586,6 +586,18 @@ var fetchData = function (url, method, params) {
         if (this.readyState == 4 && this.status == 200) {
 
             data = JSON.parse(this.responseText);
+
+            if (!own && type == 'pending') {
+
+                if (comORreq == 'complaint') {
+
+                    placeComplaintNotifcation(data.length);
+                } else if (comORreq == 'requisition') {
+
+                    placeRequisitionNotifcation(data.length);
+                }
+            }
+
             placeAllComplaints();
         }
     };

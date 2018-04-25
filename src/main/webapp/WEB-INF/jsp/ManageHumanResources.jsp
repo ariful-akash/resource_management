@@ -13,16 +13,19 @@
         <spring:url value="/web-resources/css/w3-theme-blue-grey.css" var="w3BlueDarkTheme"/>
         <spring:url value="/web-resources/js/menuremover.js" var="menuJs"/>
         <spring:url value="/web-resources/images/akash.jpg" var="img"/>
+        <spring:url value="/web-resources/js/notification.js" var="notificationJs"/>
 
 
         <link href="${css}" rel="stylesheet" type="text/css"/>
         <link href="${w3BlueDarkTheme}" rel="stylesheet" type="text/css"/>
         <script src="${menuJs}" type="text/javascript"></script>
+        <script src="${notificationJs}" type="text/javascript"></script>
+
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Manage Human Resources</title>
     </head>
-    <body onload="setMenu()" class="w3-theme-l4" style="font-family: 'Lato', 'sans-serif';">
+    <body onload="setMenu(); countComplaint(); countRequisition()" class="w3-theme-l4" style="font-family: 'Lato', 'sans-serif';">
 
         <div>
             <div class="w3-theme-d3 w3-row" style="height: 50px">
@@ -30,9 +33,18 @@
                 <!--navigation ber-->
 
                 <div class="navbar-menu w3-right w3-large" style="height: 100%">
-                    <a class="w3-button" style="text-decoration: none; height: 100%" href="complaints">Complaints</a>
-                    <a class="w3-button" style="text-decoration: none;height: 100%" href="requisitions">Requisitions</a>
-                    <a class="w3-button" style="text-decoration: none;height: 100%" href="#">Leave</a>
+                    <a class="w3-button" style="text-decoration: none; height: 100%" href="complaints">
+                        Complaints
+                        <span id="complaintNotification" class="w3-badge w3-red"></span>
+                    </a>
+                    <a class="w3-button" style="text-decoration: none;height: 100%" href="requisitions">
+                        Requisitions
+                        <span id="requisitionNotification" class="w3-badge w3-red"></span>
+                    </a>
+                    <a class="w3-button" style="text-decoration: none;height: 100%" href="#">
+                        Leave
+                        <span id="leaveNotification" class="w3-badge w3-red">6</span>
+                    </a>
                     <a class="w3-button" style="text-decoration: none;height: 100%" href="forum">Forum</a>
                     <div class="w3-dropdown-hover" style="padding-right: 20px">
                         <img src="${img}" class="w3-circle" style="width: 30px;height: 30px" alt="#">

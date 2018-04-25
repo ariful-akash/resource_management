@@ -9,12 +9,14 @@
 <html>
     <head>
         <spring:url value="/web-resources/css/w3.css" var="css"/>
+        <spring:url value="/web-resources/js/jquery-1.12.4.js" var="jquery"/>
+        <spring:url value="/web-resources/js/jquery-ui.js" var="jqueryUi"/>
         <spring:url value="/web-resources/css/jquery-ui.min.css" var="jQueryUIcss"/>
         <spring:url value="/web-resources/js/forum.js" var="forumJs"/>
         <spring:url value="/web-resources/js/postadd.js" var="postAddJs"/>
-        <spring:url value="/web-resources/js/jquery-1.12.4.js" var="jquery"/>
-        <spring:url value="/web-resources/js/jquery-ui.js" var="jqueryUi"/>
+        <spring:url value="/web-resources/js/myComplaintsJS.js" var="myComplaintsJs"/>
         <spring:url value="/web-resources/js/menuremover.js" var="menuJs"/>
+        <spring:url value="/web-resources/js/notification.js" var="notificationJs"/>
         <spring:url value="/web-resources/css/w3-theme-blue-grey.css" var="w3BlueDarkTheme"/>
         <spring:url value="/web-resources/images/akash.jpg" var="img"/>
         <spring:url value="/web-resources/images/loading.gif" var="loading"/>
@@ -28,11 +30,13 @@
         <script src="${forumJs}" type="text/javascript"></script>
         <script src="${postAddJs}" type="text/javascript"></script>
         <script src="${menuJs}" type="text/javascript"></script>
+        <script src="${myComplaintsJs}" type="text/javascript"></script>
+        <script src="${notificationJs}" type="text/javascript"></script>
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Forum</title>
     </head>
-    <body onload="setMenu(); getRecentPosts(); getAllUsers(); getAllTags();" class="w3-theme-l4" style="font-family: 'Lato', 'sans-serif';">
+    <body onload="setMenu(); getRecentPosts(); getAllUsers(); getAllTags(); countComplaint(); countRequisition()" class="w3-theme-l4" style="font-family: 'Lato', 'sans-serif';">
 
         <div>
             <div class="w3-theme-d3 w3-row" style="height: 50px">
@@ -40,9 +44,18 @@
                 <!--navigation ber-->
 
                 <div class="navbar-menu w3-right w3-large" style="height: 100%">
-                    <a class="w3-button" style="text-decoration: none; height: 100%" href="complaints">Complaints</a>
-                    <a class="w3-button" style="text-decoration: none;height: 100%" href="requisitions">Requisitions</a>
-                    <a class="w3-button" style="text-decoration: none;height: 100%" href="#">Leave</a>
+                    <a class="w3-button" style="text-decoration: none; height: 100%" href="complaints">
+                        Complaints
+                        <span id="complaintNotification" class="w3-badge w3-red"></span>
+                    </a>
+                    <a class="w3-button" style="text-decoration: none;height: 100%" href="requisitions">
+                        Requisitions
+                        <span id="requisitionNotification" class="w3-badge w3-red"></span>
+                    </a>
+                    <a class="w3-button" style="text-decoration: none;height: 100%" href="#">
+                        Leave
+                        <span id="leaveNotification" class="w3-badge w3-red">6</span>
+                    </a>
                     <a class="w3-button" style="text-decoration: none;height: 100%" href="forum">Forum</a>
                     <div class="w3-dropdown-hover" style="padding-right: 20px">
                         <img src="${img}" class="w3-circle" style="width: 30px;height: 30px" alt="#">
