@@ -61,9 +61,10 @@
 
                 <!--Left div-->
                 <div class="w3-theme-d1 w3-col" style="width: 20%; height: 450px">
+                    <a id="addOffice" class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="#">Add Office Resources</a>
+                    <a id="viewOffice" class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="#">View Office Resources</a>
                     <a id="statistics"   class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="statistics">Statistics</a>
                     <a id="manageHr"     class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="hr">Manage Human Resources</a>
-                    <a id="manageOffice" class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="office">Add Office Resources</a>
 
                 </div>
 
