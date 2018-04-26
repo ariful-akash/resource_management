@@ -8,15 +8,19 @@ package com.uiu.thesis.dao.implement;
 import com.uiu.thesis.dao.interfaces.FloorDAO;
 import com.uiu.thesis.models.object_resource.Floor;
 import java.util.List;
+import javax.transaction.Transactional;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author ashif
  */
+@Transactional
+@Repository
 public class FloorDAOImpl implements FloorDAO {
 
     @Autowired(required = true)
