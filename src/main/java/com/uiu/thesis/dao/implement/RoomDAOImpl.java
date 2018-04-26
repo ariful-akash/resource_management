@@ -159,6 +159,8 @@ public class RoomDAOImpl implements RoomDAO {
 
                     rooms.add(room);
                 }
+
+                return rooms;
             }
         }
 
