@@ -14,18 +14,20 @@
         <spring:url value="/web-resources/images/akash.jpg" var="img"/>
         <spring:url value="/web-resources/js/menuremover.js" var="menuJs"/>
         <spring:url value="/web-resources/js/notification.js" var="notificationJs"/>
+        <spring:url value="/web-resources/js/officeresource.js" var="officeresourceJs"/>
 
 
         <link href="${css}" rel="stylesheet" type="text/css"/>
         <link href="${w3BlueDarkTheme}" rel="stylesheet" type="text/css"/>
         <script src="${menuJs}" type="text/javascript"></script>
         <script src="${notificationJs}" type="text/javascript"></script>
+        <script src="${officeresourceJs}" type="text/javascript"></script>
 
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Manage Office Resources</title>
     </head>
-    <body onload="setMenu(); countComplaint(); countRequisition()" class="w3-theme-l4" style="font-family: 'Lato', 'sans-serif';">
+    <body onload="setMenu(); placeOfficeResourceData(); countComplaint(); countRequisition()" class="w3-theme-l4" style="font-family: 'Lato', 'sans-serif';">
 
         <div>
             <div class="w3-theme-d3 w3-row" style="height: 50px">
@@ -61,42 +63,89 @@
 
                 <!--Left div-->
                 <div class="w3-theme-d1 w3-col" style="width: 20%; height: 450px">
-                    <a id="addOffice" class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="#">Add Office Resources</a>
-                    <a id="viewOffice" class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="#">View Office Resources</a>
-                    <a id="statistics"   class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="statistics">Statistics</a>
-                    <a id="manageHr"     class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="hr">Manage Human Resources</a>
+                    <a id="addOffice" onclick="changeDisplay('addOffice')" class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="#">Add Office Resources</a>
+                    <a id="viewOffice" onclick="changeDisplay('viewOffice')" class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="#">View Office Resources</a>
+                    <a id="statistics" class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="statistics">Statistics</a>
+                    <a id="manageHr" class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="hr">Manage Human Resources</a>
 
                 </div>
 
                 <!--Middle div-->
-                <div class="w3-theme-l2 w3-col" style="margin: 0% 1% 0% 1%;width: 78%;">
-                    <div style="margin: 1% 1% 1% 1%">
-                        <div class="" style="margin-left: 25%">
+                <div class="w3-theme-l2 w3-col" style="width: 80%">
+                    <div style="margin: 5% 5% 5% 5%">
 
-                            <label>Type: </label>
-                            <select class="w3-theme-d3" style="margin-left: 5.5% ;width: 30%;height: 40px">
-                                <option value="type">Table</option>
-                            </select> <br>
+                        <!--Office Resource Adding div-->
+                        <div id="addResourceDiv" onload="" style="display: none">
+                            <table class="w3-large" style="width: 50%">
+                                <tr>
+                                    <td><label>Type: </label></td>
+                                    <td>
+                                        <select id="typeOption" class="w3-theme-l4 w3-input w3-round">
 
-                            <label>Floor: </label>
-                            <select class="w3-theme-d3" style="margin-top: 2%;margin-left: 5% ;width: 30%;height: 40px">
-                                <option value="floor">1</option>
-                            </select> <br>
+                                            <!--Type options are placed here by js-->
 
-                            <label>Room: </label>
-                            <select class="w3-theme-d3" style="margin-top: 2%;margin-left: 4.5% ;padding-bottom: 50px;width: 30%;height: 40px">
-                                <option value="room">10</option>
-                            </select> <br>
+                                        </select>
+                                    </td>
+                                </tr>
 
-                            <label style="display: inline">Quantity: </label>
-                            <input class="w3-input w3-round w3-margin w3-theme-d3" style="display: inline ;margin-left: 5% ; width: 30%" type="text">
+                                <tr>
+                                    <td><label>Floor: </label></td>
+                                    <td>
+                                        <select id="floorOption" onchange="placeRoomOption();" class="w3-theme-l4 w3-input w3-round">
 
-                            <br>
+                                            <!--Floor options are placed here by js-->
 
-                            <input class="w3-large w3-button w3-round w3-theme-d3" style="width: 15%;margin-left: 25%" value="Add">
+                                        </select>
+                                    </td>
+                                </tr>
 
+                                <tr>
+                                    <td><label>Room: </label></td>
+                                    <td>
+                                        <select id="roomOption" class="w3-theme-l4 w3-input w3-round">
+
+                                            <!--Room options are placed here by js-->
+
+                                        </select>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td><label>Quantity: </label></td>
+                                    <td>
+                                        <input id="typeQuantity" class="w3-theme-l4 w3-input w3-round" type="number" value="1" min="1">
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <input onclick="addResource()" class="w3-button w3-theme-d1 w3-hover-green w3-round" style="width: 50%" type="button" value="Add">
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
 
+                        <!--office resource display table-->
+                        <div id="viewResourceDiv">
+
+                            <table class="w3-table" border="1">
+                                <thead>
+                                    <tr>
+                                        <th>Resource Type</th>
+                                        <th>Floor</th>
+                                        <th>Room</th>
+                                        <th>Quantity</th>
+                                        <th>Total in floor</th>
+                                        <th>Total of type</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+
+                        </div>
                     </div>
                 </div>
             </div>

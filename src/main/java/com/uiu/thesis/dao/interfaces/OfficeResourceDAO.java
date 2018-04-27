@@ -11,7 +11,7 @@ public interface OfficeResourceDAO {
 
     public int addOfficeResource(OfficeResource officeResource);
 
-    public boolean updateOfficeResource(OfficeResource oldOfficeResource, OfficeResource newOfficeResource);
+    public int updateOfficeResource(OfficeResource officeResource);
 
     public boolean updateOfficeResource(Long oldResourceId, OfficeResource newOfficeResource);
 

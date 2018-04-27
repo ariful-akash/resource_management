@@ -21,5 +21,7 @@ public interface OfficeResourceTypeDAO {
 
     public OfficeResourceType getOfficeResourceType(Long typeId);
 
+    public OfficeResourceType getOfficeResourceType(String type);
+
     public List<OfficeResourceType> getAllOfficeResourceTypes();
 }

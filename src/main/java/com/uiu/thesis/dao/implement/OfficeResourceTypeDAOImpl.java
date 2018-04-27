@@ -94,4 +94,24 @@ public class OfficeResourceTypeDAOImpl implements OfficeResourceTypeDAO {
         return orType;
     }
 
+    /**
+     *
+     * @param type
+     * @return
+     */
+    @Override
+    public OfficeResourceType getOfficeResourceType(String type) {
+
+        List<OfficeResourceType> resourceTypes = getAllOfficeResourceTypes();
+
+        for (OfficeResourceType resourceType : resourceTypes) {
+
+            if (resourceType.getResourceType().equals(type.trim())) {
+
+                return resourceType;
+            }
+        }
+
+        return null;
+    }
 }

@@ -1,9 +1,8 @@
 package com.uiu.thesis.dao.implement;
 
-import com.uiu.thesis.dao.interfaces.HumanResourceTypeDAO;
 import com.uiu.thesis.dao.interfaces.OfficeResourceDAO;
 import com.uiu.thesis.models.object_resource.OfficeResource;
-import com.uiu.thesis.models.user.HumanResourceType;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -26,26 +25,75 @@ public class OfficeResourceDAOImpl implements OfficeResourceDAO {
     @Autowired(required = true)
     private SessionFactory sessionFactory;
 
-    @Autowired
-    private HumanResourceTypeDAO humanResourceTypeDAO;
-
     /**
+     * Insert office resource or update the already exist
      *
      * @param officeResource
      * @return
      */
     @Override
     public int addOfficeResource(OfficeResource officeResource) {
-        Session session = sessionFactory.getCurrentSession();
-        Long ret = (Long) session.save(officeResource);
 
-        return Integer.valueOf(ret.toString());
+        Session session = sessionFactory.getCurrentSession();
+
+        String sql = "SELECT * FROM resource_management.office_resources"
+                + " WHERE floor = '" + officeResource.getFloor() + "'"
+                + " AND room = '" + officeResource.getRoom() + "'"
+                + " AND type_id = " + officeResource.getType().getId();
+
+        List<OfficeResource> officeResources = makeOfficeResourcesBySQL(sql);
+
+        if (officeResources != null && officeResources.size() > 0) {
+
+            OfficeResource currentResource = officeResources.get(0);
+
+            currentResource.setQuantity(
+                    currentResource.getQuantity()
+                    + officeResource.getQuantity());
+
+            currentResource.setType(officeResource.getType());
+
+            int value = updateOfficeResource(currentResource);
+
+            return value;
+
+        } else if (officeResources == null
+                && officeResource.getId() == null
+                && officeResource.getType() != null) {
+
+            Long id = (Long) session.save(officeResource);
+            return Integer.valueOf(id.toString());
+        }
+
+        return 0;
     }
 
+    /**
+     * Update the office resource
+     *
+     * @param officeResource
+     * @return
+     */
     @Override
-    public boolean updateOfficeResource(OfficeResource oldOfficeResource, OfficeResource newOfficeResource) {
+    public int updateOfficeResource(OfficeResource officeResource) {
 
-        return false;
+        if (officeResource != null
+                && officeResource.getId() != null
+                && officeResource.getType() != null) {
+
+            Session session = sessionFactory.getCurrentSession();
+
+            try {
+
+                session.update(officeResource);
+                return 1;
+            } catch (Exception e) {
+
+                return 0;
+            }
+        }
+
+        return 0;
     }
 
     @Override
@@ -81,16 +129,12 @@ public class OfficeResourceDAOImpl implements OfficeResourceDAO {
 
         if (typeId > 0) {
 
-            HumanResourceType hrType = humanResourceTypeDAO.getHumanResourceType(typeId);
-            if (hrType != null) {
+            String sql = "SELECT * FROM office_resources "
+                    + "WHERE type_id = " + typeId;
 
-                String sql = "SELECT * FROM office_resources "
-                        + "WHERE type_id = " + typeId;
+            List<OfficeResource> officeResources = makeOfficeResourcesBySQL(sql);
 
-                List<OfficeResource> officeResources = makeOfficeResourcesBySQL(sql);
-
-                return officeResources;
-            }
+            return officeResources;
         }
 
         return null;
@@ -160,13 +204,29 @@ public class OfficeResourceDAOImpl implements OfficeResourceDAO {
         Query query = session.createSQLQuery(sql);
         query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
 
-        List result = query.list();
+        List results = query.list();
 
-        List<OfficeResource> officeResources = new ArrayList<>();
+        if (results != null && results.size() > 0) {
 
-        for (Object object : result) {
+            List<OfficeResource> officeResources = new ArrayList<>();
 
-            Map row = (Map) object;
+            for (Object result : results) {
+
+                OfficeResource officeResource = new OfficeResource();
+
+                Map row = (Map) result;
+
+                BigInteger idInt = (BigInteger) row.get("id");
+
+                officeResource.setId(idInt.longValue());
+                officeResource.setFloor((String) row.get("floor"));
+                officeResource.setRoom((String) row.get("room"));
+                officeResource.setQuantity((int) row.get("quantity"));
+
+                officeResources.add(officeResource);
+            }
+
+            return officeResources;
         }
 
         return null;
