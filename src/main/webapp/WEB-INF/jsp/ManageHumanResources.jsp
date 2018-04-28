@@ -99,13 +99,13 @@
                 <div class="w3-theme-l2 w3-col" style="margin: 0% 1% 0% 1%;width: 75%">
                     <div class="w3-card w3-padding" style="margin-top: 10px">
                         <div>
-                            <input style="margin-left: 2%;width: 50%; margin-bottom: 1%" class="w3-large w3-input w3-theme-l3" type="text" placeholder="Search..." name="searchPost">
+                            <input style="margin-left: 3%;width: 50%; margin-bottom: 4%" class="w3-large w3-input w3-theme-l3" type="text" placeholder="Search..." name="searchPost">
                         </div>
                         <div>
                             <% for (int i = 0; i < 5; i++) {%>
-                            <div style="margin-right: 3%; padding: 1% 0% 0% 1%">
+                            <div class="w3-card w3-large w3-hover-theme" style="margin:0% 3% 2% 3%; padding: 1% 0% 2% 1% ;width: 60% " onclick="document.getElementById('id02').style.display = 'block'">
                                 <img src="${img}" class="w3-circle" style="width: 30px;height: 30px;margin-right: 1%" alt="#">
-                                <label class="w3-small w3-text-dark-gray"><span onclick="document.getElementById('id02').style.display = 'block'">Ariful Islam</span></label><br>
+                                <label class=" w3-text-dark-gray">Ariful Islam</label><br>
 
                             </div>
                             <%}%>
@@ -116,7 +116,7 @@
                                     <div class="w3-modal-content w3-round" style="margin-left: 25%;width: 50%">
                                         <div class="w3-container w3-theme-l3 w3-round">
                                             <span onclick="document.getElementById('id02').style.display = 'none'" class="w3-button w3-large w3-red w3-display-topright">&times;</span>
-                                            <div class=" w3-margin w3-large" style="padding: 3%">
+                                            <div class="w3-large" style="padding: 3%; margin-left: 10%">
                                                 <form action="" method="post">
                                                     <div>
                                                         <label>Role:</label>
@@ -127,12 +127,12 @@
                                                         <%}%>
                                                     </div>
 
-                                                    <div style="margin-top: 4%">
+                                                    <div style="margin-top: 7%">
                                                         <label style="margin-top: 5%">Access:</label>
                                                         <label class="w3-theme-d3 w3-margin" >AccessName</label>
                                                         <br>
                                                         <%for (int l = 0; l < 5; l++) {%>
-                                                        <input type="radio" name="access" value="access" checked="true"> Access<br>
+                                                        <input type="checkbox" name="access" value="access" checked="true"> Access<br>
                                                         <%}%>
                                                     </div>
 
