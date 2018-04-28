@@ -3,6 +3,7 @@ package com.uiu.thesis.controllers.rest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.uiu.thesis.dao.interfaces.AccessTypeDAO;
+import com.uiu.thesis.dao.interfaces.HumanResourceDAO;
 import com.uiu.thesis.dao.interfaces.HumanResourceTypeDAO;
 import com.uiu.thesis.dao.interfaces.TokenDAO;
 import com.uiu.thesis.models.forum.json.HumanResourceJson;
@@ -36,6 +37,9 @@ public class HumanResourceRestController {
 
     @Autowired
     private AccessTypeDAO accessTypeDAO;
+
+    @Autowired
+    private HumanResourceDAO humanResourceDAO;
 
     @Autowired
     private TokenDAO tokenDAO;
@@ -410,18 +414,22 @@ public class HumanResourceRestController {
 
         if (token != null && tokenDAO.isTokenExist(token)) {
 
-            ObjectMapper objectMapper = new ObjectMapper();
+            Long userId = tokenDAO.getUserId(token);
+            if (humanResourceDAO.hasAccess(userId, (long) 19)) {
 
-            List<HumanResourceType> hrTypes = hrTypeDAO.getAllHRType();
+                ObjectMapper objectMapper = new ObjectMapper();
 
-            if (hrTypes != null && hrTypes.size() > 0) {
+                List<HumanResourceType> hrTypes = hrTypeDAO.getAllHRType();
 
-                try {
+                if (hrTypes != null && hrTypes.size() > 0) {
 
-                    return objectMapper.writeValueAsString(hrTypes);
-                } catch (JsonProcessingException ex) {
+                    try {
 
-                    System.err.println(ex.toString());
+                        return objectMapper.writeValueAsString(hrTypes);
+                    } catch (JsonProcessingException ex) {
+
+                        System.err.println(ex.toString());
+                    }
                 }
             }
         }
