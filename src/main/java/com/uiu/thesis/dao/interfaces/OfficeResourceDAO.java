@@ -17,9 +17,13 @@ public interface OfficeResourceDAO {
 
     public List<OfficeResource> getAllOfficeResources();
 
+    public List<OfficeResource> getOfficeResources(Long typeId, String floor);
+
+    public List<OfficeResource> getOfficeResources(Long typeId, String floor, String room);
+
     public List<OfficeResource> getOfficeResourcesByType(Long typeId);
 
     public List<OfficeResource> getOfficeResourcesByFloor(String floor);
 
-    public List<OfficeResource> getOfficeResourcesByRoom(String roomId);
+    public List<OfficeResource> getOfficeResourcesByRoom(String room);
 }

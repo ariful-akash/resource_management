@@ -20,5 +20,7 @@ public interface FloorDAO {
 
     public Floor getFloorById(Long floorId);
 
+    public Floor getFloor(String floor);
+
     public List<Floor> getAllFloors();
 }

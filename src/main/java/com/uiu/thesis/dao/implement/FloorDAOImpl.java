@@ -10,6 +10,7 @@ import com.uiu.thesis.models.object_resource.Floor;
 import java.util.List;
 import javax.transaction.Transactional;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,6 +96,36 @@ public class FloorDAOImpl implements FloorDAO {
         List<Floor> floors = session.createQuery(hql).list();
 
         return floors;
+    }
+
+    /**
+     *
+     * @param floor
+     * @return
+     */
+    @Override
+    public Floor getFloor(String floor) {
+
+        if (floor == null || floor.isEmpty()) {
+
+            return null;
+        }
+
+        Session session = sessionFactory.getCurrentSession();
+        String hql = "FROM Floor f WHERE f.floor = :floor";
+
+        Query query = session.createQuery(hql);
+        query.setParameter("floor", floor);
+
+        @SuppressWarnings("unchecked")
+        List<Floor> floors = query.list();
+
+        if (floors != null && floors.size() > 0) {
+
+            return floors.get(0);
+        }
+
+        return null;
     }
 
 }
