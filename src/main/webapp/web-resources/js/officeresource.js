@@ -6,6 +6,8 @@ var floorArray = [];
 var roomArray = [];
 
 var roomQuantity = {};
+var roomQuantityCopy = {};
+var total = 0;
 
 var floor_room_json;
 var office_resource_json;
@@ -335,7 +337,11 @@ var fetchSpecificResources = function () {
     xhttp.send();
 };
 
-
+/**
+ *
+ * @param {type} myNode
+ * @returns {undefined}
+ */
 var removeChild = function (myNode) {
 
     while (myNode.firstChild) {
@@ -343,6 +349,10 @@ var removeChild = function (myNode) {
     }
 };
 
+/**
+ *
+ * @returns {undefined}
+ */
 var placeTableData = function () {
 
     var byTypeTableBody = document.getElementById('byTypeTableBody');
@@ -355,17 +365,13 @@ var placeTableData = function () {
     var caption = document.getElementById('caption');
     caption.innerHTML = viewTypeOption;
 
-    console.log(office_resource_json);
-    console.log(floorRoomsArray);
-    console.log(floor_room_json);
 
     roomArray = floorRoomsArray[viewFloorOption];
-
-    var total = 0;
 
     for (var i in roomArray) {
 
         roomQuantity[roomArray[i]] = 0;
+        roomQuantityCopy[roomArray[i]] = 0;
     }
 
     if (office_resource_json[0] != null) {
@@ -374,6 +380,8 @@ var placeTableData = function () {
         for (var i in rooms) {
 
             roomQuantity[rooms[i].room] = rooms[i].quantity;
+
+            roomQuantityCopy[rooms[i].room] = rooms[i].quantity;
             total += rooms[i].quantity;
         }
     }
@@ -402,6 +410,14 @@ var placeTableData = function () {
             quantityCell.contentEditable = "true";
             quantityCell.innerHTML = roomQuantity[roomArray[i]];
 
+            quantityCell.onkeyup = deleteEnter;
+            quantityCell.onblur = saveToDB;
+
+            var idAttr = document.createAttribute("id");
+            idAttr.value = roomArray[i].toString();
+
+            quantityCell.setAttributeNode(idAttr);
+
             if (i == 0) {
 
                 var totalCell = row.insertCell(c++);
@@ -423,6 +439,16 @@ var placeTableData = function () {
         roomCell.innerHTML = viewRoomOption;
 
         var quantityCell = row.insertCell(2);
+        quantityCell.className = "w3-hover-theme";
+        quantityCell.contentEditable = "true";
+
+        quantityCell.onkeyup = deleteEnter;
+        quantityCell.onblur = saveToDB;
+
+        var idAttr = document.createAttribute("id");
+        idAttr.value = viewRoomOption.toString();
+
+        quantityCell.setAttributeNode(idAttr);
 
         if (office_resource_json[0] == null) {
 
@@ -437,4 +463,85 @@ var placeTableData = function () {
     }
 };
 
+/**
+ *
+ * @param {type} event
+ * @returns {undefined}
+ */
+var deleteEnter = function (event) {
 
+    var key = event.keyCode || event.which;
+    var target = event.target || event.srcElement;
+
+    if (key == 8 || (key >= 48 && key <= 57)) {
+
+        if (target.firstChild.data == undefined) {
+
+            if (roomQuantity[target.id] != 0) {
+
+                roomQuantity[target.id] = 0;
+            }
+
+        } else {
+
+            roomQuantity[target.id] = Number(target.firstChild.data);// need to change the string value to int value
+        }
+
+    } else {
+
+        target.innerHTML = roomQuantity[target.id];
+    }
+};
+
+/**
+ *
+ * @returns {undefined}
+ */
+var updateResource = function (type, floor, room, quantity) {
+
+
+
+    if (type != null && type != ''
+            && floor != null && floor != ''
+            && room != null && room != '') {
+
+
+        var url = "/office_resource_management/api/service/office/officeresource";
+        var method = "POST";
+        var params = "type=" + type
+                + "&floor=" + floor
+                + "&room=" + room
+                + "&quantity=" + quantity;
+
+        addUpdateResourceAJAX(url, method, params);
+    }
+};
+
+/**
+ *
+ * @param {type} event
+ * @returns {undefined}
+ */
+var saveToDB = function (event) {
+
+    var target = event.target || event.srcElement;
+
+    var viewTypeOption = document.getElementById('viewTypeOption').value;
+    var viewFloorOption = document.getElementById('viewFloorOption').value;
+
+
+    if (roomQuantityCopy[target.id].valueOf() != roomQuantity[target.id].valueOf()) {
+
+        var yes = confirm("Update:\n\tType: " + viewTypeOption
+                + "\n\tFloor: " + viewFloorOption
+                + "\n\tRoom: " + target.id
+                + "\n\tQuantity: " + roomQuantity[target.id]);
+
+        if (yes) {
+
+            roomQuantityCopy[target.id] = roomQuantity[target.id];
+            updateResource(viewTypeOption, viewFloorOption, target.id, roomQuantity[target.id]);
+        }
+    }
+
+};
