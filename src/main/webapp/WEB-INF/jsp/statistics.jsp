@@ -103,8 +103,8 @@
                         <!--Toggel and Print Button-->
                         <div class="w3-row" >
                             <div class="w3-col" style="width: 90%; margin-left: 1%;margin-top: 1%">
-                                <button class="w3-btn w3-theme-d3 w3-round-large">See List</button>
-                                <select onchange="changeGraph(this)" class="w3-btn w3-theme-d3 w3-round">
+                                <button onclick="changeViewStyle(this)" class="w3-btn w3-theme-d3 w3-round-large">See List</button>
+                                <select id="graphStyle" onchange="changeGraph(this)" class="w3-btn w3-theme-d3 w3-round">
                                     <option>Pie Chart</option>
                                     <option>Columnar</option>
                                 </select>
@@ -116,12 +116,25 @@
 
 
                         <!--HR Graphs and list-->
-                        <div class="w3-col" style="margin: 1% 5% 2% 1%">
-                            <div id="hrChartContainer" style="height: 430px;width: 98%">
+                        <div style="margin: 3% 3%">
+                            <div id="hrChartContainer" style="height: 450px; width: 100%">
 
                             </div>
 
-                            <div id="hrListContainer">
+                            <div id="hrListContainer" style="display: none; width: 100%">
+
+                                <table class="w3-table" border="1">
+                                    <thead class="w3-theme">
+                                        <tr>
+                                            <th style="width: 50%;">HR Type</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="hrListBody">
+
+                                    </tbody>
+                                </table>
+
                             </div>
                         </div>
 
