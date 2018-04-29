@@ -3,9 +3,11 @@ package com.uiu.thesis.controllers.rest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.uiu.thesis.dao.interfaces.FloorDAO;
+import com.uiu.thesis.dao.interfaces.HumanResourceDAO;
 import com.uiu.thesis.dao.interfaces.OfficeResourceDAO;
 import com.uiu.thesis.dao.interfaces.OfficeResourceTypeDAO;
 import com.uiu.thesis.dao.interfaces.TokenDAO;
+import com.uiu.thesis.models.forum.json.AdminORJson;
 import com.uiu.thesis.models.forum.json.OfficeResourceJson;
 import com.uiu.thesis.models.forum.json.ResourceByFloorJson;
 import com.uiu.thesis.models.forum.json.ResourceByRoomJson;
@@ -41,6 +43,9 @@ public class OfficeResourceRestController {
 
     @Autowired
     private FloorDAO floorDAO;
+
+    @Autowired
+    private HumanResourceDAO humanResourceDAO;
 
     private SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss a");
 
@@ -344,6 +349,82 @@ public class OfficeResourceRestController {
                         }
                     }
                 }
+            }
+        }
+
+        return "[]";
+    }
+
+    /**
+     *
+     * @param floor
+     * @param room
+     * @param session
+     * @return
+     */
+    @RequestMapping(
+            value = "/api/service/or/admin/{floor}/{room}",
+            produces = {"application/json;charset:UTF-8"},
+            method = RequestMethod.GET)
+    public String getAdminOR(
+            @PathVariable("floor") String floor,
+            @PathVariable("room") String room,
+            HttpSession session) {
+
+        String token = (String) session.getAttribute("token");
+        if (token != null && tokenDAO.isTokenExist(token)) {
+
+            long userId = tokenDAO.getUserId(token);
+            if (humanResourceDAO.hasAccess(userId, (long) 19)) {
+
+                ObjectMapper objectMapper = new ObjectMapper();
+
+                List<OfficeResourceType> resourceTypes = officeResourceTypeDAO.getAllOfficeResourceTypes();
+
+                List<AdminORJson> adminORJsons = new ArrayList<>();
+                for (OfficeResourceType resourceType : resourceTypes) {
+
+                    List<OfficeResource> resources = null;
+
+                    if (floor.equals("All")) {
+
+                        resources = officeResourceDAO.getOfficeResourcesByType(resourceType.getId());
+                    } else if (room.equals("All")) {
+
+                        resources = officeResourceDAO.getOfficeResources(resourceType.getId(), floor);
+                    } else {
+
+                        resources = officeResourceDAO.getOfficeResources(resourceType.getId(), floor, room);
+                    }
+
+                    AdminORJson json = new AdminORJson();
+                    json.setType(resourceType.getResourceType());
+
+                    if (resources == null) {
+
+                        json.setQuantity(0);
+                    } else {
+
+                        int q = 0;
+                        for (OfficeResource resource : resources) {
+
+                            q += resource.getQuantity();
+                        }
+
+                        json.setQuantity(q);
+                    }
+
+                    adminORJsons.add(json);
+                }
+
+                try {
+
+                    return objectMapper.writeValueAsString(adminORJsons);
+                } catch (JsonProcessingException e) {
+
+                    System.err.println(e.toString());
+                }
+
             }
         }
 
