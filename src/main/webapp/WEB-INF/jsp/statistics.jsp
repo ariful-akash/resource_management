@@ -18,6 +18,10 @@
         <spring:url value="/web-resources/js/statistics.js" var="js" />
         <spring:url value="/web-resources/js/menuremover.js" var="menuJs"/>
         <spring:url value="/web-resources/js/notification.js" var="notificationJs"/>
+        <spring:url value="/web-resources/js/statisticsHR.js" var="statisticsHRjs"/>
+        <spring:url value="/web-resources/js/statisticsOR.js" var="statisticsORjs"/>
+        <spring:url value="/web-resources/js/statisticsComplaint.js" var="statisticsComplaintJs"/>
+        <spring:url value="/web-resources/js/statisticsRequisition.js" var="statisticsRequisitionJs"/>
 
 
 
@@ -29,12 +33,16 @@
         <script src="${js}" type="text/javascript"></script>
         <script src="${menuJs}" type="text/javascript"></script>
         <script src="${notificationJs}" type="text/javascript"></script>
+        <script src="${statisticsHRjs}" type="text/javascript"></script>
+        <script src="${statisticsORjs}" type="text/javascript"></script>
+        <script src="${statisticsComplaintJs}" type="text/javascript"></script>
+        <script src="${statisticsRequisitionJs}" type="text/javascript"></script>
 
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Statistics</title>
     </head>
-    <body onload="setMenu(); countComplaint(); countRequisition()" class="w3-theme-l3" style="font-family: 'Lato', 'sans-serif';">
+    <body onload="setMenu(); countComplaint(); countRequisition(); loadAllHr()" class="w3-theme-l3" style="font-family: 'Lato', 'sans-serif';">
 
         <div>
             <div class="w3-theme-d3 w3-row" style="height: 50px">
@@ -78,35 +86,45 @@
                 </div>
 
                 <!--Right div-->
-                <div class="w3-theme-l2 w3-col" style="width: 79%">
+                <div class="w3-theme-l4 w3-col" style="width: 79%">
 
                     <!--Tabs-->
                     <div class="w3-bar w3-col w3-theme-d1" style="width:70%">
-                        <button class="w3-bar-item w3-button tablink w3-theme-d2" style="width: 25%" onclick="changeTab(event, 'hr')">Human Resource</button>
-                        <button class="w3-bar-item w3-button tablink" style="width: 25%" onclick="changeTab(event, 'or')">Office Resource</button>
-                        <button class="w3-bar-item w3-button tablink" style="width: 25%" onclick="changeTab(event, 'com')">Complaints</button>
-                        <button class="w3-bar-item w3-button tablink" style="width: 25%" onclick="changeTab(event, 'req')">Requsitions</button>
+                        <button class="w3-bar-item w3-button tablink w3-theme-d2" style="width: 25%" onclick="changeStatTab(event, 'hr')">Human Resource</button>
+                        <button class="w3-bar-item w3-button tablink" style="width: 25%" onclick="changeStatTab(event, 'or')">Office Resource</button>
+                        <button class="w3-bar-item w3-button tablink" style="width: 25%" onclick="changeStatTab(event, 'com')">Complaints</button>
+                        <button class="w3-bar-item w3-button tablink" style="width: 25%" onclick="changeStatTab(event, 'req')">Requsitions</button>
                     </div>
+
+
 
                     <!--HR Tab-->
                     <div id="hr" class="w3-container w3-border tab">
                         <!--Toggel and Print Button-->
-                        <div class="w3-bar w3-col" >
-                            <div class="w3-bar-item" style="margin-left: 1%;margin-top: 1%">
-                                <div id="toggle" onclick="getToggleValue()">
-                                    <button class="w3-btn w3-theme-d3 w3-round-large">See List</button>
-                                </div>
+                        <div class="w3-row" >
+                            <div class="w3-col" style="width: 90%; margin-left: 1%;margin-top: 1%">
+                                <button class="w3-btn w3-theme-d3 w3-round-large">See List</button>
+                                <select onchange="changeGraph(this)" class="w3-btn w3-theme-d3 w3-round">
+                                    <option>Pie Chart</option>
+                                    <option>Columnar</option>
+                                </select>
                             </div>
-                            <div class="w3-bar-item w3-right"style="margin-right: 3%">
+                            <div class="w3-col"style="width: 6%; margin-right: 3%">
                                 <button class="w3-button w3-theme-d3">Print</button>
                             </div>
                         </div>
 
+
+                        <!--HR Graphs and list-->
                         <div class="w3-col" style="margin: 1% 5% 2% 1%">
-                            <div id="chartContainer" style="height: 430px;width: 98%">
+                            <div id="hrChartContainer" style="height: 430px;width: 98%">
 
                             </div>
+
+                            <div id="hrListContainer">
+                            </div>
                         </div>
+
                     </div>
 
                     <!--OR tab-->
@@ -133,7 +151,7 @@
                             </div>
 
                             <div style="display: inline;">
-                                <select class="w3-theme-d3" style="margin-top: 2%;height: 30px"">
+                                <select class="w3-theme-d3" style="margin-top: 2%;height: 30px">
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
@@ -205,10 +223,7 @@
 
                     </div>
                 </div>
-
-
             </div>
-        </div>
 
     </body>
 </html>
