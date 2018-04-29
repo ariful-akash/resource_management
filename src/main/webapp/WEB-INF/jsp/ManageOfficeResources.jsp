@@ -133,7 +133,7 @@
                                 <tr>
                                     <td style="width: 30%">
                                         <label>Type</label>
-                                        <select id="viewTypeOption" class="w3-theme-l4 w3-input w3-round">
+                                        <select id="viewTypeOption" onclick="fetchSpecificResources()" class="w3-theme-l4 w3-input w3-round">
 
                                             <!--Type options are placed here by js-->
 
