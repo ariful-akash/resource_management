@@ -91,7 +91,7 @@
                     <!--Tabs-->
                     <div class="w3-bar w3-col w3-theme-d1" style="width:70%">
                         <button class="w3-bar-item w3-button tablink w3-theme-d2" style="width: 25%" onclick="changeStatTab(event, 'hr')">Human Resource</button>
-                        <button class="w3-bar-item w3-button tablink" style="width: 25%" onclick="changeStatTab(event, 'or')">Office Resource</button>
+                        <button class="w3-bar-item w3-button tablink" style="width: 25%" onclick="changeStatTab(event, 'or'); getFloorGraphAJAX()">Office Resource</button>
                         <button class="w3-bar-item w3-button tablink" style="width: 25%" onclick="changeStatTab(event, 'com')">Complaints</button>
                         <button class="w3-bar-item w3-button tablink" style="width: 25%" onclick="changeStatTab(event, 'req')">Requsitions</button>
                     </div>
@@ -101,10 +101,10 @@
                     <!--HR Tab-->
                     <div id="hr" class="w3-container w3-border tab">
                         <!--Toggel and Print Button-->
-                        <div class="w3-row" >
+                        <div class="w3-row w3-margin-top">
                             <div class="w3-col" style="width: 90%; margin-left: 1%;margin-top: 1%">
                                 <button onclick="changeViewStyle(this)" class="w3-btn w3-theme-d3 w3-round-large">See List</button>
-                                <select id="graphStyle" onchange="changeGraph(this)" class="w3-btn w3-theme-d3 w3-round">
+                                <select id="graphStyle" onchange="changeGraph(this)" class="w3-large w3-btn w3-theme-d3 w3-round">
                                     <option>Pie Chart</option>
                                     <option>Columnar</option>
                                 </select>
@@ -143,54 +143,52 @@
                     <!--OR tab-->
                     <div id="or" class="w3-container w3-border tab" style="display:none">
                         <!--Toggel and Print Button-->
-                        <div class="w3-bar w3-col" >
-                            <div class="w3-bar-item" style="margin-left: 1%;margin-top: 1%">
-                                <div>
-                                    <label class="switch"s>
-                                        <input class="switch-input" type="checkbox" />
-                                        <span class="switch-label" data-on="Graph" data-off="List"></span>
-                                        <span class="switch-handle"></span>
-                                    </label>
+                        <div class="w3-row" style="margin: 20px 0px 20px 0px">
+                            <div class="w3-col w3-large" style="width: 90%; margin-left: 1%;margin-top: 1%">
+                                <button onclick="changeORGraphList(this)" class="w3-btn w3-theme-d3 w3-round-large">See List</button>
 
-                                </div>
+                                <span id="graphItem">
+                                    <select id="orGraphStyle" onchange="" class="w3-btn w3-theme-d3 w3-round">
+                                        <option>Pie Chart</option>
+                                        <option>Columnar</option>
+                                    </select>
+
+                                    <label class="w3-large" style="margin-left: 20px">Floor:</label>
+                                    <select id="orGraphFloor" onchange="placeRoomGraph()" class="w3-btn w3-theme-d3 w3-round" style="width: 120px">
+
+                                    </select>
+
+                                    <label class="w3-large" style="margin-left: 20px">Room:</label>
+                                    <select id="orGraphRoom" onchange="" class="w3-btn w3-theme-d3 w3-round" style="width: 120px">
+
+                                    </select>
+                                </span>
                             </div>
-
-                            <div class="w3-padding" style="display: inline">
-                                <select class="w3-theme-d3" style="margin-top: 2%;height: 30px">
-                                    <option value="floor">Floor</option>
-                                    <option value="room">Room</option>
-                                    <option value="total">Total</option>
-                                </select>
-                            </div>
-
-                            <div style="display: inline;">
-                                <select class="w3-theme-d3" style="margin-top: 2%;height: 30px">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                </select>
-                            </div>
-
-                            <div class="w3-bar-item w3-right"style="margin-right: 3%">
+                            <div class="w3-col"style="width: 6%; margin-right: 3%">
                                 <button class="w3-button w3-theme-d3">Print</button>
                             </div>
                         </div>
 
-                        <table class="w3-table w3-margin-bottom" border="1">
-                            <tr>
-                                <th class="w3-center">Type</th>
-                                <th class="w3-center">Name</th>
-                                <th class="w3-center">Total</th>
-                            </tr>
-                            <%for (int i = 0; i < 10; i++) {%>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <%}%>
+                        <!--OR Graph content-->
+                        <div id="orChartContainer" style="display: none; height: 450px; width: 100%; margin-bottom: 20px;">
 
-                        </table>
+                        </div>
+
+                        <!--OR List Content-->
+                        <div id="orListContainer" style="display: block; width: 100%; margin-bottom: 20px;">
+
+                            <table class="w3-table" border="1">
+                                <thead class="w3-theme">
+                                    <tr>
+                                        <th style="width: 50%;">Resource Type</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="orListBody">
+
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
                     <!--solved tab-->
