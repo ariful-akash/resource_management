@@ -355,6 +355,8 @@ var removeChild = function (myNode) {
  */
 var placeTableData = function () {
 
+    total = 0;
+
     var byTypeTableBody = document.getElementById('byTypeTableBody');
     var floorTotal = document.getElementById('floorTotal');
 
