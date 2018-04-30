@@ -93,7 +93,7 @@
                         <button class="w3-bar-item w3-button tablink w3-theme-d2" style="width: 25%" onclick="changeStatTab(event, 'hr')">Human Resource</button>
                         <button class="w3-bar-item w3-button tablink" style="width: 25%" onclick="changeStatTab(event, 'or'); getFloorGraphAJAX();">Office Resource</button>
                         <button class="w3-bar-item w3-button tablink" style="width: 25%" onclick="changeStatTab(event, 'com'); getYears();">Complaints</button>
-                        <button class="w3-bar-item w3-button tablink" style="width: 25%" onclick="changeStatTab(event, 'req')">Requsitions</button>
+                        <button class="w3-bar-item w3-button tablink" style="width: 25%" onclick="changeStatTab(event, 'req'); getRequisitionYears()">Requisitions</button>
                     </div>
 
 
@@ -234,6 +234,57 @@
                                     </tr>
                                 </thead>
                                 <tbody id="comListBody" style="overflow-y: auto; height: 410px; width: 100%; display: block">
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                    <!--Requisition tab-->
+                    <div id="req" class="w3-container w3-border tab" style="display:none">
+
+                        <div class="w3-row" style="margin: 20px 0px 20px 0px">
+                            <div class="w3-col w3-large" style="width: 90%; margin-left: 1%;margin-top: 1%">
+                                <button onclick="changeRequisitionGraphList()" id="reqlistOrGraph" class="w3-btn w3-theme-d3 w3-round-large">See List</button>
+
+                                <select id="reqGraphStyle" onchange="placeRequisitionGraph()" class="w3-btn w3-theme-d3 w3-round">
+                                    <option>Pie Chart</option>
+                                    <option>Columnar</option>
+                                </select>
+
+                                <label class="w3-large" style="margin-left: 20px">Year:</label>
+                                <select id="reqGraphYear" onchange="placeRequisitionMonths(); getRequisitionsNumber()" class="w3-btn w3-theme-d3 w3-round" style="width: 120px">
+
+                                </select>
+
+                                <label class="w3-large" style="margin-left: 20px">Month:</label>
+                                <select id="reqGraphMonth" onchange="getRequisitionsNumber()" class="w3-btn w3-theme-d3 w3-round" style="width: 120px">
+
+                                </select>
+
+                            </div>
+                            <div class="w3-col"style="width: 6%; margin-right: 3%">
+                                <button class="w3-button w3-theme-d3">Print</button>
+                            </div>
+                        </div>
+
+                        <!--Requisition Graph content-->
+                        <div id="reqChartContainer" style="display: block; height: 450px; width: 100%; margin-bottom: 20px;">
+
+                        </div>
+
+                        <!--Requisition List Content-->
+                        <div id="reqListContainer" style="display: none; width: 100%; margin-bottom: 10px;">
+
+                            <table class="w3-table" border="1" style="width: 100%">
+                                <thead class="w3-theme" style="width: 100%; display: block">
+                                    <tr style="width: 100%">
+                                        <th style="width: 100%">Requisition Type</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="reqListBody" style="overflow-y: auto; height: 410px; width: 100%; display: block">
 
                                 </tbody>
                             </table>
