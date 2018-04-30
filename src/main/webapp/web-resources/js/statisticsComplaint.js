@@ -126,9 +126,9 @@ var makeComplaintGraphArray = function () {
 
         point.label = complaint_number_json[i].type;
         point.y = complaint_number_json[i].solved + complaint_number_json[i].unsolved;
-        point.tip = "<b>Type : </b>" + complaint_number_json[i].type
+        point.tip = "<h4><b>Type : </b>" + complaint_number_json[i].type
                 + "<br><b>Solved : </b>" + complaint_number_json[i].solved
-                + "<br><b>Unsolved : </b>" + complaint_number_json[i].unsolved;
+                + "<br><b>Unsolved : </b>" + complaint_number_json[i].unsolved + "</h4>";
 
         complaintGraphArray.push(point);
     }
@@ -242,14 +242,16 @@ var placeComplaintTable = function () {
         var cell2 = row.insertCell(1);
         cell2.innerHTML = complaint_number_json[i].solved + complaint_number_json[i].unsolved;
 
-        if (cell2.firstChild.data == 0) {
+        if (complaint_number_json[i].unsolved == 0) {
 
-            row.className = "w3-green";
+            row.className += " w3-green";
         } else {
 
-            cell1.title = "Solved : " + complaint_number_json[i].solved
-                    + ", Unsolved : " + complaint_number_json[i].unsolved;
+            row.style.backgroundColor = "#ff9999";
         }
+
+        cell1.title = "Solved : " + complaint_number_json[i].solved
+                + ", Unsolved : " + complaint_number_json[i].unsolved;
 
         tBody.appendChild(row);
     }

@@ -207,8 +207,8 @@ var makeORArray = function () {
 
         point.label = resource_number_json[i].type;
         point.y = resource_number_json[i].quantity;
-        point.tip = "<b>Resource Type : </b>" + resource_number_json[i].type
-                + "<br><b>Quantity : </b>" + resource_number_json[i].quantity;
+        point.tip = "<h4><b>Resource Type : </b>" + resource_number_json[i].type
+                + "<br><b>Quantity : </b>" + resource_number_json[i].quantity + "</h4>";
 
         orArray.push(point);
     }
