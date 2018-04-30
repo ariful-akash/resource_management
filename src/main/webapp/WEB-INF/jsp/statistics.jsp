@@ -92,14 +92,14 @@
                     <div class="w3-bar w3-col w3-theme-d1" style="width:70%">
                         <button class="w3-bar-item w3-button tablink w3-theme-d2" style="width: 25%" onclick="changeStatTab(event, 'hr')">Human Resource</button>
                         <button class="w3-bar-item w3-button tablink" style="width: 25%" onclick="changeStatTab(event, 'or'); getFloorGraphAJAX();">Office Resource</button>
-                        <button class="w3-bar-item w3-button tablink" style="width: 25%" onclick="changeStatTab(event, 'com')">Complaints</button>
+                        <button class="w3-bar-item w3-button tablink" style="width: 25%" onclick="changeStatTab(event, 'com'); getYears();">Complaints</button>
                         <button class="w3-bar-item w3-button tablink" style="width: 25%" onclick="changeStatTab(event, 'req')">Requsitions</button>
                     </div>
 
 
 
                     <!--HR Tab-->
-                    <div id="hr" class="w3-container w3-border tab">
+                    <div id="hr" class="w3-container w3-border tab" style="display: block">
                         <!--Toggel and Print Button-->
                         <div class="w3-row w3-margin-top">
                             <div class="w3-col" style="width: 90%; margin-left: 1%;margin-top: 1%">
@@ -190,46 +190,54 @@
                         </div>
                     </div>
 
-                    <!--solved tab-->
+                    <!--Complaint tab-->
                     <div id="com" class="w3-container w3-border tab" style="display:none">
 
-                        <% for (int i = 0; i < 10; i++) {%>
-                        <div class="w3-row w3-card  w3-margin-top w3-margin-bottom">
+                        <div class="w3-row" style="margin: 20px 0px 20px 0px">
+                            <div class="w3-col w3-large" style="width: 90%; margin-left: 1%;margin-top: 1%">
+                                <button onclick="changeComplaintGraphList()" id="comlistOrGraph" class="w3-btn w3-theme-d3 w3-round-large">See List</button>
 
-                            <div class="w3-col" style="width: 5%; padding: 1% 0% 0% 1%">
-                                <img src="${img}" class="w3-circle" style="width: 30px;height: 30px" alt="#">
+                                <select id="comGraphStyle" onchange="placeComplaintGraph()" class="w3-btn w3-theme-d3 w3-round">
+                                    <option>Pie Chart</option>
+                                    <option>Columnar</option>
+                                </select>
+
+                                <label class="w3-large" style="margin-left: 20px">Year:</label>
+                                <select id="comGraphYear" onchange="placeMonths(); getComplaintsNumber()" class="w3-btn w3-theme-d3 w3-round" style="width: 120px">
+
+                                </select>
+
+                                <label class="w3-large" style="margin-left: 20px">Month:</label>
+                                <select id="comGraphMonth" onchange="getComplaintsNumber()" class="w3-btn w3-theme-d3 w3-round" style="width: 120px">
+
+                                </select>
+
                             </div>
-
-                            <div class="w3-col" style="width: 92%;margin-top: 1.5%">
-                                <label class="w3-small w3-text-dark-gray"><b>Ariful Islam Akash</b></label>
-                            </div>
-
-                            <div>
-                                <label class="w3-text-dark-gray w3-large w3-right" style="margin-right: 5%;">&#x2714; Solved</label>
-                            </div>
-
-                            <div style="margin: 6% 5% 1% 5%">
-                                <table class="w3-table w3-striped" border="1">
-                                    <tr>
-                                        <td>Complaints Type</td>
-                                        <td>Table</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Description</td>
-                                        <td>Table was Broken</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Placeing Date</td>
-                                        <td>14/04/2018</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Placeing Date</td>
-                                        <td>14/04/2018</td>
-                                    </tr>
-                                </table>
+                            <div class="w3-col"style="width: 6%; margin-right: 3%">
+                                <button class="w3-button w3-theme-d3">Print</button>
                             </div>
                         </div>
-                        <%}%>
+
+                        <!--OR Graph content-->
+                        <div id="comChartContainer" style="display: block; height: 450px; width: 100%; margin-bottom: 20px;">
+
+                        </div>
+
+                        <!--OR List Content-->
+                        <div id="comListContainer" style="display: none; width: 100%; margin-bottom: 10px;">
+
+                            <table class="w3-table" border="1" style="width: 100%">
+                                <thead class="w3-theme" style="width: 100%; display: block">
+                                    <tr style="width: 100%">
+                                        <th style="width: 100%">Complaint Type</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="comListBody" style="overflow-y: auto; height: 410px; width: 100%; display: block">
+
+                                </tbody>
+                            </table>
+                        </div>
 
                     </div>
                 </div>
