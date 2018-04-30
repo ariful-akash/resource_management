@@ -7,6 +7,8 @@ import com.uiu.thesis.dao.interfaces.ComplaintTypeDAO;
 import com.uiu.thesis.dao.interfaces.HumanResourceDAO;
 import com.uiu.thesis.dao.interfaces.TokenDAO;
 import com.uiu.thesis.models.complaint.Complaint;
+import com.uiu.thesis.models.complaint.ComplaintType;
+import com.uiu.thesis.models.forum.json.AdminComplainRequisitionJson;
 import com.uiu.thesis.models.forum.json.ComplaintJson;
 import com.uiu.thesis.models.user.AccessType;
 import com.uiu.thesis.models.user.HumanResource;
@@ -96,6 +98,114 @@ public class ComplaintRestController {
                 }
             }
         }
+        return "[]";
+    }
+
+    /**
+     *
+     * @param year
+     * @param month
+     * @param session
+     * @return
+     */
+    @RequestMapping(
+            value = "/api/service/office/complaint/admin/{year}/{month}",
+            produces = {"application/json;charset:UTF-8"},
+            method = RequestMethod.GET)
+    public String getAdminComplaint(
+            @PathVariable("year") String year,
+            @PathVariable("month") String month,
+            HttpSession session) {
+
+        String token = (String) session.getAttribute("token");
+        if (token != null && tokenDAO.isTokenExist(token)) {
+
+            long userId = tokenDAO.getUserId(token);
+            if (humanResourceDAO.hasAccess(userId, (long) 19)) {
+
+                ObjectMapper objectMapper = new ObjectMapper();
+
+                List<ComplaintType> complaintTypes = complaintTypeDAO.getComplaintTypes();
+                List<AdminComplainRequisitionJson> adminCRJs = new ArrayList<>();
+
+                if (year.equals("All")) {
+
+                    for (ComplaintType complaintType : complaintTypes) {
+
+                        AdminComplainRequisitionJson adminCRJ = new AdminComplainRequisitionJson();
+
+                        List<Complaint> complaintsTrue = complaintDAO.getComplaintsByType(complaintType.getId(), true);
+                        List<Complaint> complaintsFalse = complaintDAO.getComplaintsByType(complaintType.getId(), false);
+
+                        adminCRJ.setType(complaintType.getType());
+
+                        if (complaintsTrue == null) {
+
+                            adminCRJ.setSolved(0);
+                        } else {
+
+                            adminCRJ.setSolved(complaintsTrue.size());
+                        }
+
+                        if (complaintsFalse == null) {
+
+                            adminCRJ.setUnsolved(0);
+                        } else {
+
+                            adminCRJ.setUnsolved(complaintsFalse.size());
+                        }
+
+                        adminCRJs.add(adminCRJ);
+                    }
+                }
+
+                try {
+
+                    return objectMapper.writeValueAsString(adminCRJs);
+                } catch (JsonProcessingException e) {
+
+                    System.err.println(e.toString());
+                }
+            }
+        }
+
+        return "[]";
+    }
+
+    /**
+     *
+     * @param session
+     * @return
+     */
+    @RequestMapping(
+            value = "/api/service/office/complaint/admin/years",
+            produces = {"application/json;charset:UTF-8"},
+            method = RequestMethod.GET)
+    public String getAdminYears(HttpSession session) {
+
+        String token = (String) session.getAttribute("token");
+        if (token != null && tokenDAO.isTokenExist(token)) {
+
+            long userId = tokenDAO.getUserId(token);
+            if (humanResourceDAO.hasAccess(userId, (long) 19)) {
+
+                ObjectMapper objectMapper = new ObjectMapper();
+
+                List<String> years = complaintDAO.getYears();
+
+                if (years != null && years.size() > 0) {
+
+                    try {
+
+                        return objectMapper.writeValueAsString(years);
+                    } catch (JsonProcessingException e) {
+
+                        System.err.println(e.toString());
+                    }
+                }
+            }
+        }
+
         return "[]";
     }
 

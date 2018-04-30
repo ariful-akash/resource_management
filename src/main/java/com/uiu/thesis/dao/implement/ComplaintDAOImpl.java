@@ -6,6 +6,7 @@ import com.uiu.thesis.models.complaint.Complaint;
 import com.uiu.thesis.models.user.HumanResource;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -277,6 +278,57 @@ public class ComplaintDAOImpl implements ComplaintDAO {
                     + " AND solved = " + solved;
 
             return getComplaintsBySQL(sql);
+        }
+
+        return null;
+    }
+
+    /**
+     *
+     * @return
+     */
+    @Override
+    public List<String> getYears() {
+
+        Session session = sessionFactory.getCurrentSession();
+
+        String sql1 = "SELECT max(complaint_placing_date) as maxDate FROM complaints";
+        String sql2 = "SELECT min(complaint_placing_date) as minDate FROM complaints";
+
+        Query query1 = session.createSQLQuery(sql1);
+        Query query2 = session.createSQLQuery(sql2);
+        query1.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+        query2.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+
+        List result1 = query1.list();
+        List result2 = query2.list();
+
+        if (result1 != null && result1.size() > 0) {
+
+            List<String> years = new ArrayList<>();
+
+            Date maxDate = new Date();
+            Date minDate = new Date();
+
+            Map row1 = (Map) result1.get(0);
+            Map row2 = (Map) result2.get(0);
+            maxDate = (Date) row1.get("maxDate");
+            minDate = (Date) row2.get("minDate");
+
+            Calendar calendar = Calendar.getInstance();
+
+            calendar.setTime(minDate);
+            int minYear = calendar.get(Calendar.YEAR);
+
+            calendar.setTime(maxDate);
+            int maxYear = calendar.get(Calendar.YEAR);
+
+            for (int i = minYear; i <= maxYear; i++) {
+
+                years.add(String.valueOf(i));
+            }
+
+            return years;
         }
 
         return null;
