@@ -323,7 +323,7 @@ public class ComplaintDAOImpl implements ComplaintDAO {
             calendar.setTime(maxDate);
             int maxYear = calendar.get(Calendar.YEAR);
 
-            for (int i = minYear; i <= maxYear; i++) {
+            for (int i = maxYear; i >= minYear; i--) {
 
                 years.add(String.valueOf(i));
             }
