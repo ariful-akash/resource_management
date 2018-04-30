@@ -90,6 +90,43 @@ public class RequisitionRestController {
 
     /**
      *
+     * @param session
+     * @return
+     */
+    @RequestMapping(
+            value = "/api/service/office/requisition/admin/years",
+            produces = {"application/json;charset:UTF-8"},
+            method = RequestMethod.GET)
+    public String getRequisitionYears(HttpSession session) {
+
+        String token = (String) session.getAttribute("token");
+        if (token != null && tokenDAO.isTokenExist(token)) {
+
+            long userId = tokenDAO.getUserId(token);
+            if (humanResourceDAO.hasAccess(userId, (long) 19)) {
+
+                ObjectMapper objectMapper = new ObjectMapper();
+
+                List<String> years = requisitionDAO.getYears();
+
+                if (years != null && years.size() > 0) {
+
+                    try {
+
+                        return objectMapper.writeValueAsString(years);
+                    } catch (JsonProcessingException e) {
+
+                        System.err.println(e.toString());
+                    }
+                }
+            }
+        }
+
+        return "[]";
+    }
+
+    /**
+     *
      * @param requisitionJson
      * @param typeId
      * @param needDate
