@@ -116,27 +116,35 @@
                                     <div class="w3-modal-content w3-round" style="margin-left: 25%;width: 50%">
                                         <div class="w3-container w3-theme-l3 w3-round">
                                             <span onclick="document.getElementById('id02').style.display = 'none'" class="w3-button w3-large w3-red w3-display-topright">&times;</span>
-                                            <div class="w3-large" style="padding: 3%; margin-left: 10%">
+                                            <div class="w3-large w3-card w3-theme-l2 w3-padding" style="margin: 8% 1% 8% 1%">
                                                 <form action="" method="post">
                                                     <div>
-                                                        <label>Role:</label>
-                                                        <label class="w3-theme-d3 w3-margin" >RoleName</label>
+                                                        <label>Name: </label>
+                                                        <label>Ariful Islam </label>
+                                                        <br>
+                                                        <label>Email: </label>
+                                                        <label>ariful.uiu.cse@gmail.com </label>
+                                                    </div>
+
+                                                    <div style="margin-top: 2%">
+                                                        <label>Role: </label>
+                                                        <label>RoleName</label>
                                                         <br>
                                                         <%for (int l = 0; l < 5; l++) {%>
                                                         <input type="radio" name="role" value="role" checked="true"> Role<br>
                                                         <%}%>
                                                     </div>
 
-                                                    <div style="margin-top: 7%">
-                                                        <label style="margin-top: 5%">Access:</label>
-                                                        <label class="w3-theme-d3 w3-margin" >AccessName</label>
+                                                    <div style="margin-top: 2%">
+                                                        <label>Access: </label>
+                                                        <label>AccessName</label>
                                                         <br>
                                                         <%for (int l = 0; l < 5; l++) {%>
-                                                        <input type="checkbox" name="access" value="access" checked="true"> Access<br>
+                                                        <input type="checkbox" name="access" value="access" checked="true">Access<br>
                                                         <%}%>
                                                     </div>
 
-                                                    <input value="Post" class="w3-button w3-theme-l1 w3-round" style="margin-top: 2%">
+                                                    <input value="Add" class="w3-button w3-theme-l1 w3-round" style="margin-top: 2%">
 
                                                 </form>
                                             </div>
