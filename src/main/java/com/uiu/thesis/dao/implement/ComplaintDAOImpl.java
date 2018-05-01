@@ -333,4 +333,29 @@ public class ComplaintDAOImpl implements ComplaintDAO {
 
         return null;
     }
+
+    /**
+     *
+     * @param typeId
+     * @param fromDate
+     * @param toDate
+     * @param solved
+     * @return
+     */
+    @Override
+    public List<Complaint> getComplaintsByTypeDate(Long typeId, String fromDate, String toDate, boolean solved) {
+
+        if (typeId != null && typeId > 0) {
+
+            String sql = "select * from complaints"
+                    + " where type_id = " + typeId
+                    + " and solved = " + solved
+                    + " and complaint_placing_date >= '" + fromDate + "'"
+                    + " and complaint_placing_date <= '" + toDate + "'";
+
+            return getComplaintsBySQL(sql);
+        }
+
+        return null;
+    }
 }
