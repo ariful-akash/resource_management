@@ -208,7 +208,7 @@
                                 </select>
 
                                 <label class="w3-large" style="margin-left: 20px">Month:</label>
-                                <select id="comGraphMonth" onchange="getComplaintsNumber()" class="w3-btn w3-theme-d3 w3-round" style="width: 120px">
+                                <select id="comGraphMonth" onchange="getComplaintsNumber()" class="w3-btn w3-theme-d3 w3-round" style="width: 160px">
 
                                 </select>
 
@@ -259,7 +259,7 @@
                                 </select>
 
                                 <label class="w3-large" style="margin-left: 20px">Month:</label>
-                                <select id="reqGraphMonth" onchange="getRequisitionsNumber()" class="w3-btn w3-theme-d3 w3-round" style="width: 120px">
+                                <select id="reqGraphMonth" onchange="getRequisitionsNumber()" class="w3-btn w3-theme-d3 w3-round" style="width: 160px">
 
                                 </select>
 
