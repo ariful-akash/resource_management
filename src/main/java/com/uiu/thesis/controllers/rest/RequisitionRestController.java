@@ -6,14 +6,17 @@ import com.uiu.thesis.dao.interfaces.HumanResourceDAO;
 import com.uiu.thesis.dao.interfaces.RequisitionDAO;
 import com.uiu.thesis.dao.interfaces.RequisitionTypeDAO;
 import com.uiu.thesis.dao.interfaces.TokenDAO;
+import com.uiu.thesis.models.forum.json.AdminComplainRequisitionJson;
 import com.uiu.thesis.models.forum.json.RequisitionJson;
 import com.uiu.thesis.models.requisition.Requisition;
+import com.uiu.thesis.models.requisition.RequisitionType;
 import com.uiu.thesis.models.user.AccessType;
 import com.uiu.thesis.models.user.HumanResource;
 import com.uiu.thesis.services.interfaces.RequisitionService;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -81,6 +84,282 @@ public class RequisitionRestController {
 
                         System.err.println(ex.toString());
                     }
+                }
+            }
+        }
+
+        return "[]";
+    }
+
+    /**
+     *
+     * @param year
+     * @param month
+     * @param session
+     * @return
+     */
+    @RequestMapping(
+            value = "/api/service/office/requisition/admin/{year}/{month}",
+            produces = {"application/json;charset:UTF-8"},
+            method = RequestMethod.GET)
+    public String getAdminRequisitions(
+            @PathVariable("year") String year,
+            @PathVariable("month") String month,
+            HttpSession session) {
+
+        String token = (String) session.getAttribute("token");
+        if (token != null && tokenDAO.isTokenExist(token)) {
+
+            long userId = tokenDAO.getUserId(token);
+            if (humanResourceDAO.hasAccess(userId, (long) 19)) {
+
+                ObjectMapper objectMapper = new ObjectMapper();
+
+                List<RequisitionType> requisitionTypes = requisitionTypeDAO.getAllRequisitionTypes();
+                List<AdminComplainRequisitionJson> adminCRJs = new ArrayList<>();
+
+                if (year.equals("All")) {
+
+                    for (RequisitionType requisitionType : requisitionTypes) {
+
+                        AdminComplainRequisitionJson adminCRJ = new AdminComplainRequisitionJson();
+
+                        List<Requisition> requisitionsTrue = requisitionDAO.getRequisitionsByType(requisitionType.getId(), true);
+                        List<Requisition> requisitionsFalse = requisitionDAO.getRequisitionsByType(requisitionType.getId(), false);
+
+                        adminCRJ.setType(requisitionType.getType());
+
+                        if (requisitionsTrue == null) {
+
+                            adminCRJ.setSolved(0);
+                        } else {
+
+                            adminCRJ.setSolved(requisitionsTrue.size());
+                        }
+
+                        if (requisitionsFalse == null) {
+
+                            adminCRJ.setUnsolved(0);
+                        } else {
+
+                            adminCRJ.setUnsolved(requisitionsFalse.size());
+                        }
+
+                        adminCRJs.add(adminCRJ);
+                    }
+                } else if (month.equals("All")) {
+
+                    int yearInt;
+                    try {
+
+                        yearInt = Integer.parseInt(year);
+                    } catch (NumberFormatException e) {
+
+                        System.err.println(e.toString());
+                        return "[]";
+                    }
+
+                    Calendar cal = Calendar.getInstance();
+
+                    cal.set(Calendar.YEAR, yearInt);
+                    cal.set(Calendar.MONTH, Calendar.JANUARY);
+                    cal.set(Calendar.DATE, 1);
+                    cal.set(Calendar.HOUR, 0);
+                    cal.set(Calendar.MINUTE, 0);
+                    cal.set(Calendar.SECOND, 0);
+
+                    Date date = cal.getTime();
+
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+                    String from = sdf.format(date);
+
+                    cal.clear();
+
+                    cal.set(Calendar.YEAR, yearInt);
+                    cal.set(Calendar.MONTH, Calendar.DECEMBER);
+                    cal.set(Calendar.DATE, 31);
+                    cal.set(Calendar.HOUR, 23);
+                    cal.set(Calendar.MINUTE, 59);
+                    cal.set(Calendar.SECOND, 59);
+
+                    date = cal.getTime();
+
+                    String to = sdf.format(date);
+
+                    for (RequisitionType requisitionType : requisitionTypes) {
+
+                        AdminComplainRequisitionJson adminCRJ = new AdminComplainRequisitionJson();
+
+                        List<Requisition> requisitionsTrue = requisitionDAO.getRequisitionsByTypeDate(requisitionType.getId(), from, to, true);
+                        List<Requisition> requisitionsFalse = requisitionDAO.getRequisitionsByTypeDate(requisitionType.getId(), from, to, false);
+
+                        adminCRJ.setType(requisitionType.getType());
+
+                        if (requisitionsTrue == null) {
+
+                            adminCRJ.setSolved(0);
+                        } else {
+
+                            adminCRJ.setSolved(requisitionsTrue.size());
+                        }
+
+                        if (requisitionsFalse == null) {
+
+                            adminCRJ.setUnsolved(0);
+                        } else {
+
+                            adminCRJ.setUnsolved(requisitionsFalse.size());
+                        }
+
+                        adminCRJs.add(adminCRJ);
+                    }
+                } else {
+
+                    int yearInt;
+                    try {
+
+                        yearInt = Integer.parseInt(year);
+                    } catch (NumberFormatException e) {
+
+                        System.err.println(e.toString());
+                        return "[]";
+                    }
+
+                    int monthInt;
+                    int day = 0;
+
+                    switch (month) {
+
+                        case "January":
+                            monthInt = 0;
+                            day = 31;
+                            break;
+
+                        case "February":
+                            monthInt = 1;
+                            day = 28;
+                            break;
+
+                        case "March":
+                            monthInt = 2;
+                            day = 31;
+                            break;
+
+                        case "April":
+                            monthInt = 3;
+                            day = 30;
+                            break;
+
+                        case "May":
+                            monthInt = 4;
+                            day = 31;
+                            break;
+
+                        case "June":
+                            monthInt = 5;
+                            day = 30;
+                            break;
+
+                        case "July":
+                            monthInt = 6;
+                            day = 31;
+                            break;
+
+                        case "August":
+                            monthInt = 7;
+                            day = 31;
+                            break;
+
+                        case "September":
+                            monthInt = 8;
+                            day = 30;
+                            break;
+
+                        case "October":
+                            monthInt = 9;
+                            day = 31;
+                            break;
+
+                        case "November":
+                            monthInt = 10;
+                            day = 30;
+                            break;
+
+                        case "December":
+                            monthInt = 11;
+                            day = 31;
+                            break;
+
+                        default:
+                            monthInt = 0;
+                    }
+
+                    Calendar cal = Calendar.getInstance();
+
+                    cal.set(Calendar.YEAR, yearInt);
+                    cal.set(Calendar.MONTH, monthInt);
+                    cal.set(Calendar.DATE, 1);
+                    cal.set(Calendar.HOUR, 0);
+                    cal.set(Calendar.MINUTE, 0);
+                    cal.set(Calendar.SECOND, 0);
+
+                    Date date = cal.getTime();
+
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+                    String from = sdf.format(date);
+
+                    cal.clear();
+                    cal.set(Calendar.YEAR, yearInt);
+                    cal.set(Calendar.MONTH, monthInt);
+                    cal.set(Calendar.DATE, day);
+                    cal.set(Calendar.HOUR, 23);
+                    cal.set(Calendar.MINUTE, 59);
+                    cal.set(Calendar.SECOND, 59);
+
+                    date = cal.getTime();
+
+                    String to = sdf.format(date);
+
+                    System.out.println(from);
+                    System.out.println(to);
+
+                    for (RequisitionType requisitionType : requisitionTypes) {
+
+                        AdminComplainRequisitionJson adminCRJ = new AdminComplainRequisitionJson();
+
+                        List<Requisition> requisitionsTrue = requisitionDAO.getRequisitionsByTypeDate(requisitionType.getId(), from, to, true);
+                        List<Requisition> requisitionsFalse = requisitionDAO.getRequisitionsByTypeDate(requisitionType.getId(), from, to, false);
+
+                        adminCRJ.setType(requisitionType.getType());
+
+                        if (requisitionsTrue == null) {
+
+                            adminCRJ.setSolved(0);
+                        } else {
+
+                            adminCRJ.setSolved(requisitionsTrue.size());
+                        }
+
+                        if (requisitionsFalse == null) {
+
+                            adminCRJ.setUnsolved(0);
+                        } else {
+
+                            adminCRJ.setUnsolved(requisitionsFalse.size());
+                        }
+
+                        adminCRJs.add(adminCRJ);
+                    }
+                }
+
+                try {
+
+                    return objectMapper.writeValueAsString(adminCRJs);
+                } catch (JsonProcessingException e) {
+
+                    System.err.println(e.toString());
                 }
             }
         }
