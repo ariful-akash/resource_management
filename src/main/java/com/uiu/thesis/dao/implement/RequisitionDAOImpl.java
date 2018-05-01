@@ -381,4 +381,29 @@ public class RequisitionDAOImpl implements RequisitionDAO {
         return null;
     }
 
+    /**
+     *
+     * @param requisitionTypeId
+     * @param fromDate
+     * @param toDate
+     * @param solved
+     * @return
+     */
+    @Override
+    public List<Requisition> getRequisitionsByTypeDate(Long requisitionTypeId, String fromDate, String toDate, boolean solved) {
+
+        if (requisitionTypeId != null && requisitionTypeId > 0) {
+
+            String sql = "select * from requisitions"
+                    + " where type_id = " + requisitionTypeId
+                    + " and solved = " + solved
+                    + " and requisition_placing_date >= '" + fromDate + "'"
+                    + " and requisition_placing_date <= '" + toDate + "'";
+
+            return getRequisitionsBySQL(sql);
+        }
+
+        return null;
+    }
+
 }
