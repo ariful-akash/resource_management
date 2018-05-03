@@ -481,4 +481,106 @@ public class HumanResourceRestController {
 
         return "{}";
     }
+
+    /**
+     * update user's first/last name, email, password
+     *
+     * @param key
+     * @param value
+     * @param session
+     * @return
+     */
+    @RequestMapping(
+            value = "/api/service/office/hr/change/{key}",
+            params = {"value"},
+            produces = {"application/json;charset:UTF-8"},
+            method = RequestMethod.POST)
+    public String changeinfo(
+            @PathVariable("key") String key,
+            @RequestParam("value") String value,
+            HttpSession session) {
+
+        String token = (String) session.getAttribute("token");
+        if (token != null && tokenDAO.isTokenExist(token)) {
+
+            HumanResource humanResource = humanResourceDAO.getHumanResource(tokenDAO.getUserId(token));
+
+            int retVal = 0;
+
+            switch (key) {
+
+                case "firstname":
+
+                    humanResource.setFirstName(value);
+                    retVal = humanResourceDAO.updateHumanResource(humanResource);
+                    break;
+
+                case "lastname":
+                    humanResource.setLastName(value);
+                    retVal = humanResourceDAO.updateHumanResource(humanResource);
+                    break;
+
+                case "email":
+                    humanResource.setEmail(value);
+                    retVal = humanResourceDAO.updateHumanResource(humanResource);
+                    break;
+
+                case "phone":
+                    humanResource.setPhone(value);
+                    retVal = humanResourceDAO.updateHumanResource(humanResource);
+                    break;
+
+                default:
+            }
+
+            if (retVal != 0) {
+
+                return "{\"update\":\"true\"}";
+            }
+        }
+
+        return "{\"update\":\"false\"}";
+    }
+
+    /**
+     *
+     * @param oldPass
+     * @param newpass
+     * @param session
+     * @return
+     */
+    @RequestMapping(
+            value = "/api/service/office/hr/change/password",
+            produces = {"application/json;charset:UTF-8"},
+            params = {"oldpass", "newpass"},
+            method = RequestMethod.POST)
+    public String changePassword(
+            @RequestParam("oldpass") String oldPass,
+            @RequestParam("newpass") String newpass,
+            HttpSession session) {
+
+        String token = (String) session.getAttribute("token");
+        if (token != null && tokenDAO.isTokenExist(token)) {
+
+            long userId = tokenDAO.getUserId(token);
+            HumanResource hr = humanResourceDAO.getHumanResource(userId);
+
+            if (hr != null) {
+
+                String oldDBPass = new String(hr.getPassword());
+                if (oldDBPass.equals(oldPass)) {
+
+                    hr.setPassword(newpass.getBytes());
+
+                    int retVal = humanResourceDAO.updateHumanResource(hr);
+                    if (retVal != 0) {
+
+                        return "{\"change\":\"true\"}";
+                    }
+                }
+            }
+        }
+
+        return "{\"change\":\"false\"}";
+    }
 }
