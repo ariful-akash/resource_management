@@ -11,6 +11,8 @@
         <spring:url value="/web-resources/css/w3.css" var="css"/>
         <spring:url value="/web-resources/css/w3-theme-blue-grey.css" var="w3BlueDarkTheme"/>
         <spring:url value="/web-resources/images/akash.jpg" var="img"/>
+        <spring:url value="/web-resources/js/jquery-1.12.4.js" var="jQuery" />
+        <spring:url value="/web-resources/js/jquery-ui.js" var="jQueryUi" />
         <spring:url value="/web-resources/js/myComplaintsJS.js" var="js" />
         <spring:url value="/web-resources/js/complaintadd.js" var="complaintAddJs" />
         <spring:url value="/web-resources/js/menuremover.js" var="menuJs"/>
@@ -21,6 +23,8 @@
 
         <link href="${css}" rel="stylesheet" type="text/css"/>
         <link href="${w3BlueDarkTheme}" rel="stylesheet" type="text/css"/>
+        <script src="${jQuery}" type="text/javascript"></script>
+        <script src="${jQueryUi}" type="text/javascript"></script>
         <script src="${js}" type="text/javascript"></script>
         <script src="${complaintAddJs}" type="text/javascript"></script>
         <script src="${menuJs}" type="text/javascript"></script>
@@ -101,6 +105,30 @@
                             </div>
                         </div>
                     </div>
+
+                    <!--pop up for image upload-->
+                    <div class="w3-container">
+
+                        <div id="uploadWindow" class="w3-modal">
+                            <div class="w3-modal-content" style="margin-left: 25%;width: 50%">
+                                <div class="w3-container w3-theme-l3">
+                                    <span onclick="document.getElementById('uploadWindow').style.display = 'none'" class="w3-button w3-large w3-red w3-display-topright">&times;</span>
+                                    <div class=" w3-margin w3-large" style="padding-top: 10px">
+
+                                        <div style="margin-left: 30%">
+                                            <img id="imgUploaded" src="" class="w3-center" width="60%">
+                                        </div>
+
+                                        <form action="#" id="imageUploadForm">
+                                            <input onchange="uploadImage()" id="imgInput" name="image" type="file" accept="image/*" class="w3-button w3-theme-l4 w3-input" style="margin: 30px 0px 20px 0px">
+
+                                            <input type="submit" value="Upload Photo" class="w3-input w3-green w3-round-small w3-hover-light-green">
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!--Right div-->
@@ -119,8 +147,8 @@
                     </div>
 
                     <div class="w3-quarter w3-margin">
-                        <img src="/office_resource_management/web-resources/images/akash.jpg" class="w3-round w3-hover-opacity w3-center w3-card-4" width="80%"/>
-                        <button class="w3-button w3-green w3-margin w3-round w3-hover-light-green">Change Photo</button>
+                        <img src="" id="userImage" alt="User's Photo" class="w3-round w3-hover-opacity w3-center w3-card-4" width="80%"/>
+                        <button onclick="document.getElementById('uploadWindow').style.display = 'block'" class="w3-button w3-green w3-margin w3-round w3-hover-light-green">Change Photo</button>
                     </div>
                     <div class="w3-rest w3-margin w3-card w3-round-large w3-large" style="height: 560px; overflow: auto">
 

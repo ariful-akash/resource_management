@@ -41,6 +41,16 @@ var placeuserInfo = function () {
     document.getElementById('phone').value = currentUser.phone;
     document.getElementById('department').value = currentUser.department;
 
+    var image = document.getElementById('userImage');
+
+    if (currentUser.image == null) {
+
+        image.src = "/office_resource_management/web-resources/images/dummy.jpg";
+    } else {
+
+        image.src = "data:image;base64," + currentUser.image;
+    }
+
     var ul = document.getElementById('access');
 
     for (var i in currentUser.access) {
@@ -235,8 +245,6 @@ var changePassword = function () {
                     msgDiv.style.display = "block";
                 }
 
-                console.log(response);
-
                 setTimeout(removeMessage, 3000);
             }
         };
@@ -246,3 +254,77 @@ var changePassword = function () {
         xhttp.send(params);
     }
 };
+
+/**
+ *
+ * @returns {undefined}
+ */
+var uploadImage = function () {
+
+    var imgInput = document.getElementById('imgInput');
+//    var imgUploaded = document.getElementById('imgUploaded');
+
+    if (imgInput.files && imgInput.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#imgUploaded')
+                    .attr('src', e.target.result);
+        };
+
+        reader.readAsDataURL(imgInput.files[0]);
+    }
+};
+
+
+$(document).ready(function () {
+    $('#imageUploadForm').on('submit', (function (e) {
+
+        e.preventDefault();
+        var formData = new FormData(this);
+
+        $.ajax({
+            type: 'POST',
+            url: "/office_resource_management/api/service/office/hr/change/image",
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+
+                document.getElementById('uploadWindow').style.display = "none";
+
+                var response = JSON.parse(data);
+                if (response.upload == "true") {
+
+                    window.location.reload(true);
+                } else {
+
+                    var msgDiv = document.getElementById('messageDiv');
+                    var msg = document.getElementById('msg');
+
+                    msgDiv.style.backgroundColor = "#f44646";
+                    msg.innerHTML = "There is a problem in uploading photo!!";
+                    msgDiv.style.display = "block";
+
+
+                    setTimeout(removeMessage, 3000);
+                }
+            },
+            error: function (data) {
+
+                //code while fail
+
+                var msgDiv = document.getElementById('messageDiv');
+                var msg = document.getElementById('msg');
+
+                msgDiv.style.backgroundColor = "#f44646";
+                msg.innerHTML = "There is a problem in uploading photo!!";
+                msgDiv.style.display = "block";
+
+
+                setTimeout(removeMessage, 3000);
+            }
+        });
+    }));
+});
