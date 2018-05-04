@@ -35,7 +35,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Profile</title>
     </head>
-    <body onload="getUserInfo()" class="w3-theme-l3" style="font-family: 'Lato', 'sans-serif';">
+    <body onload="setMenu(); getUserInfo();" class="w3-theme-l3" style="font-family: 'Lato', 'sans-serif';">
         <div>
             <div class="w3-theme-d3 w3-row" style="height: 50px">
 
@@ -56,10 +56,9 @@
                     </a>
                     <a class="w3-button" style="text-decoration: none;height: 100%" href="forum">Forum</a>
                     <div class="w3-dropdown-hover" style="padding-right: 20px">
-                        <img src="${img}" class="w3-circle" style="width: 30px;height: 30px" alt="#">
+                        <img src="" id="menuImage" class="w3-circle" style="width: 30px;height: 30px" alt="#">
                         <div class="w3-theme-d3 w3-dropdown-content w3-bar-block w3-card-4" style="left: -110px">
-                            <a href="#" class="w3-bar-item w3-button">View Profile</a>
-                            <a href="#" class="w3-bar-item w3-button">Edit Profile</a>
+                            <a href="profile" class="w3-bar-item w3-button">Profile</a>
                             <a href="logout" class="w3-bar-item w3-button">Logout</a>
                         </div>
                     </div>
