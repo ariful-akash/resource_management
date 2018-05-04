@@ -25,6 +25,16 @@ var setMenu = function () {
 
 var setAccessId = function () {
 
+    var img = document.getElementById('menuImage');
+
+    if (user.image == null) {
+
+        img.src = "/office_resource_management/web-resources/images/dummy.jpg";
+    } else {
+
+        img.src = "data:image;base64," + user.image;
+    }
+
     for (var i in user.access) {
 
         accessId.push(user.access[i].id);
