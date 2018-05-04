@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -540,6 +541,44 @@ public class HumanResourceRestController {
         }
 
         return "{\"update\":\"false\"}";
+    }
+
+    /**
+     * Upload image of user
+     *
+     * @param image
+     * @param session
+     * @return
+     */
+    @RequestMapping(
+            value = "/api/service/office/hr/change/image",
+            method = RequestMethod.POST)
+    public String changeImage(
+            @RequestParam("image") MultipartFile image,
+            HttpSession session) {
+
+        String token = (String) session.getAttribute("token");
+        if (token != null && tokenDAO.isTokenExist(token)) {
+
+            long userId = tokenDAO.getUserId(token);
+            HumanResource hr = humanResourceDAO.getHumanResource(userId);
+
+            try {
+
+                hr.setImage(image.getBytes());
+                int retVal = humanResourceDAO.updateHumanResource(hr);
+
+                if (retVal != 0) {
+
+                    return "{\"upload\":\"true\"}";
+                }
+            } catch (IOException ex) {
+
+                System.err.println(ex.toString());
+            }
+        }
+
+        return "{\"upload\":\"false\"}";
     }
 
     /**
