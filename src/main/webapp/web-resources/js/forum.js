@@ -231,7 +231,14 @@ var placePost = function () {
         //image tag
 
         var image = document.createElement("img");
-        image.src = "";
+
+        if (posts[i].poster.image == null) {
+
+            image.src = "/office_resource_management/web-resources/images/dummy.jpg";
+        } else {
+
+            image.src = "data:image;base64," + posts[i].poster.image;
+        }
         image.className = "w3-circle";
         image.style.height = "30px";
         image.style.width = "30px";
@@ -384,7 +391,15 @@ var placeUsers = function () {
         //image tag
 
         var image = document.createElement("img");
-        image.src = "";
+
+        if (shortUsers[i].image == null) {
+
+            image.src = "/office_resource_management/web-resources/images/dummy.jpg";
+        } else {
+
+            image.src = "data:image;base64," + shortUsers[i].image;
+        }
+
         image.className = "w3-circle";
         image.style.height = "30px";
         image.style.width = "30px";
@@ -522,7 +537,15 @@ var placePostComment = function () {
         //image tag
 
         var image = document.createElement("img");
-        image.src = "";
+
+        if (postComment[0].comments[i].commenter.image == null) {
+
+            image.src = "/office_resource_management/web-resources/images/dummy.jpg";
+        } else {
+
+            image.src = "data:image;base64," + postComment[0].comments[i].commenter.image;
+        }
+
         image.className = "w3-circle";
         image.style.height = "30px";
         image.style.width = "30px";
@@ -627,7 +650,15 @@ var placePostComment = function () {
 
             // img tag
             var replyImgTag = document.createElement("img");
-            replyImgTag.src = "";
+
+            if (postComment[0].comments[i].commentReplys[j].replier.image == null) {
+
+                replyImgTag.src = "/office_resource_management/web-resources/images/dummy.jpg";
+            } else {
+
+                replyImgTag.src = "data:image;base64," + postComment[0].comments[i].commentReplys[j].replier.image;
+            }
+
             replyImgTag.className = "w3-circle";
             replyImgTag.style.height = "30px";
             replyImgTag.style.width = "30px";
