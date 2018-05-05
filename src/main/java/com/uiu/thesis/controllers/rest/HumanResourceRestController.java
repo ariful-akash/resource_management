@@ -3,6 +3,7 @@ package com.uiu.thesis.controllers.rest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.uiu.thesis.dao.interfaces.AccessTypeDAO;
+import com.uiu.thesis.dao.interfaces.HumanResourceDAO;
 import com.uiu.thesis.dao.interfaces.HumanResourceTypeDAO;
 import com.uiu.thesis.dao.interfaces.TokenDAO;
 import com.uiu.thesis.models.forum.json.HumanResourceJson;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -36,6 +38,9 @@ public class HumanResourceRestController {
 
     @Autowired
     private AccessTypeDAO accessTypeDAO;
+
+    @Autowired
+    private HumanResourceDAO humanResourceDAO;
 
     @Autowired
     private TokenDAO tokenDAO;
@@ -410,18 +415,22 @@ public class HumanResourceRestController {
 
         if (token != null && tokenDAO.isTokenExist(token)) {
 
-            ObjectMapper objectMapper = new ObjectMapper();
+            Long userId = tokenDAO.getUserId(token);
+            if (humanResourceDAO.hasAccess(userId, (long) 19)) {
 
-            List<HumanResourceType> hrTypes = hrTypeDAO.getAllHRType();
+                ObjectMapper objectMapper = new ObjectMapper();
 
-            if (hrTypes != null && hrTypes.size() > 0) {
+                List<HumanResourceType> hrTypes = hrTypeDAO.getAllHRType();
 
-                try {
+                if (hrTypes != null && hrTypes.size() > 0) {
 
-                    return objectMapper.writeValueAsString(hrTypes);
-                } catch (JsonProcessingException ex) {
+                    try {
 
-                    System.err.println(ex.toString());
+                        return objectMapper.writeValueAsString(hrTypes);
+                    } catch (JsonProcessingException ex) {
+
+                        System.err.println(ex.toString());
+                    }
                 }
             }
         }
@@ -472,5 +481,145 @@ public class HumanResourceRestController {
         }
 
         return "{}";
+    }
+
+    /**
+     * update user's first/last name, email, password
+     *
+     * @param key
+     * @param value
+     * @param session
+     * @return
+     */
+    @RequestMapping(
+            value = "/api/service/office/hr/change/{key}",
+            params = {"value"},
+            produces = {"application/json;charset:UTF-8"},
+            method = RequestMethod.POST)
+    public String changeinfo(
+            @PathVariable("key") String key,
+            @RequestParam("value") String value,
+            HttpSession session) {
+
+        String token = (String) session.getAttribute("token");
+        if (token != null && tokenDAO.isTokenExist(token)) {
+
+            HumanResource humanResource = humanResourceDAO.getHumanResource(tokenDAO.getUserId(token));
+
+            int retVal = 0;
+
+            switch (key) {
+
+                case "firstname":
+
+                    humanResource.setFirstName(value);
+                    retVal = humanResourceDAO.updateHumanResource(humanResource);
+                    break;
+
+                case "lastname":
+                    humanResource.setLastName(value);
+                    retVal = humanResourceDAO.updateHumanResource(humanResource);
+                    break;
+
+                case "email":
+                    humanResource.setEmail(value);
+                    retVal = humanResourceDAO.updateHumanResource(humanResource);
+                    break;
+
+                case "phone":
+                    humanResource.setPhone(value);
+                    retVal = humanResourceDAO.updateHumanResource(humanResource);
+                    break;
+
+                default:
+            }
+
+            if (retVal != 0) {
+
+                return "{\"update\":\"true\"}";
+            }
+        }
+
+        return "{\"update\":\"false\"}";
+    }
+
+    /**
+     * Upload image of user
+     *
+     * @param image
+     * @param session
+     * @return
+     */
+    @RequestMapping(
+            value = "/api/service/office/hr/change/image",
+            method = RequestMethod.POST)
+    public String changeImage(
+            @RequestParam("image") MultipartFile image,
+            HttpSession session) {
+
+        String token = (String) session.getAttribute("token");
+        if (token != null && tokenDAO.isTokenExist(token)) {
+
+            long userId = tokenDAO.getUserId(token);
+            HumanResource hr = humanResourceDAO.getHumanResource(userId);
+
+            try {
+
+                hr.setImage(image.getBytes());
+                int retVal = humanResourceDAO.updateHumanResource(hr);
+
+                if (retVal != 0) {
+
+                    return "{\"upload\":\"true\"}";
+                }
+            } catch (IOException ex) {
+
+                System.err.println(ex.toString());
+            }
+        }
+
+        return "{\"upload\":\"false\"}";
+    }
+
+    /**
+     *
+     * @param oldPass
+     * @param newpass
+     * @param session
+     * @return
+     */
+    @RequestMapping(
+            value = "/api/service/office/hr/change/password",
+            produces = {"application/json;charset:UTF-8"},
+            params = {"oldpass", "newpass"},
+            method = RequestMethod.POST)
+    public String changePassword(
+            @RequestParam("oldpass") String oldPass,
+            @RequestParam("newpass") String newpass,
+            HttpSession session) {
+
+        String token = (String) session.getAttribute("token");
+        if (token != null && tokenDAO.isTokenExist(token)) {
+
+            long userId = tokenDAO.getUserId(token);
+            HumanResource hr = humanResourceDAO.getHumanResource(userId);
+
+            if (hr != null) {
+
+                String oldDBPass = new String(hr.getPassword());
+                if (oldDBPass.equals(oldPass)) {
+
+                    hr.setPassword(newpass.getBytes());
+
+                    int retVal = humanResourceDAO.updateHumanResource(hr);
+                    if (retVal != 0) {
+
+                        return "{\"change\":\"true\"}";
+                    }
+                }
+            }
+        }
+
+        return "{\"change\":\"false\"}";
     }
 }

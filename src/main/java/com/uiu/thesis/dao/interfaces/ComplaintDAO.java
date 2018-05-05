@@ -22,9 +22,13 @@ public interface ComplaintDAO {
 
     public List<Complaint> getAllComplaints();
 
+    public List<String> getYears();
+
     public List<Complaint> getComplaintsByType(Long typeId);
 
     public List<Complaint> getComplaintsByType(Long typeId, boolean solved);
+
+    public List<Complaint> getComplaintsByTypeDate(Long typeId, String fromDate, String toDate, boolean solved);
 
     public List<Complaint> getComplaintsByCreator(Long complainantId);
 

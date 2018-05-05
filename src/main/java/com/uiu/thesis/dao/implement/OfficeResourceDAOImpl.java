@@ -231,4 +231,51 @@ public class OfficeResourceDAOImpl implements OfficeResourceDAO {
 
         return null;
     }
+
+    /**
+     *
+     * @param typeId
+     * @param floor
+     * @return
+     */
+    @Override
+    public List<OfficeResource> getOfficeResources(Long typeId, String floor) {
+
+        if (typeId != null && typeId > 0
+                && floor != null && !floor.isEmpty()) {
+
+            String sql = "SELECT * FROM office_resources"
+                    + " WHERE type_id = " + typeId
+                    + " AND floor = '" + floor + "'";
+
+            return makeOfficeResourcesBySQL(sql);
+        }
+
+        return null;
+    }
+
+    /**
+     *
+     * @param typeId
+     * @param floor
+     * @param room
+     * @return
+     */
+    @Override
+    public List<OfficeResource> getOfficeResources(Long typeId, String floor, String room) {
+
+        if (typeId != null && typeId > 0
+                && floor != null && !floor.isEmpty()
+                && room != null && !room.isEmpty()) {
+
+            String sql = "SELECT * FROM office_resources"
+                    + " WHERE type_id = " + typeId
+                    + " AND floor = '" + floor + "'"
+                    + " AND room = '" + room + "'";
+
+            return makeOfficeResourcesBySQL(sql);
+        }
+
+        return null;
+    }
 }

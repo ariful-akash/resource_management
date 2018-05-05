@@ -352,7 +352,15 @@ var placeAllComplaints = function () {
          * Creating image node
          */
         var img = document.createElement("img");
-        img.src = "${img}";
+
+        if (data[i].creator.image == null) {
+
+            img.src = "/office_resource_management/web-resources/images/dummy.jpg";
+        } else {
+
+            img.src = "data:image;base64," + data[i].creator.image;
+        }
+
         img.className = "w3-circle";
         img.style.width = "30px";
         img.style.height = "30px";

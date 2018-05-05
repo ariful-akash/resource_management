@@ -20,6 +20,8 @@ public interface RequisitionDAO {
 
     public Requisition getRequisitionById(Long requisitionId);
 
+    public List<String> getYears();
+
     public List<Requisition> getRequisitionsBySolved(boolean solved);
 
     public List<Requisition> getRequisitionsBySolver(Long solverId);
@@ -39,6 +41,8 @@ public interface RequisitionDAO {
     public List<Requisition> getRequisitionsByType(Long requisitionTypeId);
 
     public List<Requisition> getRequisitionsByType(Long requisitionTypeId, boolean solved);
+
+    public List<Requisition> getRequisitionsByTypeDate(Long requisitionTypeId, String fromDate, String toDate, boolean solved);
 
     public List<Requisition> getRequisitionsByDate(Date from);
 

@@ -49,10 +49,9 @@
                     </a>
                     <a class="w3-button" style="text-decoration: none;height: 100%" href="forum">Forum</a>
                     <div class="w3-dropdown-hover" style="padding-right: 20px">
-                        <img src="${img}" class="w3-circle" style="width: 30px;height: 30px" alt="#">
+                        <img src="" id="menuImage" class="w3-circle" style="width: 30px;height: 30px" alt="#">
                         <div class="w3-theme-d3 w3-dropdown-content w3-bar-block w3-card-4" style="left: -110px">
-                            <a href="#" class="w3-bar-item w3-button">View Profile</a>
-                            <a href="#" class="w3-bar-item w3-button">Edit Profile</a>
+                            <a href="profile" class="w3-bar-item w3-button">Edit Profile</a>
                             <a href="logout" class="w3-bar-item w3-button">Logout</a>
                         </div>
                     </div>
@@ -129,21 +128,55 @@
                         <!--office resource display table-->
                         <div id="viewResourceDiv">
 
-                            <table class="w3-table" border="1">
-                                <thead>
-                                    <tr>
-                                        <th>Resource Type</th>
-                                        <th>Floor</th>
-                                        <th>Room</th>
-                                        <th>Quantity</th>
-                                        <th>Total in floor</th>
-                                        <th>Total of type</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+                            <table class="w3-table w3-large" style="margin-bottom: 15px">
+                                <tr>
+                                    <td style="width: 30%">
+                                        <label>Type</label>
+                                        <select id="viewTypeOption" onclick="fetchSpecificResources()" class="w3-theme-l4 w3-input w3-round">
 
-                                </tbody>
+                                            <!--Type options are placed here by js-->
+
+                                        </select>
+                                    </td>
+                                    <td style="width: 30%">
+                                        <label>Floor</label>
+                                        <select id="viewFloorOption" onchange="placeRoomOption(); fetchSpecificResources()" class="w3-theme-l4 w3-input w3-round">
+
+                                            <!--Type options are placed here by js-->
+
+                                        </select>
+                                    </td>
+                                    <td style="width: 30%">
+                                        <label>Room</label>
+                                        <select id="viewRoomOption" onchange="fetchSpecificResources()" class="w3-theme-l4 w3-input w3-round">
+
+                                            <!--Type options are placed here by js-->
+
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <button onclick="fetchSpecificResources()" class="w3-button w3-theme-d4">Refresh</button>
+                                    </td>
+                                </tr>
                             </table>
+
+                            <div>
+                                <table class="w3-table" border="1">
+                                    <caption id="caption" class="w3-xlarge w3-theme-d4"></caption>
+                                    <thead>
+                                        <tr>
+                                            <th>Floor</th>
+                                            <th>Room</th>
+                                            <th>Quantity</th>
+                                            <th>Total in floor</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="byTypeTableBody">
+
+
+                                    </tbody>
+                                </table>
+                            </div>
 
                         </div>
                     </div>

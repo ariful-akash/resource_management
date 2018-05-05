@@ -109,6 +109,18 @@ public class HomeController {
         return "index";
     }
 
+    @RequestMapping(value = "/profile")
+    public String showProfile(HttpSession session) {
+
+        String token = (String) session.getAttribute("token");
+        if (token != null && tokenDAO.isTokenExist(token)) {
+
+            return "profile";
+        }
+
+        return "index";
+    }
+
     /**
      * insert data into human_resource_type table
      *

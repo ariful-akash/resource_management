@@ -18,6 +18,10 @@
         <spring:url value="/web-resources/js/statistics.js" var="js" />
         <spring:url value="/web-resources/js/menuremover.js" var="menuJs"/>
         <spring:url value="/web-resources/js/notification.js" var="notificationJs"/>
+        <spring:url value="/web-resources/js/statisticsHR.js" var="statisticsHRjs"/>
+        <spring:url value="/web-resources/js/statisticsOR.js" var="statisticsORjs"/>
+        <spring:url value="/web-resources/js/statisticsComplaint.js" var="statisticsComplaintJs"/>
+        <spring:url value="/web-resources/js/statisticsRequisition.js" var="statisticsRequisitionJs"/>
 
 
 
@@ -29,12 +33,16 @@
         <script src="${js}" type="text/javascript"></script>
         <script src="${menuJs}" type="text/javascript"></script>
         <script src="${notificationJs}" type="text/javascript"></script>
+        <script src="${statisticsHRjs}" type="text/javascript"></script>
+        <script src="${statisticsORjs}" type="text/javascript"></script>
+        <script src="${statisticsComplaintJs}" type="text/javascript"></script>
+        <script src="${statisticsRequisitionJs}" type="text/javascript"></script>
 
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Statistics</title>
     </head>
-    <body onload="setMenu(); countComplaint(); countRequisition()" class="w3-theme-l3" style="font-family: 'Lato', 'sans-serif';">
+    <body onload="setMenu(); countComplaint(); countRequisition(); loadAllHr()" class="w3-theme-l3" style="font-family: 'Lato', 'sans-serif';">
 
         <div>
             <div class="w3-theme-d3 w3-row" style="height: 50px">
@@ -56,10 +64,9 @@
                     </a>
                     <a class="w3-button" style="text-decoration: none;height: 100%" href="forum">Forum</a>
                     <div class="w3-dropdown-hover" style="padding-right: 20px">
-                        <img src="${img}" class="w3-circle" style="width: 30px;height: 30px" alt="#">
+                        <img src="" id="menuImage" class="w3-circle" style="width: 30px;height: 30px" alt="#">
                         <div class="w3-theme-d3 w3-dropdown-content w3-bar-block w3-card-4" style="left: -110px">
-                            <a href="#" class="w3-bar-item w3-button">View Profile</a>
-                            <a href="#" class="w3-bar-item w3-button">Edit Profile</a>
+                            <a href="profile" class="w3-bar-item w3-button">Profile</a>
                             <a href="logout" class="w3-bar-item w3-button">Logout</a>
                         </div>
                     </div>
@@ -78,137 +85,213 @@
                 </div>
 
                 <!--Right div-->
-                <div class="w3-theme-l2 w3-col" style="width: 79%">
+                <div class="w3-theme-l4 w3-col" style="width: 79%">
 
                     <!--Tabs-->
                     <div class="w3-bar w3-col w3-theme-d1" style="width:70%">
-                        <button class="w3-bar-item w3-button tablink w3-theme-d2" style="width: 25%" onclick="changeTab(event, 'hr')">Human Resource</button>
-                        <button class="w3-bar-item w3-button tablink" style="width: 25%" onclick="changeTab(event, 'or')">Office Resource</button>
-                        <button class="w3-bar-item w3-button tablink" style="width: 25%" onclick="changeTab(event, 'com')">Complaints</button>
-                        <button class="w3-bar-item w3-button tablink" style="width: 25%" onclick="changeTab(event, 'req')">Requsitions</button>
+                        <button class="w3-bar-item w3-button tablink w3-theme-d2" style="width: 25%" onclick="changeStatTab(event, 'hr')">Human Resource</button>
+                        <button class="w3-bar-item w3-button tablink" style="width: 25%" onclick="changeStatTab(event, 'or'); getFloorGraphAJAX();">Office Resource</button>
+                        <button class="w3-bar-item w3-button tablink" style="width: 25%" onclick="changeStatTab(event, 'com'); getYears();">Complaints</button>
+                        <button class="w3-bar-item w3-button tablink" style="width: 25%" onclick="changeStatTab(event, 'req'); getRequisitionYears()">Requisitions</button>
                     </div>
 
+
+
                     <!--HR Tab-->
-                    <div id="hr" class="w3-container w3-border tab">
+                    <div id="hr" class="w3-container w3-border tab" style="display: block">
                         <!--Toggel and Print Button-->
-                        <div class="w3-bar w3-col" >
-                            <div class="w3-bar-item" style="margin-left: 1%;margin-top: 1%">
-                                <div id="toggle" onclick="getToggleValue()">
-                                    <button class="w3-btn w3-theme-d3 w3-round-large">See List</button>
-                                </div>
+                        <div class="w3-row w3-margin-top">
+                            <div class="w3-col" style="width: 90%; margin-left: 1%;margin-top: 1%">
+                                <button onclick="changeViewStyle(this)" class="w3-btn w3-theme-d3 w3-round-large">See List</button>
+                                <select id="graphStyle" onchange="changeGraph(this)" class="w3-large w3-btn w3-theme-d3 w3-round">
+                                    <option>Pie Chart</option>
+                                    <option>Columnar</option>
+                                </select>
                             </div>
-                            <div class="w3-bar-item w3-right"style="margin-right: 3%">
+                            <div class="w3-col"style="width: 6%; margin-right: 3%">
                                 <button class="w3-button w3-theme-d3">Print</button>
                             </div>
                         </div>
 
-                        <div class="w3-col" style="margin: 1% 5% 2% 1%">
-                            <div id="chartContainer" style="height: 430px;width: 98%">
+
+                        <!--HR Graphs and list-->
+                        <div style="margin: 3% 3%">
+                            <div id="hrChartContainer" style="height: 450px; width: 100%">
+
+                            </div>
+
+                            <div id="hrListContainer" style="display: none; width: 100%">
+
+                                <table class="w3-table" border="1">
+                                    <thead class="w3-theme">
+                                        <tr>
+                                            <th style="width: 50%;">HR Type</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="hrListBody">
+
+                                    </tbody>
+                                </table>
 
                             </div>
                         </div>
+
                     </div>
 
                     <!--OR tab-->
                     <div id="or" class="w3-container w3-border tab" style="display:none">
                         <!--Toggel and Print Button-->
-                        <div class="w3-bar w3-col" >
-                            <div class="w3-bar-item" style="margin-left: 1%;margin-top: 1%">
-                                <div>
-                                    <label class="switch"s>
-                                        <input class="switch-input" type="checkbox" />
-                                        <span class="switch-label" data-on="Graph" data-off="List"></span>
-                                        <span class="switch-handle"></span>
-                                    </label>
+                        <div class="w3-row" style="margin: 20px 0px 20px 0px">
+                            <div class="w3-col w3-large" style="width: 90%; margin-left: 1%;margin-top: 1%">
+                                <button onclick="changeORGraphList(this)" id="orlistOrGraph" class="w3-btn w3-theme-d3 w3-round-large">See List</button>
 
-                                </div>
-                            </div>
-
-                            <div class="w3-padding" style="display: inline">
-                                <select class="w3-theme-d3" style="margin-top: 2%;height: 30px">
-                                    <option value="floor">Floor</option>
-                                    <option value="room">Room</option>
-                                    <option value="total">Total</option>
+                                <select id="orGraphStyle" onchange="placeORGraph()" class="w3-btn w3-theme-d3 w3-round">
+                                    <option>Pie Chart</option>
+                                    <option>Columnar</option>
                                 </select>
-                            </div>
 
-                            <div style="display: inline;">
-                                <select class="w3-theme-d3" style="margin-top: 2%;height: 30px"">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
+                                <label class="w3-large" style="margin-left: 20px">Floor:</label>
+                                <select id="orGraphFloor" onchange="placeRoomGraph(); getResourceNumber()" class="w3-btn w3-theme-d3 w3-round" style="width: 120px">
+
                                 </select>
-                            </div>
 
-                            <div class="w3-bar-item w3-right"style="margin-right: 3%">
+                                <label class="w3-large" style="margin-left: 20px">Room:</label>
+                                <select id="orGraphRoom" onchange="getResourceNumber()" class="w3-btn w3-theme-d3 w3-round" style="width: 120px">
+
+                                </select>
+
+                            </div>
+                            <div class="w3-col"style="width: 6%; margin-right: 3%">
                                 <button class="w3-button w3-theme-d3">Print</button>
                             </div>
                         </div>
 
-                        <table class="w3-table w3-margin-bottom" border="1">
-                            <tr>
-                                <th class="w3-center">Type</th>
-                                <th class="w3-center">Name</th>
-                                <th class="w3-center">Total</th>
-                            </tr>
-                            <%for (int i = 0; i < 10; i++) {%>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <%}%>
+                        <!--OR Graph content-->
+                        <div id="orChartContainer" style="display: block; height: 450px; width: 100%; margin-bottom: 20px;">
 
-                        </table>
+                        </div>
+
+                        <!--OR List Content-->
+                        <div id="orListContainer" style="display: none; width: 100%; margin-bottom: 10px;">
+
+                            <table class="w3-table" border="1" style="width: 100%">
+                                <thead class="w3-theme" style="width: 100%; display: block">
+                                    <tr style="width: 100%">
+                                        <th style="width: 100%">Resource Type</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="orListBody" style="overflow-y: auto; height: 410px; width: 100%; display: block">
+
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
-                    <!--solved tab-->
+                    <!--Complaint tab-->
                     <div id="com" class="w3-container w3-border tab" style="display:none">
 
-                        <% for (int i = 0; i < 10; i++) {%>
-                        <div class="w3-row w3-card  w3-margin-top w3-margin-bottom">
+                        <div class="w3-row" style="margin: 20px 0px 20px 0px">
+                            <div class="w3-col w3-large" style="width: 90%; margin-left: 1%;margin-top: 1%">
+                                <button onclick="changeComplaintGraphList()" id="comlistOrGraph" class="w3-btn w3-theme-d3 w3-round-large">See List</button>
 
-                            <div class="w3-col" style="width: 5%; padding: 1% 0% 0% 1%">
-                                <img src="${img}" class="w3-circle" style="width: 30px;height: 30px" alt="#">
+                                <select id="comGraphStyle" onchange="placeComplaintGraph()" class="w3-btn w3-theme-d3 w3-round">
+                                    <option>Pie Chart</option>
+                                    <option>Columnar</option>
+                                </select>
+
+                                <label class="w3-large" style="margin-left: 20px">Year:</label>
+                                <select id="comGraphYear" onchange="placeMonths(); getComplaintsNumber()" class="w3-btn w3-theme-d3 w3-round" style="width: 120px">
+
+                                </select>
+
+                                <label class="w3-large" style="margin-left: 20px">Month:</label>
+                                <select id="comGraphMonth" onchange="getComplaintsNumber()" class="w3-btn w3-theme-d3 w3-round" style="width: 160px">
+
+                                </select>
+
                             </div>
-
-                            <div class="w3-col" style="width: 92%;margin-top: 1.5%">
-                                <label class="w3-small w3-text-dark-gray"><b>Ariful Islam Akash</b></label>
-                            </div>
-
-                            <div>
-                                <label class="w3-text-dark-gray w3-large w3-right" style="margin-right: 5%;">&#x2714; Solved</label>
-                            </div>
-
-                            <div style="margin: 6% 5% 1% 5%">
-                                <table class="w3-table w3-striped" border="1">
-                                    <tr>
-                                        <td>Complaints Type</td>
-                                        <td>Table</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Description</td>
-                                        <td>Table was Broken</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Placeing Date</td>
-                                        <td>14/04/2018</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Placeing Date</td>
-                                        <td>14/04/2018</td>
-                                    </tr>
-                                </table>
+                            <div class="w3-col"style="width: 6%; margin-right: 3%">
+                                <button class="w3-button w3-theme-d3">Print</button>
                             </div>
                         </div>
-                        <%}%>
+
+                        <!--OR Graph content-->
+                        <div id="comChartContainer" style="display: block; height: 450px; width: 100%; margin-bottom: 20px;">
+
+                        </div>
+
+                        <!--OR List Content-->
+                        <div id="comListContainer" style="display: none; width: 100%; margin-bottom: 10px;">
+
+                            <table class="w3-table" border="1" style="width: 100%">
+                                <thead class="w3-theme" style="width: 100%; display: block">
+                                    <tr style="width: 100%">
+                                        <th style="width: 100%">Complaint Type</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="comListBody" style="overflow-y: auto; height: 410px; width: 100%; display: block">
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                    <!--Requisition tab-->
+                    <div id="req" class="w3-container w3-border tab" style="display:none">
+
+                        <div class="w3-row" style="margin: 20px 0px 20px 0px">
+                            <div class="w3-col w3-large" style="width: 90%; margin-left: 1%;margin-top: 1%">
+                                <button onclick="changeRequisitionGraphList()" id="reqlistOrGraph" class="w3-btn w3-theme-d3 w3-round-large">See List</button>
+
+                                <select id="reqGraphStyle" onchange="placeRequisitionGraph()" class="w3-btn w3-theme-d3 w3-round">
+                                    <option>Pie Chart</option>
+                                    <option>Columnar</option>
+                                </select>
+
+                                <label class="w3-large" style="margin-left: 20px">Year:</label>
+                                <select id="reqGraphYear" onchange="placeRequisitionMonths(); getRequisitionsNumber()" class="w3-btn w3-theme-d3 w3-round" style="width: 120px">
+
+                                </select>
+
+                                <label class="w3-large" style="margin-left: 20px">Month:</label>
+                                <select id="reqGraphMonth" onchange="getRequisitionsNumber()" class="w3-btn w3-theme-d3 w3-round" style="width: 160px">
+
+                                </select>
+
+                            </div>
+                            <div class="w3-col"style="width: 6%; margin-right: 3%">
+                                <button class="w3-button w3-theme-d3">Print</button>
+                            </div>
+                        </div>
+
+                        <!--Requisition Graph content-->
+                        <div id="reqChartContainer" style="display: block; height: 450px; width: 100%; margin-bottom: 20px;">
+
+                        </div>
+
+                        <!--Requisition List Content-->
+                        <div id="reqListContainer" style="display: none; width: 100%; margin-bottom: 10px;">
+
+                            <table class="w3-table" border="1" style="width: 100%">
+                                <thead class="w3-theme" style="width: 100%; display: block">
+                                    <tr style="width: 100%">
+                                        <th style="width: 100%">Requisition Type</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="reqListBody" style="overflow-y: auto; height: 410px; width: 100%; display: block">
+
+                                </tbody>
+                            </table>
+                        </div>
 
                     </div>
                 </div>
-
-
             </div>
-        </div>
 
     </body>
 </html>

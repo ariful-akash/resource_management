@@ -40,8 +40,11 @@ public class LoginLogoutController {
 
             String token = tokenDAO.getToken(email, password);
 
-            request.getSession().setAttribute("token", token);
-            return "/forum";
+            if (token != null) {
+
+                request.getSession().setAttribute("token", token);
+                return "/forum";
+            }
         }
 
         return "/index";

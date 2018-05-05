@@ -25,6 +25,16 @@ var setMenu = function () {
 
 var setAccessId = function () {
 
+    var img = document.getElementById('menuImage');
+
+    if (user.image == null) {
+
+        img.src = "/office_resource_management/web-resources/images/dummy.jpg";
+    } else {
+
+        img.src = "data:image;base64," + user.image;
+    }
+
     for (var i in user.access) {
 
         accessId.push(user.access[i].id);
@@ -76,4 +86,41 @@ var removeMenu = function () {
 
         incomingRequisitions.parentNode.removeChild(incomingRequisitions);
     }
+};
+
+/**
+ * Encode a string to a byte array
+ *
+ * @param {type} str
+ * @returns {Array|toUTF8Array.utf8}
+ */
+var toUTF8Array = function (str) {
+    var utf8 = [];
+    for (var i = 0; i < str.length; i++) {
+        var charcode = str.charCodeAt(i);
+        if (charcode < 0x80)
+            utf8.push(charcode);
+        else if (charcode < 0x800) {
+            utf8.push(0xc0 | (charcode >> 6),
+                    0x80 | (charcode & 0x3f));
+        } else if (charcode < 0xd800 || charcode >= 0xe000) {
+            utf8.push(0xe0 | (charcode >> 12),
+                    0x80 | ((charcode >> 6) & 0x3f),
+                    0x80 | (charcode & 0x3f));
+        }
+        // surrogate pair
+        else {
+            i++;
+            // UTF-16 encodes 0x10000-0x10FFFF by
+            // subtracting 0x10000 and splitting the
+            // 20 bits of 0x0-0xFFFFF into two halves
+            charcode = 0x10000 + (((charcode & 0x3ff) << 10)
+                    | (str.charCodeAt(i) & 0x3ff));
+            utf8.push(0xf0 | (charcode >> 18),
+                    0x80 | ((charcode >> 12) & 0x3f),
+                    0x80 | ((charcode >> 6) & 0x3f),
+                    0x80 | (charcode & 0x3f));
+        }
+    }
+    return utf8;
 };
