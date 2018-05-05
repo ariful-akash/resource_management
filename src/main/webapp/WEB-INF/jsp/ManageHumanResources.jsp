@@ -60,10 +60,9 @@
             <div class="w3-row">
 
                 <!--Left div-->
-                <div class="w3-theme-d1 w3-col" style="width: 20%; height: 450px">
+                <div class="w3-theme-d1 w3-col" style="width: 20%; height: 660px">
                     <a class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%"><span onclick="document.getElementById('id01').style.display = 'block'">Add Human Resources</span></a><br>
                     <a id="statistics"   class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="statistics">Statistics</a>
-                    <a id="manageHr"     class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="hr">Manage Human Resources</a>
                     <a id="manageOffice" class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="office">Add Office Resources</a>
 
                     <!--<##Pop up window adding new hr-->
@@ -97,12 +96,12 @@
 
                 <!--Middle div-->
                 <div class="w3-theme-l2 w3-col" style="margin: 0% 1% 0% 1%;width: 75%">
-                    <div class="w3-card w3-padding" style="margin-top: 10px">
+                    <div class="w3-card w3-padding" style="margin-top: 10px;overflow: auto;height:650px">
                         <div>
                             <input style="margin-left: 3%;width: 50%; margin-bottom: 4%" class="w3-large w3-input w3-theme-l3" type="text" placeholder="Search..." name="searchPost">
                         </div>
                         <div>
-                            <% for (int i = 0; i < 5; i++) {%>
+                            <% for (int i = 0; i < 50; i++) {%>
                             <div class="w3-card w3-large w3-hover-theme" style="margin:0% 3% 2% 3%; padding: 1% 0% 2% 1% ;width: 60% " onclick="document.getElementById('id02').style.display = 'block'">
                                 <img src="${img}" class="w3-circle" style="width: 30px;height: 30px;margin-right: 1%" alt="#">
                                 <label class=" w3-text-dark-gray">Ariful Islam</label><br>
