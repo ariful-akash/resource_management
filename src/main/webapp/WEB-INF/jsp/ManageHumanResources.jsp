@@ -14,18 +14,20 @@
         <spring:url value="/web-resources/js/menuremover.js" var="menuJs"/>
         <spring:url value="/web-resources/images/akash.jpg" var="img"/>
         <spring:url value="/web-resources/js/notification.js" var="notificationJs"/>
+        <spring:url value="/web-resources/js/humanresources.js" var="hrJs"/>
 
 
         <link href="${css}" rel="stylesheet" type="text/css"/>
         <link href="${w3BlueDarkTheme}" rel="stylesheet" type="text/css"/>
         <script src="${menuJs}" type="text/javascript"></script>
         <script src="${notificationJs}" type="text/javascript"></script>
+        <script src="${hrJs}" type="text/javascript"></script>
 
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Manage Human Resources</title>
     </head>
-    <body onload="setMenu(); countComplaint(); countRequisition()" class="w3-theme-l4" style="font-family: 'Lato', 'sans-serif';">
+    <body onload="setMenu(); countComplaint();getAllUsers(); countRequisition()" class="w3-theme-l4" style="font-family: 'Lato', 'sans-serif';">
 
         <div>
             <div class="w3-theme-d3 w3-row" style="height: 50px">
@@ -100,10 +102,10 @@
                         <div>
                             <input style="margin-left: 3%;width: 50%; margin-bottom: 4%" class="w3-large w3-input w3-theme-l3" type="text" placeholder="Search..." name="searchPost">
                         </div>
-                        <div>
+                        <div id="allHr" >
                             <% for (int i = 0; i < 50; i++) {%>
-                            <div class="w3-card w3-large w3-hover-theme" style="margin:0% 3% 2% 3%; padding: 1% 0% 2% 1% ;width: 60% " onclick="document.getElementById('id02').style.display = 'block'">
-                                <img src="${img}" class="w3-circle" style="width: 30px;height: 30px;margin-right: 1%" alt="#">
+                            <div class="w3-card w3-large w3-hover-light-green" style="margin:0% 3% 2% 3%; padding: 1% 0% 2% 1% ;width: 60%; display: none" onclick="document.getElementById('id02').style.display = 'block'">
+                                <img src="${img}" class="w3-circle" style="width: 30px;height: 30px;margin-right: 1%">
                                 <label class=" w3-text-dark-gray">Ariful Islam</label><br>
 
                             </div>
