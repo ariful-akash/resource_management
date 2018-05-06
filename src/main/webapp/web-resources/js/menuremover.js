@@ -124,3 +124,12 @@ var toUTF8Array = function (str) {
     }
     return utf8;
 };
+
+/**
+ *
+ * @returns {undefined}
+ */
+var getUser = function () {
+
+    return user;
+};
