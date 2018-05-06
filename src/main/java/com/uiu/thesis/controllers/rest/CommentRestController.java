@@ -6,10 +6,13 @@
 package com.uiu.thesis.controllers.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.uiu.thesis.dao.interfaces.TokenDAO;
 import com.uiu.thesis.models.forum.Comment;
 import com.uiu.thesis.services.interfaces.CommentService;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,11 +29,15 @@ public class CommentRestController {
     @Autowired
     private CommentService commentService;
 
+    @Autowired
+    private TokenDAO tokenDAO;
+
     private SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss a");
 
     /**
      *
      * @param commentJson
+     * @param session
      * @return
      */
     @RequestMapping(
@@ -38,30 +45,39 @@ public class CommentRestController {
             params = {"comment"},
             produces = {"application/json;charset:UTF-8"},
             method = RequestMethod.POST)
-    public String addCommentService(@RequestParam("comment") String commentJson) {
+    public String addCommentService(
+            @RequestParam("comment") String commentJson,
+            HttpSession session) {
 
-        ObjectMapper objectMapper = new ObjectMapper();
+        String token = (String) session.getAttribute("token");
+        if (token != null && tokenDAO.isTokenExist(token)) {
 
-        try {
+            long userId = tokenDAO.getUserId(token);
+            ObjectMapper objectMapper = new ObjectMapper();
 
-            Comment comment = objectMapper.readValue(commentJson, Comment.class);
-            if (comment != null
-                    && comment.getId() == null
-                    && comment.getPostId() != null
-                    && comment.getCommenterId() != null
-                    && comment.getContent() != null
-                    && comment.getCommentTime() != null) {
+            try {
 
-                int value = commentService.addNewComment(comment);
+                Comment comment = objectMapper.readValue(commentJson, Comment.class);
+                if (comment != null
+                        && comment.getId() == null
+                        && comment.getPostId() != null
+                        && comment.getContent() != null) {
 
-                if (value != 0) {
+                    comment.setCommenterId(userId);
+                    comment.setCommentTime(new Date());
+                    comment.setIsEdited(false);
 
-                    return "{\"insert\":\"true\"}";
+                    int value = commentService.addNewComment(comment);
+
+                    if (value != 0) {
+
+                        return "{\"insert\":\"true\"}";
+                    }
                 }
-            }
-        } catch (IOException e) {
+            } catch (IOException e) {
 
-            System.err.println(e.toString());
+                System.err.println(e.toString());
+            }
         }
 
         return "{\"insert\":\"false\"}";

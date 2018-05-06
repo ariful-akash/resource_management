@@ -15,6 +15,9 @@
         <spring:url value="/web-resources/images/akash.jpg" var="img"/>
         <spring:url value="/web-resources/js/jquery-1.12.4.js" var="jquery" />
         <spring:url value="/web-resources/js/jquery.canvasjs.min.js" var="jqueryConv" />
+        <spring:url value="/web-resources/js/jspdf.debug.js" var="jsPDFdebug" />
+        <spring:url value="/web-resources/js/canvasjs.min.js" var="canvasJS" />
+        <spring:url value="/web-resources/js/jspdf.js" var="jsPDF" />
         <spring:url value="/web-resources/js/statistics.js" var="js" />
         <spring:url value="/web-resources/js/menuremover.js" var="menuJs"/>
         <spring:url value="/web-resources/js/notification.js" var="notificationJs"/>
@@ -30,6 +33,9 @@
         <link href="${w3BlueDarkTheme}" rel="stylesheet" type="text/css"/>
         <script src="${jquery}" type="text/javascript"></script>
         <script src="${jqueryConv}" type="text/javascript"></script>
+        <script src="${jsPDFdebug}" type="text/javascript"></script>
+        <script src="${canvasJS}" type="text/javascript"></script>
+        <script src="${jsPDF}" type="text/javascript"></script>
         <script src="${js}" type="text/javascript"></script>
         <script src="${menuJs}" type="text/javascript"></script>
         <script src="${notificationJs}" type="text/javascript"></script>
@@ -102,14 +108,14 @@
                         <!--Toggel and Print Button-->
                         <div class="w3-row w3-margin-top">
                             <div class="w3-col" style="width: 90%; margin-left: 1%;margin-top: 1%">
-                                <button onclick="changeViewStyle(this)" class="w3-btn w3-theme-d3 w3-round-large">See List</button>
+                                <button onclick="changePrintArea('hr'); changeViewStyle(this)" class="w3-btn w3-theme-d3 w3-round-large">See List</button>
                                 <select id="graphStyle" onchange="changeGraph(this)" class="w3-large w3-btn w3-theme-d3 w3-round">
                                     <option>Pie Chart</option>
                                     <option>Columnar</option>
                                 </select>
                             </div>
                             <div class="w3-col"style="width: 6%; margin-right: 3%">
-                                <button class="w3-button w3-theme-d3">Print</button>
+                                <button id="hrPrint" onclick="generateReport('hr')" class="w3-button w3-theme-d3">Print</button>
                             </div>
                         </div>
 
@@ -144,7 +150,7 @@
                         <!--Toggel and Print Button-->
                         <div class="w3-row" style="margin: 20px 0px 20px 0px">
                             <div class="w3-col w3-large" style="width: 90%; margin-left: 1%;margin-top: 1%">
-                                <button onclick="changeORGraphList(this)" id="orlistOrGraph" class="w3-btn w3-theme-d3 w3-round-large">See List</button>
+                                <button onclick="changePrintArea('or'); changeORGraphList(this)" id="orlistOrGraph" class="w3-btn w3-theme-d3 w3-round-large">See List</button>
 
                                 <select id="orGraphStyle" onchange="placeORGraph()" class="w3-btn w3-theme-d3 w3-round">
                                     <option>Pie Chart</option>
@@ -163,7 +169,7 @@
 
                             </div>
                             <div class="w3-col"style="width: 6%; margin-right: 3%">
-                                <button class="w3-button w3-theme-d3">Print</button>
+                                <button onclick="generateReport('or')" class="w3-button w3-theme-d3">Print</button>
                             </div>
                         </div>
 
@@ -194,7 +200,7 @@
 
                         <div class="w3-row" style="margin: 20px 0px 20px 0px">
                             <div class="w3-col w3-large" style="width: 90%; margin-left: 1%;margin-top: 1%">
-                                <button onclick="changeComplaintGraphList()" id="comlistOrGraph" class="w3-btn w3-theme-d3 w3-round-large">See List</button>
+                                <button onclick="changePrintArea('com'); changeComplaintGraphList()" id="comlistOrGraph" class="w3-btn w3-theme-d3 w3-round-large">See List</button>
 
                                 <select id="comGraphStyle" onchange="placeComplaintGraph()" class="w3-btn w3-theme-d3 w3-round">
                                     <option>Pie Chart</option>
@@ -213,16 +219,16 @@
 
                             </div>
                             <div class="w3-col"style="width: 6%; margin-right: 3%">
-                                <button class="w3-button w3-theme-d3">Print</button>
+                                <button onclick="generateReport('com')" class="w3-button w3-theme-d3">Print</button>
                             </div>
                         </div>
 
-                        <!--OR Graph content-->
+                        <!--Complaint Graph content-->
                         <div id="comChartContainer" style="display: block; height: 450px; width: 100%; margin-bottom: 20px;">
 
                         </div>
 
-                        <!--OR List Content-->
+                        <!--Complaint List Content-->
                         <div id="comListContainer" style="display: none; width: 100%; margin-bottom: 10px;">
 
                             <table class="w3-table" border="1" style="width: 100%">
@@ -245,7 +251,7 @@
 
                         <div class="w3-row" style="margin: 20px 0px 20px 0px">
                             <div class="w3-col w3-large" style="width: 90%; margin-left: 1%;margin-top: 1%">
-                                <button onclick="changeRequisitionGraphList()" id="reqlistOrGraph" class="w3-btn w3-theme-d3 w3-round-large">See List</button>
+                                <button onclick="changePrintArea('req'); changeRequisitionGraphList()" id="reqlistOrGraph" class="w3-btn w3-theme-d3 w3-round-large">See List</button>
 
                                 <select id="reqGraphStyle" onchange="placeRequisitionGraph()" class="w3-btn w3-theme-d3 w3-round">
                                     <option>Pie Chart</option>
@@ -264,7 +270,7 @@
 
                             </div>
                             <div class="w3-col"style="width: 6%; margin-right: 3%">
-                                <button class="w3-button w3-theme-d3">Print</button>
+                                <button onclick="generateReport('req')" class="w3-button w3-theme-d3">Print</button>
                             </div>
                         </div>
 

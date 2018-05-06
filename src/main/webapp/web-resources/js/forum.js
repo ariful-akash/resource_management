@@ -476,6 +476,11 @@ var placePostComment = function () {
 
     var allCommentDiv = document.createElement("div");
 
+    var postIdAttr = document.createAttribute("id");
+    postIdAttr.value = postComment[0].id;
+
+    allCommentDiv.setAttributeNode(postIdAttr);
+
     // attaching comment div to postCommentDiv
     postCommentDiv.appendChild(allCommentDiv);
 
@@ -498,13 +503,24 @@ var placePostComment = function () {
     inputField.type = "text";
     inputField.placeholder = "Write a Comment...";
 
+    var commentFieldId = document.createAttribute("id");
+    commentFieldId.value = "comment";
+
+    inputField.setAttributeNode(commentFieldId);
+
 
     var inputButton = document.createElement("input");
     inputButton.className = "w3-btn w3-round w3-theme-d1";
     inputButton.style.display = "inline";
     inputButton.style.marginLeft = "1%";
     inputButton.value = "Comment";
+    inputButton.type = "button";
 
+    var idAttr = document.createAttribute("id");
+    idAttr.value = postComment[0].id;
+
+    inputButton.setAttributeNode(idAttr);
+    inputButton.onclick = addComment;
     /*
      * append inputField && inputButton to placeCommentDiv
      */
@@ -734,6 +750,11 @@ var placePostComment = function () {
         replyInputField.type = "text";
         replyInputField.placeholder = "Write a reply...";
 
+        var replyFieldId = document.createAttribute("id");
+        replyFieldId.value = "reply" + postComment[0].comments[i].id;
+
+        replyInputField.setAttributeNode(replyFieldId);
+
         // appending input field to reply input field div
         replyInputFieldDiv.appendChild(replyInputField);
 
@@ -743,7 +764,14 @@ var placePostComment = function () {
         replyInputButton.style.width = "100px";
         replyInputButton.style.display = "inline";
         replyInputButton.style.marginLeft = "1%";
-        replyInputButton.value = "Comment";
+        replyInputButton.type = "button";
+        replyInputButton.value = "Reply";
+        replyInputButton.onclick = addReply;
+
+        var replyButtonId = document.createAttribute("id");
+        replyButtonId.value = postComment[0].comments[i].id;
+
+        replyInputButton.setAttributeNode(replyButtonId);
 
         // appending input button to reply input field div
         replyInputFieldDiv.appendChild(replyInputButton);

@@ -17,6 +17,7 @@
         <spring:url value="/web-resources/js/myComplaintsJS.js" var="myComplaintsJs"/>
         <spring:url value="/web-resources/js/menuremover.js" var="menuJs"/>
         <spring:url value="/web-resources/js/notification.js" var="notificationJs"/>
+        <spring:url value="/web-resources/js/commentreply.js" var="commentreplyJs"/>
         <spring:url value="/web-resources/css/w3-theme-blue-grey.css" var="w3BlueDarkTheme"/>
         <spring:url value="/web-resources/images/akash.jpg" var="img"/>
         <spring:url value="/web-resources/images/loading.gif" var="loading"/>
@@ -32,6 +33,7 @@
         <script src="${menuJs}" type="text/javascript"></script>
         <script src="${myComplaintsJs}" type="text/javascript"></script>
         <script src="${notificationJs}" type="text/javascript"></script>
+        <script src="${commentreplyJs}" type="text/javascript"></script>
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Forum</title>

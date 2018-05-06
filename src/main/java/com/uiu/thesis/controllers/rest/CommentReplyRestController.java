@@ -1,9 +1,13 @@
 package com.uiu.thesis.controllers.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.uiu.thesis.dao.interfaces.HumanResourceDAO;
+import com.uiu.thesis.dao.interfaces.TokenDAO;
 import com.uiu.thesis.models.forum.CommentReply;
 import com.uiu.thesis.services.interfaces.CommentReplyService;
 import java.io.IOException;
+import java.util.Date;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,9 +24,16 @@ public class CommentReplyRestController {
     @Autowired
     private CommentReplyService commentReplyService;
 
+    @Autowired
+    private TokenDAO tokenDAO;
+
+    @Autowired
+    private HumanResourceDAO humanResourceDAO;
+
     /**
      *
      * @param replyJson
+     * @param session
      * @return
      */
     @RequestMapping(
@@ -30,37 +41,47 @@ public class CommentReplyRestController {
             params = {"reply"},
             produces = {"application/json;charset:UTF-8"},
             method = RequestMethod.POST)
-    public String addNewReplyService(@RequestParam("reply") String replyJson) {
+    public String addNewReplyService(
+            @RequestParam("reply") String replyJson,
+            HttpSession session) {
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
+        String token = (String) session.getAttribute("token");
+        if (token != null && tokenDAO.isTokenExist(token)) {
 
-            CommentReply commentReply = objectMapper.readValue(replyJson, CommentReply.class);
+            long userId = tokenDAO.getUserId(token);
 
-            /*
-            The replier id must be implemented later
-             */
-            if (commentReply != null
-                    && commentReply.getId() == null
-                    && commentReply.getCommentId() != null
-                    && commentReply.getDateTime() != null
-                    && commentReply.getReply() != null
-                    && commentReply.isEdited() == false) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            try {
 
-                int value = commentReplyService.addNewCommentReply(commentReply);
+                CommentReply commentReply = objectMapper.readValue(replyJson, CommentReply.class);
 
-                if (value != 0) {
+                /*
+                 * The replier id must be implemented later
+                 */
+                if (commentReply != null
+                        && commentReply.getId() == null
+                        && commentReply.getCommentId() != null
+                        && commentReply.getReply() != null) {
 
-                    return "{\"add\":\"true\"}";
+                    commentReply.setReplier(humanResourceDAO.getHumanResource(userId));
+                    commentReply.setDateTime(new Date());
+                    commentReply.setEdited(false);
+
+                    int value = commentReplyService.addNewCommentReply(commentReply);
+
+                    if (value != 0) {
+
+                        return "{\"insert\":\"true\"}";
+                    }
                 }
+
+            } catch (IOException e) {
+
+                System.err.println(e.toString());
             }
-
-        } catch (IOException e) {
-
-            System.err.println(e.toString());
         }
 
-        return "{\"add\":\"true\"}";
+        return "{\"insert\":\"true\"}";
     }
 
     /**
