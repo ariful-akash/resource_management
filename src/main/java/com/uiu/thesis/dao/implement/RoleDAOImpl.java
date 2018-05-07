@@ -154,6 +154,34 @@ public class RoleDAOImpl implements RoleDAO {
 
     /**
      *
+     * @param userId
+     * @return
+     */
+    @Override
+    public long getRoleIdByUser(Long userId) {
+
+        Session session = sessionFactory.getCurrentSession();
+        String sql = "SELECT * FROM roles_human_resources "
+                + "WHERE humanResources_id = " + userId;
+
+        Query query = session.createSQLQuery(sql);
+        query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+        List result = query.list();
+
+        if (result.size() > 0) {
+
+            Map row = (Map) result.get(0);
+
+            BigInteger intId = (BigInteger) row.get("roles_id");
+
+            return intId.longValue();
+        }
+
+        return 0;
+    }
+
+    /**
+     *
      * @param roleId
      * @return
      */

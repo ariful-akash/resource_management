@@ -25,6 +25,8 @@ public interface RoleDAO {
 
     public Role getRoleByUser(Long userId);
 
+    public long getRoleIdByUser(Long userId);
+
     public Role getRoleById(Long roleId);
 
     public Role getRoleByName(String roleName);
