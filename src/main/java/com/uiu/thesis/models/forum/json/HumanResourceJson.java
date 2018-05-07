@@ -12,7 +12,17 @@ public class HumanResourceJson extends HumanResource {
 
     private String designation;
 
+    private long roleId;
+
     public HumanResourceJson() {
+    }
+
+    public long getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(long roleId) {
+        this.roleId = roleId;
     }
 
     public String getDesignation() {
