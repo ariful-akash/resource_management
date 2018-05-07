@@ -7,7 +7,6 @@ var graphOrList = {
     "req": "graph"
 };
 
-var date = new Date();
 var month = [
     "January",
     "February",
@@ -85,36 +84,6 @@ var specialElementHandlers = {
     }
 };
 
-var hello = function () {
-
-    console.log('Hello');
-    var pdf = new jsPDF('p', 'pt', 'a4');
-    source = $('#hrListContainer')[0];
-
-    specialElementHandlers = {
-        '#bypassme': function (element, renderer) {
-            return true;
-        }
-    };
-    margins = {
-        top: 80,
-        bottom: 60,
-        left: 40,
-        width: 522
-    };
-    pdf.fromHTML(
-            source, // HTML string or DOM elem ref.
-            margins.left, // x coord
-            margins.top, {// y coord
-                'width': margins.width, // max width of content on PDF
-                'elementHandlers': specialElementHandlers
-            },
-            function (dispose) {
-                pdf.save('Test.pdf');
-            }, margins);
-
-};
-
 /**
  *
  * @param {type} type
@@ -123,6 +92,7 @@ var hello = function () {
 var generateReport = function (type) {
 
     var user = getUser();
+    var date = new Date();
 
     if (graphOrList[type] == "graph") {
 
@@ -264,19 +234,187 @@ var generateReport = function (type) {
 
         if (type == "hr") {
 
-            htmlToPDF("hrListContainer");
+            var pdf = new jsPDF('p', 'pt', 'a4');
+
+            //Report Name
+            pdf.text("Report Title: Human Resource Report", 40, 40);
+
+            //Who created repot
+            pdf.setFontSize(10);
+            pdf.text("Printed by:   "
+                    + user.firstName + " "
+                    + user.lastName, 40, 60);
+
+
+
+            //when the report is created
+            pdf.text("Printed on:   "
+                    + date.getDate() + " " + month[date.getMonth()] + " " + date.getFullYear() + ", "
+                    + day[date.getDay()] + ", "
+                    + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds(), 40, 80);
+
+            source = $('#hrListContainer')[0];
+            specialElementHandlers = {
+                '#bypassme': function (element, renderer) {
+                    return true;
+                }
+            };
+            margins = {
+                top: 100,
+                bottom: 60,
+                left: 40,
+                width: 522
+            };
+            pdf.fromHTML(
+                    source, // HTML string or DOM elem ref.
+                    margins.left, // x coord
+                    margins.top, {// y coord
+                        'width': margins.width, // max width of content on PDF
+                        'elementHandlers': specialElementHandlers
+                    });
+
+            pdf.save("hr_list_report.pdf");
 
         } else if (type == "or") {
 
-            htmlToPDF("orListContainer");
+            var floor = document.getElementById('orGraphFloor').value;
+            var room = document.getElementById('orGraphRoom').value;
+
+            var pdf = new jsPDF('p', 'pt', 'a4');
+            //Report Name
+            pdf.text("Report Title: Office Resource Report", 40, 40);
+            pdf.text("Floor : " + floor, 40, 60);
+            pdf.text("Room  : " + room, 40, 80);
+
+            //Who created repot
+            pdf.setFontSize(10);
+            pdf.text("Printed by:   "
+                    + user.firstName + " "
+                    + user.lastName, 40, 100);
+
+
+
+            //when the report is created
+            pdf.text("Printed on:   "
+                    + date.getDate() + " " + month[date.getMonth()] + " " + date.getFullYear() + ", "
+                    + day[date.getDay()] + ", "
+                    + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds(), 40, 120);
+
+            source = $('#orListContainer')[0];
+            specialElementHandlers = {
+                '#bypassme': function (element, renderer) {
+                    return true;
+                }
+            };
+            margins = {
+                top: 140,
+                bottom: 60,
+                left: 40,
+                width: 522
+            };
+            pdf.fromHTML(
+                    source, // HTML string or DOM elem ref.
+                    margins.left, // x coord
+                    margins.top, {// y coord
+                        'width': margins.width, // max width of content on PDF
+                        'elementHandlers': specialElementHandlers
+                    });
+
+            pdf.save("or_list_report.pdf");
 
         } else if (type == "com") {
 
-            htmlToPDF("comListContainer");
+            var year = document.getElementById('comGraphYear').value;
+            var mon = document.getElementById('comGraphMonth').value;
+
+            var pdf = new jsPDF('p', 'pt', 'a4');
+            //Report Name
+            pdf.text("Report Title: Complaints Report", 40, 40);
+            pdf.text("Year : " + year, 40, 60);
+            pdf.text("Month  : " + mon, 40, 80);
+
+            //Who created repot
+            pdf.setFontSize(10);
+            pdf.text("Printed by:   "
+                    + user.firstName + " "
+                    + user.lastName, 40, 100);
+
+
+
+            //when the report is created
+            pdf.text("Printed on:   "
+                    + date.getDate() + " " + month[date.getMonth()] + " " + date.getFullYear() + ", "
+                    + day[date.getDay()] + ", "
+                    + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds(), 40, 120);
+
+            source = $('#comListContainer')[0];
+            specialElementHandlers = {
+                '#bypassme': function (element, renderer) {
+                    return true;
+                }
+            };
+            margins = {
+                top: 140,
+                bottom: 60,
+                left: 40,
+                width: 522
+            };
+            pdf.fromHTML(
+                    source, // HTML string or DOM elem ref.
+                    margins.left, // x coord
+                    margins.top, {// y coord
+                        'width': margins.width, // max width of content on PDF
+                        'elementHandlers': specialElementHandlers
+                    });
+
+            pdf.save("complaint_list_report.pdf");
 
         } else if (type == "req") {
 
-            htmlToPDF("reqListContainer");
+            var year = document.getElementById('reqGraphYear').value;
+            var mon = document.getElementById('reqGraphMonth').value;
+
+            var pdf = new jsPDF('p', 'pt', 'a4');
+            //Report Name
+            pdf.text("Report Title: Requisitions Report", 40, 40);
+            pdf.text("Year : " + year, 40, 60);
+            pdf.text("Month  : " + mon, 40, 80);
+
+            //Who created repot
+            pdf.setFontSize(10);
+            pdf.text("Printed by:   "
+                    + user.firstName + " "
+                    + user.lastName, 40, 100);
+
+
+
+            //when the report is created
+            pdf.text("Printed on:   "
+                    + date.getDate() + " " + month[date.getMonth()] + " " + date.getFullYear() + ", "
+                    + day[date.getDay()] + ", "
+                    + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds(), 40, 120);
+
+            source = $('#reqListContainer')[0];
+            specialElementHandlers = {
+                '#bypassme': function (element, renderer) {
+                    return true;
+                }
+            };
+            margins = {
+                top: 140,
+                bottom: 60,
+                left: 40,
+                width: 522
+            };
+            pdf.fromHTML(
+                    source, // HTML string or DOM elem ref.
+                    margins.left, // x coord
+                    margins.top, {// y coord
+                        'width': margins.width, // max width of content on PDF
+                        'elementHandlers': specialElementHandlers
+                    });
+
+            pdf.save("requisition_list_report.pdf");
         }
     }
 };
