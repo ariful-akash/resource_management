@@ -1,6 +1,7 @@
 package com.uiu.thesis.models.user;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
@@ -33,6 +34,7 @@ public class Role implements Serializable {
     @Column(name = "description", length = 50)
     private String role;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<HumanResource> humanResources;
 
