@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.uiu.thesis.dao.interfaces.AccessTypeDAO;
 import com.uiu.thesis.dao.interfaces.HumanResourceDAO;
 import com.uiu.thesis.dao.interfaces.HumanResourceTypeDAO;
+import com.uiu.thesis.dao.interfaces.RoleDAO;
 import com.uiu.thesis.dao.interfaces.TokenDAO;
 import com.uiu.thesis.models.forum.json.HumanResourceJson;
 import com.uiu.thesis.models.user.HumanResource;
@@ -45,6 +46,9 @@ public class HumanResourceRestController {
     @Autowired
     private TokenDAO tokenDAO;
 
+    @Autowired
+    private RoleDAO roleDAO;
+
     private SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss a");
 
     /**
@@ -83,6 +87,7 @@ public class HumanResourceRestController {
                 hrJson.setLastName(hr.getLastName());
                 hrJson.setImage(hr.getImage());
                 hrJson.setPhone(hr.getPhone());
+                hrJson.setRoleId(roleDAO.getRoleIdByUser(hr.getId()));
                 hrJson.setDesignation(hrTypeDAO.getHRTypeByHRId(hr.getId()).getResourceName());
 
                 humanResources.add(hrJson);
