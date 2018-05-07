@@ -62,7 +62,6 @@
 
                 <!--Left div-->
                 <div class="w3-theme-d1 w3-col" style="width: 20%; height: 595px">
-                    <a class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%"><span onclick="document.getElementById('id02').style.display = 'block'">See Human Resources</span></a><br>
                     <a class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%"><span onclick="document.getElementById('id01').style.display = 'block'">Add Human Resources</span></a><br>
                     <a id="statistics"   class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="statistics">Statistics</a>
                     <a id="manageOffice" class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="office">Add Office Resources</a>
@@ -76,16 +75,70 @@
                                     <span onclick="document.getElementById('id01').style.display = 'none'" class="w3-button w3-large w3-red w3-display-topright">&times;</span>
                                     <div class=" w3-margin w3-large" style="padding: 3%">
                                         <form action="" method="post">
-                                            <textarea id="postContent" class="w3-large w3-round-small w3-light-gray" style="resize: vertical; height: 100px; width: 100%" required="true" placeholder="Write Somethings..."></textarea> <br>
+                                            <div class="w3-row w3-margin">
+                                                <div class="w3-half w3-padding-small">
+                                                    <label>First Name</label>
+                                                    <input type="text" id="firstname" class="w3-input w3-theme-l4" style="border: 0px">
+                                                </div>
 
-                                            <input id="postTags" class="w3-input w3-large w3-round-small w3-light-gray" type="text" placeholder="Type Tag: e.g., computer lab">
-                                            <div>
-                                                <% for (int i = 0; i < 5; i++) {%>
-                                                <label class="w3-theme-l3 w3-margin-top w3-margin-left w3-text-black">Tags <a href="" class="w3-small" style="text-decoration: none;">&#x2715;</a></label>
-                                                <%}%>
+                                                <div class="w3-half w3-padding-small">
+                                                    <label>Last Name</label>
+                                                    <input type="text" id="lastname" class="w3-input w3-theme-l4"style="border: 0px">
+                                                </div>
                                             </div>
-                                            <input value="Post" class="w3-button w3-theme-l1 w3-round" style="margin-top: 2%">
 
+                                            <div class="w3-margin w3-padding-small">
+                                                <label>Email</label>
+                                                <input type="email" id="email" class="w3-input w3-theme-l4" style="border: 0px">
+                                            </div>
+
+                                            <div class="w3-margin w3-padding-small">
+                                                <label>Phone</label>
+                                                <input type="text"id="phone" class="w3-input w3-theme-l4" style="border: 0px">
+                                            </div>
+
+                                            <div class="w3-margin w3-row">
+                                                <div class="w3-half w3-padding-small">
+                                                    <label>Department</label>
+                                                    <select class="w3-theme-l4" style="height: 40px;width: 100%">
+                                                        <%for (int i = 0; i < 5; i++) {%>
+                                                        <option value="v">Volvo</option>
+                                                        <%}%>
+                                                    </select>
+                                                </div>
+
+                                                <div class="w3-half w3-padding-small">
+                                                    <label >Designation</label>
+                                                    <select class="w3-theme-l4" style="height: 40px;width: 100%">
+                                                        <%for (int j = 0; j < 5; j++) {%>
+                                                        <option value="va">Volvo</option>
+                                                        <%}%>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="w3-margin w3-row">
+                                                <div class="w3-half w3-padding-small">
+                                                    <label>Roles </label>
+                                                    <br>
+                                                    <%for (int i = 0; i < 5; i++) {%>
+                                                    <input type="radio" name="a"> Role<br>
+                                                    <%}%>
+                                                </div>
+
+                                                <div class="w3-rest w3-padding-small">
+                                                    <label>Access</label>
+                                                    <br>
+                                                    <%for (int i = 0; i < 5; i++) {%>
+                                                    <input type="checkbox" name="a"> Access<br>
+                                                    <%}%>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="w3-margin">
+                                                <input value="Add" class="w3-button w3-theme-l1 w3-round" style="margin-top: 2%">
+                                            </div>
                                         </form>
                                     </div>
                                 </div>
