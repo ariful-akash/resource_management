@@ -1,4 +1,5 @@
 var allUsers;
+var index;
 
 
 var getAllUsers = function () {
@@ -51,62 +52,103 @@ var placeUsers = function () {
      * all users div
      */
     var allHr = document.getElementById('allHr');
+    var curUser = getUser();
 
 
     for (var i = 0; i < allUsers.length; i++) {
 
-        /**************************
-         * User div contains image
-         *
-         */
-        var userDiv = document.createElement("div");
-        userDiv.className = "w3-card w3-large w3-hover-light-green";
-        userDiv.style.width = "60%";
-        userDiv.style.margin = "0% 3% 2% 3%";
-        userDiv.style.padding = "1% 0% 2% 1%";
+        if (curUser.id != allUsers[i].id) {
+
+            var div = document.createElement("div");
+
+            allHr.appendChild(div);
+
+            div.className = "w3-card w3-round-small w3-large w3-hover-blue-gray";
+            div.style.margin = "0% 0% 4% 9%";
+            div.style.padding = "1% 0% 2% 1%";
+            div.style.height = "50px";
+            div.onclick = placeUserDetails;
+
+            var userIdAttr = document.createAttribute("id");
+            userIdAttr.value = i;
+
+            div.setAttributeNode(userIdAttr);
+
+            //image
+            var img = document.createElement("img");
+            img.className = "w3-circle";
+            img.style.width = "30px";
+            img.style.height = "30px";
+            img.style.marginRight = "4%";
+            img.alt = "#";
+
+            if (allUsers[i].image == null) {
+
+                img.src = "/office_resource_management/web-resources/images/dummy.jpg";
+            } else {
+
+                img.src = "data:image;base64," + allUsers[i].image;
+            }
+
+            //name label
+            var label = document.createElement("label");
+            label.className = "w3-text-dark-gray";
+            label.innerHTML = allUsers[i].firstName + " " + allUsers[i].lastName;
+
+            //break tag
+            var br = document.createElement("br");
+
+            //adding image & label & br to div
+            div.appendChild(img);
+            div.appendChild(label);
+            div.appendChild(br);
+
+        }
+    }
+};
 
 
-        //attaching userDiv to allHr DIv
+var placeUserDetails = function (event) {
 
-        allHr.appendChild(userDiv);
+    var element = event.srcElement || event.target;
+    index = element.id;
 
+    if (index == '') {
 
-
-        /*
-         * img tag
-         */
-        var image = document.createElement("img");
-
-
-        image.className = "w3-circle";
-        image.style.height = "30px";
-        image.style.width = "30px";
-        image.style.marginRight = "1%";
-
-        /*
-         *
-         * attaching image to userDiv
-         *
-         */
-        userDiv.appendChild(image);
-
-
-
-        //name label tag
-
-        var nameLabel = document.createElement("label");
-        nameLabel.class = "w3-text-dark-gray";
-        nameLabel.textContent = allUsers[i].firstName + " " + allUsers[i].lastName;
-
-
-        /**
-         * attaching Name to userDiv
-         * 
-         */
-        userDiv.appendChild(nameLabel);
-
+        element = event.currentTarget;
+        index = element.id;
     }
 
+    singleUserInfo(index);
+    placeRoleAndAccess(index);
+};
 
+var singleUserInfo = function (index) {
+
+    document.getElementById('details').style.display = "block";
+
+    var image = document.getElementById('singleUserImg');
+    var name = document.getElementById('singleUserName');
+    var email = document.getElementById('singleUserEmail');
+    var dep = document.getElementById('singleUserDep');
+    var deg = document.getElementById('singleUserDeg');
+
+    var clickedUser = allUsers[index];
+
+    if (clickedUser.image == null) {
+
+        image.src = "/office_resource_management/web-resources/images/dummy.jpg";
+    } else {
+
+        image.src = "data:image;base64," + clickedUser.image;
+    }
+
+    name.innerHTML = clickedUser.firstName + " " + clickedUser.lastName;
+    email.innerHTML = clickedUser.email;
+    dep.innerHTML = clickedUser.department;
+    deg.innerHTML = clickedUser.designation;
+};
+
+var placeRoleAndAccess = function () {
 
 };

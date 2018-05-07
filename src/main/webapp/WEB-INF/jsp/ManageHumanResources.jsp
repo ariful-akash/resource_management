@@ -12,7 +12,7 @@
         <spring:url value="/web-resources/css/w3.css" var="css"/>
         <spring:url value="/web-resources/css/w3-theme-blue-grey.css" var="w3BlueDarkTheme"/>
         <spring:url value="/web-resources/js/menuremover.js" var="menuJs"/>
-        <spring:url value="/web-resources/images/akash.jpg" var="img"/>
+        <spring:url value="/web-resources/images/dummy.jpg" var="img"/>
         <spring:url value="/web-resources/js/notification.js" var="notificationJs"/>
         <spring:url value="/web-resources/js/humanresources.js" var="hrJs"/>
 
@@ -27,7 +27,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Manage Human Resources</title>
     </head>
-    <body onload="setMenu(); countComplaint();getAllUsers(); countRequisition()" class="w3-theme-l4" style="font-family: 'Lato', 'sans-serif';">
+    <body onload="setMenu(); getAllUsers(); countComplaint(); countRequisition();" class="w3-theme-l4" style="font-family: 'Lato', 'sans-serif';">
 
         <div>
             <div class="w3-theme-d3 w3-row" style="height: 50px">
@@ -61,7 +61,8 @@
             <div class="w3-row">
 
                 <!--Left div-->
-                <div class="w3-theme-d1 w3-col" style="width: 20%; height: 660px">
+                <div class="w3-theme-d1 w3-col" style="width: 20%; height: 595px">
+                    <a class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%"><span onclick="document.getElementById('id02').style.display = 'block'">See Human Resources</span></a><br>
                     <a class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%"><span onclick="document.getElementById('id01').style.display = 'block'">Add Human Resources</span></a><br>
                     <a id="statistics"   class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="statistics">Statistics</a>
                     <a id="manageOffice" class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="office">Add Office Resources</a>
@@ -96,57 +97,55 @@
                 </div>
 
                 <!--Middle div-->
-                <div class="w3-theme-l2 w3-col" style="margin: 0% 1% 0% 1%;width: 75%">
-                    <div class="w3-card w3-padding" style="margin-top: 10px;overflow: auto;height:650px">
-                        <div>
-                            <input style="margin-left: 3%;width: 50%; margin-bottom: 4%" class="w3-large w3-input w3-theme-l3" type="text" placeholder="Search..." name="searchPost">
-                        </div>
-                        <div id="allHr" >
-                            <% for (int i = 0; i < 50; i++) {%>
-                            <div class="w3-card w3-large w3-hover-light-green" style="margin:0% 3% 2% 3%; padding: 1% 0% 2% 1% ;width: 60%; display: none" onclick="document.getElementById('id02').style.display = 'block'">
-                                <img src="${img}" class="w3-circle" style="width: 30px;height: 30px;margin-right: 1%">
-                                <label class=" w3-text-dark-gray">Ariful Islam</label><br>
+                <div class="w3-theme-l2 w3-col" style="margin: 0% 0% 0% 1%;width: 79%">
+                    <div style="margin-top: 10px;">
+
+                        <input style="margin-left: 3%;width: 50%; margin-bottom: 15px" class="w3-large w3-input w3-theme-l3" type="text" placeholder="Search..." name="searchPost">
+
+                        <div class="w3-row" style="padding-top: 15px">
+                            <div id="allHr" class="w3-third" style="overflow: auto; height: 510px; padding-top: 1px">
+
+                                <!--the user list are placed here-->
+
 
                             </div>
-                            <%}%>
-                            <!--<##Pop up window for hr-->
-                            <div class="w3-container">
+                            <div class="w3-rest" id="details" style="overflow: auto; height: 510px; padding: 1px 0% 0% 5%; display: none">
 
-                                <div id="id02" class="w3-modal">
-                                    <div class="w3-modal-content w3-round" style="margin-left: 25%;width: 50%">
-                                        <div class="w3-container w3-theme-l3 w3-round">
-                                            <span onclick="document.getElementById('id02').style.display = 'none'" class="w3-button w3-large w3-red w3-display-topright">&times;</span>
-                                            <div class="w3-large w3-card w3-theme-l2 w3-padding" style="margin: 8% 1% 8% 1%">
-                                                <form action="" method="post">
-                                                    <div>
-                                                        <label>Name: </label>
-                                                        <label>Ariful Islam </label>
-                                                        <br>
-                                                        <label>Email: </label>
-                                                        <label>ariful.uiu.cse@gmail.com </label>
-                                                    </div>
+                                <div id="id02" class="w3-large">
+                                    <img src="" id="singleUserImg" alt="#" width="30%" class="w3-round"/>
 
-                                                    <div style="margin-top: 2%">
-                                                        <label>Role: </label>
-                                                        <label>RoleName</label>
-                                                        <br>
-                                                        <%for (int l = 0; l < 5; l++) {%>
-                                                        <input type="radio" name="role" value="role" checked="true"> Role<br>
-                                                        <%}%>
-                                                    </div>
+                                    <div style="margin-top: 20px">
+                                        <label>Name: </label>
+                                        <label id="singleUserName">Ariful Islam</label>
+                                        <br>
+                                        <label>Email: </label>
+                                        <label id="singleUserEmail">ariful.uiu.cse@gmail.com</label>
+                                        <br>
+                                        <label>Designation: </label>
+                                        <label id="singleUserDep">CSE</label>
+                                        <br>
+                                        <label>Department: </label>
+                                        <label id="singleUserDeg">vice chancelor</label>
+                                    </div>
 
-                                                    <div style="margin-top: 2%">
-                                                        <label>Access: </label>
-                                                        <label>AccessName</label>
-                                                        <br>
-                                                        <%for (int l = 0; l < 5; l++) {%>
-                                                        <input type="checkbox" name="access" value="access" checked="true">Access<br>
-                                                        <%}%>
-                                                    </div>
+                                    <div class="w3-row">
+                                        <div class="w3-third" style="margin-top: 2%">
+                                            <label>Role: </label>
+                                            <br>
+                                            <div style="margin-left: 10%">
+                                                <%for (int l = 0; l < 5; l++) {%>
+                                                <input type="radio" name="role" value="role" checked="true"> Role<br>
+                                                <%}%>
+                                            </div>
+                                        </div>
 
-                                                    <input value="Add" class="w3-button w3-theme-l1 w3-round" style="margin-top: 2%">
-
-                                                </form>
+                                        <div class="w3-rest" style="margin-top: 2%; padding-left: 1%;">
+                                            <label>Access: </label>
+                                            <br>
+                                            <div style="margin-left: 10%">
+                                                <%for (int l = 0; l < 5; l++) {%>
+                                                <input type="checkbox" name="access" value="access" checked="true">Access<br>
+                                                <%}%>
                                             </div>
                                         </div>
                                     </div>
