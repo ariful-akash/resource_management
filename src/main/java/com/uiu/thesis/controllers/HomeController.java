@@ -72,7 +72,9 @@ public class HomeController {
         if (token == null) {
 
             return "index";
-        } else if (humanResourceDAO.hasAccess(tokenDAO.getUserId(token), (long) 19)) {
+        } else if (humanResourceDAO.hasAccess(tokenDAO.getUserId(token), (long) 1)
+                && humanResourceDAO.hasAccess(tokenDAO.getUserId(token), (long) 2)
+                && humanResourceDAO.hasAccess(tokenDAO.getUserId(token), (long) 3)) {
 
             return "ManageHumanResources";
         }
@@ -87,9 +89,9 @@ public class HomeController {
         if (token == null) {
 
             return "index";
-        } else if (humanResourceDAO.hasAccess(tokenDAO.getUserId(token), (long) 1)
-                || humanResourceDAO.hasAccess(tokenDAO.getUserId(token), (long) 2)
-                || humanResourceDAO.hasAccess(tokenDAO.getUserId(token), (long) 3)) {
+        } else if (humanResourceDAO.hasAccess(tokenDAO.getUserId(token), (long) 4)
+                && humanResourceDAO.hasAccess(tokenDAO.getUserId(token), (long) 5)
+                && humanResourceDAO.hasAccess(tokenDAO.getUserId(token), (long) 6)) {
 
             return "ManageOfficeResources";
         }
