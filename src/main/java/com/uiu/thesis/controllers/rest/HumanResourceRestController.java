@@ -331,7 +331,7 @@ public class HumanResourceRestController {
             value = "/api/service/office/hr/access/{change}",
             params = {"hr_id", "access_id"},
             produces = {"application/json;charset:UTF-8"},
-            method = RequestMethod.GET)
+            method = RequestMethod.POST)
     public String changeHRAccess(
             @PathVariable("change") String change,
             @RequestParam("hr_id") long hrId,

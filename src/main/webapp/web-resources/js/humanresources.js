@@ -284,6 +284,8 @@ var placeRoleAndAccess = function (index) {
         checkBox.type = "checkbox";
         checkBox.name = "access";
         checkBox.checked = accessArray[access[i].id].checked;
+        checkBox.value = access[i].id;
+        checkBox.onchange = updateAccess;
 
         var label = document.createElement("label");
         label.innerHTML = accessArray[access[i].id].value;
@@ -411,6 +413,8 @@ var placeDefaultAccess = function () {
         checkBox.type = "checkbox";
         checkBox.name = "access";
         checkBox.checked = accessArray[access[i].id].checked;
+        checkBox.value = access[i].id;
+        checkBox.onchange = updateAccess;
 
         var label = document.createElement("label");
         label.innerHTML = accessArray[access[i].id].value;
@@ -421,4 +425,77 @@ var placeDefaultAccess = function () {
         accessDiv.appendChild(label);
         accessDiv.appendChild(br);
     }
+};
+
+/**
+ *
+ * @returns {undefined}
+ */
+var updateAccess = function (event) {
+
+    var element = event.srcElement || event.target;
+
+    var msgDiv = document.getElementById('messageDiv');
+    var msg = document.getElementById('msg');
+
+    var url;
+    if (element.checked) {
+
+        url = "/office_resource_management/api/service/office/hr/access/add";
+    } else {
+
+        url = "/office_resource_management/api/service/office/hr/access/remove";
+    }
+
+    var method = "POST";
+    var params = "hr_id=" + user.id + "&access_id=" + element.value;
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+
+        console.log("Ready state : " + this.readyState + "\nStatus : " + this.status);
+
+        if (this.readyState == 4 && this.status == 200) {
+
+            var response = JSON.parse(this.responseText);
+
+            if (response.change == "true") {
+
+                msgDiv.style.backgroundColor = "#42f48f";
+                if (element.checked) {
+
+                    msg.innerHTML = "Access is added successfully";
+                } else {
+
+                    msg.innerHTML = "Access is removed successfully";
+                }
+                msgDiv.style.display = "block";
+
+                var url = "/office_resource_management/api/service/office/hr";
+                var method = "GET";
+
+                userFetchAJAX(url, method, null);
+
+            } else if (response.change == "false") {
+
+                msgDiv.style.backgroundColor = "#f44646";
+                msg.innerHTML = "Access cannot be updated successfully";
+                msgDiv.style.display = "block";
+            }
+
+            setTimeout(removeMessage, 3000);
+
+        } else if (this.readyState == 4 && this.status != 200) {
+
+            msgDiv.style.backgroundColor = "#f44646";
+            msg.innerHTML = "Access cannot be updated successfully";
+            msgDiv.style.display = "block";
+
+            setTimeout(removeMessage, 3000);
+        }
+    };
+
+    xhttp.open(method, url, true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(params);
 };
