@@ -68,7 +68,7 @@
 
                 <!--Left div-->
                 <div class="w3-theme-d1 w3-col" style="width: 20%; height: 595px">
-                    <a class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%"><span onclick="document.getElementById('id01').style.display = 'block'">Add Human Resources</span></a><br>
+                    <a class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%"><span onclick="fetchHrTypes(); document.getElementById('id01').style.display = 'block'">Add Human Resources</span></a><br>
                     <a id="statistics"   class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="statistics">Statistics</a>
                     <a id="manageOffice" class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="office">Add Office Resources</a>
 
@@ -80,72 +80,51 @@
                                 <div class="w3-container w3-theme-l3 w3-round">
                                     <span onclick="document.getElementById('id01').style.display = 'none'" class="w3-button w3-large w3-red w3-display-topright">&times;</span>
                                     <div class=" w3-margin w3-large" style="padding: 3%">
-                                        <form action="" method="post">
-                                            <div class="w3-row w3-margin">
-                                                <div class="w3-half w3-padding-small">
-                                                    <label>First Name</label>
-                                                    <input type="text" id="firstname" class="w3-input w3-theme-l4" style="border: 0px">
-                                                </div>
-
-                                                <div class="w3-half w3-padding-small">
-                                                    <label>Last Name</label>
-                                                    <input type="text" id="lastname" class="w3-input w3-theme-l4"style="border: 0px">
-                                                </div>
+                                        <div class="w3-row w3-margin">
+                                            <div class="w3-half w3-padding-small">
+                                                <label>First Name</label>
+                                                <input type="text" id="addFirstname" onkeyup="checkField(this)" class="w3-input w3-theme-l4" style="border: 0px">
                                             </div>
 
-                                            <div class="w3-margin w3-padding-small">
-                                                <label>Email</label>
-                                                <input type="email" id="email" class="w3-input w3-theme-l4" style="border: 0px">
+                                            <div class="w3-half w3-padding-small">
+                                                <label>Last Name</label>
+                                                <input type="text" id="addLastname" onkeyup="checkField(this)" class="w3-input w3-theme-l4"style="border: 0px">
+                                            </div>
+                                        </div>
+
+                                        <div class="w3-margin w3-padding-small">
+                                            <label>Email</label>
+                                            <input type="email" id="addEmail" onkeyup="checkField(this)" class="w3-input w3-theme-l4" style="border: 0px">
+                                        </div>
+
+                                        <div class="w3-margin w3-padding-small">
+                                            <label>Phone</label>
+                                            <input type="text"id="addPhone" onkeyup="checkField(this)" class="w3-input w3-theme-l4" style="border: 0px">
+                                        </div>
+
+                                        <div class="w3-margin w3-row">
+                                            <div class="w3-half w3-padding-small">
+                                                <label>Department</label>
+                                                <select id="addDepartment" class="w3-theme-l4" style="height: 40px;width: 100%">
+                                                    <option>CSE</option>
+                                                    <option>BBA</option>
+                                                    <option>EEE</option>
+                                                    <option>ECONOMICS</option>
+                                                    <option>ETE</option>
+                                                </select>
                                             </div>
 
-                                            <div class="w3-margin w3-padding-small">
-                                                <label>Phone</label>
-                                                <input type="text"id="phone" class="w3-input w3-theme-l4" style="border: 0px">
+                                            <div class="w3-half w3-padding-small">
+                                                <label >Designation</label>
+                                                <select id="addDesignation" class="w3-theme-l4" style="height: 40px;width: 100%">
+
+                                                </select>
                                             </div>
+                                        </div>
 
-                                            <div class="w3-margin w3-row">
-                                                <div class="w3-half w3-padding-small">
-                                                    <label>Department</label>
-                                                    <select class="w3-theme-l4" style="height: 40px;width: 100%">
-                                                        <%for (int i = 0; i < 5; i++) {%>
-                                                        <option value="v">Volvo</option>
-                                                        <%}%>
-                                                    </select>
-                                                </div>
-
-                                                <div class="w3-half w3-padding-small">
-                                                    <label >Designation</label>
-                                                    <select class="w3-theme-l4" style="height: 40px;width: 100%">
-                                                        <%for (int j = 0; j < 5; j++) {%>
-                                                        <option value="va">Volvo</option>
-                                                        <%}%>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div class="w3-margin w3-row">
-                                                <div class="w3-half w3-padding-small">
-                                                    <label>Roles </label>
-                                                    <br>
-                                                    <%for (int i = 0; i < 5; i++) {%>
-                                                    <input type="radio" name="a"> Role<br>
-                                                    <%}%>
-                                                </div>
-
-                                                <div class="w3-rest w3-padding-small">
-                                                    <label>Access</label>
-                                                    <br>
-                                                    <%for (int i = 0; i < 5; i++) {%>
-                                                    <input type="checkbox" name="a"> Access<br>
-                                                    <%}%>
-                                                </div>
-
-                                            </div>
-
-                                            <div class="w3-margin">
-                                                <input value="Add" class="w3-button w3-theme-l1 w3-round" style="margin-top: 2%">
-                                            </div>
-                                        </form>
+                                        <div class="w3-margin">
+                                            <input onclick="addHumanResource()" value="Add Human Resource" type="button" class="w3-input w3-button w3-hover-light-green w3-theme-l1 w3-round" style="margin-top: 2%">
+                                        </div>
                                     </div>
                                 </div>
                             </div>

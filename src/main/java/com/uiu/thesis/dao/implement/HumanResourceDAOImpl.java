@@ -303,7 +303,19 @@ public class HumanResourceDAOImpl implements HumanResourceDAO {
                         + "WHERE humanResources_id=" + hrId;
 
                 Query query = session.createSQLQuery(sql);
-                return query.executeUpdate();
+                int value = query.executeUpdate();
+
+                if (value == 0) {
+
+                    sql = "INSERT INTO human_resource_types_human_resources "
+                            + "(human_resource_types_id, humanResources_id) "
+                            + "VALUES (" + typeId + ", " + hrId + ")";
+
+                    query = session.createSQLQuery(sql);
+                    value = query.executeUpdate();
+                }
+
+                return value;
             }
         }
 
@@ -359,11 +371,12 @@ public class HumanResourceDAOImpl implements HumanResourceDAO {
         Query query = session.createQuery(hql);
         query.setParameter("email", email);
 
-        List resultList = query.list();
+        @SuppressWarnings("unchecked")
+        List<HumanResource> resultList = query.list();
 
-        if (resultList != null) {
+        if (resultList != null && resultList.size() > 0) {
 
-            humanResource = (HumanResource) resultList.get(0);
+            humanResource = resultList.get(0);
         }
 
         return humanResource;

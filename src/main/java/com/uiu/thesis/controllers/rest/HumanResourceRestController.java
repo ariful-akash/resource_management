@@ -44,6 +44,9 @@ public class HumanResourceRestController {
     private HumanResourceDAO humanResourceDAO;
 
     @Autowired
+    private HumanResourceTypeDAO humanResourceTypeDAO;
+
+    @Autowired
     private TokenDAO tokenDAO;
 
     @Autowired
@@ -110,16 +113,18 @@ public class HumanResourceRestController {
     /**
      *
      * @param user
+     * @param typeId
      * @param session
      * @return
      */
     @RequestMapping(
             value = "/api/service/office/hr",
-            params = {"user"},
+            params = {"user", "type_id"},
             produces = {"application/json;charset:UTF-8"},
             method = RequestMethod.POST)
     public String addUser(
             @RequestParam("user") String user,
+            @RequestParam("type_id") long typeId,
             HttpSession session) {
 
         String token = (String) session.getAttribute("token");
@@ -138,10 +143,26 @@ public class HumanResourceRestController {
                         && hr.getPhone() != null
                         && hr.getDepartment() != null) {
 
-                    int value = humanResourceService.addHumanResource(hr);
-                    if (value != 0) {
+                    HumanResource hrDB = humanResourceDAO.getHumanResource(hr.getEmail());
 
-                        return "{\"add\":\"true\"}";
+                    if (hrDB == null) {
+
+                        hr.setPassword("1234".getBytes());
+                        int value = humanResourceService.addHumanResource(hr);
+                        if (value != 0) {
+
+                            HumanResourceType hrType = humanResourceTypeDAO.getHumanResourceType(typeId);
+
+                            if (hrType != null) {
+
+                                value = humanResourceDAO.updateHumanResourceType(hr.getId(), typeId);
+
+                                if (value != 0) {
+
+                                    return "{\"add\":\"true\"}";
+                                }
+                            }
+                        }
                     }
                 }
             } catch (IOException e) {
@@ -421,7 +442,10 @@ public class HumanResourceRestController {
         if (token != null && tokenDAO.isTokenExist(token)) {
 
             Long userId = tokenDAO.getUserId(token);
-            if (humanResourceDAO.hasAccess(userId, (long) 19)) {
+            if (humanResourceDAO.hasAccess(userId, (long) 19)
+                    || humanResourceDAO.hasAccess(userId, (long) 1)
+                    || humanResourceDAO.hasAccess(userId, (long) 2)
+                    || humanResourceDAO.hasAccess(userId, (long) 3)) {
 
                 ObjectMapper objectMapper = new ObjectMapper();
 

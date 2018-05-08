@@ -1,6 +1,8 @@
 var allUsers;
 var allDBUsers;
 
+var designations;
+
 var userNameArray = [];
 
 var index;
@@ -21,6 +23,34 @@ var getAllUsers = function () {
 };
 
 /**
+ *
+ * @returns {undefined}
+ */
+var fetchHrTypes = function () {
+
+    if (designations == undefined || designations == null) {
+
+        var url = "/office_resource_management/api/service/office/hr/hrtype";
+        var method = "GET";
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+
+            console.log("Ready state : " + this.readyState + "\nStatus : " + this.status);
+
+            if (this.readyState == 4 && this.status == 200) {
+
+                designations = JSON.parse(this.responseText);
+                placeDesignations();
+            }
+        };
+
+        xhttp.open(method, url, true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send();
+    }
+};
+/**
  * Search user jquery style
  *
  * @returns {undefined}
@@ -34,6 +64,23 @@ $(function () {
     );
 }
 );
+
+/**
+ *
+ * @returns {undefined}
+ */
+var placeDesignations = function () {
+
+    var designation = document.getElementById('addDesignation');
+
+    for (var i = 0; i < designations.length; i++) {
+
+        var option = document.createElement("option");
+        option.innerHTML = designations[i].resourceName;
+
+        designation.appendChild(option);
+    }
+};
 
 /**
  * get all hr AJAX
@@ -575,4 +622,152 @@ var clearSearch = function () {
         singleUserInfo(0);
         placeRoleAndAccess(0);
     }
+};
+
+
+/**
+ *
+ * @returns {undefined}
+ */
+var addHumanResource = function () {
+
+    var firstName = document.getElementById('addFirstname');
+    var lastName = document.getElementById('addLastname');
+    var email = document.getElementById('addEmail');
+    var phone = document.getElementById('addPhone');
+    var department = document.getElementById('addDepartment').value;
+    var index = document.getElementById('addDesignation').selectedIndex;
+
+    if (firstName.value != ''
+            && lastName.value != ''
+            && email.value != ''
+            && phone.value != '') {
+
+        //todo code to insert user
+
+        var user = {};
+
+        user.firstName = firstName.value;
+        user.lastName = lastName.value;
+        user.email = email.value;
+        user.phone = phone.value;
+        user.department = department;
+
+        var url = "/office_resource_management/api/service/office/hr";
+        var method = "POST";
+        var params = "user=" + JSON.stringify(user) + "&type_id=" + designations[index].id;
+
+        addUserAJAX(url, method, params);
+
+    } else {
+
+        if (firstName.value == '') {
+
+            firstName.classList.remove("w3-theme-l4");
+            firstName.style.backgroundColor = "#f44646";
+        }
+
+        if (lastName.value == '') {
+
+            lastName.classList.remove("w3-theme-l4");
+            lastName.style.backgroundColor = "#f44646";
+        }
+
+        if (email.value == '') {
+
+            email.classList.remove("w3-theme-l4");
+            email.style.backgroundColor = "#f44646";
+        }
+
+        if (phone.value == '') {
+
+            phone.classList.remove("w3-theme-l4");
+            phone.style.backgroundColor = "#f44646";
+        }
+    }
+};
+
+
+/**
+ *
+ * @returns {undefined}
+ */
+var checkField = function (element) {
+
+    if (element.value == '') {
+
+        element.classList.remove("w3-theme-l4");
+        element.style.backgroundColor = "#f44646";
+    } else {
+
+        if (element.id != "addEmail") {
+
+            element.style.backgroundColor = "";
+            element.classList.add("w3-theme-l4");
+        } else if (element.value.indexOf("@") == -1) {
+
+            element.classList.remove("w3-theme-l4");
+            element.style.backgroundColor = "#f44646";
+        } else {
+
+            element.style.backgroundColor = "";
+            element.classList.add("w3-theme-l4");
+        }
+    }
+};
+
+
+/**
+ *
+ * @returns {undefined}
+ */
+var addUserAJAX = function (url, method, params) {
+
+    document.getElementById('id01').style.display = "none";
+
+    var msgDiv = document.getElementById('messageDiv');
+    var msg = document.getElementById('msg');
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+
+        console.log("Ready state : " + this.readyState + "\nStatus : " + this.status);
+
+        if (this.readyState == 4 && this.status == 200) {
+
+            var response = JSON.parse(this.responseText);
+
+            if (response.add == "true") {
+
+                msgDiv.style.backgroundColor = "#42f48f";
+                msg.innerHTML = "User added successfully";
+                msgDiv.style.display = "block";
+
+                var url = "/office_resource_management/api/service/office/hr";
+                var method = "GET";
+
+                userFetchAJAX(url, method, null);
+
+            } else if (response.add == "false") {
+
+                msgDiv.style.backgroundColor = "#f44646";
+                msg.innerHTML = "User cannot be added successfully";
+                msgDiv.style.display = "block";
+            }
+
+            setTimeout(removeMessage, 3000);
+
+        } else if (this.readyState == 4 && this.status != 200) {
+
+            msgDiv.style.backgroundColor = "#f44646";
+            msg.innerHTML = "User cannot be added successfully";
+            msgDiv.style.display = "block";
+
+            setTimeout(removeMessage, 3000);
+        }
+    };
+
+    xhttp.open(method, url, true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(params);
 };
