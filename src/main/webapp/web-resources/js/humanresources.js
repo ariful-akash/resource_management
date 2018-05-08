@@ -1,4 +1,8 @@
 var allUsers;
+var allDBUsers;
+
+var userNameArray = [];
+
 var index;
 var roles;
 var access;
@@ -16,7 +20,20 @@ var getAllUsers = function () {
     fetchRoleAccessAJAX();
 };
 
+/**
+ * Search user jquery style
+ *
+ * @returns {undefined}
+ */
+$(function () {
 
+    $("#userSearch").autocomplete(
+            {
+                source: userNameArray
+            }
+    );
+}
+);
 
 /**
  * get all hr AJAX
@@ -35,9 +52,10 @@ var userFetchAJAX = function (url, method, params) {
 
         if (this.readyState == 4 && this.status == 200) {
 
-            allUsers = JSON.parse(this.responseText);
-
+            allDBUsers = JSON.parse(this.responseText);
+            allUsers = allDBUsers;
             placeUsers();
+            makeUserNameArray();
         }
     };
 
@@ -125,63 +143,69 @@ var placeUsers = function () {
      * all users div
      */
     var allHr = document.getElementById('allHr');
-    var curUser = getUser();
+
+    removeChild(allHr);
 
 
     for (var i = 0; i < allUsers.length; i++) {
 
-        if (curUser.id != allUsers[i].id) {
 
-            var div = document.createElement("div");
+        var div = document.createElement("div");
 
-            allHr.appendChild(div);
+        allHr.appendChild(div);
 
-            div.className = "w3-card w3-round-small w3-large w3-hover-blue-gray";
-            div.style.margin = "0% 0% 4% 9%";
-            div.style.padding = "1% 0% 2% 1%";
-            div.style.height = "50px";
-            div.onclick = placeUserDetails;
+        div.className = "w3-card w3-round-small w3-large w3-hover-blue-gray item";
+        div.style.margin = "0% 0% 4% 9%";
+        div.style.padding = "1% 0% 2% 1%";
+        div.style.height = "50px";
+        div.onclick = placeUserDetails;
 
-            var userIdAttr = document.createAttribute("id");
-            userIdAttr.value = i;
+        var userIdAttr = document.createAttribute("id");
+        userIdAttr.value = i;
 
-            div.setAttributeNode(userIdAttr);
+        div.setAttributeNode(userIdAttr);
 
-            //image
-            var img = document.createElement("img");
-            img.className = "w3-circle";
-            img.style.width = "30px";
-            img.style.height = "30px";
-            img.style.marginRight = "4%";
-            img.alt = "#";
+        //image
+        var img = document.createElement("img");
+        img.className = "w3-circle";
+        img.style.width = "30px";
+        img.style.height = "30px";
+        img.style.marginRight = "4%";
+        img.alt = "#";
 
-            if (allUsers[i].image == null) {
+        if (allUsers[i].image == null) {
 
-                img.src = "/office_resource_management/web-resources/images/dummy.jpg";
-            } else {
+            img.src = "/office_resource_management/web-resources/images/dummy.jpg";
+        } else {
 
-                img.src = "data:image;base64," + allUsers[i].image;
-            }
-
-            //name label
-            var label = document.createElement("label");
-            label.className = "w3-text-dark-gray";
-            label.innerHTML = allUsers[i].firstName + " " + allUsers[i].lastName;
-
-            //break tag
-            var br = document.createElement("br");
-
-            //adding image & label & br to div
-            div.appendChild(img);
-            div.appendChild(label);
-            div.appendChild(br);
-
+            img.src = "data:image;base64," + allUsers[i].image;
         }
+
+        //name label
+        var label = document.createElement("label");
+        label.className = "w3-text-dark-gray";
+        label.innerHTML = allUsers[i].firstName + " " + allUsers[i].lastName;
+
+        //break tag
+        var br = document.createElement("br");
+
+        //adding image & label & br to div
+        div.appendChild(img);
+        div.appendChild(label);
+        div.appendChild(br);
+
     }
 };
 
 
 var placeUserDetails = function (event) {
+
+    var items = document.getElementsByClassName('item');
+
+    for (var i = 0; i < items.length; i++) {
+
+        items[i].classList.remove("w3-blue-gray");
+    }
 
     var element = event.srcElement || event.target;
     index = element.id;
@@ -191,6 +215,8 @@ var placeUserDetails = function (event) {
         element = event.currentTarget;
         index = element.id;
     }
+
+    element.classList.add("w3-blue-gray");
 
     singleUserInfo(index);
     placeRoleAndAccess(index);
@@ -206,7 +232,7 @@ var singleUserInfo = function (index) {
     var dep = document.getElementById('singleUserDep');
     var deg = document.getElementById('singleUserDeg');
 
-    var clickedUser = allUsers[index];
+    var clickedUser = allDBUsers[index];
 
     if (clickedUser.image == null) {
 
@@ -243,7 +269,7 @@ var placeRoleAndAccess = function (index) {
 
     makeAccessArray();
 
-    user = allUsers[index];
+    user = allDBUsers[index];
     var roleDiv = document.getElementById('userRole');
     var accessDiv = document.getElementById('userAccess');
 
@@ -498,4 +524,55 @@ var updateAccess = function (event) {
     xhttp.open(method, url, true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send(params);
+};
+
+/**
+ *
+ * @returns {undefined}
+ */
+var makeUserNameArray = function () {
+
+    for (var i in allDBUsers) {
+
+        userNameArray[i] = allDBUsers[i].firstName + " " + allDBUsers[i].lastName;
+    }
+};
+
+/**
+ *
+ * @returns {undefined}
+ */
+var placeSearchedUser = function () {
+
+    var key = document.getElementById('userSearch').value;
+    var uIndex = userNameArray.indexOf(key);
+
+    if (uIndex >= 0) {
+
+        allUsers = [];
+        allUsers[0] = allDBUsers[uIndex];
+
+
+
+        placeUsers();
+        singleUserInfo(uIndex);
+        placeRoleAndAccess(uIndex);
+    }
+};
+
+/**
+ *
+ * @returns {undefined}
+ */
+var clearSearch = function () {
+
+    var value = document.getElementById('userSearch').value;
+
+    if (value == '') {
+
+        allUsers = allDBUsers;
+        placeUsers();
+        singleUserInfo(0);
+        placeRoleAndAccess(0);
+    }
 };

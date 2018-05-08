@@ -10,6 +10,9 @@
 <html>
     <head>
         <spring:url value="/web-resources/css/w3.css" var="css"/>
+        <spring:url value="/web-resources/js/jquery-1.12.4.js" var="jquery"/>
+        <spring:url value="/web-resources/js/jquery-ui.js" var="jqueryUi"/>
+        <spring:url value="/web-resources/css/jquery-ui.min.css" var="jQueryUIcss"/>
         <spring:url value="/web-resources/css/w3-theme-blue-grey.css" var="w3BlueDarkTheme"/>
         <spring:url value="/web-resources/js/menuremover.js" var="menuJs"/>
         <spring:url value="/web-resources/images/dummy.jpg" var="img"/>
@@ -17,7 +20,10 @@
         <spring:url value="/web-resources/js/humanresources.js" var="hrJs"/>
 
 
+        <link href="${jQueryUIcss}" rel="stylesheet" type="text/css"/>
         <link href="${css}" rel="stylesheet" type="text/css"/>
+        <script src="${jquery}" type="text/javascript"></script>
+        <script src="${jqueryUi}" type="text/javascript"></script>
         <link href="${w3BlueDarkTheme}" rel="stylesheet" type="text/css"/>
         <script src="${menuJs}" type="text/javascript"></script>
         <script src="${notificationJs}" type="text/javascript"></script>
@@ -153,7 +159,8 @@
                 <div class="w3-theme-l2 w3-col" style="margin: 0% 0% 0% 1%;width: 79%">
                     <div style="margin-top: 10px;">
 
-                        <input style="margin-left: 3%;width: 50%;" class="w3-large w3-input w3-theme-l3" type="text" placeholder="Search..." name="searchPost">
+                        <input id="userSearch" onkeyup="clearSearch()" style="margin-left: 3%;width: 50%; display: inline" class="ui-widget w3-large w3-input w3-theme-l3 w3-round w3-card-2" type="text" placeholder="Search..." name="search">
+                        <input onclick="placeSearchedUser()" type="button" style="margin-left: 3%; width: 10%; display: inline" class="w3-large w3-input w3-round w3-card-2 w3-theme-l3" value="Find">
 
                         <div class="w3-card-4 w3-round" id="messageDiv" style="float: right; width: 96%; padding: 10px 10px 10px 40px; margin: 5px; background-color: #42f48f; display: none">
                             <label id="msg"></label>
