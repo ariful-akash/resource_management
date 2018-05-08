@@ -153,9 +153,21 @@
                 <div class="w3-theme-l2 w3-col" style="margin: 0% 0% 0% 1%;width: 79%">
                     <div style="margin-top: 10px;">
 
-                        <input style="margin-left: 3%;width: 50%; margin-bottom: 15px" class="w3-large w3-input w3-theme-l3" type="text" placeholder="Search..." name="searchPost">
+                        <input style="margin-left: 3%;width: 50%;" class="w3-large w3-input w3-theme-l3" type="text" placeholder="Search..." name="searchPost">
 
-                        <div class="w3-row" style="padding-top: 15px">
+                        <div class="w3-card-4 w3-round" id="messageDiv" style="float: right; width: 96%; padding: 10px 10px 10px 40px; margin: 5px; background-color: #42f48f; display: none">
+                            <label id="msg"></label>
+                            <a
+                                href="#"
+                                class="w3-right w3-hover-red"
+                                onclick="document.getElementById('messageDiv').style.display = 'none'"
+                                style="padding: 3px; text-decoration: none">
+                                &#x2715;
+                            </a>
+                        </div>
+
+
+                        <div class="w3-row" style="padding-top: 15px; margin-top: 15px">
                             <div id="allHr" class="w3-third" style="overflow: auto; height: 510px; padding-top: 1px">
 
                                 <!--the user list are placed here-->
@@ -175,27 +187,25 @@
                                         <label id="singleUserEmail">ariful.uiu.cse@gmail.com</label>
                                         <br>
                                         <label>Designation: </label>
-                                        <label id="singleUserDep">CSE</label>
+                                        <label id="singleUserDeg">CSE</label>
                                         <br>
                                         <label>Department: </label>
-                                        <label id="singleUserDeg">vice chancelor</label>
+                                        <label id="singleUserDep">vice chancelor</label>
                                     </div>
 
                                     <div class="w3-row">
-                                        <div class="w3-third" style="margin-top: 2%">
+                                        <div class="w3-third" style="margin-top: 2%" id="">
                                             <label>Role: </label>
                                             <br>
-                                            <div style="margin-left: 10%">
-                                                <%for (int l = 0; l < 5; l++) {%>
-                                                <input type="radio" name="role" value="role" checked="true"> Role<br>
-                                                <%}%>
+                                            <div style="margin-left: 10%" id="userRole">
+                                                <!--<input type="radio" name="role" value="role" checked="true"><label>Role</label><br>-->
                                             </div>
                                         </div>
 
-                                        <div class="w3-rest" style="margin-top: 2%; padding-left: 1%;">
+                                        <div class="w3-rest" id="" style="margin-top: 2%; padding-left: 1%;">
                                             <label>Access: </label>
                                             <br>
-                                            <div style="margin-left: 10%">
+                                            <div style="margin-left: 10%" id="userAccess">
                                                 <%for (int l = 0; l < 5; l++) {%>
                                                 <input type="checkbox" name="access" value="access" checked="true">Access<br>
                                                 <%}%>

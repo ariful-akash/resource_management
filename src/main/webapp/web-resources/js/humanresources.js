@@ -1,5 +1,11 @@
 var allUsers;
 var index;
+var roles;
+var access;
+var user;
+var clickedRole;
+
+var accessArray = {};
 
 
 var getAllUsers = function () {
@@ -7,6 +13,7 @@ var getAllUsers = function () {
     var method = "GET";
 
     userFetchAJAX(url, method, null);
+    fetchRoleAccessAJAX();
 };
 
 
@@ -40,13 +47,79 @@ var userFetchAJAX = function (url, method, params) {
 
 };
 
+/**
+ *
+ * @returns {undefined}
+ */
+var fetchRoleAccessAJAX = function () {
+
+    var url = "/office_resource_management/api/service/user/role";
+    var method = "GET";
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+
+        console.log("Ready state : " + this.readyState + "\nStatus : " + this.status);
+
+        if (this.readyState == 4 && this.status == 200) {
+
+            roles = JSON.parse(this.responseText);
+
+            fetchAllAccessAJAX();
+        }
+    };
+
+    xhttp.open(method, url, true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send();
+};
+
+/**
+ *
+ * @returns {undefined}
+ */
+var fetchAllAccessAJAX = function () {
+
+    var url = "/office_resource_management/api/service/user/access";
+    var method = "GET";
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+
+        console.log("Ready state : " + this.readyState + "\nStatus : " + this.status);
+
+        if (this.readyState == 4 && this.status == 200) {
+
+            access = JSON.parse(this.responseText);
+        }
+    };
+
+    xhttp.open(method, url, true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send();
+};
 
 
+/**
+ *
+ * @returns {undefined}
+ */
+var makeAccessArray = function () {
+
+    for (var i in access) {
+
+        var obj = {};
+        obj.value = access[i].description;
+        obj.checked = false;
+
+        accessArray[access[i].id] = obj;
+    }
+
+};
 
 /*
  * place all the users from database to right div
  */
-
 var placeUsers = function () {
     /*
      * all users div
@@ -149,6 +222,203 @@ var singleUserInfo = function (index) {
     deg.innerHTML = clickedUser.designation;
 };
 
-var placeRoleAndAccess = function () {
+/**
+ *
+ * @param {type} myNode
+ * @returns {undefined}
+ */
+var removeChild = function (myNode) {
 
+    while (myNode.firstChild) {
+        myNode.removeChild(myNode.firstChild);
+    }
+};
+
+/**
+ *
+ * @param {type} index
+ * @returns {undefined}
+ */
+var placeRoleAndAccess = function (index) {
+
+    makeAccessArray();
+
+    user = allUsers[index];
+    var roleDiv = document.getElementById('userRole');
+    var accessDiv = document.getElementById('userAccess');
+
+    removeChild(roleDiv);
+    removeChild(accessDiv);
+
+    for (var i in roles) {
+
+        var radio = document.createElement("input");
+        radio.type = "radio";
+        radio.name = "role";
+        radio.onchange = changeRole;
+        radio.value = roles[i].id;
+
+        if (user.roleId == roles[i].id) {
+
+            radio.checked = true;
+        }
+
+        var label = document.createElement("label");
+        label.innerHTML = roles[i].role;
+
+        var br = document.createElement("br");
+
+        roleDiv.appendChild(radio);
+        roleDiv.appendChild(label);
+        roleDiv.appendChild(br);
+    }
+
+    for (var i in user.access) {
+
+        accessArray[user.access[i].id].checked = true;
+    }
+
+    for (var i in access) {
+
+        var checkBox = document.createElement("input");
+        checkBox.type = "checkbox";
+        checkBox.name = "access";
+        checkBox.checked = accessArray[access[i].id].checked;
+
+        var label = document.createElement("label");
+        label.innerHTML = accessArray[access[i].id].value;
+
+        var br = document.createElement("br");
+
+        accessDiv.appendChild(checkBox);
+        accessDiv.appendChild(label);
+        accessDiv.appendChild(br);
+    }
+};
+
+/**
+ *
+ * @param {type} event
+ * @returns {undefined}
+ */
+var changeRole = function (event) {
+
+    var element = event.srcElement || event.target;
+
+    clickedRole = element.value;
+
+    var url = "/office_resource_management/api/service/office/hr/role/change";
+    var method = "POST";
+    var params = "hr_id=" + user.id + "&role_id=" + element.value;
+
+    updateRoleAJAX(url, method, params);
+};
+
+/**
+ *
+ * @param {type} url
+ * @param {type} method
+ * @param {type} params
+ * @returns {undefined}
+ */
+var updateRoleAJAX = function (url, method, params) {
+
+    var msgDiv = document.getElementById('messageDiv');
+    var msg = document.getElementById('msg');
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+
+        console.log("Ready state : " + this.readyState + "\nStatus : " + this.status);
+
+        if (this.readyState == 4 && this.status == 200) {
+
+            var response = JSON.parse(this.responseText);
+
+            if (response.change == "true") {
+
+                msgDiv.style.backgroundColor = "#42f48f";
+                msg.innerHTML = "Role is updated successfully";
+                msgDiv.style.display = "block";
+
+                var url = "/office_resource_management/api/service/office/hr";
+                var method = "GET";
+
+                userFetchAJAX(url, method, null);
+
+                placeDefaultAccess();
+
+            } else if (response.change == "false") {
+
+                msgDiv.style.backgroundColor = "#f44646";
+                msg.innerHTML = "Role cannot be updated successfully";
+                msgDiv.style.display = "block";
+            }
+
+            setTimeout(removeMessage, 3000);
+
+        } else if (this.readyState == 4 && this.status != 200) {
+
+            msgDiv.style.backgroundColor = "#f44646";
+            msg.innerHTML = "Role cannot be updated successfully";
+            msgDiv.style.display = "block";
+
+            setTimeout(removeMessage, 3000);
+        }
+    };
+
+    xhttp.open(method, url, true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(params);
+};
+
+/**
+ *
+ * @returns {undefined}
+ */
+var removeMessage = function () {
+
+    document.getElementById('messageDiv').style.display = "none";
+};
+
+/**
+ *
+ * @returns {undefined}
+ */
+var placeDefaultAccess = function () {
+
+    makeAccessArray();
+
+    var accessDiv = document.getElementById('userAccess');
+    removeChild(accessDiv);
+
+    for (var v in roles) {
+
+        if (roles[v].id == clickedRole) {
+
+            break;
+        }
+    }
+
+    for (var i in roles[v].accessTypes) {
+
+        accessArray[roles[v].accessTypes[i].id].checked = true;
+    }
+
+    for (var i in access) {
+
+        var checkBox = document.createElement("input");
+        checkBox.type = "checkbox";
+        checkBox.name = "access";
+        checkBox.checked = accessArray[access[i].id].checked;
+
+        var label = document.createElement("label");
+        label.innerHTML = accessArray[access[i].id].value;
+
+        var br = document.createElement("br");
+
+        accessDiv.appendChild(checkBox);
+        accessDiv.appendChild(label);
+        accessDiv.appendChild(br);
+    }
 };
