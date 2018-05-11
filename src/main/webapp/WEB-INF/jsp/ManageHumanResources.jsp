@@ -49,10 +49,6 @@
                         Requisitions
                         <span id="requisitionNotification" class="w3-badge w3-red"></span>
                     </a>
-                    <a class="w3-button" style="text-decoration: none;height: 100%" href="#">
-                        Leave
-                        <span id="leaveNotification" class="w3-badge w3-red">6</span>
-                    </a>
                     <a class="w3-button" style="text-decoration: none;height: 100%" href="forum">Forum</a>
                     <div class="w3-dropdown-hover" style="padding-right: 20px">
                         <img src="" id="menuImage" class="w3-circle" style="width: 30px;height: 30px" alt="#">
@@ -70,7 +66,7 @@
                 <div class="w3-theme-d1 w3-col" style="width: 20%; height: 595px">
                     <a class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%"><span onclick="fetchHrTypes(); document.getElementById('id01').style.display = 'block'">Add Human Resources</span></a><br>
                     <a id="statistics"   class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="statistics">Statistics</a>
-                    <a id="manageOffice" class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="office">Add Office Resources</a>
+                    <a id="manageOffice" class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="office">Manage Office Resources</a>
 
                     <!--<##Pop up window adding new hr-->
                     <div class="w3-container">

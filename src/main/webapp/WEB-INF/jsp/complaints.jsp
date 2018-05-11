@@ -37,17 +37,13 @@
                 <!--navigation ber-->
 
                 <div class="navbar-menu w3-right w3-large" style="height: 100%">
-                    <a class="w3-button" style="text-decoration: none; height: 100%" href="complaints">
+                    <a class="w3-button w3-round-small w3-theme-l2" style="text-decoration: none; height: 100%" href="complaints">
                         Complaints
                         <span id="complaintNotification" class="w3-badge w3-red"></span>
                     </a>
                     <a class="w3-button" style="text-decoration: none;height: 100%" href="requisitions">
                         Requisitions
                         <span id="requisitionNotification" class="w3-badge w3-red"></span>
-                    </a>
-                    <a class="w3-button" style="text-decoration: none;height: 100%" href="#">
-                        Leave
-                        <span id="leaveNotification" class="w3-badge w3-red">6</span>
                     </a>
                     <a class="w3-button" style="text-decoration: none;height: 100%" href="forum">Forum</a>
                     <div class="w3-dropdown-hover" style="padding-right: 20px">

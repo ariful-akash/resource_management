@@ -54,11 +54,7 @@
                         Requisitions
                         <span id="requisitionNotification" class="w3-badge w3-red"></span>
                     </a>
-                    <a class="w3-button" style="text-decoration: none;height: 100%" href="#">
-                        Leave
-                        <span id="leaveNotification" class="w3-badge w3-red">6</span>
-                    </a>
-                    <a class="w3-button" style="text-decoration: none;height: 100%" href="forum">Forum</a>
+                    <a class="w3-button w3-round-small w3-theme-l2" style="text-decoration: none;height: 100%" href="forum">Forum</a>
                     <div class="w3-dropdown-hover" style="padding-right: 20px">
                         <img src="" id="menuImage" class="w3-circle" style="width: 30px;height: 30px" alt="#">
                         <div class="w3-theme-d3 w3-dropdown-content w3-bar-block w3-card-4" style="left: -110px">

@@ -64,10 +64,6 @@
                         Requisitions
                         <span id="requisitionNotification" class="w3-badge w3-red"></span>
                     </a>
-                    <a class="w3-button" style="text-decoration: none;height: 100%" href="#">
-                        Leave
-                        <span id="leaveNotification" class="w3-badge w3-red">6</span>
-                    </a>
                     <a class="w3-button" style="text-decoration: none;height: 100%" href="forum">Forum</a>
                     <div class="w3-dropdown-hover" style="padding-right: 20px">
                         <img src="" id="menuImage" class="w3-circle" style="width: 30px;height: 30px" alt="#">
@@ -84,9 +80,9 @@
                 <!--Left div-->
                 <div class="w3-theme-d1 w3-col" style="width: 20%; height: 500px;margin-right: 1%">
 
-                    <a id="statistics"   class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="statistics">Statistics</a>
+                    <a id="statistics"   class="w3-button w3-round-small w3-theme-l2" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="statistics">Statistics</a>
                     <a id="manageHr"     class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="hr">Manage Human Resources</a>
-                    <a id="manageOffice" class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="office">Add Office Resources</a>
+                    <a id="manageOffice" class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="office">Manage Office Resources</a>
 
                 </div>
 
@@ -115,7 +111,7 @@
                                 </select>
                             </div>
                             <div class="w3-col"style="width: 6%; margin-right: 3%">
-                                <button id="hrPrint" onclick="generateReport('hr')" class="w3-button w3-theme-d3">Print</button>
+                                <button id="hrPrint" onclick="generateReport('hr')" class="w3-button w3-theme-d3">Download</button>
                             </div>
                         </div>
 
@@ -169,7 +165,7 @@
 
                             </div>
                             <div class="w3-col"style="width: 6%; margin-right: 3%">
-                                <button onclick="generateReport('or')" class="w3-button w3-theme-d3">Print</button>
+                                <button onclick="generateReport('or')" class="w3-button w3-theme-d3">Download</button>
                             </div>
                         </div>
 
@@ -219,7 +215,7 @@
 
                             </div>
                             <div class="w3-col"style="width: 6%; margin-right: 3%">
-                                <button onclick="generateReport('com')" class="w3-button w3-theme-d3">Print</button>
+                                <button onclick="generateReport('com')" class="w3-button w3-theme-d3">Download</button>
                             </div>
                         </div>
 
@@ -270,7 +266,7 @@
 
                             </div>
                             <div class="w3-col"style="width: 6%; margin-right: 3%">
-                                <button onclick="generateReport('req')" class="w3-button w3-theme-d3">Print</button>
+                                <button onclick="generateReport('req')" class="w3-button w3-theme-d3">Download</button>
                             </div>
                         </div>
 

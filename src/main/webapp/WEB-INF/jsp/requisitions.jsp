@@ -47,13 +47,9 @@
                         Complaints
                         <span id="complaintNotification" class="w3-badge w3-red"></span>
                     </a>
-                    <a class="w3-button" style="text-decoration: none;height: 100%" href="requisitions">
+                    <a class="w3-button w3-round-small w3-theme-l2" style="text-decoration: none;height: 100%" href="requisitions">
                         Requisitions
                         <span id="requisitionNotification" class="w3-badge w3-red"></span>
-                    </a>
-                    <a class="w3-button" style="text-decoration: none;height: 100%" href="#">
-                        Leave
-                        <span id="leaveNotification" class="w3-badge w3-red">6</span>
                     </a>
                     <a class="w3-button" style="text-decoration: none;height: 100%" href="forum">Forum</a>
                     <div class="w3-dropdown-hover" style="padding-right: 20px">
@@ -127,7 +123,7 @@
                         <button class="w3-bar-item w3-button tablink" style="width: 50%" onclick="changeTab(event, 'solved'); getSolvedRequisitions()">Solved</button>
                     </div>
 
-                    <h2 id="noContent" style="display: none;margin-top: 15%; margin-bottom: 30%; text-align: center">No Complaints Available</h2>
+                    <h2 id="noContent" style="display: none;margin-top: 15%; margin-bottom: 30%; text-align: center">No Requisitions Available</h2>
 
                     <img id="loading" src="${loading}" height="300px" style="display: block; margin-left: auto; margin-right: auto; margin-top: 10%; margin-bottom: 10%">
 
