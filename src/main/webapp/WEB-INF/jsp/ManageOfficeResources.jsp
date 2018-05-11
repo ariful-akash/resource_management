@@ -15,7 +15,7 @@
         <spring:url value="/web-resources/js/menuremover.js" var="menuJs"/>
         <spring:url value="/web-resources/js/notification.js" var="notificationJs"/>
         <spring:url value="/web-resources/js/officeresource.js" var="officeresourceJs"/>
-
+        <spring:url value="/web-resources/images/logo.png" var="logo"/>
 
         <link href="${css}" rel="stylesheet" type="text/css"/>
         <link href="${w3BlueDarkTheme}" rel="stylesheet" type="text/css"/>
@@ -33,6 +33,10 @@
             <div class="w3-theme-d3 w3-row" style="height: 50px">
 
                 <!--navigation ber-->
+
+                <div class="navbar-menu w3-left">
+                    <img src="${logo}" height="45px" style="margin-left: 20%">
+                </div>
 
                 <div class="navbar-menu w3-right w3-large" style="height: 100%">
                     <a class="w3-button" style="text-decoration: none; height: 100%" href="complaints">
