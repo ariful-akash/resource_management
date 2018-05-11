@@ -14,7 +14,7 @@
         <link href="${css}" rel="stylesheet" type="text/css"/>
         <link href="${w3BlueDarkTheme}" rel="stylesheet" type="text/css"/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title></title>
+        <title>Login</title>
     </head>
 
     <body class="w3-theme-l4" style="font-family: 'Lato', 'sans-serif';">
