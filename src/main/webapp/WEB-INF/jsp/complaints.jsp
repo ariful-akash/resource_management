@@ -70,8 +70,8 @@
                         <a class="w3-button"style="text-align: left; width: 100%; padding-left: 20%">
                             <span onclick="document.getElementById('id01').style.display = 'block'; getTags()">Add Complaint</span>
                         </a>
-                        <a class="w3-button" style="text-decoration: none; text-align: left; width: 100%; padding-left: 20%" href="#" onclick="changeOwn(true); getComplaints()">My Complaints</a>
-                        <a id="incomingComplaints" class="w3-button" style="text-decoration: none; text-align: left; width: 100%; padding-left: 20%" href="#" onclick="changeOwn(false); getComplaints()">Incoming Complaints</a>
+                        <a class="w3-button side-menu w3-theme-l2" style="text-decoration: none; text-align: left; width: 100%; padding-left: 20%" href="#" onclick="changeOwn(true); getComplaints(); changeSideMenuColor(this)">My Complaints</a>
+                        <a id="incomingComplaints" class="w3-button side-menu" style="text-decoration: none; text-align: left; width: 100%; padding-left: 20%" href="#" onclick="changeOwn(false); getComplaints(); changeSideMenuColor(this)">Incoming Complaints</a>
                         <a id="statistics"   class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="statistics">Statistics</a>
                         <a id="manageHr"     class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="hr">Manage Human Resources</a>
                         <a id="manageOffice" class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="office">Manage Office Resources</a>

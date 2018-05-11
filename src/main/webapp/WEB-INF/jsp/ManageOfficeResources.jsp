@@ -62,9 +62,9 @@
 
                 <!--Left div-->
                 <div class="w3-theme-d1 w3-col" style="width: 20%; height: 450px">
-                    <a id="addOffice" onclick="changeDisplay('addOffice')" class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="#">Add Office Resources</a>
-                    <a id="viewOffice" onclick="changeDisplay('viewOffice')" class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="#">View Office Resources</a>
-                    <a class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="#">Add Office Resources Type</a>
+                    <a id="addOffice" onclick="changeDisplay('addOffice'); changeSideMenuColor(this)" class="w3-button side-menu" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="#">Add Office Resources</a>
+                    <a id="viewOffice" onclick="changeDisplay('viewOffice'); changeSideMenuColor(this)" class="w3-button side-menu w3-theme-l2" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="#">View Office Resources</a>
+                    <a class="w3-button side-menu" onclick=" changeSideMenuColor(this)" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="#">Add Office Resources Type</a>
                     <a id="statistics" class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="statistics">Statistics</a>
                     <a id="manageHr" class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="hr">Manage Human Resources</a>
 

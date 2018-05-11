@@ -74,8 +74,8 @@
                 <!--Left div-->
                 <div class="w3-theme-d1 w3-col" style="width: 20%; height: 450px">
                     <span class="w3-button" style="text-align: left; width: 100%; padding-left: 20%"><span onclick="getAllTags(); document.getElementById('id01').style.display = 'block'">Add New Posts </span></span><br>
-                    <span onclick="getRecentPosts()" class="w3-button" style="text-align: left; width: 100%; padding-left: 20%">Recent Posts</span><br>
-                    <span onclick="getOwnPosts()" class="w3-button" style="text-align: left; width: 100%; padding-left: 20%">My Posts</span><br>
+                    <span onclick="getRecentPosts(); changeSideMenuColor(this)" class="w3-button side-menu w3-theme-l2" style="text-align: left; width: 100%; padding-left: 20%">Recent Posts</span><br>
+                    <span onclick="getOwnPosts(); changeSideMenuColor(this)" class="w3-button side-menu" style="text-align: left; width: 100%; padding-left: 20%">My Posts</span><br>
                     <a id="statistics"   class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="statistics">Statistics</a>
                     <a id="manageHr"     class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="hr">Manage Human Resources</a>
                     <a id="manageOffice" class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="office">Manage Office Resources</a>

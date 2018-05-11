@@ -76,8 +76,8 @@
                         <a class="w3-button"style="text-align: left; width: 100%; padding-left: 20%">
                             <span onclick="document.getElementById('id01').style.display = 'block'; getTags()">Add Requisition</span>
                         </a>
-                        <a class="w3-button" style="text-decoration: none; text-align: left; width: 100%; padding-left: 20%" href="#" onclick="changeOwn(true); getRequisition()">My Requisitions</a>
-                        <a id="incomingRequisitions" class="w3-button" style="text-decoration: none; text-align: left; width: 100%; padding-left: 20%" href="#" onclick="changeOwn(false); getRequisition()">Incoming Requisitions</a>
+                        <a class="w3-button side-menu w3-theme-l2" style="text-decoration: none; text-align: left; width: 100%; padding-left: 20%" href="#" onclick="changeOwn(true); getRequisition(); changeSideMenuColor(this)">My Requisitions</a>
+                        <a id="incomingRequisitions" class="w3-button side-menu" style="text-decoration: none; text-align: left; width: 100%; padding-left: 20%" href="#" onclick="changeOwn(false); getRequisition(); changeSideMenuColor(this)">Incoming Requisitions</a>
                         <a id="statistics"   class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="statistics">Statistics</a>
                         <a id="manageHr"     class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="hr">Manage Human Resources</a>
                         <a id="manageOffice" class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="office">Manage Office Resources</a>
