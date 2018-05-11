@@ -133,3 +133,16 @@ var getUser = function () {
 
     return user;
 };
+
+
+var changeSideMenuColor = function (element) {
+
+    var items = document.getElementsByClassName('side-menu');
+
+    for (var i = 0; i < items.length; i++) {
+
+        items[i].classList.remove("w3-theme-l2");
+    }
+
+    element.classList.add("w3-theme-l2");
+};

@@ -64,7 +64,7 @@
                 <div class="w3-theme-d1 w3-col" style="width: 20%; height: 450px">
                     <a id="addOffice" onclick="changeDisplay('addOffice'); changeSideMenuColor(this)" class="w3-button side-menu" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="#">Add Office Resources</a>
                     <a id="viewOffice" onclick="changeDisplay('viewOffice'); changeSideMenuColor(this)" class="w3-button side-menu w3-theme-l2" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="#">View Office Resources</a>
-                    <a class="w3-button side-menu" onclick=" changeSideMenuColor(this)" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="#">Add Office Resources Type</a>
+                    <a class="w3-button side-menu" onclick="changeDisplay('addType'); changeSideMenuColor(this)" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="#">Add Office Resources Type</a>
                     <a id="statistics" class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="statistics">Statistics</a>
                     <a id="manageHr" class="w3-button" style="text-decoration: none;text-align: left; width: 100%; padding-left: 20%" href="hr">Manage Human Resources</a>
 
@@ -179,6 +179,13 @@
                                 </table>
                             </div>
 
+                        </div>
+
+                        <div id="addResourceTypeDiv" style="display: none; height: 490px" class="w3-large">
+
+                            <label>Resource Type: </label>
+                            <input type="text" class="w3-input w3-theme-l3" style="width: 30%"><br>
+                            <input type="button" value="Add" class="w3-input w3-hover-gray w3-theme-d3" style="width: 10%">
                         </div>
                     </div>
                 </div>

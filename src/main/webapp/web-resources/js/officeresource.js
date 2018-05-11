@@ -282,15 +282,23 @@ var changeDisplay = function (id) {
 
     var addOffice = document.getElementById('addResourceDiv');
     var viewOffice = document.getElementById('viewResourceDiv');
+    var addType = document.getElementById('addResourceTypeDiv');
 
     if (id == "addOffice") {
 
         viewOffice.style.display = "none";
+        addType.style.display = "none";
         addOffice.style.display = "block";
-    } else {
+    } else if (id == "viewOffice") {
 
         addOffice.style.display = "none";
+        addType.style.display = "none";
         viewOffice.style.display = "block";
+    } else {
+
+        viewOffice.style.display = "none";
+        addOffice.style.display = "none";
+        addType.style.display = "block";
     }
 };
 
