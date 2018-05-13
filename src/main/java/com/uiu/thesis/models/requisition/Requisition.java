@@ -1,16 +1,13 @@
 package com.uiu.thesis.models.requisition;
 
-import com.uiu.thesis.models.user.HumanResource;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -21,6 +18,7 @@ import javax.persistence.Temporal;
  */
 @Entity
 @Table(name = "requisitions")
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Requisition implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -40,25 +38,27 @@ public class Requisition implements Serializable {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date requisitionPlacingDate;
 
+    @Column(name = "requisition_solved_date")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date requisitionSolvedDate;
+
     @Column(name = "purpose", length = 1000)
     private String purpose;
 
-    @Column(name = "remarks", length = 1000)
+    @Column(name = "remarks", length = 3000, nullable = true)
     private String remarks;
 
     @Column(name = "solved")
-    private boolean isSolved;
+    private boolean solved;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private HumanResource solver;
+    @Column(name = "creator_id")
+    private Long creatorId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "requisition_creator_id")
-    private HumanResource requisitionCreator;
+    @Column(name = "solver_id")
+    private Long solverId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "requisition_type_id")
-    private RequisitionType requisitionType;
+    @ManyToOne
+    private RequisitionType type;
 
     /**
      * Constructor
@@ -119,36 +119,44 @@ public class Requisition implements Serializable {
         this.remarks = remarks;
     }
 
-    public boolean isIsSolved() {
-        return isSolved;
+    public boolean isSolved() {
+        return solved;
     }
 
-    public void setIsSolved(boolean isSolved) {
-        this.isSolved = isSolved;
+    public void setSolved(boolean isSolved) {
+        this.solved = isSolved;
     }
 
-    public HumanResource getSolver() {
-        return solver;
+    public Long getCreatorId() {
+        return creatorId;
     }
 
-    public void setSolver(HumanResource solver) {
-        this.solver = solver;
+    public void setCreatorId(Long creatorId) {
+        this.creatorId = creatorId;
     }
 
-    public HumanResource getRequisitionCreator() {
-        return requisitionCreator;
+    public Long getSolverId() {
+        return solverId;
     }
 
-    public void setRequisitionCreator(HumanResource requisitionCreator) {
-        this.requisitionCreator = requisitionCreator;
+    public void setSolverId(Long solverId) {
+        this.solverId = solverId;
     }
 
-    public RequisitionType getRequisitionType() {
-        return requisitionType;
+    public Date getRequisitionSolvedDate() {
+        return requisitionSolvedDate;
     }
 
-    public void setRequisitionType(RequisitionType requisitionType) {
-        this.requisitionType = requisitionType;
+    public void setRequisitionSolvedDate(Date requisitionSovedDate) {
+        this.requisitionSolvedDate = requisitionSovedDate;
+    }
+
+    public RequisitionType getType() {
+        return type;
+    }
+
+    public void setType(RequisitionType type) {
+        this.type = type;
     }
 
     @Override
@@ -158,12 +166,13 @@ public class Requisition implements Serializable {
         hash = 61 * hash + this.quantity;
         hash = 61 * hash + Objects.hashCode(this.requisitionNeedDate);
         hash = 61 * hash + Objects.hashCode(this.requisitionPlacingDate);
+        hash = 61 * hash + Objects.hashCode(this.requisitionSolvedDate);
         hash = 61 * hash + Objects.hashCode(this.purpose);
         hash = 61 * hash + Objects.hashCode(this.remarks);
-        hash = 61 * hash + (this.isSolved ? 1 : 0);
-        hash = 61 * hash + Objects.hashCode(this.solver);
-        hash = 61 * hash + Objects.hashCode(this.requisitionCreator);
-        hash = 61 * hash + Objects.hashCode(this.requisitionType);
+        hash = 61 * hash + Objects.hashCode(this.creatorId);
+        hash = 61 * hash + Objects.hashCode(this.solverId);
+        hash = 61 * hash + (this.solved ? 1 : 0);
+
         return hash;
     }
 
@@ -182,7 +191,7 @@ public class Requisition implements Serializable {
         if (this.quantity != other.quantity) {
             return false;
         }
-        if (this.isSolved != other.isSolved) {
+        if (this.solved != other.solved) {
             return false;
         }
         if (!Objects.equals(this.purpose, other.purpose)) {
@@ -200,16 +209,21 @@ public class Requisition implements Serializable {
         if (!Objects.equals(this.requisitionPlacingDate, other.requisitionPlacingDate)) {
             return false;
         }
-        if (!Objects.equals(this.solver, other.solver)) {
+        if (!Objects.equals(this.requisitionSolvedDate, other.requisitionSolvedDate)) {
             return false;
         }
-        if (!Objects.equals(this.requisitionCreator, other.requisitionCreator)) {
+        if (!Objects.equals(this.creatorId, other.creatorId)) {
             return false;
         }
-        if (!Objects.equals(this.requisitionType, other.requisitionType)) {
+        if (!Objects.equals(this.solverId, other.solverId)) {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Requisition{" + "id=" + id + ", quantity=" + quantity + ", requisitionNeedDate=" + requisitionNeedDate + ", requisitionPlacingDate=" + requisitionNeedDate + ", requisitionSolvedDate=" + requisitionSolvedDate + ", purpose=" + purpose + ", remarks=" + remarks + ", isSolved=" + solved + ", type=" + type + '}';
     }
 
 }

@@ -1,8 +1,10 @@
 package com.uiu.thesis.models.user;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,8 +12,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -22,6 +22,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "roles")
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Role implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -33,14 +34,12 @@ public class Role implements Serializable {
     @Column(name = "description", length = 50)
     private String role;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "role_default_access_types", joinColumns = {
-        @JoinColumn(name = "role_id")}, inverseJoinColumns = {
-        @JoinColumn(name = "access_id")})
-    private List<AccessType> accessTypes;
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<HumanResource> humanResources;
 
-    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<HumanResource> humanResources;
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<AccessType> accessTypes;
 
     /**
      * Constructor
@@ -69,29 +68,27 @@ public class Role implements Serializable {
         this.role = role;
     }
 
-    public List<AccessType> getAccessTypes() {
+    public Set<AccessType> getAccessTypes() {
         return accessTypes;
     }
 
-    public void setAccessTypes(List<AccessType> accessTypes) {
+    public void setAccessTypes(Set<AccessType> accessTypes) {
         this.accessTypes = accessTypes;
     }
 
-    public List<HumanResource> getHumanResources() {
+    public Set<HumanResource> getHumanResources() {
         return humanResources;
     }
 
-    public void setHumanResources(List<HumanResource> humanResources) {
+    public void setHumanResources(Set<HumanResource> humanResources) {
         this.humanResources = humanResources;
     }
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 97 * hash + Objects.hashCode(this.id);
-        hash = 97 * hash + Objects.hashCode(this.role);
-        hash = 97 * hash + Objects.hashCode(this.accessTypes);
-        hash = 97 * hash + Objects.hashCode(this.humanResources);
+        int hash = 5;
+        hash = 53 * hash + Objects.hashCode(this.id);
+        hash = 53 * hash + Objects.hashCode(this.role);
         return hash;
     }
 
@@ -113,18 +110,12 @@ public class Role implements Serializable {
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if (!Objects.equals(this.accessTypes, other.accessTypes)) {
-            return false;
-        }
-        if (!Objects.equals(this.humanResources, other.humanResources)) {
-            return false;
-        }
         return true;
     }
 
     @Override
     public String toString() {
-        return "Role{" + "id=" + id + ", role=" + role + ", accessTypes=" + accessTypes + ", humanResources=" + humanResources + '}';
+        return "Role{" + "id=" + id + ", role=" + role + '}';
     }
 
 }

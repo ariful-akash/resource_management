@@ -5,12 +5,11 @@
  */
 package com.uiu.thesis.models.object_resource;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,6 +22,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "office_resources")
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class OfficeResource implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -40,8 +40,8 @@ public class OfficeResource implements Serializable {
     @Column(name = "quantity")
     private int quantity;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private OfficeResourceType resourceType;
+    @ManyToOne
+    private OfficeResourceType type;
 
     /**
      * Constructor
@@ -86,14 +86,21 @@ public class OfficeResource implements Serializable {
         this.quantity = quantity;
     }
 
-    public OfficeResourceType getResourceType() {
-        return resourceType;
+    public OfficeResourceType getType() {
+        return type;
     }
 
-    public void setResourceType(OfficeResourceType resourceType) {
-        this.resourceType = resourceType;
+    public void setType(OfficeResourceType type) {
+        this.type = type;
     }
 
+//    public OfficeResourceType getResourceType() {
+//        return resourceType;
+//    }
+//
+//    public void setResourceType(OfficeResourceType resourceType) {
+//        this.resourceType = resourceType;
+//    }
     /**
      * Hash Method
      *
@@ -106,7 +113,7 @@ public class OfficeResource implements Serializable {
         hash = 37 * hash + Objects.hashCode(this.room);
         hash = 37 * hash + Objects.hashCode(this.floor);
         hash = 37 * hash + this.quantity;
-        hash = 37 * hash + Objects.hashCode(this.resourceType);
+//        hash = 37 * hash + Objects.hashCode(this.resourceType);
         return hash;
     }
 
@@ -140,9 +147,9 @@ public class OfficeResource implements Serializable {
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if (!Objects.equals(this.resourceType, other.resourceType)) {
-            return false;
-        }
+//        if (!Objects.equals(this.resourceType, other.resourceType)) {
+//            return false;
+//        }
         return true;
     }
 
@@ -151,8 +158,12 @@ public class OfficeResource implements Serializable {
      *
      * @return
      */
+//    @Override
+//    public String toString() {
+//        return "OfficeResource{" + "id=" + id + ", room=" + room + ", floor=" + floor + ", quantity=" + quantity + ", resourceType=" + resourceType + '}';
+//    }
     @Override
     public String toString() {
-        return "OfficeResource{" + "id=" + id + ", room=" + room + ", floor=" + floor + ", quantity=" + quantity + ", resourceType=" + resourceType + '}';
+        return "OfficeResource{" + "id=" + id + ", room=" + room + ", floor=" + floor + ", quantity=" + quantity + '}';
     }
 }

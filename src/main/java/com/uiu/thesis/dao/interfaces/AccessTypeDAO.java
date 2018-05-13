@@ -11,15 +11,19 @@ import java.util.List;
  */
 public interface AccessTypeDAO {
 
-    public boolean addAccessType(AccessType accessType);
+    public int addAccessType(AccessType accessType);
 
-    public boolean updateAccessType(AccessType accessType);
+    public int updateAccessType(AccessType accessType);
 
-    public boolean updateAccessType(Long id);
+    public int updateAccessType(Long id);
 
-    public boolean deleteAccessType(AccessType accessType);
+    public int deleteAccessType(AccessType accessType);
 
-    public boolean deleteAccessType(Long id);
+    public int deleteAccessType(Long id);
+
+    public boolean isHrRelatesAccess(Long hrId, Long accessId);
+
+    public AccessType getAccessType(Long id);
 
     public List<AccessType> getAllAccessTypes();
 

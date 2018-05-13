@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface UserSessionLogDAO {
 
-    public boolean addUserSession(UserSessionLog userSessionLog);
+    public int addUserSession(UserSessionLog userSessionLog);
 
     public List<UserSessionLog> getAllUserSessions();
 

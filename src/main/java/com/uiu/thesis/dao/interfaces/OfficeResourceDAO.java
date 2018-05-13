@@ -1,7 +1,6 @@
 package com.uiu.thesis.dao.interfaces;
 
 import com.uiu.thesis.models.object_resource.OfficeResource;
-import com.uiu.thesis.models.object_resource.OfficeResourceType;
 import java.util.List;
 
 /**
@@ -10,15 +9,19 @@ import java.util.List;
  */
 public interface OfficeResourceDAO {
 
-    public boolean addOfficeResource(OfficeResource officeResource);
+    public int addOfficeResource(OfficeResource officeResource);
 
-    public boolean updateOfficeResource(OfficeResource oldOfficeResource, OfficeResource newOfficeResource);
+    public int updateOfficeResource(OfficeResource officeResource);
 
     public boolean updateOfficeResource(Long oldResourceId, OfficeResource newOfficeResource);
 
     public List<OfficeResource> getAllOfficeResources();
 
-    public List<OfficeResource> getOfficeResourcesByType(OfficeResourceType officeResourceType);
+    public List<OfficeResource> getOfficeResources(Long typeId, String floor);
+
+    public List<OfficeResource> getOfficeResources(Long typeId, String floor, String room);
+
+    public List<OfficeResource> getOfficeResourcesByType(Long typeId);
 
     public List<OfficeResource> getOfficeResourcesByFloor(String floor);
 

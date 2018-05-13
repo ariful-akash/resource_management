@@ -1,18 +1,13 @@
 package com.uiu.thesis.models.requisition;
 
-import com.uiu.thesis.models.user.AccessType;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import java.io.Serializable;
-import java.util.List;
 import java.util.Objects;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -21,6 +16,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "requisition_types")
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class RequisitionType implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -32,13 +28,8 @@ public class RequisitionType implements Serializable {
     @Column(name = "type", nullable = false)
     private String type;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "access_type_id")
-    private AccessType accessType;
-
-    @OneToMany(mappedBy = "requisitionType", cascade = CascadeType.ALL)
-    private List<Requisition> requisitions;
-
+//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    private Set<Requisition> requisitions;
     /**
      * Constructor
      */
@@ -66,29 +57,27 @@ public class RequisitionType implements Serializable {
         this.type = type;
     }
 
-    public AccessType getAccessType() {
-        return accessType;
-    }
-
-    public void setAccessType(AccessType accessType) {
-        this.accessType = accessType;
-    }
-
-    public List<Requisition> getRequisitions() {
-        return requisitions;
-    }
-
-    public void setRequisitions(List<Requisition> requisitions) {
-        this.requisitions = requisitions;
-    }
-
+//    public AccessType getAccessType() {
+//        return accessType;
+//    }
+//
+//    public void setAccessType(AccessType accessType) {
+//        this.accessType = accessType;
+//    }
+//    public Set<Requisition> getRequisitions() {
+//        return requisitions;
+//    }
+//
+//    public void setRequisitions(Set<Requisition> requisitions) {
+//        this.requisitions = requisitions;
+//    }
     @Override
     public int hashCode() {
         int hash = 5;
         hash = 97 * hash + Objects.hashCode(this.id);
         hash = 97 * hash + Objects.hashCode(this.type);
-        hash = 97 * hash + Objects.hashCode(this.accessType);
-        hash = 97 * hash + Objects.hashCode(this.requisitions);
+//        hash = 97 * hash + Objects.hashCode(this.accessType);
+//        hash = 97 * hash + Objects.hashCode(this.requisitions);
         return hash;
     }
 
@@ -110,13 +99,18 @@ public class RequisitionType implements Serializable {
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if (!Objects.equals(this.accessType, other.accessType)) {
-            return false;
-        }
-        if (!Objects.equals(this.requisitions, other.requisitions)) {
-            return false;
-        }
+//        if (!Objects.equals(this.accessType, other.accessType)) {
+//            return false;
+//        }
+//        if (!Objects.equals(this.requisitions, other.requisitions)) {
+//            return false;
+//        }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "RequisitionType{" + "id=" + id + ", type=" + type + '}';
     }
 
 }

@@ -1,24 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.uiu.thesis.models.forum;
 
-import com.uiu.thesis.models.user.HumanResource;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -28,6 +18,7 @@ import javax.persistence.Temporal;
  */
 @Entity
 @Table(name = "comments")
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Comment implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -36,7 +27,7 @@ public class Comment implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "comment", nullable = false)
+    @Column(name = "comment", nullable = false, length = 2000)
     private String content;
 
     @Column(name = "comment_time", nullable = false)
@@ -46,11 +37,11 @@ public class Comment implements Serializable {
     @Column(name = "edited", nullable = false)
     private boolean edited;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private HumanResource commenter;
+    @Column(name = "commenter_id")
+    private Long commenterId;
 
-    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<CommentReply> commentReplies;
+    @Column(name = "post_id")
+    private Long postId;
 
     /**
      * Constructor
@@ -95,20 +86,27 @@ public class Comment implements Serializable {
         this.edited = isEdited;
     }
 
-    public HumanResource getCommenter() {
-        return commenter;
+    public Long getPostId() {
+        return postId;
     }
 
-    public void setCommenter(HumanResource commenter) {
-        this.commenter = commenter;
+    public void setPostId(Long postId) {
+        this.postId = postId;
     }
 
-    public List<CommentReply> getCommentReplies() {
-        return commentReplies;
+//    public HumanResource getCommenter() {
+//        return commenter;
+//    }
+//
+//    public void setCommenter(HumanResource commenter) {
+//        this.commenter = commenter;
+//    }
+    public Long getCommenterId() {
+        return commenterId;
     }
 
-    public void setCommentReplies(List<CommentReply> commentReplies) {
-        this.commentReplies = commentReplies;
+    public void setCommenterId(Long commenterId) {
+        this.commenterId = commenterId;
     }
 
     /**
@@ -122,9 +120,9 @@ public class Comment implements Serializable {
         hash = 59 * hash + Objects.hashCode(this.id);
         hash = 59 * hash + Objects.hashCode(this.content);
         hash = 59 * hash + Objects.hashCode(this.commentTime);
-        hash = 59 * hash + Objects.hashCode(this.commenter);
-        hash = 59 * hash + Objects.hashCode(this.commentReplies);
+//        hash = 59 * hash + Objects.hashCode(this.commenter);
         hash = 59 * hash + Objects.hashCode(this.edited);
+        hash = 59 * hash + Objects.hashCode(this.postId);
         return hash;
     }
 
@@ -149,13 +147,13 @@ public class Comment implements Serializable {
         if (!Objects.equals(this.commentTime, other.commentTime)) {
             return false;
         }
-        if (!Objects.equals(this.commenter, other.commenter)) {
-            return false;
-        }
-        if (!Objects.equals(this.commentReplies, other.commentReplies)) {
-            return false;
-        }
         if (!Objects.equals(this.edited, other.edited)) {
+            return false;
+        }
+        if (!Objects.equals(this.postId, other.postId)) {
+            return false;
+        }
+        if (!Objects.equals(this.commenterId, other.commenterId)) {
             return false;
         }
         return true;
@@ -163,6 +161,7 @@ public class Comment implements Serializable {
 
     @Override
     public String toString() {
-        return "Comment{" + "id=" + id + ", content=" + content + ", commentTime=" + commentTime + ", commenter=" + commenter + ", commentReplies=" + commentReplies + ", isEdited=" + edited + '}';
+        return "Comment{" + "id=" + id + ", content=" + content + ", commentTime=" + commentTime + ", edited=" + edited + ", commenterId=" + commenterId + ", postId=" + postId + '}';
     }
+
 }

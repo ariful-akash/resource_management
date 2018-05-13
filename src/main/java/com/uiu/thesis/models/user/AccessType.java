@@ -1,5 +1,6 @@
 package com.uiu.thesis.models.user;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -15,6 +16,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "access_types")
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class AccessType implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -55,9 +57,9 @@ public class AccessType implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 23 * hash + Objects.hashCode(this.id);
-        hash = 23 * hash + Objects.hashCode(this.description);
+        int hash = 5;
+        hash = 83 * hash + Objects.hashCode(this.id);
+        hash = 83 * hash + Objects.hashCode(this.description);
         return hash;
     }
 

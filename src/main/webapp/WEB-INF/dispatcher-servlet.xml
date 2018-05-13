@@ -28,6 +28,13 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
         <property name="suffix" value=".jsp" />
     </bean>
 
+    <!--File uploader-->
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="20971520" />
+        <property name="defaultEncoding" value="utf-8" />
+    </bean>
+
     <!-- DataSource -->
     <bean class="org.springframework.jdbc.datasource.DriverManagerDataSource"
           id="dataSource">
@@ -59,5 +66,7 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
     </bean>
 
     <tx:annotation-driven transaction-manager="transactionManager" />
+
+    <mvc:resources mapping="/web-resources/**" location="/web-resources/" />
 
 </beans>

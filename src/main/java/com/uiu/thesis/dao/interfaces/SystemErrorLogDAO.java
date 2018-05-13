@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface SystemErrorLogDAO {
 
-    public boolean addErrorLog(SystemErrorLog errorLog);
+    public int addErrorLog(SystemErrorLog errorLog);
 
     public List<SystemErrorLog> getAllErrorLogs();
 

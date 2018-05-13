@@ -5,49 +5,137 @@ import com.uiu.thesis.models.user.AccessType;
 import com.uiu.thesis.models.user.HumanResource;
 import com.uiu.thesis.models.user.Role;
 import java.util.List;
+import javax.transaction.Transactional;
+import org.hibernate.Criteria;
+import org.hibernate.SQLQuery;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author ashif
  */
+@Repository
+@Transactional
 public class AccessTypeDAOImpl implements AccessTypeDAO {
 
-    @Override
-    public boolean addAccessType(AccessType accessType) {
+    @Autowired(required = true)
+    private SessionFactory sessionFactory;
 
-        return false;
+    /**
+     * Insert a new Access Type object into "access_type" table of database
+     *
+     * @param accessType
+     * @return
+     */
+    @Override
+    public int addAccessType(AccessType accessType) {
+
+        Session session = sessionFactory.getCurrentSession();
+        Long id = (Long) session.save(accessType);
+        return Integer.valueOf(id.toString());
+    }
+
+    /**
+     *
+     * @param accessType
+     * @return
+     */
+    @Override
+    public int updateAccessType(AccessType accessType) {
+
+        if (accessType != null && accessType.getId() > 0) {
+
+            Session session = sessionFactory.getCurrentSession();
+            try {
+
+                session.update(accessType);
+                return 1;
+            } catch (Exception e) {
+
+                return 0;
+            }
+        }
+        return 0;
+    }
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public int updateAccessType(Long id) {
+
+        AccessType accessType = getAccessType(id);
+        if (accessType != null) {
+
+            try {
+
+                return updateAccessType(accessType);
+            } catch (Exception e) {
+
+                return 0;
+            }
+        }
+
+        return 0;
     }
 
     @Override
-    public boolean updateAccessType(AccessType accessType) {
+    public int deleteAccessType(AccessType accessType) {
 
-        return false;
+        return 0;
     }
 
     @Override
-    public boolean updateAccessType(Long id) {
+    public int deleteAccessType(Long id) {
 
-        return false;
+        return 0;
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     @Override
-    public boolean deleteAccessType(AccessType accessType) {
+    public AccessType getAccessType(Long id) {
 
-        return false;
-    }
+        if (id > 0) {
 
-    @Override
-    public boolean deleteAccessType(Long id) {
-
-        return false;
-    }
-
-    @Override
-    public List<AccessType> getAllAccessTypes() {
+            Session session = sessionFactory.getCurrentSession();
+            return (AccessType) session.get(AccessType.class, id);
+        }
 
         return null;
     }
 
+    /**
+     * Read all the access types from "access_types" table
+     *
+     * @return
+     */
+    @Override
+    public List<AccessType> getAllAccessTypes() {
+
+        Session session = sessionFactory.getCurrentSession();
+        String hql = "FROM AccessType";
+
+        @SuppressWarnings("unchecked")
+        List<AccessType> accessTypes = session.createQuery(hql).list();
+
+        return accessTypes;
+    }
+
+    /**
+     * Read list of access types from "access_type" table by an role id. It provides the default access type list for a specific Role.
+     *
+     * @param roleId
+     * @return
+     */
     @Override
     public List<AccessType> getAccessTypesByRole(Long roleId) {
 
@@ -72,4 +160,33 @@ public class AccessTypeDAOImpl implements AccessTypeDAO {
         return null;
     }
 
+    /**
+     *
+     * @param hrId
+     * @param accessId
+     * @return
+     */
+    @Override
+    public boolean isHrRelatesAccess(Long hrId, Long accessId) {
+
+        if (hrId > 0 && accessId > 0) {
+
+            String sql = "SELECT * FROM human_resources_access_types "
+                    + "WHERE access_id = " + accessId + " "
+                    + "AND human_resources_id = " + hrId;
+
+            Session session = sessionFactory.getCurrentSession();
+
+            SQLQuery query = session.createSQLQuery(sql);
+            query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+            List results = query.list();
+
+            if (results.size() > 0) {
+
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

@@ -5,14 +5,13 @@
  */
 package com.uiu.thesis.models.forum;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.uiu.thesis.models.user.HumanResource;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,6 +25,7 @@ import javax.persistence.Temporal;
  */
 @Entity
 @Table(name = "comment_reply")
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class CommentReply implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -34,7 +34,7 @@ public class CommentReply implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "reply", nullable = false)
+    @Column(name = "reply", nullable = false, length = 2000)
     private String reply;
 
     @Column(name = "reply_time", nullable = false)
@@ -44,11 +44,11 @@ public class CommentReply implements Serializable {
     @Column(name = "edited")
     private boolean edited;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne
     private HumanResource replier;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Comment comment;
+    @Column(name = "comment_id")
+    private Long commentId;
 
     /**
      * Constructor
@@ -101,14 +101,29 @@ public class CommentReply implements Serializable {
         this.replier = replier;
     }
 
-    public Comment getComment() {
-        return comment;
+    public Long getCommentId() {
+        return commentId;
     }
 
-    public void setComment(Comment comment) {
-        this.comment = comment;
+    public void setCommentId(Long commentId) {
+        this.commentId = commentId;
     }
 
+//    public HumanResource getReplier() {
+//        return replier;
+//    }
+//
+//    public void setReplier(HumanResource replier) {
+//        this.replier = replier;
+//    }
+//
+//    public Comment getComment() {
+//        return comment;
+//    }
+//
+//    public void setComment(Comment comment) {
+//        this.comment = comment;
+//    }
     /**
      * hash method
      *
@@ -120,9 +135,10 @@ public class CommentReply implements Serializable {
         hash = 17 * hash + Objects.hashCode(this.id);
         hash = 17 * hash + Objects.hashCode(this.reply);
         hash = 17 * hash + Objects.hashCode(this.dateTime);
-        hash = 17 * hash + Objects.hashCode(this.replier);
-        hash = 17 * hash + Objects.hashCode(this.comment);
+//        hash = 17 * hash + Objects.hashCode(this.replier);
+//        hash = 17 * hash + Objects.hashCode(this.comment);
         hash = 17 * hash + Objects.hashCode(this.edited);
+        hash = 17 * hash + Objects.hashCode(this.commentId);
         return hash;
     }
 
@@ -153,20 +169,27 @@ public class CommentReply implements Serializable {
         if (!Objects.equals(this.dateTime, other.dateTime)) {
             return false;
         }
-        if (!Objects.equals(this.replier, other.replier)) {
-            return false;
-        }
-        if (!Objects.equals(this.comment, other.comment)) {
-            return false;
-        }
+//        if (!Objects.equals(this.replier, other.replier)) {
+//            return false;
+//        }
+//        if (!Objects.equals(this.comment, other.comment)) {
+//            return false;
+//        }
         if (!Objects.equals(this.edited, other.edited)) {
+            return false;
+        }
+        if (!Objects.equals(this.commentId, other.commentId)) {
             return false;
         }
         return true;
     }
 
+//    @Override
+//    public String toString() {
+//        return "CommentReply{" + "id=" + id + ", reply=" + reply + ", dateTime=" + dateTime + ", replier=" + replier + ", comment=" + comment + ", edited=" + edited + '}';
+//    }
     @Override
     public String toString() {
-        return "CommentReply{" + "id=" + id + ", reply=" + reply + ", dateTime=" + dateTime + ", replier=" + replier + ", comment=" + comment + ", edited=" + edited + '}';
+        return "CommentReply{" + "id=" + id + ", reply=" + reply + ", dateTime=" + dateTime + ", edited=" + edited + ", replier=" + replier + ", commentId=" + commentId + '}';
     }
 }

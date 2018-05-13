@@ -15,19 +15,19 @@ import java.util.List;
  */
 public interface CommentDAO {
 
-    public boolean addComment(Post post, Comment comment);
+    public int addComment(Comment comment);
 
-    public boolean addComment(Long postId, Comment comment);
+    public int updateComment(Comment comment);
 
-    public boolean editComment(Long oldId, String newContent);
+    public int deleteComment(Comment comment);
 
-    public boolean deleteComment(Comment comment);
-
-    public boolean deleteComment(Long commentId);
+    public int deleteComment(Long commentId);
 
     public List<Comment> getAllComments(Post post);
 
     public List<Comment> getAllComments(Long postId);
+
+    public List<Comment> getAllComments();
 
     public Comment getComment(Long commentId);
 }

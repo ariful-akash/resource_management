@@ -9,11 +9,17 @@ import java.util.List;
  */
 public interface ComplaintTypeDAO {
 
-    public boolean addComplaintType(ComplaintType complaintType);
+    public int addComplaintType(ComplaintType complaintType);
 
-    public boolean updateComplaintType(ComplaintType oldComplaintType, ComplaintType newComplaintType);
+    public int updateComplaintType(ComplaintType complaintType);
 
-    public boolean updateComplaintType(Long oldComplaintTypeId, ComplaintType newComplaintType);
+    public int deleteComplaintType(ComplaintType complaintType);
+
+    public int deleteComplaintType(Long id);
+
+    public ComplaintType getComplaintTypeById(Long id);
+
+    public ComplaintType getComplaintTypeByName(String name);
 
     public List<ComplaintType> getComplaintTypes();
 }

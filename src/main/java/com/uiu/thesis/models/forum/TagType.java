@@ -5,16 +5,14 @@
  */
 package com.uiu.thesis.models.forum;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import java.io.Serializable;
-import java.util.List;
 import java.util.Objects;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 /**
@@ -23,6 +21,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "tag_types")
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class TagType implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -34,9 +33,8 @@ public class TagType implements Serializable {
     @Column(name = "tag", nullable = false, unique = true)
     private String tag;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    private List<Post> posts;
-
+//    @ManyToMany(mappedBy = "tags", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    private List<Post> posts;
     /**
      * Constructor
      */
@@ -64,14 +62,13 @@ public class TagType implements Serializable {
         this.tag = tag;
     }
 
-    public List<Post> getPosts() {
-        return posts;
-    }
-
-    public void setPosts(List<Post> posts) {
-        this.posts = posts;
-    }
-
+//    public List<Post> getPosts() {
+//        return posts;
+//    }
+//
+//    public void setPosts(List<Post> posts) {
+//        this.posts = posts;
+//    }
     /**
      * Hash method
      *
@@ -82,7 +79,7 @@ public class TagType implements Serializable {
         int hash = 5;
         hash = 47 * hash + Objects.hashCode(this.id);
         hash = 47 * hash + Objects.hashCode(this.tag);
-        hash = 47 * hash + Objects.hashCode(this.posts);
+//        hash = 47 * hash + Objects.hashCode(this.posts);
         return hash;
     }
 
@@ -110,9 +107,9 @@ public class TagType implements Serializable {
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if (!Objects.equals(this.posts, other.posts)) {
-            return false;
-        }
+//        if (!Objects.equals(this.posts, other.posts)) {
+//            return false;
+//        }
         return true;
     }
 
@@ -121,8 +118,12 @@ public class TagType implements Serializable {
      *
      * @return
      */
+//    @Override
+//    public String toString() {
+//        return "TagType{" + "id=" + id + ", tag=" + tag + ", posts=" + posts + '}';
+//    }
     @Override
     public String toString() {
-        return "TagType{" + "id=" + id + ", tag=" + tag + ", posts=" + posts + '}';
+        return "TagType{" + "id=" + id + ", tag=" + tag + '}';
     }
 }

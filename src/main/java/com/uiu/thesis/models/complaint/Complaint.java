@@ -1,15 +1,14 @@
 package com.uiu.thesis.models.complaint;
 
-import com.uiu.thesis.models.user.HumanResource;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -20,6 +19,7 @@ import javax.persistence.Temporal;
  */
 @Entity
 @Table(name = "complaints")
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Complaint implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -28,32 +28,33 @@ public class Complaint implements Serializable {
     @GeneratedValue
     private Long id;
 
-    @Column(name = "quantity", nullable = false)
-    private int quantity;
-
     @Column(name = "complaint_placing_date", nullable = false)
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date complaintPlacingDate;
 
+    @Column(name = "complaint_solved_date")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date complaintSolvedDate;
+
     @Column(name = "description", length = 1000, nullable = false)
     private String description;
 
-    @Column(name = "remarks", length = 1000, nullable = true)
+    @Column(name = "remarks", length = 3000, nullable = true)
     private String remarks;
 
     @Column(name = "solved", nullable = false)
-    private boolean isSolved;
+    private boolean isSolved = false;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "complaint_type_id")
-    private ComplaintType complaintType;
+    @JsonIgnore
+    @Column(name = "creator_id")
+    private Long creatorId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "complaint_creator_id")
-    private HumanResource complaintCreator;
+    @JsonIgnore
+    @Column(name = "solver_id")
+    private Long solverId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    private HumanResource solver;
+    @ManyToOne
+    private ComplaintType type;
 
     /**
      * Constructor
@@ -72,14 +73,6 @@ public class Complaint implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
     }
 
     public Date getComplaintPlacingDate() {
@@ -114,42 +107,49 @@ public class Complaint implements Serializable {
         this.isSolved = isSolved;
     }
 
-    public ComplaintType getComplaintType() {
-        return complaintType;
+    public Date getComplaintSolvedDate() {
+        return complaintSolvedDate;
     }
 
-    public void setComplaintType(ComplaintType complaintType) {
-        this.complaintType = complaintType;
+    public void setComplaintSolvedDate(Date complaintSolvedDate) {
+        this.complaintSolvedDate = complaintSolvedDate;
     }
 
-    public HumanResource getComplaintCreator() {
-        return complaintCreator;
+    public Long getCreatorId() {
+        return creatorId;
     }
 
-    public void setComplaintCreator(HumanResource complaintCreator) {
-        this.complaintCreator = complaintCreator;
+    public void setCreatorId(Long creatorId) {
+        this.creatorId = creatorId;
     }
 
-    public HumanResource getSolver() {
-        return solver;
+    public Long getSolverId() {
+        return solverId;
     }
 
-    public void setSolver(HumanResource solver) {
-        this.solver = solver;
+    public void setSolverId(Long solverId) {
+        this.solverId = solverId;
+    }
+
+    public ComplaintType getType() {
+        return type;
+    }
+
+    public void setType(ComplaintType type) {
+        this.type = type;
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
         hash = 67 * hash + Objects.hashCode(this.id);
-        hash = 67 * hash + this.quantity;
         hash = 67 * hash + Objects.hashCode(this.complaintPlacingDate);
+        hash = 67 * hash + Objects.hashCode(this.complaintSolvedDate);
         hash = 67 * hash + Objects.hashCode(this.description);
         hash = 67 * hash + Objects.hashCode(this.remarks);
+        hash = 67 * hash + Objects.hashCode(this.solverId);
+        hash = 67 * hash + Objects.hashCode(this.creatorId);
         hash = 67 * hash + (this.isSolved ? 1 : 0);
-        hash = 67 * hash + Objects.hashCode(this.complaintType);
-        hash = 67 * hash + Objects.hashCode(this.complaintCreator);
-        hash = 67 * hash + Objects.hashCode(this.solver);
         return hash;
     }
 
@@ -165,9 +165,6 @@ public class Complaint implements Serializable {
             return false;
         }
         final Complaint other = (Complaint) obj;
-        if (this.quantity != other.quantity) {
-            return false;
-        }
         if (this.isSolved != other.isSolved) {
             return false;
         }
@@ -183,16 +180,25 @@ public class Complaint implements Serializable {
         if (!Objects.equals(this.complaintPlacingDate, other.complaintPlacingDate)) {
             return false;
         }
-        if (!Objects.equals(this.complaintType, other.complaintType)) {
+        if (!Objects.equals(this.complaintSolvedDate, other.complaintSolvedDate)) {
             return false;
         }
-        if (!Objects.equals(this.complaintCreator, other.complaintCreator)) {
+        if (!Objects.equals(this.creatorId, other.creatorId)) {
             return false;
         }
-        if (!Objects.equals(this.solver, other.solver)) {
+        if (!Objects.equals(this.solverId, other.solverId)) {
             return false;
         }
         return true;
+    }
+
+    /**
+     *
+     * @return
+     */
+    @Override
+    public String toString() {
+        return "Complaint{" + "id=" + id + ", complaintPlacingDate=" + complaintPlacingDate + ", description=" + description + ", remarks=" + remarks + ", isSolved=" + isSolved + ", type=" + type + '}';
     }
 
 }

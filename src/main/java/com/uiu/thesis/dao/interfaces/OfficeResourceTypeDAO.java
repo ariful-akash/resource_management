@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface OfficeResourceTypeDAO {
 
-    public boolean addOfficeResourceType(OfficeResourceType officeResourceType);
+    public int addOfficeResourceType(OfficeResourceType officeResourceType);
 
     public boolean updateOfficeResourceType(OfficeResourceType oldType, OfficeResourceType newType);
 
@@ -20,6 +20,8 @@ public interface OfficeResourceTypeDAO {
     public boolean deleteOfficeResourceType(Long typeId);
 
     public OfficeResourceType getOfficeResourceType(Long typeId);
+
+    public OfficeResourceType getOfficeResourceType(String type);
 
     public List<OfficeResourceType> getAllOfficeResourceTypes();
 }

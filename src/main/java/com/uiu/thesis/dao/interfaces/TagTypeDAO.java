@@ -15,7 +15,15 @@ import java.util.List;
  */
 public interface TagTypeDAO {
 
-    public boolean addTagType(TagType tagType);
+    public int addTagType(TagType tagType);
+
+    public int mapPostTag(Long postId, Long tagId);
+
+    public TagType getTagTypeById(Long tagId);
+
+    public Long isExist(String tag);
+
+    public List<TagType> getTags();
 
     public List<TagType> getAllTagTypes();
 

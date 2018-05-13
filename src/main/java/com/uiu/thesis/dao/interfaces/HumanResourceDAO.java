@@ -2,9 +2,8 @@ package com.uiu.thesis.dao.interfaces;
 
 import com.uiu.thesis.models.user.AccessType;
 import com.uiu.thesis.models.user.HumanResource;
-import com.uiu.thesis.models.user.HumanResourceType;
-import com.uiu.thesis.models.user.Role;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -12,19 +11,37 @@ import java.util.List;
  */
 public interface HumanResourceDAO {
 
-    public boolean addHumanResource(HumanResource hr);
+    public int addHumanResource(HumanResource hr);
 
-    public boolean updateHumanResource(HumanResource oldHr, HumanResource newHr);
+    public int updateHumanResource(HumanResource hr);
 
-    public boolean deleteHumanResource(HumanResource hr);
+    public int updateHumanResourceRole(Long hrId, Long roleId);
+
+    public boolean isRoleRelatesHR(Long hrId, Long roleId);
+
+    public boolean hasAccess(Long hrId, Long accessId);
+
+    public int mapHumanResourceRole(Long hrId, Long roleId);
+
+    public int addHumanResourceAccess(Long hrId, Long accessId);
+
+    public int removeHumanResourceAccess(Long hrId, Long accessId);
+
+    public int updateHumanResource(HumanResource hr, Set<AccessType> accessTypes);
+
+    public int updateHumanResourceType(Long hrId, Long typeId);
+
+    public int deleteHumanResource(HumanResource hr);
 
     public HumanResource getHumanResource(Long id);
 
+    public HumanResource getHumanResource(String email);
+
     public List<HumanResource> getAllHumanResources();
 
-    public List<HumanResource> getHumanResources(HumanResourceType hrType);
+    public List<HumanResource> getHumanResourcesByHRType(Long hrTypeId);
 
-    public List<HumanResource> getHumanResources(Role role);
+    public List<HumanResource> getHumanResourcesByRole(Long roleId);
 
-    public List<HumanResource> getHumanResources(AccessType accessType);
+    public List<HumanResource> getHumanResourcesByAccessType(Long accessTypeId);
 }

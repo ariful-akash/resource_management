@@ -1,7 +1,6 @@
 package com.uiu.thesis.dao.interfaces;
 
 import com.uiu.thesis.models.complaint.Complaint;
-import com.uiu.thesis.models.complaint.ComplaintType;
 import com.uiu.thesis.models.user.HumanResource;
 import java.util.List;
 
@@ -11,21 +10,33 @@ import java.util.List;
  */
 public interface ComplaintDAO {
 
-    public boolean addComplaint(Complaint complaint);
+    public int addComplaint(Complaint complaint);
 
-    public boolean updateComplaint(Complaint oldComplaint, Complaint newComplaint);
+    public int updateComplaint(Complaint complaint);
 
-    public boolean updateComplaint(Long complaintId, Complaint newComplaint);
+    public int deleteComplaint(Complaint complaint);
 
-    public List<Complaint> getComplaintsByType(ComplaintType complaintType);
+    public int deleteComplaint(Long id);
 
-    public List<Complaint> getComplaintsByComplainant(HumanResource complainant);
+    public Complaint getComplaint(Long complaintId);
 
-    public List<Complaint> getComplaintsByComplainant(Long complainantId);
+    public List<Complaint> getAllComplaints();
+
+    public List<String> getYears();
+
+    public List<Complaint> getComplaintsByType(Long typeId);
+
+    public List<Complaint> getComplaintsByType(Long typeId, boolean solved);
+
+    public List<Complaint> getComplaintsByTypeDate(Long typeId, String fromDate, String toDate, boolean solved);
+
+    public List<Complaint> getComplaintsByCreator(Long complainantId);
+
+    public List<Complaint> getComplaintsByCreator(Long complainantId, boolean solved);
 
     public List<Complaint> getComplaintsBySolver(HumanResource solver);
 
-    public List<Complaint> getComplaintsBySolver(Long soverId);
+    public List<Complaint> getComplaintsBySolver(Long solverId);
 
-    public Complaint getComplaint(Long complaintId);
+    public List<Complaint> getComplaintsBySU(boolean solved);
 }

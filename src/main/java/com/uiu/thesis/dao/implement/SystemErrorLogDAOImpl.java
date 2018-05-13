@@ -5,23 +5,52 @@ import com.uiu.thesis.models.logs.SystemErrorLog;
 import com.uiu.thesis.models.user.HumanResource;
 import java.util.Date;
 import java.util.List;
+import javax.transaction.Transactional;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author ashif
  */
+@Repository
+@Transactional
 public class SystemErrorLogDAOImpl implements SystemErrorLogDAO {
 
-    @Override
-    public boolean addErrorLog(SystemErrorLog errorLog) {
+    @Autowired(required = true)
+    private SessionFactory sessionFactory;
 
-        return false;
+    /**
+     *
+     * @param errorLog
+     * @return
+     */
+    @Override
+    public int addErrorLog(SystemErrorLog errorLog) {
+
+        Session session = sessionFactory.getCurrentSession();
+        Long id = (Long) session.save(errorLog);
+
+        return Integer.valueOf(id.toString());
     }
 
+    /**
+     * Read all the System Error Logs from "system_error_logs" table
+     *
+     * @return
+     */
     @Override
     public List<SystemErrorLog> getAllErrorLogs() {
 
-        return null;
+        Session session = sessionFactory.getCurrentSession();
+        String hql = "FROM SystemErrorLog";
+
+        @SuppressWarnings("unchecked")
+        List<SystemErrorLog> errLogs = session.createQuery(hql).list();
+
+        return errLogs;
     }
 
     @Override
